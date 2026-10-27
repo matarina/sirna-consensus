@@ -1,0 +1,64 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>sirna-consensus — NM_001657.4</title>
+<style>
+:root{--ink:#111820;--muted:#5c6b74;--line:#d5dee2;--navy:#123b4f;--teal:#0f7b74}
+*{box-sizing:border-box}
+body{margin:0;background:#eef1f2;color:var(--ink);
+font:15px/1.65 'Charter',Georgia,'Noto Serif SC',serif}
+.page{max-width:1100px;margin:0 auto;background:#fff;padding:38px 44px 52px;
+box-shadow:0 2px 20px rgba(20,35,43,.09)}
+h1{font-size:23px;margin:0 0 6px}
+h2{font-size:16px;margin:30px 0 10px;border-bottom:1px solid var(--line);padding-bottom:5px}
+code{font:12px ui-monospace,Menlo,Consolas,monospace;background:#eff3f4;padding:1px 4px;border-radius:3px}
+.sub{color:#3b4b55;font-size:13.5px;margin:0 0 16px}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 22px}
+.pill{padding:3px 10px;border-radius:3px;font:700 11px ui-sans-serif,system-ui}
+.pill.ok{background:#e2f1e7;color:#1d6b3a}.pill.bad{background:#fbe6e2;color:#a4301f}
+.pill.info{background:#e4eef5;color:#123b4f}.pill.warn{background:#f8ecd6;color:#8a5c12}
+table{width:100%;border-collapse:collapse;font:12.5px ui-sans-serif,system-ui;margin:10px 0}
+th{text-align:left;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);
+padding:6px;border-bottom:1.4px solid var(--ink)}
+td{padding:6px;border-bottom:1px solid #e9eef0}
+td.n{text-align:right;font-variant-numeric:tabular-nums}
+.ok{color:#1d6b3a}.bad{color:#a4301f}
+.note{background:#f7faf9;border-left:3px solid var(--teal);padding:11px 14px;font-size:12.5px;margin:14px 0}
+footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+@media print{body{background:#fff}.page{box-shadow:none;max-width:none;padding:0}}
+</style></head><body><div class="page">
+<h1>Consensus de novo siRNA candidates</h1>
+<p class="sub">NM_001657.4 · 1234 nt ·
+input SHA-256 <code>1275010b0a10dff9…</code> ·
+generated 2026-10-27T07:44:49.831073+00:00</p>
+<div class="pills">
+  <span class="pill info">tools acting: 2</span>
+  <span class="pill warn">status research_only</span>
+  <span class="pill ok">consensus 35 unanimous</span>
+  <span class="pill bad">candidates rejected by filters: 636</span>
+</div>
+
+<h2>How to read this</h2>
+<div class="note">Agreement is counted at the <b>site</b> level, not the string level:
+the tools emit different lengths and offsets for the same duplex, so candidates
+within 2 nt and sharing all but 2 bases are treated as one site. A candidate's
+vote count is the number of <i>distinct tools</i> that proposed it. Sequence
+filters (GC window, homopolymer, complexity, guide 5′ end, internal palindrome)
+are applied <b>after</b> voting, so no single tool decides what survives.</div>
+
+<h2>External tools</h2>
+<table><thead><tr><th>tool</th><th>status</th><th>hits</th><th>detail</th></tr></thead>
+<tbody><tr><td><code>siren</code></td><td class='ok'>ok</td><td class='n'>607</td><td>607 21-mers evaluated; no off-targets found</td></tr><tr><td><code>sirnadesigner</code></td><td class='ok'>ok</td><td class='n'>80</td><td>80 hits from 1 file(s)</td></tr></tbody></table>
+
+<h2>Normalisation onto the transcript</h2>
+<table><thead><tr><th>tool</th><th>received</th><th>placed</th><th>duplicates</th><th>rejected</th></tr></thead>
+<tbody><tr><td><code>siren</code></td><td class='n'>607</td><td class='n'>607</td><td class='n'>0</td><td>{}</td></tr><tr><td><code>sirnadesigner</code></td><td class='n'>80</td><td class='n'>80</td><td class='n'>0</td><td>{}</td></tr></tbody></table>
+
+<h2>Top 10 consensus candidates</h2>
+<table><thead><tr><th>#</th><th>votes</th><th>site</th><th>guide 5′→3′ (RNA)</th>
+<th>GC</th><th>tools</th><th>soft flags</th></tr></thead><tbody><tr><td class='n'>1</td><td><span class='pill ok'>2/2</span></td><td>NM_001657.4:495-515</td><td><code>ACTGAATCATCGACAATATAG</code></td><td class='n'>0.333</td><td>siren+sirnadesigner</td><td>-</td></tr><tr><td class='n'>2</td><td><span class='pill ok'>2/2</span></td><td>NM_001657.4:703-723</td><td><code>TTTGCATGTTACTGCTTCCAG</code></td><td class='n'>0.429</td><td>siren+sirnadesigner</td><td>-</td></tr><tr><td class='n'>3</td><td><span class='pill ok'>2/2</span></td><td>NM_001657.4:339-359</td><td><code>TCAAATCCATCAGCACTGTGG</code></td><td class='n'>0.476</td><td>siren+sirnadesigner</td><td>-</td></tr><tr><td class='n'>4</td><td><span class='pill ok'>2/2</span></td><td>NM_001657.4:881-901</td><td><code>ATTTCCTGACGTATTGTCTTC</code></td><td class='n'>0.381</td><td>siren+sirnadesigner</td><td>-</td></tr><tr><td class='n'>5</td><td><span class='pill ok'>2/2</span></td><td>NM_001657.4:777-797</td><td><code>AAACTACTGTCAATCATGCTG</code></td><td class='n'>0.381</td><td>siren+sirnadesigner</td><td>-</td></tr><tr><td class='n'>6</td><td><span class='pill ok'>2/2</span></td><td>NM_001657.4:931-951</td><td><code>ATTTCCATTCTCTTGTCGAAG</code></td><td class='n'>0.381</td><td>siren+sirnadesigner</td><td>-</td></tr><tr><td class='n'>7</td><td><span class='pill ok'>2/2</span></td><td>NM_001657.4:985-1005</td><td><code>TGACTCCAATGTGATATCCTG</code></td><td class='n'>0.429</td><td>siren+sirnadesigner</td><td>-</td></tr><tr><td class='n'>8</td><td><span class='pill ok'>2/2</span></td><td>NM_001657.4:671-691</td><td><code>ATTTGCATTCTCCGTGAATGC</code></td><td class='n'>0.429</td><td>siren+sirnadesigner</td><td>-</td></tr><tr><td class='n'>9</td><td><span class='pill ok'>2/2</span></td><td>NM_001657.4:815-835</td><td><code>ACATAAAGGCAGCTATGGCTG</code></td><td class='n'>0.476</td><td>siren+sirnadesigner</td><td>-</td></tr><tr><td class='n'>10</td><td><span class='pill ok'>2/2</span></td><td>NM_001657.4:309-329</td><td><code>AATGGTTCACGCTTCCCAGAG</code></td><td class='n'>0.524</td><td>siren+sirnadesigner</td><td>-</td></tr></tbody></table>
+
+<h2>Limitations</h2><ul><li>Site-level consensus, not sequence-level intersection: tools emit different lengths and offsets for the same duplex.</li><li>A tool that returns only its own Top-N cannot be distinguished from one that filtered a site out.</li><li>No wet-lab confirmation; tool scores are not comparable across tools.</li><li>Off-target scope is whatever each tool was given, unless a shared transcriptome was supplied.</li></ul>
+<footer>Generated by sirna-consensus 0.1.0 ·
+full machine-readable record in <code>run.json</code> ·
+candidates in <code>candidates.tsv</code> · order-ready guides in <code>top_guides.fa</code></footer>
+</div></body></html>
