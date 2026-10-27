@@ -101,6 +101,50 @@ Run `sirna-consensus tools` until every tool you want reads `OK`.
 | `SIRNA_CONSENSUS_TRANSCRIPTOME` | cDNA FASTA used for off-target search |
 | `SIRNA_DESIGNER_SCRIPT` / `SIREN_BIN` / `SIRNAFORGE_IMAGE` | explicit tool locations |
 | `SIRNAFORGE_SUBCMD` | `design` (default, fast) or `workflow` (adds off-target) |
+| `SIREN_GENE_SELECTOR` | overrides the SIREN `-g` selector (see below) |
+| `SIRNA_CONSENSUS_CACHE` | where the transcriptome header index is cached (default `~/.cache/sirna-consensus`) |
+
+### SIREN selectors against a non-matching transcriptome
+
+SIREN is pointed at the reference with `-T` and at *one record inside it* with
+`-g`, a substring selector matched against the record id. Our input is usually a
+RefSeq accession (`NM_001657.4`) while a practical cDNA reference is Ensembl
+(`ENST00000395748.8`), so passing the input id straight through matches nothing
+and SIREN dies with *"Gene not found"* — before writing any off-targets.
+
+When a transcriptome is configured the adapter therefore resolves a selector
+that really occurs in it, in this order:
+
+1. the exact transcript id,
+2. the transcript id without its version suffix (only if that is unique),
+3. a gene symbol / gene id — taken from `gene_symbol:`/`gene:` in the input
+   header, or from the transcriptome header the input *sequence* maps to (covers
+   the RefSeq-to-Ensembl case where the id carries no gene),
+4. the longest token the input id shares with exactly one transcriptome id.
+
+Membership is checked against a header index built in one streaming pass over the
+FASTA (headers plus a per-record sequence digest, so sequences are never all held
+in memory). It is memoised in-process and cached on disk, keyed by path, size and
+mtime — a 1.4 GB cDNA file is walked once, not once per call. Set
+`SIREN_GENE_SELECTOR` to skip the search entirely and pass your own `-g`.
+
+If nothing resolves — or if SIREN still rejects the resolved selector — the run
+retries against the input FASTA as a **last resort**. That keeps the run alive,
+but the screen then only ever sees the input, so `detail` in `run.json` (and the
+report) says exactly which selector was used and whether a real
+transcriptome-backed screen happened:
+
+```
+screened against the transcriptome (selector 'ENST00000395748.8' (gene-symbol),
+maps to ENST00000395748.8, gene ENSG00000109321.13); 495 siRNAs carry off-targets
+fell back to the input FASTA only: no transcriptome selector matched
+(tried 'ZZZ.1'); off-targets are input-scoped, not transcriptome-wide
+```
+
+Resolving to a *different* accession than the input is fine: reported
+coordinates then refer to that transcript, and `normalize.place()` already falls
+back to a sequence search when a reported start disagrees, so placement on the
+input still holds when the two sequences are the same.
 
 ---
 
@@ -164,7 +208,10 @@ not collapse into "whichever model we happened to bundle".
   tie-break *inside* an equal-vote group.
 * **Off-target scope is whatever the tool was given.** Pass
   `--transcriptome` to give them a shared reference, otherwise each tool screens
-  against its own default (or nothing).
+  against its own default (or nothing). SIREN in particular falls back to the
+  input alone when no selector resolves inside the reference — a run whose
+  `detail` says `fell back to the input FASTA only` found *zero* off-targets, not
+  a clean one.
 * **Consensus shrinks the list.** Unanimous sites are typically single digits — a
   feature if you want 5–10 orderable duplexes, a gap if you want exhaustive
   coverage. Singletons are kept by default and tagged by tier; drop them with

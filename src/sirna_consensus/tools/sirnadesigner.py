@@ -24,7 +24,7 @@ import csv
 from pathlib import Path
 
 from ..types import RawHit, ToolRun
-from .base import Tool, ToolError
+from .base import Tool
 
 CANDIDATE_SCRIPT_SUFFIXES = (
     "siRNAdesigner-main/siRNADesigner.py",

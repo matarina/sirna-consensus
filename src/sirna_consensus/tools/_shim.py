@@ -13,6 +13,7 @@ Usage:  python _shim.py /path/to/script.py <script args...>
 """
 from __future__ import annotations
 
+import contextlib
 import gc
 import io
 import re
@@ -25,7 +26,7 @@ def _patch_seqio() -> None:
     from Bio import SeqIO
 
     class Record:
-        __slots__ = ("seq", "id", "name", "description")
+        __slots__ = ("description", "id", "name", "seq")
 
         def __init__(self, record: Any) -> None:
             self.seq = str(record.seq)
@@ -64,10 +65,9 @@ def main() -> None:
     namespace = runpy.run_path(script, run_name="__main__")
     for value in list(namespace.values()):
         if isinstance(value, io.IOBase):
-            try:
+            # Best effort: upstream never closes its own output file.
+            with contextlib.suppress(Exception):
                 value.close()
-            except Exception:  # noqa: BLE001 - best effort flush
-                pass
     gc.collect()
 
 

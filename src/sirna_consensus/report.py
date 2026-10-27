@@ -76,7 +76,7 @@ def write_fasta(result: dict, out_dir: Path) -> Path:
                       f"gc={filters.gc_fraction(core.sense):.3f} "
                       f"tools={','.join(candidate.tools)}")
             handle.write(f">{header}\n{_dna_to_rna(core.guide)}\n")
-        for key, candidate in tier_by_id.items():
+        for candidate in tier_by_id.values():
             if candidate in result["top"]:
                 continue
             core = candidate.core

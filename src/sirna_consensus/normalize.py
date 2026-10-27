@@ -58,9 +58,9 @@ def place(hit: RawHit, transcript_id: str, sequence: str,
     positions = _positions(sequence, sense)
     if hit.start is not None:
         expected = int(hit.start)
-        if 1 <= expected <= len(sequence) - len(sense) + 1:
-            if sequence[expected - 1: expected - 1 + len(sense)] == sense:
-                return Placement(core=Core(transcript_id, expected, len(sense), sense))
+        if (1 <= expected <= len(sequence) - len(sense) + 1
+                and sequence[expected - 1: expected - 1 + len(sense)] == sense):
+            return Placement(core=Core(transcript_id, expected, len(sense), sense))
         # The tool reported a coordinate that does not agree with its own
         # sequence. Trust the sequence, but only if it is unambiguous there.
         if len(positions) == 1:

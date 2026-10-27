@@ -18,7 +18,19 @@ from .pipeline import Config, run  # noqa: E402
 from .types import Candidate, Core, RawHit, ToolRun, reverse_complement  # noqa: E402
 
 __all__ = [
-    "__version__", "Config", "run", "Core", "RawHit", "Candidate", "ToolRun",
-    "Cluster", "cluster", "agree", "normalize", "place", "hard_flags",
-    "soft_flags", "reverse_complement",
+    "Candidate",
+    "Cluster",
+    "Config",
+    "Core",
+    "RawHit",
+    "ToolRun",
+    "__version__",
+    "agree",
+    "cluster",
+    "hard_flags",
+    "normalize",
+    "place",
+    "reverse_complement",
+    "run",
+    "soft_flags",
 ]

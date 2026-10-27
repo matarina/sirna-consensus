@@ -25,7 +25,7 @@ from .fasta import read_transcript, sha256
 from .normalize import normalize
 from .rank import build_candidates, diverse_top
 from .tools import DEFAULT_TOOLS, ToolEnv, get_tool
-from .types import Candidate, ToolRun
+from .types import ToolRun
 
 SCHEMA_VERSION = 1
 

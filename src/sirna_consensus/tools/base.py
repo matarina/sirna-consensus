@@ -85,6 +85,8 @@ class ToolEnv:
         self.sirnaforge_image: str = os.environ.get(
             "SIRNAFORGE_IMAGE", "ghcr.io/austin-s-h/sirnaforge:sha-4c05e4b")
         self.transcriptome: str = os.environ.get("SIRNA_CONSENSUS_TRANSCRIPTOME", "")
+        # Explicit override for SIREN's ``-g`` selector, used verbatim.
+        self.siren_gene_selector: str = os.environ.get("SIREN_GENE_SELECTOR", "")
 
     def child_env(self) -> dict[str, str]:
         """Environment additions the legacy tools need (RNAhybrid, etc.)."""
@@ -124,5 +126,5 @@ class ToolEnv:
             return False, str(exc)
         if completed.returncode == 0:
             return True, ""
-        return False, (completed.stderr or "").strip().splitlines()[-1:] and \
-            (completed.stderr or "").strip().splitlines()[-1] or "import failed"
+        return False, ((completed.stderr or "").strip().splitlines()[-1:] and \
+            (completed.stderr or "").strip().splitlines()[-1]) or "import failed"

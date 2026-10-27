@@ -32,6 +32,20 @@ Homepage = "https://github.com/matarina/sirna-consensus"
 [tool.hatch.build.targets.wheel]
 packages = ["src/sirna_consensus"]
 
+[tool.ruff]
+target-version = "py39"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "W", "I", "UP", "B", "SIM", "RUF"]
+ignore = [
+  "UP037",   # quoted annotations are deliberate for py3.9 runtime safety
+  "RUF100",  # keep explicit noqa markers even when the code is not enabled
+  "ISC004",  # implicit string concatenation inside a list reads fine here
+  "ISC004",
+  "RUF001",  # the prime in 5'→3' is intentional typography
+]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-q"

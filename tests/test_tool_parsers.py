@@ -21,6 +21,7 @@ def test_survey_never_raises():
 
 def test_unknown_tool_is_rejected():
     import pytest
+
     from sirna_consensus.tools.base import ToolError
 
     with pytest.raises(ToolError, match="unknown tool"):

@@ -38,7 +38,7 @@ import subprocess
 from pathlib import Path
 
 from ..types import RawHit, ToolRun
-from .base import Tool, ToolError
+from .base import Tool
 
 SAFE_NAME = re.compile(r"[^A-Za-z0-9_.-]")
 

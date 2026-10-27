@@ -25,7 +25,8 @@ class FakeTool(Tool):
         return "fake-1"
 
     def run(self, fasta, workdir, transcript_id):
-        sequence = "".join(l.strip() for l in Path(fasta).read_text().splitlines()[1:])
+        lines = Path(fasta).read_text().splitlines()[1:]
+        sequence = "".join(line.strip() for line in lines)
         hits = [RawHit(tool=self.name, sense=sequence[s - 1: s - 1 + 21], length=21,
                        start=s, score=0.5) for s in self.sites]
         return self.wrap("ok", "fake", hits)
