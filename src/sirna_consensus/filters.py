@@ -14,7 +14,6 @@ import re
 from .types import Core, reverse_complement
 
 GC_MIN, GC_MAX = 0.30, 0.55
-HOMOPOLYMER = re.compile(r"(.)\1{3,}")
 GU_RICH_CUTOFF = 0.75
 
 

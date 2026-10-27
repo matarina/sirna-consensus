@@ -126,5 +126,5 @@ class ToolEnv:
             return False, str(exc)
         if completed.returncode == 0:
             return True, ""
-        return False, ((completed.stderr or "").strip().splitlines()[-1:] and \
-            (completed.stderr or "").strip().splitlines()[-1]) or "import failed"
+        lines = (completed.stderr or "").strip().splitlines()
+        return False, lines[-1] if lines else "import failed"

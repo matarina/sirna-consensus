@@ -68,7 +68,7 @@ def place(hit: RawHit, transcript_id: str, sequence: str,
         if positions:
             nearest = min(positions, key=lambda p: abs(p - expected))
             return Placement(core=Core(transcript_id, nearest, len(sense), sense))
-        return Placement(reason="start_disagrees_with_sequence")
+        return Placement(reason="not_found_in_transcript")
 
     if len(positions) == 1:
         return Placement(core=Core(transcript_id, positions[0], len(sense), sense))

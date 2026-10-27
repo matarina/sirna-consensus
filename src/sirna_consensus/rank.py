@@ -56,12 +56,12 @@ def build_candidates(clusters: list[Cluster], min_votes: int = 2,
             tool_scores={k: v for k, v in cluster.tools.items() if v is not None},
             filter_flags=flags,
             soft_flags=filters.soft_flags(core),
+            score=score_candidate(cluster),
         ))
-    candidates.sort(key=lambda c: (-c.votes,
-                                   -_tool_score_term({t: c.tool_scores.get(t)
-                                                      for t in c.tools}),
-                                   -_quality_term(c.core),
-                                   c.core.start))
+    # A vote is worth 2.0 and everything else tops out at 1.0, so sorting by
+    # score alone is the same lexicographic order as (votes, tool score,
+    # quality) — the weighting makes votes strictly dominant.
+    candidates.sort(key=lambda c: (-c.score, c.core.start))
     for position, candidate in enumerate(candidates, start=1):
         candidate.rank = position
     return candidates

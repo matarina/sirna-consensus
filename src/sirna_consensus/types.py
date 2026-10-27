@@ -103,6 +103,7 @@ class Candidate:
     tool_scores: dict[str, float]
     filter_flags: list[str] = field(default_factory=list)
     soft_flags: list[str] = field(default_factory=list)
+    score: float = 0.0
     rank: int = 0
 
     @property

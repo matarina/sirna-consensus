@@ -4,7 +4,6 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from pathlib import Path
 
 from . import __version__
 from .pipeline import Config, run
@@ -37,6 +36,10 @@ def _build_parser() -> argparse.ArgumentParser:
     run_parser.add_argument("--jobs", type=int, default=3)
     run_parser.add_argument("--exclude-singletons", action="store_true",
                             help="drop sites proposed by a single tool")
+    run_parser.add_argument("--site-mode", choices=["exact", "fuzzy"], default="exact",
+                            help="exact = same start and length; fuzzy = single-linkage "
+                                 "overlap, which chains a transcript that a tool covered "
+                                 "end to end")
 
     sub.add_parser("tools", help="list registered tools and whether they are usable")
     return parser
@@ -68,6 +71,7 @@ def _cmd_run(args: argparse.Namespace) -> int:
         offset_tolerance=args.offset_tolerance,
         transcriptome=args.transcriptome,
         jobs=args.jobs,
+        site_mode=args.site_mode,
         include_singletons=not args.exclude_singletons,
     )
     result = run(config)
@@ -75,12 +79,12 @@ def _cmd_run(args: argparse.Namespace) -> int:
     print(f"transcript {result['transcript_id']} ({result['transcript_length']} nt)")
     for tool in result["tools"]:
         print(f"  {tool['tool']:<16} {tool['status']:<12} {tool['hits']:>6} hits  {tool['detail']}")
-    print(f"  placed {counts['placed']} · sites {counts['clusters']} · "
-          f"unanimous {counts['consensus_unanimous']} · passing {counts['passing']} · "
-          f"top {counts['top']}")
-    out = Path(result["config"].get("out_dir", args.out))
+    print(f"  placed {counts['placed']} · sites {counts['sites']} · "
+          f"unanimous {counts['consensus_unanimous']} · "
+          f"below vote threshold {counts['below_min_votes']} · "
+          f"dropped by filters {counts['rejected_by_filters']} · "
+          f"passing {counts['passing']} · top {counts['top']}")
     print(f"wrote {args.out}/candidates.tsv, top_guides.fa, report.html, run.json")
-    del out
     print(json.dumps({"tool": "sirna-consensus", "counts": counts}))
     return 0
 

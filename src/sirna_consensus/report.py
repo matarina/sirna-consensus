@@ -20,7 +20,8 @@ TSV_COLUMNS = [
     "target_start", "target_end", "core_length",
     "target_sequence_dna", "guide_sequence_dna",
     "guide_sequence_rna", "passenger_sequence_rna",
-    "gc_fraction", "seed_gc", "hard_flags", "soft_flags", "passed", "tool_scores",
+    "score", "gc_fraction", "seed_gc", "hard_flags", "soft_flags", "passed",
+    "tool_scores",
 ]
 
 
@@ -44,6 +45,7 @@ def candidate_row(candidate: Candidate, acting: int) -> dict[str, str]:
         "guide_sequence_dna": core.guide,
         "guide_sequence_rna": _dna_to_rna(core.guide),
         "passenger_sequence_rna": _dna_to_rna(core.sense),
+        "score": f"{candidate.score:.4f}",
         "gc_fraction": f"{filters.gc_fraction(core.sense):.4f}",
         "seed_gc": f"{filters.seed_gc(core):.4f}",
         "hard_flags": ",".join(candidate.filter_flags),
@@ -159,6 +161,13 @@ def write_html(result: dict, out_dir: Path) -> Path:
 
     blockers = "".join(f"<li>{html.escape(x)}</li>" for x in result["limitations"])
 
+    empty_notice = ""
+    if not result["top"]:
+        empty_notice = ('<div class="note"><b>No candidate passed.</b> '
+                        f'{counts["candidates"]} site(s) reached the vote threshold and '
+                        f'{counts["rejected_by_filters"]} of them failed the sequence '
+                        'filters. Relax the filters or add a tool.</div>')
+
     body = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>sirna-consensus — {html.escape(result['transcript_id'])}</title>
@@ -170,8 +179,9 @@ generated {html.escape(result['created_utc'])}</p>
 <div class="pills">
   <span class="pill info">tools acting: {len(acting)}</span>
   <span class="pill warn">status {html.escape(result['status'])}</span>
-  <span class="pill ok">consensus {counts['consensus_unanimous']} unanimous</span>
-  <span class="pill bad">candidates rejected by filters: {counts['clusters'] - counts['passing']}</span>
+  <span class="pill ok">{counts['consensus_unanimous']} unanimous sites</span>
+  <span class="pill bad">{counts['rejected_by_filters']} dropped by sequence filters</span>
+  <span class="pill warn">{counts['below_min_votes']} below the vote threshold</span>
 </div>
 
 <h2>How to read this</h2>
@@ -190,6 +200,7 @@ are applied <b>after</b> voting, so no single tool decides what survives.</div>
 <table><thead><tr><th>tool</th><th>received</th><th>placed</th><th>duplicates</th><th>rejected</th></tr></thead>
 <tbody>{norm_rows}</tbody></table>
 
+{empty_notice}
 <h2>Top {len(result['top'])} consensus candidates</h2>
 <table><thead><tr><th>#</th><th>votes</th><th>site</th><th>guide 5′→3′ (RNA)</th>
 <th>GC</th><th>tools</th><th>soft flags</th></tr></thead><tbody>{top_rows}</tbody></table>

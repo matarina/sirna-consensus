@@ -169,10 +169,16 @@ def run(config: Config) -> dict:
                    "rejected": s.reasons}
             for name, s in normalization.items()
         },
+        # `sites` is every agreeing site; `candidates` is what survived the vote
+        # threshold. Keeping them apart stops "rejected by filters" from also
+        # swallowing the sites that were never candidates.
         "counts": {
             "hits": sum(len(r.hits) for r in runs),
             "placed": len(placed),
-            "clusters": len(clusters),
+            "sites": len(clusters),
+            "below_min_votes": len(clusters) - len(candidates),
+            "candidates": len(candidates),
+            "rejected_by_filters": len(candidates) - len(passing),
             "consensus_unanimous": sum(1 for c in candidates
                                        if c.votes == len(acting)),
             "passing": len(passing),

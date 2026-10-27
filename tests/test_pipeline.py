@@ -51,7 +51,10 @@ def test_pipeline_runs_and_writes_outputs(tmp_path, fasta_file, registered):
     })
     result = run(make_config(tmp_path, fasta_file, ["alpha", "beta"]))
     assert result["counts"]["consensus_unanimous"] == 2
-    assert result["counts"]["clusters"] >= 2
+    counts = result["counts"]
+    assert counts["sites"] == counts["candidates"] + counts["below_min_votes"]
+    assert counts["candidates"] == counts["passing"] + counts["rejected_by_filters"]
+    assert result["counts"]["sites"] >= 2
     out = tmp_path / "out"
     for name in ("candidates.tsv", "top_guides.fa", "run.json", "report.html"):
         assert (out / name).is_file(), name
