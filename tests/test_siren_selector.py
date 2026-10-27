@@ -13,7 +13,10 @@ from sirna_consensus.tools.siren import ENV_SELECTOR, SirenTool, resolve_selecto
 # Deliberately distinct sequences so the digest mapping is unambiguous.
 SEQ_A = "ACGT" * 40                       # the transcript we feed in as input
 SEQ_B = "TTGCAAGCTT" * 12
-SEQ_C = "GATTACA" * 30
+SEQ_C = ("AAGCCCAATAAACCACTCTGACTGGCCGAATAGGGATATAGGCAACGACATGTGCGGCGACC"
+         "CTTGCGACAGTGACGCTTTCGCCGTTGCCTAAACCTATTTGAAGGAGTCTAGCAGCCGCAG"
+         "TAAGGCACAATACCTCGTCCGTGTTACCAGACCAAACAAGACGTCCTCTTCAATGTTTAAA"
+         "TGACCCTCTCGTCATAAAACCTTTCTACTATGTGTT")
 
 
 @pytest.fixture
