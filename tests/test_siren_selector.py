@@ -3,6 +3,9 @@
 Hermetic: a handful of fake cDNA records, no network, no docker, no real 1.4 GB
 Ensembl file.
 """
+
+from __future__ import annotations
+
 from pathlib import Path
 
 import pytest
