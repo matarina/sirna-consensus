@@ -16,7 +16,7 @@ jobs:
           python-version: ${{ matrix.python }}
       - name: Install
         run: pip install -e ".[dev]"
-      - name: Unit tests (hermetic: no network, no docker, no external tools)
+      - name: Unit tests (hermetic - no network, docker or external tools)
         run: pytest -q
       - name: Tool survey must not crash when nothing is installed
         run: sirna-consensus tools || true
