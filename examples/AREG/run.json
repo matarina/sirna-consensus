@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "tool_version": "0.1.0",
-  "created_utc": "2026-10-27T07:44:49.831073+00:00",
+  "created_utc": "2026-10-27T07:58:23.907545+00:00",
   "status": "research_only",
   "status_reason": "Candidates are computational predictions; no knockdown is established by this run.",
   "transcript_id": "NM_001657.4",
@@ -10,11 +10,13 @@
   "config": {
     "tools": [
       "sirnadesigner",
-      "siren"
+      "siren",
+      "sirnaforge"
     ],
     "acting_tools": [
       "siren",
-      "sirnadesigner"
+      "sirnadesigner",
+      "sirnaforge"
     ],
     "lengths": [
       19,
@@ -41,6 +43,13 @@
       "detail": "80 hits from 1 file(s)",
       "version": "upstream main (pinned by checkout)",
       "hits": 80
+    },
+    {
+      "tool": "sirnaforge",
+      "status": "ok",
+      "detail": "559 hits",
+      "version": "sha-4c05e4b",
+      "hits": 559
     }
   ],
   "normalization": {
@@ -55,43 +64,30 @@
       "placed": 80,
       "duplicates": 0,
       "rejected": {}
+    },
+    "sirnaforge": {
+      "total": 559,
+      "placed": 559,
+      "duplicates": 0,
+      "rejected": {}
     }
   },
   "counts": {
-    "hits": 687,
-    "placed": 687,
-    "clusters": 652,
-    "consensus_unanimous": 35,
-    "passing": 16,
+    "hits": 1246,
+    "placed": 1246,
+    "clusters": 898,
+    "consensus_unanimous": 29,
+    "passing": 174,
     "top": 10
   },
   "candidates": [
     {
       "rank": 1,
-      "votes": 2,
+      "votes": 3,
       "tools": [
         "siren",
-        "sirnadesigner"
-      ],
-      "transcript_id": "NM_001657.4",
-      "start": 495,
-      "end": 515,
-      "length": 21,
-      "sense_dna": "CTATATTGTCGATGATTCAGT",
-      "guide_dna": "ACTGAATCATCGACAATATAG",
-      "hard_flags": [],
-      "soft_flags": [],
-      "tool_scores": {
-        "siren": 0.5,
-        "sirnadesigner": 0.8571428571428571
-      }
-    },
-    {
-      "rank": 2,
-      "votes": 2,
-      "tools": [
-        "siren",
-        "sirnadesigner"
+        "sirnadesigner",
+        "sirnaforge"
       ],
       "transcript_id": "NM_001657.4",
       "start": 927,
@@ -107,15 +103,87 @@
       ],
       "tool_scores": {
         "siren": 0.5,
-        "sirnadesigner": 0.7142857142857143
+        "sirnadesigner": 0.7142857142857143,
+        "sirnaforge": 0.9199701033710386
+      }
+    },
+    {
+      "rank": 2,
+      "votes": 3,
+      "tools": [
+        "siren",
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 495,
+      "end": 515,
+      "length": 21,
+      "sense_dna": "CTATATTGTCGATGATTCAGT",
+      "guide_dna": "ACTGAATCATCGACAATATAG",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnadesigner": 0.8571428571428571,
+        "sirnaforge": 0.7319238258893465
       }
     },
     {
       "rank": 3,
-      "votes": 2,
+      "votes": 3,
       "tools": [
         "siren",
-        "sirnadesigner"
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 931,
+      "end": 951,
+      "length": 21,
+      "sense_dna": "CTTCGACAAGAGAATGGAAAT",
+      "guide_dna": "ATTTCCATTCTCTTGTCGAAG",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnadesigner": 0.5714285714285714,
+        "sirnaforge": 0.9394029595895893
+      }
+    },
+    {
+      "rank": 4,
+      "votes": 3,
+      "tools": [
+        "siren",
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 461,
+      "end": 481,
+      "length": 21,
+      "sense_dna": "CAGAAGAGTATGATAACGAAC",
+      "guide_dna": "GTTCGTTATCATACTCTTCTG",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnadesigner": 0.5714285714285714,
+        "sirnaforge": 0.8788059191791782
+      }
+    },
+    {
+      "rank": 5,
+      "votes": 3,
+      "tools": [
+        "siren",
+        "sirnadesigner",
+        "sirnaforge"
       ],
       "transcript_id": "NM_001657.4",
       "start": 955,
@@ -131,11 +199,2851 @@
       ],
       "tool_scores": {
         "siren": 0.5,
-        "sirnadesigner": 0.7142857142857143
+        "sirnadesigner": 0.7142857142857143,
+        "sirnaforge": 0.7114426647123299
       }
     },
     {
-      "rank": 4,
+      "rank": 6,
+      "votes": 3,
+      "tools": [
+        "siren",
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 491,
+      "end": 511,
+      "length": 21,
+      "sense_dna": "CTGGCTATATTGTCGATGATT",
+      "guide_dna": "AATCATCGACAATATAGCCAG",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnadesigner": 0.5714285714285714,
+        "sirnaforge": 0.8182088787687679
+      }
+    },
+    {
+      "rank": 7,
+      "votes": 3,
+      "tools": [
+        "siren",
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 777,
+      "end": 797,
+      "length": 21,
+      "sense_dna": "CAGCATGATTGACAGTAGTTT",
+      "guide_dna": "AAACTACTGTCAATCATGCTG",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnadesigner": 0.5714285714285714,
+        "sirnaforge": 0.8182088787687679
+      }
+    },
+    {
+      "rank": 8,
+      "votes": 3,
+      "tools": [
+        "siren",
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 819,
+      "end": 839,
+      "length": 21,
+      "sense_dna": "CATAGCTGCCTTTATGTCTGC",
+      "guide_dna": "GCAGACATAAAGGCAGCTATG",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnadesigner": 0.5714285714285714,
+        "sirnaforge": 0.8160501214569145
+      }
+    },
+    {
+      "rank": 9,
+      "votes": 3,
+      "tools": [
+        "siren",
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 877,
+      "end": 897,
+      "length": 21,
+      "sense_dna": "CTTAGAAGACAATACGTCAGG",
+      "guide_dna": "CCTGACGTATTGTCTTCTAAG",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnadesigner": 0.5714285714285714,
+        "sirnaforge": 0.807432742608847
+      }
+    },
+    {
+      "rank": 10,
+      "votes": 3,
+      "tools": [
+        "siren",
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 729,
+      "end": 749,
+      "length": 21,
+      "sense_dna": "GCAAGAATATTTCGGTGAACG",
+      "guide_dna": "CGTTCACCGAAATATTCTTGC",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnadesigner": 0.42857142857142855,
+        "sirnaforge": 0.9199701033710386
+      }
+    },
+    {
+      "rank": 11,
+      "votes": 3,
+      "tools": [
+        "siren",
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 897,
+      "end": 917,
+      "length": 21,
+      "sense_dna": "GAAATATGAAGGAGAAGCTGA",
+      "guide_dna": "TCAGCTTCTCCTTCATATTTC",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnadesigner": 0.42857142857142855,
+        "sirnaforge": 0.8788059191791782
+      }
+    },
+    {
+      "rank": 12,
+      "votes": 3,
+      "tools": [
+        "siren",
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 881,
+      "end": 901,
+      "length": 21,
+      "sense_dna": "GAAGACAATACGTCAGGAAAT",
+      "guide_dna": "ATTTCCTGACGTATTGTCTTC",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnadesigner": 0.5714285714285714,
+        "sirnaforge": 0.7056715180065765
+      }
+    },
+    {
+      "rank": 13,
+      "votes": 3,
+      "tools": [
+        "siren",
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 871,
+      "end": 891,
+      "length": 21,
+      "sense_dna": "GTCCAGCTTAGAAGACAATAC",
+      "guide_dna": "GTATTGTCTTCTAAGCTGGAC",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnadesigner": 0.5714285714285714,
+        "sirnaforge": 0.6891242351409026
+      }
+    },
+    {
+      "rank": 14,
+      "votes": 3,
+      "tools": [
+        "siren",
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 1047,
+      "end": 1067,
+      "length": 21,
+      "sense_dna": "CAGTGGATCATAAGACAATGG",
+      "guide_dna": "CCATTGTCTTATGATCCACTG",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnadesigner": 0.5714285714285714,
+        "sirnaforge": 0.6862386617880257
+      }
+    },
+    {
+      "rank": 15,
+      "votes": 3,
+      "tools": [
+        "siren",
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 985,
+      "end": 1005,
+      "length": 21,
+      "sense_dna": "CAGGATATCACATTGGAGTCA",
+      "guide_dna": "TGACTCCAATGTGATATCCTG",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnadesigner": 0.42857142857142855,
+        "sirnaforge": 0.7987760225502172
+      }
+    },
+    {
+      "rank": 16,
+      "votes": 3,
+      "tools": [
+        "siren",
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 361,
+      "end": 381,
+      "length": 21,
+      "sense_dna": "GTTACCTCAAGAAGTGAGATG",
+      "guide_dna": "CATCTCACTTCTTGAGGTAAC",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnadesigner": 0.5714285714285714,
+        "sirnaforge": 0.6342983414362453
+      }
+    },
+    {
+      "rank": 17,
+      "votes": 3,
+      "tools": [
+        "siren",
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 891,
+      "end": 911,
+      "length": 21,
+      "sense_dna": "CGTCAGGAAATATGAAGGAGA",
+      "guide_dna": "TCTCCTTCATATTTCCTGACG",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnadesigner": 0.2857142857142857,
+        "sirnaforge": 0.9199701033710386
+      }
+    },
+    {
+      "rank": 18,
+      "votes": 3,
+      "tools": [
+        "siren",
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 703,
+      "end": 723,
+      "length": 21,
+      "sense_dna": "CTGGAAGCAGTAACATGCAAA",
+      "guide_dna": "TTTGCATGTTACTGCTTCCAG",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnadesigner": 0.5714285714285714,
+        "sirnaforge": 0.6256416213776155
+      }
+    },
+    {
+      "rank": 19,
+      "votes": 3,
+      "tools": [
+        "siren",
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 381,
+      "end": 401,
+      "length": 21,
+      "sense_dna": "GTCTTCAGGGAGTGAGATTTC",
+      "guide_dna": "GAAATCTCACTCCCTGAAGAC",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnadesigner": 0.42857142857142855,
+        "sirnaforge": 0.7554530810465038
+      }
+    },
+    {
+      "rank": 20,
+      "votes": 3,
+      "tools": [
+        "siren",
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 705,
+      "end": 725,
+      "length": 21,
+      "sense_dna": "GGAAGCAGTAACATGCAAATG",
+      "guide_dna": "CATTTGCATGTTACTGCTTCC",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnadesigner": 0.42857142857142855,
+        "sirnaforge": 0.7468357021984364
+      }
+    },
+    {
+      "rank": 21,
+      "votes": 3,
+      "tools": [
+        "siren",
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 1009,
+      "end": 1029,
+      "length": 21,
+      "sense_dna": "CCAAGTCATAGCCATAAATGA",
+      "guide_dna": "TCATTTATGGCTATGACTTGG",
+      "hard_flags": [],
+      "soft_flags": [
+        "seed_gc_low"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnadesigner": 0.42857142857142855,
+        "sirnaforge": 0.6479600509490422
+      }
+    },
+    {
+      "rank": 22,
+      "votes": 3,
+      "tools": [
+        "siren",
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 339,
+      "end": 359,
+      "length": 21,
+      "sense_dna": "CCACAGTGCTGATGGATTTGA",
+      "guide_dna": "TCAAATCCATCAGCACTGTGG",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnadesigner": 0.5714285714285714,
+        "sirnaforge": 0.4640101724059571
+      }
+    },
+    {
+      "rank": 23,
+      "votes": 3,
+      "tools": [
+        "siren",
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 281,
+      "end": 301,
+      "length": 21,
+      "sense_dna": "CTGCTGGATTGGACCTCAATG",
+      "guide_dna": "CATTGAGGTCCAATCCAGCAG",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnadesigner": 0.5714285714285714,
+        "sirnaforge": 0.4232262946872009
+      }
+    },
+    {
+      "rank": 24,
+      "votes": 3,
+      "tools": [
+        "siren",
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 671,
+      "end": 691,
+      "length": 21,
+      "sense_dna": "GCATTCACGGAGAATGCAAAT",
+      "guide_dna": "ATTTGCATTCTCCGTGAATGC",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnadesigner": 0.42857142857142855,
+        "sirnaforge": 0.5131042606154239
+      }
+    },
+    {
+      "rank": 25,
+      "votes": 3,
+      "tools": [
+        "siren",
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 403,
+      "end": 423,
+      "length": 21,
+      "sense_dna": "CCTGTGAGTGAAATGCCTTCT",
+      "guide_dna": "AGAAGGCATTTCACTCACAGG",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnadesigner": 0.14285714285714285,
+        "sirnaforge": 0.7554530810465038
+      }
+    },
+    {
+      "rank": 26,
+      "votes": 3,
+      "tools": [
+        "siren",
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 815,
+      "end": 835,
+      "length": 21,
+      "sense_dna": "CAGCCATAGCTGCCTTTATGT",
+      "guide_dna": "ACATAAAGGCAGCTATGGCTG",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnadesigner": 0.42857142857142855,
+        "sirnaforge": 0.40341313199554685
+      }
+    },
+    {
+      "rank": 27,
+      "votes": 3,
+      "tools": [
+        "siren",
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 827,
+      "end": 847,
+      "length": 21,
+      "sense_dna": "CCTTTATGTCTGCTGTGATCC",
+      "guide_dna": "GGATCACAGCAGACATAAAGG",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnadesigner": 0.0,
+        "sirnaforge": 0.8160501214569145
+      }
+    },
+    {
+      "rank": 28,
+      "votes": 3,
+      "tools": [
+        "siren",
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 309,
+      "end": 329,
+      "length": 21,
+      "sense_dna": "CTCTGGGAAGCGTGAACCATT",
+      "guide_dna": "AATGGTTCACGCTTCCCAGAG",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnadesigner": 0.42857142857142855,
+        "sirnaforge": 0.3655148276296667
+      }
+    },
+    {
+      "rank": 29,
+      "votes": 3,
+      "tools": [
+        "siren",
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 817,
+      "end": 837,
+      "length": 21,
+      "sense_dna": "GCCATAGCTGCCTTTATGTCT",
+      "guide_dna": "AGACATAAAGGCAGCTATGGC",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnadesigner": 0.2857142857142857,
+        "sirnaforge": 0.4640101724059571
+      }
+    },
+    {
+      "rank": 30,
+      "votes": 2,
+      "tools": [
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 676,
+      "end": 696,
+      "length": 21,
+      "sense_dna": "CACGGAGAATGCAAATATATA",
+      "guide_dna": "TATATATTTGCATTCTCCGTG",
+      "hard_flags": [],
+      "soft_flags": [
+        "seed_gc_low"
+      ],
+      "tool_scores": {
+        "sirnadesigner": 1.0,
+        "sirnaforge": 0.7319238258893465
+      }
+    },
+    {
+      "rank": 31,
+      "votes": 2,
+      "tools": [
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 910,
+      "end": 930,
+      "length": 21,
+      "sense_dna": "GAAGCTGAGGAACGAAAGAAA",
+      "guide_dna": "TTTCTTTCGTTCCTCAGCTTC",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "sirnadesigner": 0.7142857142857143,
+        "sirnaforge": 0.8593730629606279
+      }
+    },
+    {
+      "rank": 32,
+      "votes": 2,
+      "tools": [
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 894,
+      "end": 914,
+      "length": 21,
+      "sense_dna": "CAGGAAATATGAAGGAGAAGC",
+      "guide_dna": "GCTTCTCCTTCATATTTCCTG",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "sirnadesigner": 0.7142857142857143,
+        "sirnaforge": 0.8593730629606279
+      }
+    },
+    {
+      "rank": 33,
+      "votes": 2,
+      "tools": [
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 518,
+      "end": 538,
+      "length": 21,
+      "sense_dna": "GAGTTGAACAGGTAGTTAAGC",
+      "guide_dna": "GCTTAACTACCTGTTCAACTC",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "sirnadesigner": 0.7142857142857143,
+        "sirnaforge": 0.8593730629606279
+      }
+    },
+    {
+      "rank": 34,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 689,
+      "end": 709,
+      "length": 21,
+      "sense_dna": "AATATATAGAGCACCTGGAAG",
+      "guide_dna": "CTTCCAGGTGCTCTATATATT",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 1.0
+      }
+    },
+    {
+      "rank": 35,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 1123,
+      "end": 1143,
+      "length": 21,
+      "sense_dna": "TGTATATAAAGGTGCACGAAG",
+      "guide_dna": "CTTCGTGCACCTTTATATACA",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 1.0
+      }
+    },
+    {
+      "rank": 36,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 861,
+      "end": 881,
+      "length": 21,
+      "sense_dna": "TGTTATTACAGTCCAGCTTAG",
+      "guide_dna": "CTAAGCTGGACTGTAATAACA",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 1.0
+      }
+    },
+    {
+      "rank": 37,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 1015,
+      "end": 1035,
+      "length": 21,
+      "sense_dna": "CATAGCCATAAATGATGAGTC",
+      "guide_dna": "GACTCATCATTTATGGCTATG",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 1.0
+      }
+    },
+    {
+      "rank": 38,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 405,
+      "end": 425,
+      "length": 21,
+      "sense_dna": "TGTGAGTGAAATGCCTTCTAG",
+      "guide_dna": "CTAGAAGGCATTTCACTCACA",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.9805671437814493
+      }
+    },
+    {
+      "rank": 39,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 829,
+      "end": 849,
+      "length": 21,
+      "sense_dna": "TTTATGTCTGCTGTGATCCTC",
+      "guide_dna": "GAGGATCACAGCAGACATAAA",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.9805671437814493
+      }
+    },
+    {
+      "rank": 40,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 899,
+      "end": 919,
+      "length": 21,
+      "sense_dna": "AATATGAAGGAGAAGCTGAGG",
+      "guide_dna": "CCTCAGCTTCTCCTTCATATT",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.9805671437814493
+      }
+    },
+    {
+      "rank": 41,
+      "votes": 2,
+      "tools": [
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 680,
+      "end": 700,
+      "length": 21,
+      "sense_dna": "GAGAATGCAAATATATAGAGC",
+      "guide_dna": "GCTCTATATATTTGCATTCTC",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "sirnadesigner": 0.8571428571428571,
+        "sirnaforge": 0.6165008917742785
+      }
+    },
+    {
+      "rank": 42,
+      "votes": 2,
+      "tools": [
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 942,
+      "end": 962,
+      "length": 21,
+      "sense_dna": "GAATGGAAATGTACATGCTAT",
+      "guide_dna": "ATAGCATGTACATTTCCATTC",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "sirnadesigner": 0.7142857142857143,
+        "sirnaforge": 0.7319238258893465
+      }
+    },
+    {
+      "rank": 43,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 499,
+      "end": 519,
+      "length": 21,
+      "sense_dna": "ATTGTCGATGATTCAGTCAGA",
+      "guide_dna": "TCTGACTGAATCATCGACAAT",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.9394029595895893
+      }
+    },
+    {
+      "rank": 44,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 1125,
+      "end": 1145,
+      "length": 21,
+      "sense_dna": "TATATAAAGGTGCACGAAGGT",
+      "guide_dna": "ACCTTCGTGCACCTTTATATA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.9394029595895893
+      }
+    },
+    {
+      "rank": 45,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 409,
+      "end": 429,
+      "length": 21,
+      "sense_dna": "AGTGAAATGCCTTCTAGTAGT",
+      "guide_dna": "ACTACTAGAAGGCATTTCACT",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.9394029595895893
+      }
+    },
+    {
+      "rank": 46,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 1127,
+      "end": 1147,
+      "length": 21,
+      "sense_dna": "TATAAAGGTGCACGAAGGTAA",
+      "guide_dna": "TTACCTTCGTGCACCTTTATA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.9394029595895893
+      }
+    },
+    {
+      "rank": 47,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 865,
+      "end": 885,
+      "length": 21,
+      "sense_dna": "ATTACAGTCCAGCTTAGAAGA",
+      "guide_dna": "TCTTCTAAGCTGGACTGTAAT",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.9394029595895893
+      }
+    },
+    {
+      "rank": 48,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 1121,
+      "end": 1141,
+      "length": 21,
+      "sense_dna": "TCTGTATATAAAGGTGCACGA",
+      "guide_dna": "TCGTGCACCTTTATATACAGA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.9394029595895893
+      }
+    },
+    {
+      "rank": 49,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 893,
+      "end": 913,
+      "length": 21,
+      "sense_dna": "TCAGGAAATATGAAGGAGAAG",
+      "guide_dna": "CTTCTCCTTCATATTTCCTGA",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.9394029595895893
+      }
+    },
+    {
+      "rank": 50,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 939,
+      "end": 959,
+      "length": 21,
+      "sense_dna": "AGAGAATGGAAATGTACATGC",
+      "guide_dna": "GCATGTACATTTCCATTCTCT",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.9394029595895893
+      }
+    },
+    {
+      "rank": 51,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 413,
+      "end": 433,
+      "length": 21,
+      "sense_dna": "AAATGCCTTCTAGTAGTGAAC",
+      "guide_dna": "GTTCACTACTAGAAGGCATTT",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.9394029595895893
+      }
+    },
+    {
+      "rank": 52,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 473,
+      "end": 493,
+      "length": 21,
+      "sense_dna": "ATAACGAACCACAAATACCTG",
+      "guide_dna": "CAGGTATTTGTGGTTCGTTAT",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "guide_gu_rich",
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.9394029595895893
+      }
+    },
+    {
+      "rank": 53,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 485,
+      "end": 505,
+      "length": 21,
+      "sense_dna": "AAATACCTGGCTATATTGTCG",
+      "guide_dna": "CGACAATATAGCCAGGTATTT",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.9394029595895893
+      }
+    },
+    {
+      "rank": 54,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 517,
+      "end": 537,
+      "length": 21,
+      "sense_dna": "AGAGTTGAACAGGTAGTTAAG",
+      "guide_dna": "CTTAACTACCTGTTCAACTCT",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "seed_gc_low",
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.9394029595895893
+      }
+    },
+    {
+      "rank": 55,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 935,
+      "end": 955,
+      "length": 21,
+      "sense_dna": "GACAAGAGAATGGAAATGTAC",
+      "guide_dna": "GTACATTTCCATTCTCTTGTC",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "seed_gc_low",
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.9394029595895893
+      }
+    },
+    {
+      "rank": 56,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 343,
+      "end": 363,
+      "length": 21,
+      "sense_dna": "AGTGCTGATGGATTTGAGGTT",
+      "guide_dna": "AACCTCAAATCCATCAGCACT",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.9199701033710386
+      }
+    },
+    {
+      "rank": 57,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 501,
+      "end": 521,
+      "length": 21,
+      "sense_dna": "TGTCGATGATTCAGTCAGAGT",
+      "guide_dna": "ACTCTGACTGAATCATCGACA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.9199701033710386
+      }
+    },
+    {
+      "rank": 58,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 513,
+      "end": 533,
+      "length": 21,
+      "sense_dna": "AGTCAGAGTTGAACAGGTAGT",
+      "guide_dna": "ACTACCTGTTCAACTCTGACT",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.9199701033710386
+      }
+    },
+    {
+      "rank": 59,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 901,
+      "end": 921,
+      "length": 21,
+      "sense_dna": "TATGAAGGAGAAGCTGAGGAA",
+      "guide_dna": "TTCCTCAGCTTCTCCTTCATA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.9199701033710386
+      }
+    },
+    {
+      "rank": 60,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 913,
+      "end": 933,
+      "length": 21,
+      "sense_dna": "GCTGAGGAACGAAAGAAACTT",
+      "guide_dna": "AAGTTTCTTTCGTTCCTCAGC",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.9199701033710386
+      }
+    },
+    {
+      "rank": 61,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 1021,
+      "end": 1041,
+      "length": 21,
+      "sense_dna": "CATAAATGATGAGTCGGTCCT",
+      "guide_dna": "AGGACCGACTCATCATTTATG",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.9199701033710386
+      }
+    },
+    {
+      "rank": 62,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 345,
+      "end": 365,
+      "length": 21,
+      "sense_dna": "TGCTGATGGATTTGAGGTTAC",
+      "guide_dna": "GTAACCTCAAATCCATCAGCA",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.9199701033710386
+      }
+    },
+    {
+      "rank": 63,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 725,
+      "end": 745,
+      "length": 21,
+      "sense_dna": "GTCAGCAAGAATATTTCGGTG",
+      "guide_dna": "CACCGAAATATTCTTGCTGAC",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.9199701033710386
+      }
+    },
+    {
+      "rank": 64,
+      "votes": 2,
+      "tools": [
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 706,
+      "end": 726,
+      "length": 21,
+      "sense_dna": "GAAGCAGTAACATGCAAATGT",
+      "guide_dna": "ACATTTGCATGTTACTGCTTC",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "sirnadesigner": 0.7142857142857143,
+        "sirnaforge": 0.7056715180065765
+      }
+    },
+    {
+      "rank": 65,
+      "votes": 2,
+      "tools": [
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 678,
+      "end": 698,
+      "length": 21,
+      "sense_dna": "CGGAGAATGCAAATATATAGA",
+      "guide_dna": "TCTATATATTTGCATTCTCCG",
+      "hard_flags": [],
+      "soft_flags": [
+        "seed_gc_low"
+      ],
+      "tool_scores": {
+        "sirnadesigner": 0.7142857142857143,
+        "sirnaforge": 0.6713267854789362
+      }
+    },
+    {
+      "rank": 66,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 411,
+      "end": 431,
+      "length": 21,
+      "sense_dna": "TGAAATGCCTTCTAGTAGTGA",
+      "guide_dna": "TCACTACTAGAAGGCATTTCA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.8788059191791782
+      }
+    },
+    {
+      "rank": 67,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 487,
+      "end": 507,
+      "length": 21,
+      "sense_dna": "ATACCTGGCTATATTGTCGAT",
+      "guide_dna": "ATCGACAATATAGCCAGGTAT",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.8788059191791782
+      }
+    },
+    {
+      "rank": 68,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 515,
+      "end": 535,
+      "length": 21,
+      "sense_dna": "TCAGAGTTGAACAGGTAGTTA",
+      "guide_dna": "TAACTACCTGTTCAACTCTGA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.8788059191791782
+      }
+    },
+    {
+      "rank": 69,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 889,
+      "end": 909,
+      "length": 21,
+      "sense_dna": "TACGTCAGGAAATATGAAGGA",
+      "guide_dna": "TCCTTCATATTTCCTGACGTA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.8788059191791782
+      }
+    },
+    {
+      "rank": 70,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 923,
+      "end": 943,
+      "length": 21,
+      "sense_dna": "GAAAGAAACTTCGACAAGAGA",
+      "guide_dna": "TCTCTTGTCGAAGTTTCTTTC",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.8788059191791782
+      }
+    },
+    {
+      "rank": 71,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 929,
+      "end": 949,
+      "length": 21,
+      "sense_dna": "AACTTCGACAAGAGAATGGAA",
+      "guide_dna": "TTCCATTCTCTTGTCGAAGTT",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.8788059191791782
+      }
+    },
+    {
+      "rank": 72,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 983,
+      "end": 1003,
+      "length": 21,
+      "sense_dna": "TACAGGATATCACATTGGAGT",
+      "guide_dna": "ACTCCAATGTGATATCCTGTA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.8788059191791782
+      }
+    },
+    {
+      "rank": 73,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 407,
+      "end": 427,
+      "length": 21,
+      "sense_dna": "TGAGTGAAATGCCTTCTAGTA",
+      "guide_dna": "TACTAGAAGGCATTTCACTCA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.8788059191791782
+      }
+    },
+    {
+      "rank": 74,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 493,
+      "end": 513,
+      "length": 21,
+      "sense_dna": "GGCTATATTGTCGATGATTCA",
+      "guide_dna": "TGAATCATCGACAATATAGCC",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.8788059191791782
+      }
+    },
+    {
+      "rank": 75,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 663,
+      "end": 683,
+      "length": 21,
+      "sense_dna": "AAATTTCTGCATTCACGGAGA",
+      "guide_dna": "TCTCCGTGAATGCAGAAATTT",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.8788059191791782
+      }
+    },
+    {
+      "rank": 76,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 687,
+      "end": 707,
+      "length": 21,
+      "sense_dna": "CAAATATATAGAGCACCTGGA",
+      "guide_dna": "TCCAGGTGCTCTATATATTTG",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.8788059191791782
+      }
+    },
+    {
+      "rank": 77,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 723,
+      "end": 743,
+      "length": 21,
+      "sense_dna": "ATGTCAGCAAGAATATTTCGG",
+      "guide_dna": "CCGAAATATTCTTGCTGACAT",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.8788059191791782
+      }
+    },
+    {
+      "rank": 78,
+      "votes": 2,
+      "tools": [
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 862,
+      "end": 882,
+      "length": 21,
+      "sense_dna": "GTTATTACAGTCCAGCTTAGA",
+      "guide_dna": "TCTAAGCTGGACTGTAATAAC",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "sirnadesigner": 0.42857142857142855,
+        "sirnaforge": 0.9394029595895893
+      }
+    },
+    {
+      "rank": 79,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 519,
+      "end": 539,
+      "length": 21,
+      "sense_dna": "AGTTGAACAGGTAGTTAAGCC",
+      "guide_dna": "GGCTTAACTACCTGTTCAACT",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.8651442096663808
+      }
+    },
+    {
+      "rank": 80,
+      "votes": 2,
+      "tools": [
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 672,
+      "end": 692,
+      "length": 21,
+      "sense_dna": "CATTCACGGAGAATGCAAATA",
+      "guide_dna": "TATTTGCATTCTCCGTGAATG",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "sirnadesigner": 0.7142857142857143,
+        "sirnaforge": 0.6508456243019187
+      }
+    },
+    {
+      "rank": 81,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 489,
+      "end": 509,
+      "length": 21,
+      "sense_dna": "ACCTGGCTATATTGTCGATGA",
+      "guide_dna": "TCATCGACAATATAGCCAGGT",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.8593730629606279
+      }
+    },
+    {
+      "rank": 82,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 511,
+      "end": 531,
+      "length": 21,
+      "sense_dna": "TCAGTCAGAGTTGAACAGGTA",
+      "guide_dna": "TACCTGTTCAACTCTGACTGA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.8593730629606279
+      }
+    },
+    {
+      "rank": 83,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 733,
+      "end": 753,
+      "length": 21,
+      "sense_dna": "GAATATTTCGGTGAACGGTGT",
+      "guide_dna": "ACACCGTTCACCGAAATATTC",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.8593730629606279
+      }
+    },
+    {
+      "rank": 84,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 775,
+      "end": 795,
+      "length": 21,
+      "sense_dna": "CACAGCATGATTGACAGTAGT",
+      "guide_dna": "ACTACTGTCAATCATGCTGTG",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.8593730629606279
+      }
+    },
+    {
+      "rank": 85,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 825,
+      "end": 845,
+      "length": 21,
+      "sense_dna": "TGCCTTTATGTCTGCTGTGAT",
+      "guide_dna": "ATCACAGCAGACATAAAGGCA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.8593730629606279
+      }
+    },
+    {
+      "rank": 86,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 873,
+      "end": 893,
+      "length": 21,
+      "sense_dna": "CCAGCTTAGAAGACAATACGT",
+      "guide_dna": "ACGTATTGTCTTCTAAGCTGG",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.8593730629606279
+      }
+    },
+    {
+      "rank": 87,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 909,
+      "end": 929,
+      "length": 21,
+      "sense_dna": "AGAAGCTGAGGAACGAAAGAA",
+      "guide_dna": "TTCTTTCGTTCCTCAGCTTCT",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.8593730629606279
+      }
+    },
+    {
+      "rank": 88,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 503,
+      "end": 523,
+      "length": 21,
+      "sense_dna": "TCGATGATTCAGTCAGAGTTG",
+      "guide_dna": "CAACTCTGACTGAATCATCGA",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.8593730629606279
+      }
+    },
+    {
+      "rank": 89,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 1017,
+      "end": 1037,
+      "length": 21,
+      "sense_dna": "TAGCCATAAATGATGAGTCGG",
+      "guide_dna": "CCGACTCATCATTTATGGCTA",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.8593730629606279
+      }
+    },
+    {
+      "rank": 90,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 911,
+      "end": 931,
+      "length": 21,
+      "sense_dna": "AAGCTGAGGAACGAAAGAAAC",
+      "guide_dna": "GTTTCTTTCGTTCCTCAGCTT",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "seed_gc_low",
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.8593730629606279
+      }
+    },
+    {
+      "rank": 91,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 1119,
+      "end": 1139,
+      "length": 21,
+      "sense_dna": "TTTCTGTATATAAAGGTGCAC",
+      "guide_dna": "GTGCACCTTTATATACAGAAA",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.8531179067101677
+      }
+    },
+    {
+      "rank": 92,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 887,
+      "end": 907,
+      "length": 21,
+      "sense_dna": "AATACGTCAGGAAATATGAAG",
+      "guide_dna": "CTTCATATTTCCTGACGTATT",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "seed_gc_low",
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.8531179067101677
+      }
+    },
+    {
+      "rank": 93,
+      "votes": 2,
+      "tools": [
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 780,
+      "end": 800,
+      "length": 21,
+      "sense_dna": "CATGATTGACAGTAGTTTATC",
+      "guide_dna": "GATAAACTACTGTCAATCATG",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "seed_gc_low",
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "sirnadesigner": 0.7142857142857143,
+        "sirnaforge": 0.6222720384800322
+      }
+    },
+    {
+      "rank": 94,
+      "votes": 2,
+      "tools": [
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 1046,
+      "end": 1066,
+      "length": 21,
+      "sense_dna": "CCAGTGGATCATAAGACAATG",
+      "guide_dna": "CATTGTCTTATGATCCACTGG",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "sirnadesigner": 0.5714285714285714,
+        "sirnaforge": 0.7468357021984364
+      }
+    },
+    {
+      "rank": 95,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 727,
+      "end": 747,
+      "length": 21,
+      "sense_dna": "CAGCAAGAATATTTCGGTGAA",
+      "guide_dna": "TTCACCGAAATATTCTTGCTG",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.8182088787687679
+      }
+    },
+    {
+      "rank": 96,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 731,
+      "end": 751,
+      "length": 21,
+      "sense_dna": "AAGAATATTTCGGTGAACGGT",
+      "guide_dna": "ACCGTTCACCGAAATATTCTT",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.8182088787687679
+      }
+    },
+    {
+      "rank": 97,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 895,
+      "end": 915,
+      "length": 21,
+      "sense_dna": "AGGAAATATGAAGGAGAAGCT",
+      "guide_dna": "AGCTTCTCCTTCATATTTCCT",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.8182088787687679
+      }
+    },
+    {
+      "rank": 98,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 933,
+      "end": 953,
+      "length": 21,
+      "sense_dna": "TCGACAAGAGAATGGAAATGT",
+      "guide_dna": "ACATTTCCATTCTCTTGTCGA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.8182088787687679
+      }
+    },
+    {
+      "rank": 99,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 691,
+      "end": 711,
+      "length": 21,
+      "sense_dna": "TATATAGAGCACCTGGAAGCA",
+      "guide_dna": "TGCTTCCAGGTGCTCTATATA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.8045471692559701
+      }
+    },
+    {
+      "rank": 100,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 347,
+      "end": 367,
+      "length": 21,
+      "sense_dna": "CTGATGGATTTGAGGTTACCT",
+      "guide_dna": "AGGTAACCTCAAATCCATCAG",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.7987760225502172
+      }
+    },
+    {
+      "rank": 101,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 379,
+      "end": 399,
+      "length": 21,
+      "sense_dna": "ATGTCTTCAGGGAGTGAGATT",
+      "guide_dna": "AATCTCACTCCCTGAAGACAT",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.7987760225502172
+      }
+    },
+    {
+      "rank": 102,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 981,
+      "end": 1001,
+      "length": 21,
+      "sense_dna": "ATTACAGGATATCACATTGGA",
+      "guide_dna": "TCCAATGTGATATCCTGTAAT",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.7925208662997572
+      }
+    },
+    {
+      "rank": 103,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 641,
+      "end": 661,
+      "length": 21,
+      "sense_dna": "ATCCATGTAATGCAGAATTTC",
+      "guide_dna": "GAAATTCTGCATTACATGGAT",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "seed_gc_low",
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.7925208662997572
+      }
+    },
+    {
+      "rank": 104,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 679,
+      "end": 699,
+      "length": 21,
+      "sense_dna": "GGAGAATGCAAATATATAGAG",
+      "guide_dna": "CTCTATATATTTGCATTCTCC",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "seed_gc_low",
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.7925208662997572
+      }
+    },
+    {
+      "rank": 105,
+      "votes": 2,
+      "tools": [
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 408,
+      "end": 428,
+      "length": 21,
+      "sense_dna": "GAGTGAAATGCCTTCTAGTAG",
+      "guide_dna": "CTACTAGAAGGCATTTCACTC",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "sirnadesigner": 0.42857142857142855,
+        "sirnaforge": 0.8593730629606279
+      }
+    },
+    {
+      "rank": 106,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 1041,
+      "end": 1061,
+      "length": 21,
+      "sense_dna": "TCTTTCCAGTGGATCATAAGA",
+      "guide_dna": "TCTTATGATCCACTGGAAAGA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.7662685584169872
+      }
+    },
+    {
+      "rank": 107,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 1043,
+      "end": 1063,
+      "length": 21,
+      "sense_dna": "TTTCCAGTGGATCATAAGACA",
+      "guide_dna": "TGTCTTATGATCCACTGGAAA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.7662685584169872
+      }
+    },
+    {
+      "rank": 108,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 685,
+      "end": 705,
+      "length": 21,
+      "sense_dna": "TGCAAATATATAGAGCACCTG",
+      "guide_dna": "CAGGTGCTCTATATATTTGCA",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.7662685584169872
+      }
+    },
+    {
+      "rank": 109,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 713,
+      "end": 733,
+      "length": 21,
+      "sense_dna": "TAACATGCAAATGTCAGCAAG",
+      "guide_dna": "CTTGCTGACATTTGCATGTTA",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.7662685584169872
+      }
+    },
+    {
+      "rank": 110,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 803,
+      "end": 823,
+      "length": 21,
+      "sense_dna": "AAATTGCATTAGCAGCCATAG",
+      "guide_dna": "CTATGGCTGCTAATGCAATTT",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.7662685584169872
+      }
+    },
+    {
+      "rank": 111,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 945,
+      "end": 965,
+      "length": 21,
+      "sense_dna": "TGGAAATGTACATGCTATAGC",
+      "guide_dna": "GCTATAGCATGTACATTTCCA",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.7633829850641102
+      }
+    },
+    {
+      "rank": 112,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 373,
+      "end": 393,
+      "length": 21,
+      "sense_dna": "AGTGAGATGTCTTCAGGGAGT",
+      "guide_dna": "ACTCCCTGAAGACATCTCACT",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.7554530810465038
+      }
+    },
+    {
+      "rank": 113,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 419,
+      "end": 439,
+      "length": 21,
+      "sense_dna": "CTTCTAGTAGTGAACCGTCCT",
+      "guide_dna": "AGGACGGTTCACTACTAGAAG",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.7554530810465038
+      }
+    },
+    {
+      "rank": 114,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 293,
+      "end": 313,
+      "length": 21,
+      "sense_dna": "ACCTCAATGACACCTACTCTG",
+      "guide_dna": "CAGAGTAGGTGTCATTGAGGT",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.7554530810465038
+      }
+    },
+    {
+      "rank": 115,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 1019,
+      "end": 1039,
+      "length": 21,
+      "sense_dna": "GCCATAAATGATGAGTCGGTC",
+      "guide_dna": "GACCGACTCATCATTTATGGC",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.7554530810465038
+      }
+    },
+    {
+      "rank": 116,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 341,
+      "end": 361,
+      "length": 21,
+      "sense_dna": "ACAGTGCTGATGGATTTGAGG",
+      "guide_dna": "CCTCAAATCCATCAGCACTGT",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.7554530810465038
+      }
+    },
+    {
+      "rank": 117,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 735,
+      "end": 755,
+      "length": 21,
+      "sense_dna": "ATATTTCGGTGAACGGTGTGG",
+      "guide_dna": "CCACACCGTTCACCGAAATAT",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.7554530810465038
+      }
+    },
+    {
+      "rank": 118,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 1025,
+      "end": 1045,
+      "length": 21,
+      "sense_dna": "AATGATGAGTCGGTCCTCTTT",
+      "guide_dna": "AAAGAGGACCGACTCATCATT",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.7468357021984364
+      }
+    },
+    {
+      "rank": 119,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 1039,
+      "end": 1059,
+      "length": 21,
+      "sense_dna": "CCTCTTTCCAGTGGATCATAA",
+      "guide_dna": "TTATGATCCACTGGAAAGAGG",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.7468357021984364
+      }
+    },
+    {
+      "rank": 120,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 497,
+      "end": 517,
+      "length": 21,
+      "sense_dna": "ATATTGTCGATGATTCAGTCA",
+      "guide_dna": "TGACTGAATCATCGACAATAT",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.7319238258893465
+      }
+    },
+    {
+      "rank": 121,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 863,
+      "end": 883,
+      "length": 21,
+      "sense_dna": "TTATTACAGTCCAGCTTAGAA",
+      "guide_dna": "TTCTAAGCTGGACTGTAATAA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.7319238258893465
+      }
+    },
+    {
+      "rank": 122,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 941,
+      "end": 961,
+      "length": 21,
+      "sense_dna": "AGAATGGAAATGTACATGCTA",
+      "guide_dna": "TAGCATGTACATTTCCATTCT",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.7319238258893465
+      }
+    },
+    {
+      "rank": 123,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 937,
+      "end": 957,
+      "length": 21,
+      "sense_dna": "CAAGAGAATGGAAATGTACAT",
+      "guide_dna": "ATGTACATTTCCATTCTCTTG",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.7319238258893465
+      }
+    },
+    {
+      "rank": 124,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 483,
+      "end": 503,
+      "length": 21,
+      "sense_dna": "ACAAATACCTGGCTATATTGT",
+      "guide_dna": "ACAATATAGCCAGGTATTTGT",
+      "hard_flags": [],
+      "soft_flags": [
+        "seed_gc_low"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.7319238258893465
+      }
+    },
+    {
+      "rank": 125,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 643,
+      "end": 663,
+      "length": 21,
+      "sense_dna": "CCATGTAATGCAGAATTTCAA",
+      "guide_dna": "TTGAAATTCTGCATTACATGG",
+      "hard_flags": [],
+      "soft_flags": [
+        "seed_gc_low"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.7319238258893465
+      }
+    },
+    {
+      "rank": 126,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 719,
+      "end": 739,
+      "length": 21,
+      "sense_dna": "GCAAATGTCAGCAAGAATATT",
+      "guide_dna": "AATATTCTTGCTGACATTTGC",
+      "hard_flags": [],
+      "soft_flags": [
+        "seed_gc_low"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.7319238258893465
+      }
+    },
+    {
+      "rank": 127,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 779,
+      "end": 799,
+      "length": 21,
+      "sense_dna": "GCATGATTGACAGTAGTTTAT",
+      "guide_dna": "ATAAACTACTGTCAATCATGC",
+      "hard_flags": [],
+      "soft_flags": [
+        "seed_gc_low"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.7319238258893465
+      }
+    },
+    {
+      "rank": 128,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 885,
+      "end": 905,
+      "length": 21,
+      "sense_dna": "ACAATACGTCAGGAAATATGA",
+      "guide_dna": "TCATATTTCCTGACGTATTGT",
+      "hard_flags": [],
+      "soft_flags": [
+        "seed_gc_low"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.7319238258893465
+      }
+    },
+    {
+      "rank": 129,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 675,
+      "end": 695,
+      "length": 21,
+      "sense_dna": "TCACGGAGAATGCAAATATAT",
+      "guide_dna": "ATATATTTGCATTCTCCGTGA",
+      "hard_flags": [],
+      "soft_flags": [
+        "seed_gc_low"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.7319238258893465
+      }
+    },
+    {
+      "rank": 130,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 677,
+      "end": 697,
+      "length": 21,
+      "sense_dna": "ACGGAGAATGCAAATATATAG",
+      "guide_dna": "CTATATATTTGCATTCTCCGT",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "seed_gc_low",
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.7319238258893465
+      }
+    },
+    {
+      "rank": 131,
+      "votes": 2,
+      "tools": [
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 710,
+      "end": 730,
+      "length": 21,
+      "sense_dna": "CAGTAACATGCAAATGTCAGC",
+      "guide_dna": "GCTGACATTTGCATGTTACTG",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "sirnadesigner": 0.7142857142857143,
+        "sirnaforge": 0.5131042606154239
+      }
+    },
+    {
+      "rank": 132,
+      "votes": 2,
+      "tools": [
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 344,
+      "end": 364,
+      "length": 21,
+      "sense_dna": "GTGCTGATGGATTTGAGGTTA",
+      "guide_dna": "TAACCTCAAATCCATCAGCAC",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "sirnadesigner": 0.42857142857142855,
+        "sirnaforge": 0.7987760225502172
+      }
+    },
+    {
+      "rank": 133,
+      "votes": 2,
+      "tools": [
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 406,
+      "end": 426,
+      "length": 21,
+      "sense_dna": "GTGAGTGAAATGCCTTCTAGT",
+      "guide_dna": "ACTAGAAGGCATTTCACTCAC",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "sirnadesigner": 0.42857142857142855,
+        "sirnaforge": 0.7987760225502172
+      }
+    },
+    {
+      "rank": 134,
       "votes": 2,
       "tools": [
         "siren",
@@ -161,98 +3069,123 @@
       }
     },
     {
-      "rank": 5,
+      "rank": 135,
       "votes": 2,
       "tools": [
         "siren",
-        "sirnadesigner"
+        "sirnaforge"
       ],
       "transcript_id": "NM_001657.4",
-      "start": 703,
-      "end": 723,
+      "start": 665,
+      "end": 685,
       "length": 21,
-      "sense_dna": "CTGGAAGCAGTAACATGCAAA",
-      "guide_dna": "TTTGCATGTTACTGCTTCCAG",
+      "sense_dna": "ATTTCTGCATTCACGGAGAAT",
+      "guide_dna": "ATTCTCCGTGAATGCAGAAAT",
       "hard_flags": [],
       "soft_flags": [],
       "tool_scores": {
         "siren": 0.5,
-        "sirnadesigner": 0.5714285714285714
+        "sirnaforge": 0.7085570913594529
       }
     },
     {
-      "rank": 6,
+      "rank": 136,
       "votes": 2,
       "tools": [
         "siren",
-        "sirnadesigner"
+        "sirnaforge"
       ],
       "transcript_id": "NM_001657.4",
-      "start": 339,
-      "end": 359,
+      "start": 855,
+      "end": 875,
       "length": 21,
-      "sense_dna": "CCACAGTGCTGATGGATTTGA",
-      "guide_dna": "TCAAATCCATCAGCACTGTGG",
+      "sense_dna": "TGTTGCTGTTATTACAGTCCA",
+      "guide_dna": "TGGACTGTAATAACAGCAACA",
       "hard_flags": [],
       "soft_flags": [],
       "tool_scores": {
         "siren": 0.5,
-        "sirnadesigner": 0.5714285714285714
+        "sirnaforge": 0.7085570913594529
       }
     },
     {
-      "rank": 7,
+      "rank": 137,
       "votes": 2,
       "tools": [
         "siren",
-        "sirnadesigner"
+        "sirnaforge"
       ],
       "transcript_id": "NM_001657.4",
-      "start": 491,
-      "end": 511,
+      "start": 449,
+      "end": 469,
       "length": 21,
-      "sense_dna": "CTGGCTATATTGTCGATGATT",
-      "guide_dna": "AATCATCGACAATATAGCCAG",
+      "sense_dna": "ACTATGACTACTCAGAAGAGT",
+      "guide_dna": "ACTCTTCTGAGTAGTCATAGT",
       "hard_flags": [],
       "soft_flags": [],
       "tool_scores": {
         "siren": 0.5,
-        "sirnadesigner": 0.5714285714285714
+        "sirnaforge": 0.7085570913594529
       }
     },
     {
-      "rank": 8,
+      "rank": 138,
       "votes": 2,
       "tools": [
         "siren",
-        "sirnadesigner"
+        "sirnaforge"
       ],
       "transcript_id": "NM_001657.4",
-      "start": 881,
-      "end": 901,
+      "start": 505,
+      "end": 525,
       "length": 21,
-      "sense_dna": "GAAGACAATACGTCAGGAAAT",
-      "guide_dna": "ATTTCCTGACGTATTGTCTTC",
+      "sense_dna": "GATGATTCAGTCAGAGTTGAA",
+      "guide_dna": "TTCAACTCTGACTGAATCATC",
       "hard_flags": [],
       "soft_flags": [],
       "tool_scores": {
         "siren": 0.5,
-        "sirnadesigner": 0.5714285714285714
+        "sirnaforge": 0.7085570913594529
       }
     },
     {
-      "rank": 9,
+      "rank": 139,
       "votes": 2,
       "tools": [
         "siren",
-        "sirnadesigner"
+        "sirnaforge"
       ],
       "transcript_id": "NM_001657.4",
-      "start": 361,
-      "end": 381,
+      "start": 471,
+      "end": 491,
       "length": 21,
-      "sense_dna": "GTTACCTCAAGAAGTGAGATG",
-      "guide_dna": "CATCTCACTTCTTGAGGTAAC",
+      "sense_dna": "TGATAACGAACCACAAATACC",
+      "guide_dna": "GGTATTTGTGGTTCGTTATCA",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "guide_gu_rich",
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.7085570913594529
+      }
+    },
+    {
+      "rank": 140,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 1013,
+      "end": 1033,
+      "length": 21,
+      "sense_dna": "GTCATAGCCATAAATGATGAG",
+      "guide_dna": "CTCATCATTTATGGCTATGAC",
       "hard_flags": [
         "guide_5p_not_AU"
       ],
@@ -261,134 +3194,122 @@
       ],
       "tool_scores": {
         "siren": 0.5,
-        "sirnadesigner": 0.5714285714285714
+        "sirnaforge": 0.7085570913594529
       }
     },
     {
-      "rank": 10,
+      "rank": 141,
       "votes": 2,
       "tools": [
-        "siren",
-        "sirnadesigner"
+        "sirnadesigner",
+        "sirnaforge"
       ],
       "transcript_id": "NM_001657.4",
-      "start": 877,
-      "end": 897,
+      "start": 908,
+      "end": 928,
       "length": 21,
-      "sense_dna": "CTTAGAAGACAATACGTCAGG",
-      "guide_dna": "CCTGACGTATTGTCTTCTAAG",
-      "hard_flags": [
-        "guide_5p_not_AU"
-      ],
-      "soft_flags": [
-        "sense_3p_not_AU"
-      ],
+      "sense_dna": "GAGAAGCTGAGGAACGAAAGA",
+      "guide_dna": "TCTTTCGTTCCTCAGCTTCTC",
+      "hard_flags": [],
+      "soft_flags": [],
       "tool_scores": {
-        "siren": 0.5,
-        "sirnadesigner": 0.5714285714285714
+        "sirnadesigner": 0.5714285714285714,
+        "sirnaforge": 0.6342590002256824
       }
     },
     {
-      "rank": 11,
+      "rank": 142,
       "votes": 2,
       "tools": [
         "siren",
-        "sirnadesigner"
+        "sirnaforge"
       ],
       "transcript_id": "NM_001657.4",
-      "start": 1047,
-      "end": 1067,
+      "start": 459,
+      "end": 479,
       "length": 21,
-      "sense_dna": "CAGTGGATCATAAGACAATGG",
-      "guide_dna": "CCATTGTCTTATGATCCACTG",
-      "hard_flags": [
-        "guide_5p_not_AU"
-      ],
-      "soft_flags": [
-        "sense_3p_not_AU"
-      ],
-      "tool_scores": {
-        "siren": 0.5,
-        "sirnadesigner": 0.5714285714285714
-      }
-    },
-    {
-      "rank": 12,
-      "votes": 2,
-      "tools": [
-        "siren",
-        "sirnadesigner"
-      ],
-      "transcript_id": "NM_001657.4",
-      "start": 819,
-      "end": 839,
-      "length": 21,
-      "sense_dna": "CATAGCTGCCTTTATGTCTGC",
-      "guide_dna": "GCAGACATAAAGGCAGCTATG",
-      "hard_flags": [
-        "guide_5p_not_AU"
-      ],
-      "soft_flags": [
-        "sense_3p_not_AU"
-      ],
-      "tool_scores": {
-        "siren": 0.5,
-        "sirnadesigner": 0.5714285714285714
-      }
-    },
-    {
-      "rank": 13,
-      "votes": 2,
-      "tools": [
-        "siren",
-        "sirnadesigner"
-      ],
-      "transcript_id": "NM_001657.4",
-      "start": 777,
-      "end": 797,
-      "length": 21,
-      "sense_dna": "CAGCATGATTGACAGTAGTTT",
-      "guide_dna": "AAACTACTGTCAATCATGCTG",
+      "sense_dna": "CTCAGAAGAGTATGATAACGA",
+      "guide_dna": "TCGTTATCATACTCTTCTGAG",
       "hard_flags": [],
       "soft_flags": [],
       "tool_scores": {
         "siren": 0.5,
-        "sirnadesigner": 0.5714285714285714
+        "sirnaforge": 0.7056715180065765
       }
     },
     {
-      "rank": 14,
+      "rank": 143,
       "votes": 2,
       "tools": [
         "siren",
-        "sirnadesigner"
+        "sirnaforge"
       ],
       "transcript_id": "NM_001657.4",
-      "start": 931,
-      "end": 951,
+      "start": 715,
+      "end": 735,
       "length": 21,
-      "sense_dna": "CTTCGACAAGAGAATGGAAAT",
-      "guide_dna": "ATTTCCATTCTCTTGTCGAAG",
+      "sense_dna": "ACATGCAAATGTCAGCAAGAA",
+      "guide_dna": "TTCTTGCTGACATTTGCATGT",
       "hard_flags": [],
       "soft_flags": [],
       "tool_scores": {
         "siren": 0.5,
-        "sirnadesigner": 0.5714285714285714
+        "sirnaforge": 0.7056715180065765
       }
     },
     {
-      "rank": 15,
+      "rank": 144,
       "votes": 2,
       "tools": [
         "siren",
-        "sirnadesigner"
+        "sirnaforge"
       ],
       "transcript_id": "NM_001657.4",
-      "start": 871,
-      "end": 891,
+      "start": 875,
+      "end": 895,
       "length": 21,
-      "sense_dna": "GTCCAGCTTAGAAGACAATAC",
-      "guide_dna": "GTATTGTCTTCTAAGCTGGAC",
+      "sense_dna": "AGCTTAGAAGACAATACGTCA",
+      "guide_dna": "TGACGTATTGTCTTCTAAGCT",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.7056715180065765
+      }
+    },
+    {
+      "rank": 145,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 1045,
+      "end": 1065,
+      "length": 21,
+      "sense_dna": "TCCAGTGGATCATAAGACAAT",
+      "guide_dna": "ATTGTCTTATGATCCACTGGA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.7056715180065765
+      }
+    },
+    {
+      "rank": 146,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 707,
+      "end": 727,
+      "length": 21,
+      "sense_dna": "AAGCAGTAACATGCAAATGTC",
+      "guide_dna": "GACATTTGCATGTTACTGCTT",
       "hard_flags": [
         "guide_5p_not_AU"
       ],
@@ -397,11 +3318,1347 @@
       ],
       "tool_scores": {
         "siren": 0.5,
-        "sirnadesigner": 0.5714285714285714
+        "sirnaforge": 0.7056715180065765
       }
     },
     {
-      "rank": 16,
+      "rank": 147,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 275,
+      "end": 295,
+      "length": 21,
+      "sense_dna": "ATTATGCTGCTGGATTGGACC",
+      "guide_dna": "GGTCCAATCCAGCAGCATAAT",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.7006271873418465
+      }
+    },
+    {
+      "rank": 148,
+      "votes": 2,
+      "tools": [
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 914,
+      "end": 934,
+      "length": 21,
+      "sense_dna": "CTGAGGAACGAAAGAAACTTC",
+      "guide_dna": "GAAGTTTCTTTCGTTCCTCAG",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "sirnadesigner": 0.5714285714285714,
+        "sirnaforge": 0.6285271947304915
+      }
+    },
+    {
+      "rank": 149,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 377,
+      "end": 397,
+      "length": 21,
+      "sense_dna": "AGATGTCTTCAGGGAGTGAGA",
+      "guide_dna": "TCTCACTCCCTGAAGACATCT",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.6948560406360931
+      }
+    },
+    {
+      "rank": 150,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 375,
+      "end": 395,
+      "length": 21,
+      "sense_dna": "TGAGATGTCTTCAGGGAGTGA",
+      "guide_dna": "TCACTCCCTGAAGACATCTCA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.6948560406360931
+      }
+    },
+    {
+      "rank": 151,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 415,
+      "end": 435,
+      "length": 21,
+      "sense_dna": "ATGCCTTCTAGTAGTGAACCG",
+      "guide_dna": "CGGTTCACTACTAGAAGGCAT",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.6948560406360931
+      }
+    },
+    {
+      "rank": 152,
+      "votes": 2,
+      "tools": [
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 716,
+      "end": 736,
+      "length": 21,
+      "sense_dna": "CATGCAAATGTCAGCAAGAAT",
+      "guide_dna": "ATTCTTGCTGACATTTGCATG",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "sirnadesigner": 0.42857142857142855,
+        "sirnaforge": 0.7662685584169872
+      }
+    },
+    {
+      "rank": 153,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 509,
+      "end": 529,
+      "length": 21,
+      "sense_dna": "ATTCAGTCAGAGTTGAACAGG",
+      "guide_dna": "CCTGTTCAACTCTGACTGAAT",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.692009808493779
+      }
+    },
+    {
+      "rank": 154,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 853,
+      "end": 873,
+      "length": 21,
+      "sense_dna": "GCTGTTGCTGTTATTACAGTC",
+      "guide_dna": "GACTGTAATAACAGCAACAGC",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.692009808493779
+      }
+    },
+    {
+      "rank": 155,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 365,
+      "end": 385,
+      "length": 21,
+      "sense_dna": "CCTCAAGAAGTGAGATGTCTT",
+      "guide_dna": "AAGACATCTCACTTCTTGAGG",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.6891242351409026
+      }
+    },
+    {
+      "rank": 156,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 859,
+      "end": 879,
+      "length": 21,
+      "sense_dna": "GCTGTTATTACAGTCCAGCTT",
+      "guide_dna": "AAGCTGGACTGTAATAACAGC",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.6891242351409026
+      }
+    },
+    {
+      "rank": 157,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 1005,
+      "end": 1025,
+      "length": 21,
+      "sense_dna": "ACTGCCAAGTCATAGCCATAA",
+      "guide_dna": "TTATGGCTATGACTTGGCAGT",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.6891242351409026
+      }
+    },
+    {
+      "rank": 158,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 989,
+      "end": 1009,
+      "length": 21,
+      "sense_dna": "ATATCACATTGGAGTCACTGC",
+      "guide_dna": "GCAGTGACTCCAATGTGATAT",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.6891242351409026
+      }
+    },
+    {
+      "rank": 159,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 771,
+      "end": 791,
+      "length": 21,
+      "sense_dna": "AACTCACAGCATGATTGACAG",
+      "guide_dna": "CTGTCAATCATGCTGTGAGTT",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.6891242351409026
+      }
+    },
+    {
+      "rank": 160,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 1023,
+      "end": 1043,
+      "length": 21,
+      "sense_dna": "TAAATGATGAGTCGGTCCTCT",
+      "guide_dna": "AGAGGACCGACTCATCATTTA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.6862386617880257
+      }
+    },
+    {
+      "rank": 161,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 1049,
+      "end": 1069,
+      "length": 21,
+      "sense_dna": "GTGGATCATAAGACAATGGAC",
+      "guide_dna": "GTCCATTGTCTTATGATCCAC",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.6862386617880257
+      }
+    },
+    {
+      "rank": 162,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 925,
+      "end": 945,
+      "length": 21,
+      "sense_dna": "AAGAAACTTCGACAAGAGAAT",
+      "guide_dna": "ATTCTCTTGTCGAAGTTTCTT",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.6713267854789362
+      }
+    },
+    {
+      "rank": 163,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 823,
+      "end": 843,
+      "length": 21,
+      "sense_dna": "GCTGCCTTTATGTCTGCTGTG",
+      "guide_dna": "CACAGCAGACATAAAGGCAGC",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.6598433096230902
+      }
+    },
+    {
+      "rank": 164,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 421,
+      "end": 441,
+      "length": 21,
+      "sense_dna": "TCTAGTAGTGAACCGTCCTCG",
+      "guide_dna": "CGAGGACGGTTCACTACTAGA",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.6598433096230902
+      }
+    },
+    {
+      "rank": 165,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 463,
+      "end": 483,
+      "length": 21,
+      "sense_dna": "GAAGAGTATGATAACGAACCA",
+      "guide_dna": "TGGTTCGTTATCATACTCTTC",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.6479600509490422
+      }
+    },
+    {
+      "rank": 166,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 367,
+      "end": 387,
+      "length": 21,
+      "sense_dna": "TCAAGAAGTGAGATGTCTTCA",
+      "guide_dna": "TGAAGACATCTCACTTCTTGA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.6479600509490422
+      }
+    },
+    {
+      "rank": 167,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 481,
+      "end": 501,
+      "length": 21,
+      "sense_dna": "CCACAAATACCTGGCTATATT",
+      "guide_dna": "AATATAGCCAGGTATTTGTGG",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.6479600509490422
+      }
+    },
+    {
+      "rank": 168,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 1007,
+      "end": 1027,
+      "length": 21,
+      "sense_dna": "TGCCAAGTCATAGCCATAAAT",
+      "guide_dna": "ATTTATGGCTATGACTTGGCA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.6479600509490422
+      }
+    },
+    {
+      "rank": 169,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 1053,
+      "end": 1073,
+      "length": 21,
+      "sense_dna": "ATCATAAGACAATGGACCCTT",
+      "guide_dna": "AAGGGTCCATTGTCTTATGAT",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.6479600509490422
+      }
+    },
+    {
+      "rank": 170,
+      "votes": 2,
+      "tools": [
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 504,
+      "end": 524,
+      "length": 21,
+      "sense_dna": "CGATGATTCAGTCAGAGTTGA",
+      "guide_dna": "TCAACTCTGACTGAATCATCG",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "sirnadesigner": 0.2857142857142857,
+        "sirnaforge": 0.8593730629606279
+      }
+    },
+    {
+      "rank": 171,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 879,
+      "end": 899,
+      "length": 21,
+      "sense_dna": "TAGAAGACAATACGTCAGGAA",
+      "guide_dna": "TTCCTGACGTATTGTCTTCTA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.6450744775961658
+      }
+    },
+    {
+      "rank": 172,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 693,
+      "end": 713,
+      "length": 21,
+      "sense_dna": "TATAGAGCACCTGGAAGCAGT",
+      "guide_dna": "ACTGCTTCCAGGTGCTCTATA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.6400301469314358
+      }
+    },
+    {
+      "rank": 173,
+      "votes": 2,
+      "tools": [
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 1006,
+      "end": 1026,
+      "length": 21,
+      "sense_dna": "CTGCCAAGTCATAGCCATAAA",
+      "guide_dna": "TTTATGGCTATGACTTGGCAG",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "sirnadesigner": 0.5714285714285714,
+        "sirnaforge": 0.5679301543200808
+      }
+    },
+    {
+      "rank": 174,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 905,
+      "end": 925,
+      "length": 21,
+      "sense_dna": "AAGGAGAAGCTGAGGAACGAA",
+      "guide_dna": "TTCGTTCCTCAGCTTCTCCTT",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.6342590002256824
+      }
+    },
+    {
+      "rank": 175,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 349,
+      "end": 369,
+      "length": 21,
+      "sense_dna": "GATGGATTTGAGGTTACCTCA",
+      "guide_dna": "TGAGGTAACCTCAAATCCATC",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.6314127680833683
+      }
+    },
+    {
+      "rank": 176,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 805,
+      "end": 825,
+      "length": 21,
+      "sense_dna": "ATTGCATTAGCAGCCATAGCT",
+      "guide_dna": "AGCTATGGCTGCTAATGCAAT",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.6314127680833683
+      }
+    },
+    {
+      "rank": 177,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 915,
+      "end": 935,
+      "length": 21,
+      "sense_dna": "TGAGGAACGAAAGAAACTTCG",
+      "guide_dna": "CGAAGTTTCTTTCGTTCCTCA",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.6314127680833683
+      }
+    },
+    {
+      "rank": 178,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 849,
+      "end": 869,
+      "length": 21,
+      "sense_dna": "CACAGCTGTTGCTGTTATTAC",
+      "guide_dna": "GTAATAACAGCAACAGCTGTG",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "seed_gc_low",
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.6314127680833683
+      }
+    },
+    {
+      "rank": 179,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 447,
+      "end": 467,
+      "length": 21,
+      "sense_dna": "CGACTATGACTACTCAGAAGA",
+      "guide_dna": "TCTTCTGAGTAGTCATAGTCG",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.6285271947304915
+      }
+    },
+    {
+      "rank": 180,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 773,
+      "end": 793,
+      "length": 21,
+      "sense_dna": "CTCACAGCATGATTGACAGTA",
+      "guide_dna": "TACTGTCAATCATGCTGTGAG",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.6285271947304915
+      }
+    },
+    {
+      "rank": 181,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 867,
+      "end": 887,
+      "length": 21,
+      "sense_dna": "TACAGTCCAGCTTAGAAGACA",
+      "guide_dna": "TGTCTTCTAAGCTGGACTGTA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.6285271947304915
+      }
+    },
+    {
+      "rank": 182,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 987,
+      "end": 1007,
+      "length": 21,
+      "sense_dna": "GGATATCACATTGGAGTCACT",
+      "guide_dna": "AGTGACTCCAATGTGATATCC",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.6285271947304915
+      }
+    },
+    {
+      "rank": 183,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 369,
+      "end": 389,
+      "length": 21,
+      "sense_dna": "AAGAAGTGAGATGTCTTCAGG",
+      "guide_dna": "CCTGAAGACATCTCACTTCTT",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.6285271947304915
+      }
+    },
+    {
+      "rank": 184,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 857,
+      "end": 877,
+      "length": 21,
+      "sense_dna": "TTGCTGTTATTACAGTCCAGC",
+      "guide_dna": "GCTGGACTGTAATAACAGCAA",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.6285271947304915
+      }
+    },
+    {
+      "rank": 185,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 851,
+      "end": 871,
+      "length": 21,
+      "sense_dna": "CAGCTGTTGCTGTTATTACAG",
+      "guide_dna": "CTGTAATAACAGCAACAGCTG",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "seed_gc_low",
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.6285271947304915
+      }
+    },
+    {
+      "rank": 186,
+      "votes": 2,
+      "tools": [
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 512,
+      "end": 532,
+      "length": 21,
+      "sense_dna": "CAGTCAGAGTTGAACAGGTAG",
+      "guide_dna": "CTACCTGTTCAACTCTGACTG",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "sirnadesigner": 0.42857142857142855,
+        "sirnaforge": 0.6948560406360931
+      }
+    },
+    {
+      "rank": 187,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 683,
+      "end": 703,
+      "length": 21,
+      "sense_dna": "AATGCAAATATATAGAGCACC",
+      "guide_dna": "GGTGCTCTATATATTTGCATT",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.6222720384800322
+      }
+    },
+    {
+      "rank": 188,
+      "votes": 2,
+      "tools": [
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 1008,
+      "end": 1028,
+      "length": 21,
+      "sense_dna": "GCCAAGTCATAGCCATAAATG",
+      "guide_dna": "CATTTATGGCTATGACTTGGC",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "seed_gc_low",
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "sirnadesigner": 0.42857142857142855,
+        "sirnaforge": 0.6891242351409026
+      }
+    },
+    {
+      "rank": 189,
+      "votes": 2,
+      "tools": [
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 468,
+      "end": 488,
+      "length": 21,
+      "sense_dna": "GTATGATAACGAACCACAAAT",
+      "guide_dna": "ATTTGTGGTTCGTTATCATAC",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "sirnadesigner": 0.7142857142857143,
+        "sirnaforge": 0.38565502354414244
+      }
+    },
+    {
+      "rank": 190,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 291,
+      "end": 311,
+      "length": 21,
+      "sense_dna": "GGACCTCAATGACACCTACTC",
+      "guide_dna": "GAGTAGGTGTCATTGAGGTCC",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.5992462692126791
+      }
+    },
+    {
+      "rank": 191,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 417,
+      "end": 437,
+      "length": 21,
+      "sense_dna": "GCCTTCTAGTAGTGAACCGTC",
+      "guide_dna": "GACGGTTCACTACTAGAAGGC",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.5992462692126791
+      }
+    },
+    {
+      "rank": 192,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 903,
+      "end": 923,
+      "length": 21,
+      "sense_dna": "TGAAGGAGAAGCTGAGGAACG",
+      "guide_dna": "CGTTCCTCAGCTTCTCCTTCA",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.5992462692126791
+      }
+    },
+    {
+      "rank": 193,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 907,
+      "end": 927,
+      "length": 21,
+      "sense_dna": "GGAGAAGCTGAGGAACGAAAG",
+      "guide_dna": "CTTTCGTTCCTCAGCTTCTCC",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.5992462692126791
+      }
+    },
+    {
+      "rank": 194,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 999,
+      "end": 1019,
+      "length": 21,
+      "sense_dna": "GGAGTCACTGCCAAGTCATAG",
+      "guide_dna": "CTATGACTTGGCAGTGACTCC",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.5992462692126791
+      }
+    },
+    {
+      "rank": 195,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 711,
+      "end": 731,
+      "length": 21,
+      "sense_dna": "AGTAACATGCAAATGTCAGCA",
+      "guide_dna": "TGCTGACATTTGCATGTTACT",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.5931341572443849
+      }
+    },
+    {
+      "rank": 196,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 353,
+      "end": 373,
+      "length": 21,
+      "sense_dna": "GATTTGAGGTTACCTCAAGAA",
+      "guide_dna": "TTCTTGAGGTAACCTCAAATC",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.5931341572443849
+      }
+    },
+    {
+      "rank": 197,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 355,
+      "end": 375,
+      "length": 21,
+      "sense_dna": "TTTGAGGTTACCTCAAGAAGT",
+      "guide_dna": "ACTTCTTGAGGTAACCTCAAA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.5931341572443849
+      }
+    },
+    {
+      "rank": 198,
+      "votes": 2,
+      "tools": [
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 284,
+      "end": 304,
+      "length": 21,
+      "sense_dna": "CTGGATTGGACCTCAATGACA",
+      "guide_dna": "TGTCATTGAGGTCCAATCCAG",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "sirnadesigner": 0.5714285714285714,
+        "sirnaforge": 0.5188360661106144
+      }
+    },
+    {
+      "rank": 199,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 453,
+      "end": 473,
+      "length": 21,
+      "sense_dna": "TGACTACTCAGAAGAGTATGA",
+      "guide_dna": "TCATACTCTTCTGAGTAGTCA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.590248583891508
+      }
+    },
+    {
+      "rank": 200,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 507,
+      "end": 527,
+      "length": 21,
+      "sense_dna": "TGATTCAGTCAGAGTTGAACA",
+      "guide_dna": "TGTTCAACTCTGACTGAATCA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.590248583891508
+      }
+    },
+    {
+      "rank": 201,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 919,
+      "end": 939,
+      "length": 21,
+      "sense_dna": "GAACGAAAGAAACTTCGACAA",
+      "guide_dna": "TTGTCGAAGTTTCTTTCGTTC",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.590248583891508
+      }
+    },
+    {
+      "rank": 202,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 197,
+      "end": 217,
+      "length": 21,
+      "sense_dna": "GCTGCGAAGGACCAATGAGAG",
+      "guide_dna": "CTCTCATTGGTCCTTCGCAGC",
+      "hard_flags": [
+        "gc_outside_window",
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.5857713906339698
+      }
+    },
+    {
+      "rank": 203,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 831,
+      "end": 851,
+      "length": 21,
+      "sense_dna": "TATGTCTGCTGTGATCCTCAC",
+      "guide_dna": "GTGAGGATCACAGCAGACATA",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.5852042532267785
+      }
+    },
+    {
+      "rank": 204,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 297,
+      "end": 317,
+      "length": 21,
+      "sense_dna": "CAATGACACCTACTCTGGGAA",
+      "guide_dna": "TTCCCAGAGTAGGTGTCATTG",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.5794331065210251
+      }
+    },
+    {
+      "rank": 205,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 285,
+      "end": 305,
+      "length": 21,
+      "sense_dna": "TGGATTGGACCTCAATGACAC",
+      "guide_dna": "GTGTCATTGAGGTCCAATCCA",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.5794331065210251
+      }
+    },
+    {
+      "rank": 206,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 363,
+      "end": 383,
+      "length": 21,
+      "sense_dna": "TACCTCAAGAAGTGAGATGTC",
+      "guide_dna": "GACATCTCACTTCTTGAGGTA",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.5737013010258346
+      }
+    },
+    {
+      "rank": 207,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 709,
+      "end": 729,
+      "length": 21,
+      "sense_dna": "GCAGTAACATGCAAATGTCAG",
+      "guide_dna": "CTGACATTTGCATGTTACTGC",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.5737013010258346
+      }
+    },
+    {
+      "rank": 208,
       "votes": 2,
       "tools": [
         "siren",
@@ -423,18 +4680,58 @@
       }
     },
     {
-      "rank": 17,
+      "rank": 209,
       "votes": 2,
       "tools": [
         "siren",
-        "sirnadesigner"
+        "sirnaforge"
       ],
       "transcript_id": "NM_001657.4",
-      "start": 281,
-      "end": 301,
+      "start": 357,
+      "end": 377,
       "length": 21,
-      "sense_dna": "CTGCTGGATTGGACCTCAATG",
-      "guide_dna": "CATTGAGGTCCAATCCAGCAG",
+      "sense_dna": "TGAGGTTACCTCAAGAAGTGA",
+      "guide_dna": "TCACTTCTTGAGGTAACCTCA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.5708157276729577
+      }
+    },
+    {
+      "rank": 210,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 847,
+      "end": 867,
+      "length": 21,
+      "sense_dna": "CTCACAGCTGTTGCTGTTATT",
+      "guide_dna": "AATAACAGCAACAGCTGTGAG",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.5708157276729577
+      }
+    },
+    {
+      "rank": 211,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 917,
+      "end": 937,
+      "length": 21,
+      "sense_dna": "AGGAACGAAAGAAACTTCGAC",
+      "guide_dna": "GTCGAAGTTTCTTTCGTTCCT",
       "hard_flags": [
         "guide_5p_not_AU"
       ],
@@ -443,22 +4740,82 @@
       ],
       "tool_scores": {
         "siren": 0.5,
-        "sirnadesigner": 0.5714285714285714
+        "sirnaforge": 0.5708157276729577
       }
     },
     {
-      "rank": 18,
+      "rank": 212,
       "votes": 2,
       "tools": [
         "siren",
-        "sirnadesigner"
+        "sirnaforge"
       ],
       "transcript_id": "NM_001657.4",
-      "start": 461,
-      "end": 481,
+      "start": 869,
+      "end": 889,
       "length": 21,
-      "sense_dna": "CAGAAGAGTATGATAACGAAC",
-      "guide_dna": "GTTCGTTATCATACTCTTCTG",
+      "sense_dna": "CAGTCCAGCTTAGAAGACAAT",
+      "guide_dna": "ATTGTCTTCTAAGCTGGACTG",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.5679301543200808
+      }
+    },
+    {
+      "rank": 213,
+      "votes": 2,
+      "tools": [
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 824,
+      "end": 844,
+      "length": 21,
+      "sense_dna": "CTGCCTTTATGTCTGCTGTGA",
+      "guide_dna": "TCACAGCAGACATAAAGGCAG",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "sirnadesigner": 0.42857142857142855,
+        "sirnaforge": 0.6342590002256824
+      }
+    },
+    {
+      "rank": 214,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 883,
+      "end": 903,
+      "length": 21,
+      "sense_dna": "AGACAATACGTCAGGAAATAT",
+      "guide_dna": "ATATTTCCTGACGTATTGTCT",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.5587894247167446
+      }
+    },
+    {
+      "rank": 215,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 277,
+      "end": 297,
+      "length": 21,
+      "sense_dna": "TATGCTGCTGGATTGGACCTC",
+      "guide_dna": "GAGGTCCAATCCAGCAGCATA",
       "hard_flags": [
         "guide_5p_not_AU"
       ],
@@ -467,51 +4824,756 @@
       ],
       "tool_scores": {
         "siren": 0.5,
-        "sirnadesigner": 0.5714285714285714
+        "sirnaforge": 0.5444203755080222
       }
     },
     {
-      "rank": 19,
+      "rank": 216,
       "votes": 2,
       "tools": [
         "siren",
-        "sirnadesigner"
+        "sirnaforge"
       ],
       "transcript_id": "NM_001657.4",
-      "start": 985,
-      "end": 1005,
+      "start": 283,
+      "end": 303,
       "length": 21,
-      "sense_dna": "CAGGATATCACATTGGAGTCA",
-      "guide_dna": "TGACTCCAATGTGATATCCTG",
+      "sense_dna": "GCTGGATTGGACCTCAATGAC",
+      "guide_dna": "GTCATTGAGGTCCAATCCAGC",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.5444203755080222
+      }
+    },
+    {
+      "rank": 217,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 465,
+      "end": 485,
+      "length": 21,
+      "sense_dna": "AGAGTATGATAACGAACCACA",
+      "guide_dna": "TGTGGTTCGTTATCATACTCT",
       "hard_flags": [],
       "soft_flags": [],
       "tool_scores": {
         "siren": 0.5,
-        "sirnadesigner": 0.42857142857142855
+        "sirnaforge": 0.5325371168339742
       }
     },
     {
-      "rank": 20,
+      "rank": 218,
       "votes": 2,
       "tools": [
         "siren",
-        "sirnadesigner"
+        "sirnaforge"
       ],
       "transcript_id": "NM_001657.4",
-      "start": 671,
-      "end": 691,
+      "start": 479,
+      "end": 499,
       "length": 21,
-      "sense_dna": "GCATTCACGGAGAATGCAAAT",
-      "guide_dna": "ATTTGCATTCTCCGTGAATGC",
+      "sense_dna": "AACCACAAATACCTGGCTATA",
+      "guide_dna": "TATAGCCAGGTATTTGTGGTT",
       "hard_flags": [],
       "soft_flags": [],
       "tool_scores": {
         "siren": 0.5,
-        "sirnadesigner": 0.42857142857142855
+        "sirnaforge": 0.5325371168339742
       }
     },
     {
-      "rank": 21,
+      "rank": 219,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 921,
+      "end": 941,
+      "length": 21,
+      "sense_dna": "ACGAAAGAAACTTCGACAAGA",
+      "guide_dna": "TCTTGTCGAAGTTTCTTTCGT",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.5296515434810978
+      }
+    },
+    {
+      "rank": 220,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 109,
+      "end": 129,
+      "length": 21,
+      "sense_dna": "GGTCTCCACTCGCTCTTCCAA",
+      "guide_dna": "TTGGAAGAGCGAGTGGAGACC",
+      "hard_flags": [
+        "gc_outside_window"
+      ],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.5251743502235591
+      }
+    },
+    {
+      "rank": 221,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 259,
+      "end": 279,
+      "length": 21,
+      "sense_dna": "ATACTCGGCTCAGGCCATTAT",
+      "guide_dna": "ATAATGGCCTGAGCCGAGTAT",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.5217216394634909
+      }
+    },
+    {
+      "rank": 222,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 273,
+      "end": 293,
+      "length": 21,
+      "sense_dna": "CCATTATGCTGCTGGATTGGA",
+      "guide_dna": "TCCAATCCAGCAGCATAATGG",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.5217216394634909
+      }
+    },
+    {
+      "rank": 223,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 701,
+      "end": 721,
+      "length": 21,
+      "sense_dna": "ACCTGGAAGCAGTAACATGCA",
+      "guide_dna": "TGCATGTTACTGCTTCCAGGT",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.5217216394634909
+      }
+    },
+    {
+      "rank": 224,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 695,
+      "end": 715,
+      "length": 21,
+      "sense_dna": "TAGAGCACCTGGAAGCAGTAA",
+      "guide_dna": "TTACTGCTTCCAGGTGCTCTA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.5188360661106144
+      }
+    },
+    {
+      "rank": 225,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 351,
+      "end": 371,
+      "length": 21,
+      "sense_dna": "TGGATTTGAGGTTACCTCAAG",
+      "guide_dna": "CTTGAGGTAACCTCAAATCCA",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.5131042606154239
+      }
+    },
+    {
+      "rank": 226,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 359,
+      "end": 379,
+      "length": 21,
+      "sense_dna": "AGGTTACCTCAAGAAGTGAGA",
+      "guide_dna": "TCTCACTTCTTGAGGTAACCT",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.510218687262547
+      }
+    },
+    {
+      "rank": 227,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 451,
+      "end": 471,
+      "length": 21,
+      "sense_dna": "TATGACTACTCAGAAGAGTAT",
+      "guide_dna": "ATACTCTTCTGAGTAGTCATA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.5039635310120869
+      }
+    },
+    {
+      "rank": 228,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 455,
+      "end": 475,
+      "length": 21,
+      "sense_dna": "ACTACTCAGAAGAGTATGATA",
+      "guide_dna": "TATCATACTCTTCTGAGTAGT",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.5039635310120869
+      }
+    },
+    {
+      "rank": 229,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 457,
+      "end": 477,
+      "length": 21,
+      "sense_dna": "TACTCAGAAGAGTATGATAAC",
+      "guide_dna": "GTTATCATACTCTTCTGAGTA",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "seed_gc_low",
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.5039635310120869
+      }
+    },
+    {
+      "rank": 230,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 947,
+      "end": 967,
+      "length": 21,
+      "sense_dna": "GAAATGTACATGCTATAGCAT",
+      "guide_dna": "ATGCTATAGCATGTACATTTC",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.5010779576592109
+      }
+    },
+    {
+      "rank": 231,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 1011,
+      "end": 1031,
+      "length": 21,
+      "sense_dna": "AAGTCATAGCCATAAATGATG",
+      "guide_dna": "CATCATTTATGGCTATGACTT",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "seed_gc_low",
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.5010779576592109
+      }
+    },
+    {
+      "rank": 232,
+      "votes": 2,
+      "tools": [
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 918,
+      "end": 938,
+      "length": 21,
+      "sense_dna": "GGAACGAAAGAAACTTCGACA",
+      "guide_dna": "TGTCGAAGTTTCTTTCGTTCC",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "sirnadesigner": 0.42857142857142855,
+        "sirnaforge": 0.5708157276729577
+      }
+    },
+    {
+      "rank": 233,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 717,
+      "end": 737,
+      "length": 21,
+      "sense_dna": "ATGCAAATGTCAGCAAGAATA",
+      "guide_dna": "TATTCTTGCTGACATTTGCAT",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.49819238430633395
+      }
+    },
+    {
+      "rank": 234,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 243,
+      "end": 263,
+      "length": 21,
+      "sense_dna": "GGTGCTGTCGCTCTTGATACT",
+      "guide_dna": "AGTATCAAGAGCGACAGCACC",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.4838233350976116
+      }
+    },
+    {
+      "rank": 235,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 245,
+      "end": 265,
+      "length": 21,
+      "sense_dna": "TGCTGTCGCTCTTGATACTCG",
+      "guide_dna": "CGAGTATCAAGAGCGACAGCA",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.4838233350976116
+      }
+    },
+    {
+      "rank": 236,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 295,
+      "end": 315,
+      "length": 21,
+      "sense_dna": "CTCAATGACACCTACTCTGGG",
+      "guide_dna": "CCCAGAGTAGGTGTCATTGAG",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.4838233350976116
+      }
+    },
+    {
+      "rank": 237,
+      "votes": 2,
+      "tools": [
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 292,
+      "end": 312,
+      "length": 21,
+      "sense_dna": "GACCTCAATGACACCTACTCT",
+      "guide_dna": "AGAGTAGGTGTCATTGAGGTC",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "sirnadesigner": 0.2857142857142857,
+        "sirnaforge": 0.6948560406360931
+      }
+    },
+    {
+      "rank": 238,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 287,
+      "end": 307,
+      "length": 21,
+      "sense_dna": "GATTGGACCTCAATGACACCT",
+      "guide_dna": "AGGTGTCATTGAGGTCCAATC",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.466895745758834
+      }
+    },
+    {
+      "rank": 239,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 475,
+      "end": 495,
+      "length": 21,
+      "sense_dna": "AACGAACCACAAATACCTGGC",
+      "guide_dna": "GCCAGGTATTTGTGGTTCGTT",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "guide_gu_rich",
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.466895745758834
+      }
+    },
+    {
+      "rank": 240,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 371,
+      "end": 391,
+      "length": 21,
+      "sense_dna": "GAAGTGAGATGTCTTCAGGGA",
+      "guide_dna": "TCCCTGAAGACATCTCACTTC",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.4640101724059571
+      }
+    },
+    {
+      "rank": 241,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 1003,
+      "end": 1023,
+      "length": 21,
+      "sense_dna": "TCACTGCCAAGTCATAGCCAT",
+      "guide_dna": "ATGGCTATGACTTGGCAGTGA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.4640101724059571
+      }
+    },
+    {
+      "rank": 242,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 337,
+      "end": 357,
+      "length": 21,
+      "sense_dna": "GACCACAGTGCTGATGGATTT",
+      "guide_dna": "AAATCCATCAGCACTGTGGTC",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.4640101724059571
+      }
+    },
+    {
+      "rank": 243,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 821,
+      "end": 841,
+      "length": 21,
+      "sense_dna": "TAGCTGCCTTTATGTCTGCTG",
+      "guide_dna": "CAGCAGACATAAAGGCAGCTA",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.4640101724059571
+      }
+    },
+    {
+      "rank": 244,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 467,
+      "end": 487,
+      "length": 21,
+      "sense_dna": "AGTATGATAACGAACCACAAA",
+      "guide_dna": "TTTGTGGTTCGTTATCATACT",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.44625206395455314
+      }
+    },
+    {
+      "rank": 245,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 673,
+      "end": 693,
+      "length": 21,
+      "sense_dna": "ATTCACGGAGAATGCAAATAT",
+      "guide_dna": "ATATTTGCATTCTCCGTGAAT",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.44625206395455314
+      }
+    },
+    {
+      "rank": 246,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 957,
+      "end": 977,
+      "length": 21,
+      "sense_dna": "TGCTATAGCATAACTGAAGAT",
+      "guide_dna": "ATCTTCAGTTATGCTATAGCA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.4433664906016762
+      }
+    },
+    {
+      "rank": 247,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 953,
+      "end": 973,
+      "length": 21,
+      "sense_dna": "TACATGCTATAGCATAACTGA",
+      "guide_dna": "TCAGTTATGCTATAGCATGTA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.4433664906016762
+      }
+    },
+    {
+      "rank": 248,
+      "votes": 2,
+      "tools": [
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 352,
+      "end": 372,
+      "length": 21,
+      "sense_dna": "GGATTTGAGGTTACCTCAAGA",
+      "guide_dna": "TCTTGAGGTAACCTCAAATCC",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "sirnadesigner": 0.42857142857142855,
+        "sirnaforge": 0.5131042606154239
+      }
+    },
+    {
+      "rank": 249,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 383,
+      "end": 403,
+      "length": 21,
+      "sense_dna": "CTTCAGGGAGTGAGATTTCCC",
+      "guide_dna": "GGGAAATCTCACTCCCTGAAG",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.42899744139295426
+      }
+    },
+    {
+      "rank": 250,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 1001,
+      "end": 1021,
+      "length": 21,
+      "sense_dna": "AGTCACTGCCAAGTCATAGCC",
+      "guide_dna": "GGCTATGACTTGGCAGTGACT",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.42899744139295426
+      }
+    },
+    {
+      "rank": 251,
       "votes": 2,
       "tools": [
         "siren",
@@ -533,78 +5595,18 @@
       }
     },
     {
-      "rank": 22,
+      "rank": 252,
       "votes": 2,
       "tools": [
         "siren",
-        "sirnadesigner"
+        "sirnaforge"
       ],
       "transcript_id": "NM_001657.4",
-      "start": 815,
-      "end": 835,
+      "start": 271,
+      "end": 291,
       "length": 21,
-      "sense_dna": "CAGCCATAGCTGCCTTTATGT",
-      "guide_dna": "ACATAAAGGCAGCTATGGCTG",
-      "hard_flags": [],
-      "soft_flags": [],
-      "tool_scores": {
-        "siren": 0.5,
-        "sirnadesigner": 0.42857142857142855
-      }
-    },
-    {
-      "rank": 23,
-      "votes": 2,
-      "tools": [
-        "siren",
-        "sirnadesigner"
-      ],
-      "transcript_id": "NM_001657.4",
-      "start": 897,
-      "end": 917,
-      "length": 21,
-      "sense_dna": "GAAATATGAAGGAGAAGCTGA",
-      "guide_dna": "TCAGCTTCTCCTTCATATTTC",
-      "hard_flags": [],
-      "soft_flags": [],
-      "tool_scores": {
-        "siren": 0.5,
-        "sirnadesigner": 0.42857142857142855
-      }
-    },
-    {
-      "rank": 24,
-      "votes": 2,
-      "tools": [
-        "siren",
-        "sirnadesigner"
-      ],
-      "transcript_id": "NM_001657.4",
-      "start": 309,
-      "end": 329,
-      "length": 21,
-      "sense_dna": "CTCTGGGAAGCGTGAACCATT",
-      "guide_dna": "AATGGTTCACGCTTCCCAGAG",
-      "hard_flags": [],
-      "soft_flags": [],
-      "tool_scores": {
-        "siren": 0.5,
-        "sirnadesigner": 0.42857142857142855
-      }
-    },
-    {
-      "rank": 25,
-      "votes": 2,
-      "tools": [
-        "siren",
-        "sirnadesigner"
-      ],
-      "transcript_id": "NM_001657.4",
-      "start": 729,
-      "end": 749,
-      "length": 21,
-      "sense_dna": "GCAAGAATATTTCGGTGAACG",
-      "guide_dna": "CGTTCACCGAAATATTCTTGC",
+      "sense_dna": "GGCCATTATGCTGCTGGATTG",
+      "guide_dna": "CAATCCAGCAGCATAATGGCC",
       "hard_flags": [
         "guide_5p_not_AU"
       ],
@@ -613,22 +5615,22 @@
       ],
       "tool_scores": {
         "siren": 0.5,
-        "sirnadesigner": 0.42857142857142855
+        "sirnaforge": 0.4261118680400774
       }
     },
     {
-      "rank": 26,
+      "rank": 253,
       "votes": 2,
       "tools": [
         "siren",
-        "sirnadesigner"
+        "sirnaforge"
       ],
       "transcript_id": "NM_001657.4",
-      "start": 705,
-      "end": 725,
+      "start": 1027,
+      "end": 1047,
       "length": 21,
-      "sense_dna": "GGAAGCAGTAACATGCAAATG",
-      "guide_dna": "CATTTGCATGTTACTGCTTCC",
+      "sense_dna": "TGATGAGTCGGTCCTCTTTCC",
+      "guide_dna": "GGAAAGAGGACCGACTCATCA",
       "hard_flags": [
         "guide_5p_not_AU"
       ],
@@ -637,77 +5639,890 @@
       ],
       "tool_scores": {
         "siren": 0.5,
-        "sirnadesigner": 0.42857142857142855
+        "sirnaforge": 0.4261118680400774
       }
     },
     {
-      "rank": 27,
+      "rank": 254,
       "votes": 2,
       "tools": [
         "siren",
-        "sirnadesigner"
+        "sirnaforge"
       ],
       "transcript_id": "NM_001657.4",
-      "start": 381,
-      "end": 401,
+      "start": 279,
+      "end": 299,
       "length": 21,
-      "sense_dna": "GTCTTCAGGGAGTGAGATTTC",
-      "guide_dna": "GAAATCTCACTCCCTGAAGAC",
-      "hard_flags": [
-        "guide_5p_not_AU"
-      ],
-      "soft_flags": [
-        "sense_3p_not_AU"
-      ],
-      "tool_scores": {
-        "siren": 0.5,
-        "sirnadesigner": 0.42857142857142855
-      }
-    },
-    {
-      "rank": 28,
-      "votes": 2,
-      "tools": [
-        "siren",
-        "sirnadesigner"
-      ],
-      "transcript_id": "NM_001657.4",
-      "start": 1009,
-      "end": 1029,
-      "length": 21,
-      "sense_dna": "CCAAGTCATAGCCATAAATGA",
-      "guide_dna": "TCATTTATGGCTATGACTTGG",
-      "hard_flags": [],
-      "soft_flags": [
-        "seed_gc_low"
-      ],
-      "tool_scores": {
-        "siren": 0.5,
-        "sirnadesigner": 0.42857142857142855
-      }
-    },
-    {
-      "rank": 29,
-      "votes": 2,
-      "tools": [
-        "siren",
-        "sirnadesigner"
-      ],
-      "transcript_id": "NM_001657.4",
-      "start": 891,
-      "end": 911,
-      "length": 21,
-      "sense_dna": "CGTCAGGAAATATGAAGGAGA",
-      "guide_dna": "TCTCCTTCATATTTCCTGACG",
+      "sense_dna": "TGCTGCTGGATTGGACCTCAA",
+      "guide_dna": "TTGAGGTCCAATCCAGCAGCA",
       "hard_flags": [],
       "soft_flags": [],
       "tool_scores": {
         "siren": 0.5,
-        "sirnadesigner": 0.2857142857142857
+        "sirnaforge": 0.4232262946872009
       }
     },
     {
-      "rank": 30,
+      "rank": 255,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 261,
+      "end": 281,
+      "length": 21,
+      "sense_dna": "ACTCGGCTCAGGCCATTATGC",
+      "guide_dna": "GCATAATGGCCTGAGCCGAGT",
+      "hard_flags": [
+        "gc_outside_window",
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.412636989461368
+      }
+    },
+    {
+      "rank": 256,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 667,
+      "end": 687,
+      "length": 21,
+      "sense_dna": "TTCTGCATTCACGGAGAATGC",
+      "guide_dna": "GCATTCTCCGTGAATGCAGAA",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.4091842787012998
+      }
+    },
+    {
+      "rank": 257,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 845,
+      "end": 865,
+      "length": 21,
+      "sense_dna": "TCCTCACAGCTGTTGCTGTTA",
+      "guide_dna": "TAACAGCAACAGCTGTGAGGA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.40629870534842333
+      }
+    },
+    {
+      "rank": 258,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 1037,
+      "end": 1057,
+      "length": 21,
+      "sense_dna": "GTCCTCTTTCCAGTGGATCAT",
+      "guide_dna": "ATGATCCACTGGAAAGAGGAC",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.40629870534842333
+      }
+    },
+    {
+      "rank": 259,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 289,
+      "end": 309,
+      "length": 21,
+      "sense_dna": "TTGGACCTCAATGACACCTAC",
+      "guide_dna": "GTAGGTGTCATTGAGGTCCAA",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.40629870534842333
+      }
+    },
+    {
+      "rank": 260,
+      "votes": 2,
+      "tools": [
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 1004,
+      "end": 1024,
+      "length": 21,
+      "sense_dna": "CACTGCCAAGTCATAGCCATA",
+      "guide_dna": "TATGGCTATGACTTGGCAGTG",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "sirnadesigner": 0.42857142857142855,
+        "sirnaforge": 0.4640101724059571
+      }
+    },
+    {
+      "rank": 261,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 951,
+      "end": 971,
+      "length": 21,
+      "sense_dna": "TGTACATGCTATAGCATAACT",
+      "guide_dna": "AGTTATGCTATAGCATGTACA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.38854059689701936
+      }
+    },
+    {
+      "rank": 262,
+      "votes": 2,
+      "tools": [
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 402,
+      "end": 422,
+      "length": 21,
+      "sense_dna": "CCCTGTGAGTGAAATGCCTTC",
+      "guide_dna": "GAAGGCATTTCACTCACAGGG",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "sirnadesigner": 0.2857142857142857,
+        "sirnaforge": 0.5992462692126791
+      }
+    },
+    {
+      "rank": 263,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 111,
+      "end": 131,
+      "length": 21,
+      "sense_dna": "TCTCCACTCGCTCTTCCAACA",
+      "guide_dna": "TGTTGGAAGAGCGAGTGGAGA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.3684004009825436
+      }
+    },
+    {
+      "rank": 264,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 257,
+      "end": 277,
+      "length": 21,
+      "sense_dna": "TGATACTCGGCTCAGGCCATT",
+      "guide_dna": "AATGGCCTGAGCCGAGTATCA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.3655148276296667
+      }
+    },
+    {
+      "rank": 265,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 1029,
+      "end": 1049,
+      "length": 21,
+      "sense_dna": "ATGAGTCGGTCCTCTTTCCAG",
+      "guide_dna": "CTGGAAAGAGGACCGACTCAT",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.3655148276296667
+      }
+    },
+    {
+      "rank": 266,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 241,
+      "end": 261,
+      "length": 21,
+      "sense_dna": "GTGGTGCTGTCGCTCTTGATA",
+      "guide_dna": "TATCAAGAGCGACAGCACCAC",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.36262925427678977
+      }
+    },
+    {
+      "rank": 267,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 305,
+      "end": 325,
+      "length": 21,
+      "sense_dna": "CCTACTCTGGGAAGCGTGAAC",
+      "guide_dna": "GTTCACGCTTCCCAGAGTAGG",
+      "hard_flags": [
+        "gc_outside_window",
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.3549255224038338
+      }
+    },
+    {
+      "rank": 268,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 249,
+      "end": 269,
+      "length": 21,
+      "sense_dna": "GTCGCTCTTGATACTCGGCTC",
+      "guide_dna": "GAGCCGAGTATCAAGAGCGAC",
+      "hard_flags": [
+        "gc_outside_window",
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.35203994905095737
+      }
+    },
+    {
+      "rank": 269,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 251,
+      "end": 271,
+      "length": 21,
+      "sense_dna": "CGCTCTTGATACTCGGCTCAG",
+      "guide_dna": "CTGAGCCGAGTATCAAGAGCG",
+      "hard_flags": [
+        "gc_outside_window",
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.35203994905095737
+      }
+    },
+    {
+      "rank": 270,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 253,
+      "end": 273,
+      "length": 21,
+      "sense_dna": "CTCTTGATACTCGGCTCAGGC",
+      "guide_dna": "GCCTGAGCCGAGTATCAAGAG",
+      "hard_flags": [
+        "gc_outside_window",
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.35203994905095737
+      }
+    },
+    {
+      "rank": 271,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 1051,
+      "end": 1071,
+      "length": 21,
+      "sense_dna": "GGATCATAAGACAATGGACCC",
+      "guide_dna": "GGGTCCATTGTCTTATGATCC",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.35147281164376604
+      }
+    },
+    {
+      "rank": 272,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 445,
+      "end": 465,
+      "length": 21,
+      "sense_dna": "GCCGACTATGACTACTCAGAA",
+      "guide_dna": "TTCTGAGTAGTCATAGTCGGC",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.3485872382908891
+      }
+    },
+    {
+      "rank": 273,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 811,
+      "end": 831,
+      "length": 21,
+      "sense_dna": "TTAGCAGCCATAGCTGCCTTT",
+      "guide_dna": "AAAGGCAGCTATGGCTGCTAA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.3485872382908891
+      }
+    },
+    {
+      "rank": 274,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 813,
+      "end": 833,
+      "length": 21,
+      "sense_dna": "AGCAGCCATAGCTGCCTTTAT",
+      "guide_dna": "ATAAAGGCAGCTATGGCTGCT",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.3485872382908891
+      }
+    },
+    {
+      "rank": 275,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 477,
+      "end": 497,
+      "length": 21,
+      "sense_dna": "CGAACCACAAATACCTGGCTA",
+      "guide_dna": "TAGCCAGGTATTTGTGGTTCG",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.3485872382908891
+      }
+    },
+    {
+      "rank": 276,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 991,
+      "end": 1011,
+      "length": 21,
+      "sense_dna": "ATCACATTGGAGTCACTGCCA",
+      "guide_dna": "TGGCAGTGACTCCAATGTGAT",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.3485872382908891
+      }
+    },
+    {
+      "rank": 277,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 997,
+      "end": 1017,
+      "length": 21,
+      "sense_dna": "TTGGAGTCACTGCCAAGTCAT",
+      "guide_dna": "ATGACTTGGCAGTGACTCCAA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.3457016649380131
+      }
+    },
+    {
+      "rank": 278,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 833,
+      "end": 853,
+      "length": 21,
+      "sense_dna": "TGTCTGCTGTGATCCTCACAG",
+      "guide_dna": "CTGTGAGGATCACAGCAGACA",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.31357450727788605
+      }
+    },
+    {
+      "rank": 279,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 995,
+      "end": 1015,
+      "length": 21,
+      "sense_dna": "CATTGGAGTCACTGCCAAGTC",
+      "guide_dna": "GACTTGGCAGTGACTCCAATG",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.31357450727788605
+      }
+    },
+    {
+      "rank": 280,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 843,
+      "end": 863,
+      "length": 21,
+      "sense_dna": "GATCCTCACAGCTGTTGCTGT",
+      "guide_dna": "ACAGCAACAGCTGTGAGGATC",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.3106889339250094
+      }
+    },
+    {
+      "rank": 281,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 807,
+      "end": 827,
+      "length": 21,
+      "sense_dna": "TGCATTAGCAGCCATAGCTGC",
+      "guide_dna": "GCAGCTATGGCTGCTAATGCA",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.3106889339250094
+      }
+    },
+    {
+      "rank": 282,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 699,
+      "end": 719,
+      "length": 21,
+      "sense_dna": "GCACCTGGAAGCAGTAACATG",
+      "guide_dna": "CATGTTACTGCTTCCAGGTGC",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.3106889339250094
+      }
+    },
+    {
+      "rank": 283,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 307,
+      "end": 327,
+      "length": 21,
+      "sense_dna": "TACTCTGGGAAGCGTGAACCA",
+      "guide_dna": "TGGTTCACGCTTCCCAGAGTA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.3078033605721329
+      }
+    },
+    {
+      "rank": 284,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 299,
+      "end": 319,
+      "length": 21,
+      "sense_dna": "ATGACACCTACTCTGGGAAGC",
+      "guide_dna": "GCTTCCCAGAGTAGGTGTCAT",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.3078033605721329
+      }
+    },
+    {
+      "rank": 285,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 255,
+      "end": 275,
+      "length": 21,
+      "sense_dna": "CTTGATACTCGGCTCAGGCCA",
+      "guide_dna": "TGGCCTGAGCCGAGTATCAAG",
+      "hard_flags": [
+        "gc_outside_window"
+      ],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.29432848199342315
+      }
+    },
+    {
+      "rank": 286,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 113,
+      "end": 133,
+      "length": 21,
+      "sense_dna": "TCCACTCGCTCTTCCAACACC",
+      "guide_dna": "GGTGTTGGAAGAGCGAGTGGA",
+      "hard_flags": [
+        "gc_outside_window",
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.29432848199342315
+      }
+    },
+    {
+      "rank": 287,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 199,
+      "end": 219,
+      "length": 21,
+      "sense_dna": "TGCGAAGGACCAATGAGAGCC",
+      "guide_dna": "GGCTCTCATTGGTCCTTCGCA",
+      "hard_flags": [
+        "gc_outside_window",
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.29432848199342315
+      }
+    },
+    {
+      "rank": 288,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 265,
+      "end": 285,
+      "length": 21,
+      "sense_dna": "GGCTCAGGCCATTATGCTGCT",
+      "guide_dna": "AGCAGCATAATGGCCTGAGCC",
+      "hard_flags": [
+        "gc_outside_window"
+      ],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.29144290864054645
+      }
+    },
+    {
+      "rank": 289,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 247,
+      "end": 267,
+      "length": 21,
+      "sense_dna": "CTGTCGCTCTTGATACTCGGC",
+      "guide_dna": "GCCGAGTATCAAGAGCGACAG",
+      "hard_flags": [
+        "gc_outside_window",
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.29144290864054645
+      }
+    },
+    {
+      "rank": 290,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 1031,
+      "end": 1051,
+      "length": 21,
+      "sense_dna": "GAGTCGGTCCTCTTTCCAGTG",
+      "guide_dna": "CACTGGAAAGAGGACCGACTC",
+      "hard_flags": [
+        "gc_outside_window",
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.29144290864054645
+      }
+    },
+    {
+      "rank": 291,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 263,
+      "end": 283,
+      "length": 21,
+      "sense_dna": "TCGGCTCAGGCCATTATGCTG",
+      "guide_dna": "CAGCATAATGGCCTGAGCCGA",
+      "hard_flags": [
+        "gc_outside_window",
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.29144290864054645
+      }
+    },
+    {
+      "rank": 292,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 423,
+      "end": 443,
+      "length": 21,
+      "sense_dna": "TAGTAGTGAACCGTCCTCGGG",
+      "guide_dna": "CCCGAGGACGGTTCACTACTA",
+      "hard_flags": [
+        "gc_outside_window",
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.29144290864054645
+      }
+    },
+    {
+      "rank": 293,
       "votes": 2,
       "tools": [
         "siren",
@@ -729,27 +6544,7 @@
       }
     },
     {
-      "rank": 31,
-      "votes": 2,
-      "tools": [
-        "siren",
-        "sirnadesigner"
-      ],
-      "transcript_id": "NM_001657.4",
-      "start": 817,
-      "end": 837,
-      "length": 21,
-      "sense_dna": "GCCATAGCTGCCTTTATGTCT",
-      "guide_dna": "AGACATAAAGGCAGCTATGGC",
-      "hard_flags": [],
-      "soft_flags": [],
-      "tool_scores": {
-        "siren": 0.5,
-        "sirnadesigner": 0.2857142857142857
-      }
-    },
-    {
-      "rank": 32,
+      "rank": 294,
       "votes": 2,
       "tools": [
         "siren",
@@ -771,27 +6566,366 @@
       }
     },
     {
-      "rank": 33,
+      "rank": 295,
       "votes": 2,
       "tools": [
         "siren",
-        "sirnadesigner"
+        "sirnaforge"
       ],
       "transcript_id": "NM_001657.4",
-      "start": 403,
-      "end": 423,
+      "start": 809,
+      "end": 829,
       "length": 21,
-      "sense_dna": "CCTGTGAGTGAAATGCCTTCT",
-      "guide_dna": "AGAAGGCATTTCACTCACAGG",
+      "sense_dna": "CATTAGCAGCCATAGCTGCCT",
+      "guide_dna": "AGGCAGCTATGGCTGCTAATG",
       "hard_flags": [],
       "soft_flags": [],
       "tool_scores": {
         "siren": 0.5,
-        "sirnadesigner": 0.14285714285714285
+        "sirnaforge": 0.2529774668674756
       }
     },
     {
-      "rank": 34,
+      "rank": 296,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 993,
+      "end": 1013,
+      "length": 21,
+      "sense_dna": "CACATTGGAGTCACTGCCAAG",
+      "guide_dna": "CTTGGCAGTGACTCCAATGTG",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.2529774668674756
+      }
+    },
+    {
+      "rank": 297,
+      "votes": 2,
+      "tools": [
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 286,
+      "end": 306,
+      "length": 21,
+      "sense_dna": "GGATTGGACCTCAATGACACC",
+      "guide_dna": "GGTGTCATTGAGGTCCAATCC",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "sirnadesigner": 0.42857142857142855,
+        "sirnaforge": 0.3106889339250094
+      }
+    },
+    {
+      "rank": 298,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 267,
+      "end": 287,
+      "length": 21,
+      "sense_dna": "CTCAGGCCATTATGCTGCTGG",
+      "guide_dna": "CCAGCAGCATAATGGCCTGAG",
+      "hard_flags": [
+        "gc_outside_window",
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.23661701493588894
+      }
+    },
+    {
+      "rank": 299,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 121,
+      "end": 141,
+      "length": 21,
+      "sense_dna": "CTCTTCCAACACCCGCTCGTT",
+      "guide_dna": "AACGAGCGGGTGTTGGAAGAG",
+      "hard_flags": [
+        "gc_outside_window"
+      ],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.23373144158301246
+      }
+    },
+    {
+      "rank": 300,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 441,
+      "end": 461,
+      "length": 21,
+      "sense_dna": "GGGAGCCGACTATGACTACTC",
+      "guide_dna": "GAGTAGTCATAGTCGGCTCCC",
+      "hard_flags": [
+        "gc_outside_window",
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.23373144158301246
+      }
+    },
+    {
+      "rank": 301,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 439,
+      "end": 459,
+      "length": 21,
+      "sense_dna": "TCGGGAGCCGACTATGACTAC",
+      "guide_dna": "GTAGTCATAGTCGGCTCCCGA",
+      "hard_flags": [
+        "gc_outside_window",
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.23373144158301246
+      }
+    },
+    {
+      "rank": 302,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 669,
+      "end": 689,
+      "length": 21,
+      "sense_dna": "CTGCATTCACGGAGAATGCAA",
+      "guide_dna": "TTGCATTCTCCGTGAATGCAG",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.2302787308229449
+      }
+    },
+    {
+      "rank": 303,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 835,
+      "end": 855,
+      "length": 21,
+      "sense_dna": "TCTGCTGTGATCCTCACAGCT",
+      "guide_dna": "AGCTGTGAGGATCACAGCAGA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.1952659998099416
+      }
+    },
+    {
+      "rank": 304,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 443,
+      "end": 463,
+      "length": 21,
+      "sense_dna": "GAGCCGACTATGACTACTCAG",
+      "guide_dna": "CTGAGTAGTCATAGTCGGCTC",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.1923804264570649
+      }
+    },
+    {
+      "rank": 305,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 839,
+      "end": 859,
+      "length": 21,
+      "sense_dna": "CTGTGATCCTCACAGCTGTTG",
+      "guide_dna": "CAACAGCTGTGAGGATCACAG",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.1923804264570649
+      }
+    },
+    {
+      "rank": 306,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 269,
+      "end": 289,
+      "length": 21,
+      "sense_dna": "CAGGCCATTATGCTGCTGGAT",
+      "guide_dna": "ATCCAGCAGCATAATGGCCTG",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.189494853104188
+      }
+    },
+    {
+      "rank": 307,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 697,
+      "end": 717,
+      "length": 21,
+      "sense_dna": "GAGCACCTGGAAGCAGTAACA",
+      "guide_dna": "TGTTACTGCTTCCAGGTGCTC",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.189494853104188
+      }
+    },
+    {
+      "rank": 308,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 303,
+      "end": 323,
+      "length": 21,
+      "sense_dna": "CACCTACTCTGGGAAGCGTGA",
+      "guide_dna": "TCACGCTTCCCAGAGTAGGTG",
+      "hard_flags": [
+        "gc_outside_window"
+      ],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.17601997452547868
+      }
+    },
+    {
+      "rank": 309,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 1033,
+      "end": 1053,
+      "length": 21,
+      "sense_dna": "GTCGGTCCTCTTTCCAGTGGA",
+      "guide_dna": "TCCACTGGAAAGAGGACCGAC",
+      "hard_flags": [
+        "gc_outside_window"
+      ],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.17601997452547868
+      }
+    },
+    {
+      "rank": 310,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 335,
+      "end": 355,
+      "length": 21,
+      "sense_dna": "GGGACCACAGTGCTGATGGAT",
+      "guide_dna": "ATCCATCAGCACTGTGGTCCC",
+      "hard_flags": [
+        "gc_outside_window"
+      ],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.17313440117260198
+      }
+    },
+    {
+      "rank": 311,
       "votes": 2,
       "tools": [
         "siren",
@@ -813,19 +6947,62 @@
       }
     },
     {
-      "rank": 35,
+      "rank": 312,
       "votes": 2,
       "tools": [
         "siren",
-        "sirnadesigner"
+        "sirnaforge"
       ],
       "transcript_id": "NM_001657.4",
-      "start": 827,
-      "end": 847,
+      "start": 837,
+      "end": 857,
       "length": 21,
-      "sense_dna": "CCTTTATGTCTGCTGTGATCC",
-      "guide_dna": "GGATCACAGCAGACATAAAGG",
+      "sense_dna": "TGCTGTGATCCTCACAGCTGT",
+      "guide_dna": "ACAGCTGTGAGGATCACAGCA",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.13466895939953072
+      }
+    },
+    {
+      "rank": 313,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 301,
+      "end": 321,
+      "length": 21,
+      "sense_dna": "GACACCTACTCTGGGAAGCGT",
+      "guide_dna": "ACGCTTCCCAGAGTAGGTGTC",
       "hard_flags": [
+        "gc_outside_window"
+      ],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.11830850746794447
+      }
+    },
+    {
+      "rank": 314,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 1035,
+      "end": 1055,
+      "length": 21,
+      "sense_dna": "CGGTCCTCTTTCCAGTGGATC",
+      "guide_dna": "GATCCACTGGAAAGAGGACCG",
+      "hard_flags": [
+        "gc_outside_window",
         "guide_5p_not_AU"
       ],
       "soft_flags": [
@@ -833,21 +7010,132 @@
       ],
       "tool_scores": {
         "siren": 0.5,
-        "sirnadesigner": 0.0
+        "sirnaforge": 0.11830850746794447
+      }
+    },
+    {
+      "rank": 315,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 841,
+      "end": 861,
+      "length": 21,
+      "sense_dna": "GTGATCCTCACAGCTGTTGCT",
+      "guide_dna": "AGCAACAGCTGTGAGGATCAC",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.07407191898912045
+      }
+    },
+    {
+      "rank": 316,
+      "votes": 2,
+      "tools": [
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 834,
+      "end": 854,
+      "length": 21,
+      "sense_dna": "GTCTGCTGTGATCCTCACAGC",
+      "guide_dna": "GCTGTGAGGATCACAGCAGAC",
+      "hard_flags": [
+        "gc_outside_window",
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "sirnadesigner": 0.42857142857142855,
+        "sirnaforge": 0.12119408082082136
+      }
+    },
+    {
+      "rank": 317,
+      "votes": 2,
+      "tools": [
+        "siren",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 153,
+      "end": 173,
+      "length": 21,
+      "sense_dna": "TCGTGTCCCAGAGACCGAGTT",
+      "guide_dna": "AACTCGGTCTCTGGGACACGA",
+      "hard_flags": [
+        "gc_outside_window"
+      ],
+      "soft_flags": [],
+      "tool_scores": {
+        "siren": 0.5,
+        "sirnaforge": 0.0
+      }
+    },
+    {
+      "rank": 318,
+      "votes": 2,
+      "tools": [
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 1036,
+      "end": 1056,
+      "length": 21,
+      "sense_dna": "GGTCCTCTTTCCAGTGGATCA",
+      "guide_dna": "TGATCCACTGGAAAGAGGACC",
+      "hard_flags": [],
+      "soft_flags": [],
+      "tool_scores": {
+        "sirnadesigner": 0.14285714285714285,
+        "sirnaforge": 0.3106889339250094
+      }
+    },
+    {
+      "rank": 319,
+      "votes": 2,
+      "tools": [
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "transcript_id": "NM_001657.4",
+      "start": 272,
+      "end": 292,
+      "length": 21,
+      "sense_dna": "GCCATTATGCTGCTGGATTGG",
+      "guide_dna": "CCAATCCAGCAGCATAATGGC",
+      "hard_flags": [
+        "guide_5p_not_AU"
+      ],
+      "soft_flags": [
+        "sense_3p_not_AU"
+      ],
+      "tool_scores": {
+        "sirnadesigner": 0.0,
+        "sirnaforge": 0.4261118680400774
       }
     }
   ],
   "top": [
     "NM_001657.4:495:21",
+    "NM_001657.4:931:21",
+    "NM_001657.4:777:21",
+    "NM_001657.4:897:21",
+    "NM_001657.4:985:21",
     "NM_001657.4:703:21",
     "NM_001657.4:339:21",
-    "NM_001657.4:881:21",
-    "NM_001657.4:777:21",
-    "NM_001657.4:931:21",
-    "NM_001657.4:985:21",
     "NM_001657.4:671:21",
-    "NM_001657.4:815:21",
-    "NM_001657.4:309:21"
+    "NM_001657.4:403:21",
+    "NM_001657.4:815:21"
   ],
   "limitations": [
     "Site-level consensus, not sequence-level intersection: tools emit different lengths and offsets for the same duplex.",

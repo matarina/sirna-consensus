@@ -6,10 +6,23 @@ What it contributes: thermodynamic scoring (ViennaRNA duplex energy, end
 asymmetry, melting temperature) plus optional transcriptome/miRNA off-target
 counts — a family of signals the rule-based tools cannot produce.
 
-The image is pinned by digest on purpose: an unpinned `latest` would silently
-change the candidate set between runs. ``sirnaforge design`` is used by default
-because it skips the (expensive) transcriptome index build; set
-``SIRNAFORGE_SUBCMD=workflow`` to get off-target columns as well.
+The image is pinned by digest on purpose: an unpinned ``latest`` would silently
+change the candidate set between runs.
+
+Verbatim CLI (not guessable — it takes the FASTA positionally, writes one table
+via ``-o`` and has no ``--cores``)::
+
+    sirnaforge design <input.fa> -o /work/out.csv --top-n N --length 21
+
+Caveats worth knowing before comparing it to the other tools:
+
+* ``--length`` is a single value, so this adapter emits one core length per run
+  (``SIRNAFORGE_LENGTH``, default 21); the others may emit several.
+* the tool applies **its own** GC (30-60%) and poly-run filters first, so its hit
+  list is already narrowed — a site it dropped cannot be told apart from a site
+  it scored low.
+* the output is named ``.tsv`` upstream but is actually comma separated, so the
+  delimiter is sniffed rather than assumed.
 
 Output decoding uses siRNAforge's own native columns: ``passenger_sequence`` is
 the sense target window, ``position`` its 1-based start, ``composite_score`` the
@@ -58,66 +71,62 @@ class SirnaforgeTool(Tool):
         if not ok:
             return self.wrap("unavailable", detail)
 
-        subcommand = os.environ.get("SIRNAFORGE_SUBCMD", "design")
         top_n = os.environ.get("SIRNAFORGE_TOP_N", "500")
-        cores = os.environ.get("SIRNAFORGE_CORES", "8")
+        length = os.environ.get("SIRNAFORGE_LENGTH", "21")
         safe = SAFE_NAME.sub("_", transcript_id)
         staged = workdir / f"{safe}.fa"
         shutil.copyfile(fasta, staged)
+        out_file = workdir / "sirnaforge_out.csv"
 
+        # `sirnaforge design` takes the FASTA positionally, writes a single table
+        # via -o, and has no --cores. The container runs as the invoking uid so
+        # the output stays readable to us.
         command = [
             "docker", "run", "--rm",
             "-u", f"{os.getuid()}:{os.getgid()}",
             "-v", f"{workdir}:/work",
             self.env.sirnaforge_image,
-            "sirnaforge", subcommand,
-            "--input-fasta", f"/work/{staged.name}",
-            "--output-dir", "/work",
+            "sirnaforge", "design", f"/work/{staged.name}",
+            "-o", f"/work/{out_file.name}",
             "--top-n", top_n,
-            "--cores", cores,
+            "--length", length,
         ]
-        transcriptome = os.environ.get("SIRNAFORGE_TRANSCRIPTOME",
-                                       self.env.transcriptome)
-        if transcriptome and subcommand == "workflow":
-            command += ["--transcriptome-fasta", transcriptome, "--species", "human"]
         self._execute(command, workdir)
 
-        rows = self._parse(workdir)
+        rows = self._parse(out_file)
         if not rows:
             return self.wrap("empty", "no parsable candidate table produced")
         return self.wrap("ok", f"{len(rows)} hits", rows)
 
-    def _parse(self, workdir: Path) -> list[RawHit]:
+    def _parse(self, path: Path) -> list[RawHit]:
+        if not path.is_file():
+            return []
+        text = path.read_text()
+        if not text.strip():
+            return []
+        delimiter = "\t" if text.splitlines()[0].count("\t") else ","
         hits: list[RawHit] = []
-        for path in sorted(workdir.rglob("*.csv")):
-            if path.name.startswith(".") or not path.is_file():
+        reader = csv.DictReader(text.splitlines(), delimiter=delimiter)
+        if "passenger_sequence" not in (reader.fieldnames or []):
+            return []
+        for row in reader:
+            sense = (row.get("passenger_sequence") or "").strip().upper()
+            position = (row.get("position") or "").strip()
+            if not sense or not position:
                 continue
             try:
-                with path.open(newline="") as handle:
-                    reader = csv.DictReader(handle)
-                    fields = set(reader.fieldnames or ())
-                    if "passenger_sequence" not in fields:
-                        continue
-                    for row in reader:
-                        sense = (row.get("passenger_sequence") or "").strip().upper()
-                        position = (row.get("position") or "").strip()
-                        if not sense or not position:
-                            continue
-                        try:
-                            start = int(float(position))
-                            score = float(row.get("composite_score") or 0.0)
-                        except ValueError:
-                            continue
-                        hits.append(RawHit(
-                            tool=self.name,
-                            sense=sense,
-                            length=len(sense),
-                            start=start,
-                            score=score,
-                            score_kind="composite_score",
-                            extra={"source_file": path.name,
-                                   "off_target_count": row.get("off_target_count")},
-                        ))
-            except OSError as exc:
-                raise ToolError(f"sirnaforge: cannot read {path}: {exc}") from exc
+                start = int(float(position))
+                score = float(row.get("composite_score") or 0.0)
+            except ValueError:
+                continue
+            hits.append(RawHit(
+                tool=self.name,
+                sense=sense,
+                length=len(sense),
+                start=start,
+                score=score,
+                score_kind="composite_score",
+                extra={"off_target_count": row.get("off_target_count"),
+                       "passes_filters": row.get("passes_filters")},
+            ))
         return hits

@@ -169,6 +169,11 @@ not collapse into "whichever model we happened to bundle".
   feature if you want 5–10 orderable duplexes, a gap if you want exhaustive
   coverage. Singletons are kept by default and tagged by tier; drop them with
   `--exclude-singletons`.
+* **Tools that pre-filter narrow the vote.** siRNAforge applies its own GC and
+  poly-run filters before emitting, so a site it dropped is indistinguishable
+  from one it scored low. Ask each tool for as many candidates as it allows.
+* **A 3/3 tier needs at least three working tools.** With two installed,
+  "unanimous" means 2/2 and carries less information.
 * **Upstream bitrot is real.** siRNAdesigner needed a Biopython compatibility
   shim and an output flush; that shim is `tools/_shim.py` and leaves upstream
   untouched.
