@@ -89,11 +89,11 @@ class Resolution:
     matched: bool = True
 
     def describe(self) -> str:
-        bits = [f"selector {self.selector!r} ({self.source})"]
-        if self.gene:
-            bits.append(f"gene {self.gene}")
+        bits = [f"selector {self.selector!r} resolved by {self.source}"]
         if self.mapped_id:
             bits.append(f"maps to {self.mapped_id}")
+        if self.gene:
+            bits.append(f"gene {self.gene}")
         return ", ".join(bits)
 
 
@@ -372,10 +372,10 @@ class SirenTool(Tool):
                     workdir.mkdir(parents=True, exist_ok=True)
                     self._invoke(fasta, transcript_id, workdir)
                     note = (f"fell back to the input FASTA only: transcriptome "
-                            f"screen {resolution.describe()} failed; no "
+                            f"screen failed ({resolution.describe()}); no "
                             f"transcriptome-backed screen happened")
                 else:
-                    note = f"screened against the transcriptome ({resolution.describe()})"
+                    note = f"screened against the transcriptome: {resolution.describe()}"
 
         burden = self._offtarget_burden(workdir)
         hits = self._parse_sirnas(workdir, burden)
