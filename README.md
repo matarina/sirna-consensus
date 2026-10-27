@@ -101,6 +101,7 @@ Run `sirna-consensus tools` until every tool you want reads `OK`.
 | `SIRNA_CONSENSUS_TRANSCRIPTOME` | cDNA FASTA used for off-target search |
 | `SIRNA_DESIGNER_SCRIPT` / `SIREN_BIN` / `SIRNAFORGE_IMAGE` | explicit tool locations |
 | `SIRNAFORGE_SUBCMD` | `design` (default, fast) or `workflow` (adds off-target) |
+| `SIREN_THREADS` | concurrency for SIREN's RNAhybrid stage (default `min(cpu_count, 32)`) |
 | `SIREN_GENE_SELECTOR` | overrides the SIREN `-g` selector (see below) |
 | `SIRNA_CONSENSUS_CACHE` | where the transcriptome header index is cached (default `~/.cache/sirna-consensus`) |
 
@@ -206,6 +207,9 @@ not collapse into "whichever model we happened to bundle".
   filtered a site out.** Widen each tool's internal `top-n` where it allows it.
 * **Tool scores are not comparable across tools** and are only used as a
   tie-break *inside* an equal-vote group.
+* **A transcriptome-wide SIREN screen is tens of CPU-hours.** RNAhybrid runs one
+  process per transcript chunk, so `SIREN_THREADS` is the only knob that matters —
+  against 224 cores the old hardcoded 8 turned a ~40 minute screen into ~5 hours.
 * **Off-target scope is whatever the tool was given.** Pass
   `--transcriptome` to give them a shared reference, otherwise each tool screens
   against its own default (or nothing). SIREN in particular falls back to the

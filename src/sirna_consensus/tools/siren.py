@@ -15,6 +15,13 @@ Because SIREN screens *every* window, its vote means "this site survived an
 off-target screen", not "this site scored well". That is stated plainly in the
 report rather than dressed up as a ranking.
 
+**Cost, and the one knob that matters.** A transcriptome-wide screen is expensive:
+RNAhybrid runs one *process* per transcript chunk and ``-t`` sets how many run at
+once, so wall clock is roughly `(chunks x per-chunk time) / threads`. On a 1.4 GB
+cDNA this is tens of CPU-hours; with the old hardcoded 8 threads against 224 cores
+it took ~5 hours instead of well under one. ``SIREN_THREADS`` overrides the
+default (``min(cpu_count, 32)``).
+
 Selector resolution (``-g``)
 ----------------------------
 SIREN is given a transcriptome with ``-T`` and a *substring selector* with ``-g``
@@ -379,7 +386,7 @@ class SirenTool(Tool):
 
     def _invoke(self, targets: Path, selector: str, workdir: Path) -> None:
         command = [self._exe(), "-T", str(targets), "-g", selector,
-                   "-o", str(workdir), "-t", "8"]
+                   "-o", str(workdir), "-t", str(self.env.siren_threads)]
         self._execute(command, workdir, self.env.child_env())
 
     def _offtarget_burden(self, workdir: Path) -> dict[str, int]:

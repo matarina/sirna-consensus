@@ -71,6 +71,14 @@ class Tool(ABC):
                        hits=hits or [], version=self.version())
 
 
+def _positive_int(raw: str | None, fallback: int) -> int:
+    try:
+        value = int(raw) if raw else fallback
+    except ValueError:
+        return fallback
+    return value if value > 0 else fallback
+
+
 class ToolEnv:
     """Resolved from the environment so a deployment can point at its own installs."""
 
@@ -82,6 +90,8 @@ class ToolEnv:
         self.tool_lib: str = os.environ.get("SIRNA_CONSENSUS_TOOL_LIB", "")
         self.sirnadesigner_script: str = os.environ.get("SIRNA_DESIGNER_SCRIPT", "")
         self.siren_bin: str = os.environ.get("SIREN_BIN", "")
+        self.siren_threads: int = _positive_int(
+            os.environ.get("SIREN_THREADS"), min(os.cpu_count() or 8, 32))
         self.sirnaforge_image: str = os.environ.get(
             "SIRNAFORGE_IMAGE", "ghcr.io/austin-s-h/sirnaforge:sha-4c05e4b")
         self.transcriptome: str = os.environ.get("SIRNA_CONSENSUS_TRANSCRIPTOME", "")

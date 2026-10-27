@@ -207,3 +207,19 @@ def test_coordinates_from_the_mapped_accession_still_place_on_the_input(
     placement = place(hit, input_id, SEQ_C)
     assert placement.ok
     assert placement.core.start == 101         # found by sequence, not by start
+
+
+def test_siren_threads_default_and_override(monkeypatch):
+    from sirna_consensus.tools.base import ToolEnv
+
+    monkeypatch.delenv("SIREN_THREADS", raising=False)
+    assert ToolEnv().siren_threads > 0
+
+    monkeypatch.setenv("SIREN_THREADS", "48")
+    assert ToolEnv().siren_threads == 48
+
+    monkeypatch.setenv("SIREN_THREADS", "nonsense")
+    assert ToolEnv().siren_threads > 0          # falls back, never raises
+
+    monkeypatch.setenv("SIREN_THREADS", "0")
+    assert ToolEnv().siren_threads > 0
