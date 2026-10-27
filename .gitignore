@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+.venv/
+.tools-venv/
+build/
+dist/
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+out/
+work/
+*.tsv
+*.log
+!examples/**/*.tsv

@@ -1,0 +1,100 @@
+"""Command line interface."""
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+from pathlib import Path
+
+from . import __version__
+from .pipeline import Config, run
+from .tools import DEFAULT_TOOLS, available_tools, survey
+
+
+def _build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        prog="sirna-consensus",
+        description="Consensus de novo siRNA design from several external tools.")
+    parser.add_argument("--version", action="version", version=__version__)
+    sub = parser.add_subparsers(dest="command", required=True)
+
+    run_parser = sub.add_parser("run", help="design candidates for one transcript")
+    run_parser.add_argument("--fasta", required=True,
+                            help="single-record transcript FASTA (the coordinate axis)")
+    run_parser.add_argument("--out", required=True, help="output directory")
+    run_parser.add_argument("--tools", default=",".join(DEFAULT_TOOLS),
+                            help=f"comma separated; known: {','.join(available_tools())}")
+    run_parser.add_argument("--min-votes", type=int, default=2,
+                            help="tools that must agree (default 2)")
+    run_parser.add_argument("--top-k", type=int, default=10)
+    run_parser.add_argument("--min-spacing", type=int, default=30,
+                            help="minimum nt between selected top candidates")
+    run_parser.add_argument("--lengths", default="19,20,21")
+    run_parser.add_argument("--offset-tolerance", type=int, default=2,
+                            help="max nt offset for two cores to be the same site")
+    run_parser.add_argument("--transcriptome", default="",
+                            help="cDNA FASTA for tools that support off-target search")
+    run_parser.add_argument("--jobs", type=int, default=3)
+    run_parser.add_argument("--exclude-singletons", action="store_true",
+                            help="drop sites proposed by a single tool")
+
+    sub.add_parser("tools", help="list registered tools and whether they are usable")
+    return parser
+
+
+def _cmd_tools() -> int:
+    rows = survey()
+    width = max(len(name) for name, _, _ in rows)
+    for name, usable, detail in rows:
+        mark = "OK " if usable else "-- "
+        print(f"{mark}{name.ljust(width)}  {detail}")
+    if not any(usable for _, usable, _ in rows):
+        print("\nno tool is usable; see README 'Installing the external tools'",
+              file=sys.stderr)
+        return 1
+    return 0
+
+
+def _cmd_run(args: argparse.Namespace) -> int:
+    lengths = tuple(int(x) for x in args.lengths.split(",") if x.strip())
+    config = Config(
+        fasta=args.fasta,
+        out_dir=args.out,
+        tools=tuple(t.strip() for t in args.tools.split(",") if t.strip()),
+        lengths=lengths,
+        min_votes=args.min_votes,
+        top_k=args.top_k,
+        min_spacing=args.min_spacing,
+        offset_tolerance=args.offset_tolerance,
+        transcriptome=args.transcriptome,
+        jobs=args.jobs,
+        include_singletons=not args.exclude_singletons,
+    )
+    result = run(config)
+    counts = result["counts"]
+    print(f"transcript {result['transcript_id']} ({result['transcript_length']} nt)")
+    for tool in result["tools"]:
+        print(f"  {tool['tool']:<16} {tool['status']:<12} {tool['hits']:>6} hits  {tool['detail']}")
+    print(f"  placed {counts['placed']} · sites {counts['clusters']} · "
+          f"unanimous {counts['consensus_unanimous']} · passing {counts['passing']} · "
+          f"top {counts['top']}")
+    out = Path(result["config"].get("out_dir", args.out))
+    print(f"wrote {args.out}/candidates.tsv, top_guides.fa, report.html, run.json")
+    del out
+    print(json.dumps({"tool": "sirna-consensus", "counts": counts}))
+    return 0
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = _build_parser()
+    args = parser.parse_args(argv)
+    if args.command == "tools":
+        return _cmd_tools()
+    if args.command == "run":
+        return _cmd_run(args)
+    parser.error("unknown command")
+    return 2
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
