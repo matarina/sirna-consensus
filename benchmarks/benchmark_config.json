@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "scope": "conventional human-targeting siRNAs; separate reporter and endogenous assays",
+  "primary_k": 5,
+  "secondary_k": 10,
+  "thresholds": {"percent_inhibition": 70, "normalized_activity": 0.7},
+  "sensitivity_thresholds": [0.6, 0.8],
+  "minimum_complete_paired_genes": 5,
+  "minimum_precision_gain": 0.1,
+  "bootstrap_replicates": 10000,
+  "permutations": 1000,
+  "seed": 2026,
+  "primary_spacing": 0,
+  "diverse_panel_spacing": 30,
+  "primary_gene_weighting": "equal genes; equal assay weights within gene",
+  "screen_criterion": "exclude unintended-gene exact or one-mismatch sites; require intended-gene exact hit",
+  "holdout_status": "unavailable: database studies overlap frozen model development/evaluation",
+  "independent_validation_passed": false
+}

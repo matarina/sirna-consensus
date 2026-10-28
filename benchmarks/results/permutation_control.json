@@ -1,0 +1,15 @@
+{
+  "stratum": [
+    "huesken2005",
+    "normalized_activity",
+    "binding19-guide21-overhang2-passenger_unknown"
+  ],
+  "genes": 25,
+  "permutations": 1000,
+  "seed": 2026,
+  "observed_gene_precision_at_5": 0.928,
+  "null_mean": 0.510272,
+  "p_one_sided": 0.000999000999000999,
+  "benchmark_sha256": "326784ff93a4f78fb3f821d7a29b4cac98f9b42a18b242a5e68434f07e947d75",
+  "independent_validation_passed": false
+}

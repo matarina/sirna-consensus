@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "status": "development_only",
+  "strategies": {
+    "binding19-guide21-overhang2-passenger_unknown": "quality"
+  },
+  "scorer_manifest_sha256": "85330ac8957d24157e4daa93ec0a69b2d9ec69b47dced2bb9615838aef3a1324",
+  "measurement_sha256": "326784ff93a4f78fb3f821d7a29b4cac98f9b42a18b242a5e68434f07e947d75",
+  "independent_validation_passed": false
+}

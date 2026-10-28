@@ -15,7 +15,8 @@ Output decoding (the tool's own convention, verified against its source):
 * the guide is the reverse complement of ``cand[0:21]``;
 * CSV columns are ``start, end, cand, score, guide, passenger[, extras]``.
 
-So the sense-strand target core is the passenger, and it starts at
+The sense-strand paired core is passenger[:19]; both original 21-nt strands
+and their 3-prime overhangs are preserved separately. The paired core starts at
 ``reported_start + 2``.
 """
 from __future__ import annotations
@@ -23,7 +24,7 @@ from __future__ import annotations
 import csv
 from pathlib import Path
 
-from ..types import RawHit, ToolRun
+from ..types import RawHit, ToolRun, to_dna, reverse_complement
 from .base import Tool
 
 CANDIDATE_SCRIPT_SUFFIXES = (
@@ -62,7 +63,9 @@ class SirnaDesignerTool(Tool):
         return True, f"script found at {script}"
 
     def version(self) -> str:
-        return "upstream main (pinned by checkout)"
+        import hashlib
+        script = self._script()
+        return "sha256:" + hashlib.sha256(Path(script).read_bytes()).hexdigest() if script else "unavailable"
 
     def run(self, fasta: Path, workdir: Path, transcript_id: str) -> ToolRun:
         ok, detail = self.availability()
@@ -100,16 +103,21 @@ class SirnaDesignerTool(Tool):
                     score = float(row[3])
                 except ValueError:
                     continue
-                passenger = row[5].strip().upper()
+                passenger = to_dna(row[5])
                 if not passenger:
                     continue
+                guide = to_dna(row[4])
+                if len(guide) != 21 or len(passenger) != 21 or reverse_complement(guide[:19]) != passenger[:19]:
+                    raise ValueError("siRNAdesigner emitted an inconsistent staggered duplex")
                 hits.append(RawHit(
                     tool=self.name,
-                    sense=passenger,
-                    length=len(passenger),
+                    sense=passenger[:19],
+                    length=19,
                     start=start + 2,
                     score=score,
                     score_kind="designer_rule_score",
-                    extra={"reported_start": start, "guide": row[4]},
+                    extra={"reported_start": start, "ordered_guide": guide,
+                           "passenger": passenger, "guide_overhang": guide[19:],
+                           "passenger_overhang": passenger[19:]},
                 ))
         return hits

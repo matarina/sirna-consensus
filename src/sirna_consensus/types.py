@@ -2,13 +2,14 @@
 
 Everything downstream of a tool adapter speaks in :class:`Core`: a stretch of the
 target transcript on the *sense* strand, in DNA alphabet, with 1-based inclusive
-coordinates.  A guide is always the reverse complement of its core, so no stage
-ever invents a base.
+coordinates.  A guide retains its original sequence; its paired portion is the reverse
+complement of the core. Documented overhangs and passenger identity are separate.
 """
 from __future__ import annotations
 
 from dataclasses import dataclass, field
 from typing import Any
+import hashlib
 
 DNA_COMPLEMENT = str.maketrans("ACGT", "TGCA")
 VALID_LENGTHS = (19, 20, 21)
@@ -30,13 +31,31 @@ class Core:
     start: int
     length: int
     sense: str
+    ordered_guide: str = ""
+    passenger: str = ""
+    guide_overhang: str = ""
+    passenger_overhang: str = ""
 
     def __post_init__(self) -> None:
+        if self.length <= 0:
+            raise ValueError("core length must be positive")
+        if self.guide_overhang and not self.ordered_guide:
+            raise ValueError("guide overhang requires the original ordered guide")
+        if self.passenger_overhang and not self.passenger:
+            raise ValueError("passenger overhang requires the original passenger")
         if self.length != len(self.sense):
             raise ValueError(
                 f"length {self.length} disagrees with sequence {self.sense!r}")
         if self.start < 1:
             raise ValueError("start is 1-based and inclusive")
+        for sequence in (self.sense, self.ordered_guide, self.passenger,
+                         self.guide_overhang, self.passenger_overhang):
+            if set(sequence) - set("ACGT"):
+                raise ValueError("molecular sequences must use uppercase DNA alphabet")
+        if self.ordered_guide and self.ordered_guide != reverse_complement(self.sense) + self.guide_overhang:
+            raise ValueError("guide does not match paired core plus documented 3-prime overhang")
+        if self.passenger and self.passenger != self.sense + self.passenger_overhang:
+            raise ValueError("passenger does not match paired core plus documented 3-prime overhang")
 
     @property
     def end(self) -> int:
@@ -44,11 +63,23 @@ class Core:
 
     @property
     def guide(self) -> str:
-        return reverse_complement(self.sense)
+        return self.ordered_guide or reverse_complement(self.sense)
+
+    @property
+    def duplex_format(self) -> str:
+        passenger = f"passenger{len(self.passenger)}-overhang{len(self.passenger_overhang)}" if self.passenger else "passenger_unknown"
+        return f"binding{self.length}-guide{len(self.guide)}-overhang{len(self.guide_overhang)}-{passenger}"
+
+    @property
+    def molecule_id(self) -> str:
+        text = "|".join((self.guide, self.passenger, self.guide_overhang,
+                         self.passenger_overhang, self.duplex_format))
+        return hashlib.sha256(text.encode()).hexdigest()
 
     @property
     def key(self) -> str:
-        return f"{self.transcript_id}:{self.start}:{self.length}"
+        base = f"{self.transcript_id}:{self.start}:{self.length}"
+        return base + (":" + self.molecule_id[:16] if self.guide_overhang or self.passenger else "")
 
     def interval(self) -> tuple[int, int]:
         return self.start, self.end
@@ -118,6 +149,7 @@ class Candidate:
     score: float = 0.0
     score_parts: dict[str, float] = field(default_factory=dict)
     rank: int = 0
+    nearby_tools: list[str] = field(default_factory=list)
 
     @property
     def consensus_tier(self) -> str:

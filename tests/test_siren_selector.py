@@ -211,11 +211,8 @@ def test_fallback_parse_never_reads_the_aborted_attempt_summary(
 
     fasta = _input(tmp_path, "NM_009.4 (GENEONE)", SEQ_C)
     tool = _Leaky(_env(transcriptome))
-    run = tool.run(fasta, tmp_path / "wd", "NM_009.4")
-    assert run.status == "ok"
-    assert "fell back to the input FASTA only" in run.detail
-    # burden comes from the retry's own directory, which has no summary
-    assert run.hits[0].extra["offtargets"] == 0
+    with pytest.raises(ToolError, match="missing off_targets_summary"):
+        tool.run(fasta, tmp_path / "wd", "NM_009.4")
     # the aborted attempt's artifacts are preserved, but isolated
     assert (tmp_path / "wd" / "transcriptome" /
             "off_targets_summary.tsv").is_file()

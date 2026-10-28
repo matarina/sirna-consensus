@@ -1,0 +1,107 @@
+{
+  "candidate_sha256": "6560281c99c5ad57c782b248a2e84b3fc69153b5568ae87af45f81f904e580d5",
+  "baseline_sha256": "2d50316cf10d228276d1d570fc7902147e5e78ee566241efc8386b073430cc1d",
+  "comparisons": [
+    {
+      "stratum": [
+        "huesken2005",
+        "normalized_activity",
+        "binding19-guide21-overhang2-passenger_unknown",
+        "measured",
+        5
+      ],
+      "minimum_genes": 5,
+      "evidence_status": "evaluable",
+      "paired_genes": 25,
+      "eligible_genes": 25,
+      "mean_difference": 0.024000000000000004,
+      "ci95": [
+        -0.007999999999999998,
+        0.05600000000000001
+      ],
+      "completion_difference": 0,
+      "budget_yield_difference": 0.024000000000000004,
+      "per_gene_difference": {
+        "C6orf110": 0.0,
+        "CDC34": 0.0,
+        "FLJ11011": 0.0,
+        "HIP2": 0.0,
+        "HSPC150": 0.0,
+        "NOG": 0.0,
+        "P2RX3": -0.19999999999999996,
+        "RAB6IP1": 0.0,
+        "SOST": 0.19999999999999996,
+        "TC10": 0.0,
+        "UBE2B": 0.0,
+        "UBE2C": 0.0,
+        "UBE2D3": 0.0,
+        "UBE2E3": 0.0,
+        "UBE2G1": 0.0,
+        "UBE2H": 0.0,
+        "UBE2I": 0.0,
+        "UBE2J1": 0.0,
+        "UBE2L3": 0.0,
+        "UBE2L6": 0.20000000000000007,
+        "UBE2M": 0.19999999999999996,
+        "UBE2N": 0.0,
+        "UBE2S": 0.20000000000000007,
+        "UBE2V1": 0.0,
+        "Ufc1": 0.0
+      },
+      "numeric_criterion_met": false,
+      "independent_validation_passed": false,
+      "note": "numeric criteria alone do not establish holdout independence"
+    },
+    {
+      "stratum": [
+        "huesken2005",
+        "normalized_activity",
+        "binding19-guide21-overhang2-passenger_unknown",
+        "measured",
+        10
+      ],
+      "minimum_genes": 5,
+      "evidence_status": "evaluable",
+      "paired_genes": 25,
+      "eligible_genes": 25,
+      "mean_difference": 0.012000000000000002,
+      "ci95": [
+        -0.007999999999999985,
+        0.03599999999999999
+      ],
+      "completion_difference": 0,
+      "budget_yield_difference": 0.012000000000000002,
+      "per_gene_difference": {
+        "C6orf110": 0.10000000000000009,
+        "CDC34": -0.09999999999999998,
+        "FLJ11011": 0.0,
+        "HIP2": 0.0,
+        "HSPC150": 0.0,
+        "NOG": 0.0,
+        "P2RX3": 0.0,
+        "RAB6IP1": 0.19999999999999996,
+        "SOST": 0.0,
+        "TC10": 0.0,
+        "UBE2B": 0.0,
+        "UBE2C": 0.0,
+        "UBE2D3": 0.0,
+        "UBE2E3": 0.0,
+        "UBE2G1": 0.0,
+        "UBE2H": 0.0,
+        "UBE2I": 0.0,
+        "UBE2J1": 0.09999999999999998,
+        "UBE2L3": 0.0,
+        "UBE2L6": 0.0,
+        "UBE2M": 0.0,
+        "UBE2N": 0.0,
+        "UBE2S": 0.0,
+        "UBE2V1": 0.0,
+        "Ufc1": 0.0
+      },
+      "numeric_criterion_met": false,
+      "independent_validation_passed": false,
+      "note": "numeric criteria alone do not establish holdout independence"
+    }
+  ],
+  "independent_validation_passed": false
+}

@@ -88,7 +88,7 @@ def diverse_top(candidates: list[Candidate], top_k: int,
 
     ``min_votes`` is a hard floor for the exported Top-K. Singletons remain in
     ``candidates.tsv`` / ``all_candidates.fa`` for inspection but do not enter
-    the order-ready set unless the caller sets ``min_votes <= 1``.
+    the research-selected set unless the caller sets ``min_votes <= 1``.
     """
     kept: list[Candidate] = []
     for candidate in candidates:
@@ -109,7 +109,7 @@ def diverse_top_balanced(candidates: list[Candidate], top_k: int,
 
     Same spacing floor as :func:`diverse_top`, plus a cap on how many selected
     guides may come from one transcript bin. This is a comparison mode, not the
-    default, so the exported order-ready set remains the deterministic greedy one.
+    default, so the exported research-selected set remains the deterministic greedy one.
     """
     if bin_size <= 0 or max_per_bin <= 0:
         raise ValueError("bin_size and max_per_bin must be positive")

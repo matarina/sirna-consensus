@@ -45,10 +45,9 @@ class Cluster:
 
     def add(self, tool: str, core: Core, score: float | None) -> None:
         self.members.append(core)
-        if tool not in self.tools or score is not None:
-            previous = self.tools.get(tool)
-            if previous is None or score is not None:
-                self.tools[tool] = score
+        previous = self.tools.get(tool)
+        self.tools[tool] = (max(previous, score) if previous is not None and score is not None
+                            else score if score is not None else previous)
 
     def anchor(self) -> Core:
         """Leftmost geometry in the cluster, used as the bounded-site anchor."""
@@ -158,7 +157,7 @@ def bucket(items: list[tuple[str, Core, float | None]]) -> list[Cluster]:
     """
     buckets: dict[tuple[str, int, int], Cluster] = {}
     for tool, core, score in items:
-        key = (core.transcript_id, core.start, core.length)
+        key = (core.transcript_id, core.start, core.molecule_id)
         buckets.setdefault(key, Cluster()).add(tool, core, score)
     return list(buckets.values())
 

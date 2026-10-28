@@ -1,0 +1,46 @@
+{
+  "created_utc": "2026-10-28T08:23:07.500948+00:00",
+  "figshare_article": 25908841,
+  "version": 1,
+  "snapshot_records": 3544,
+  "studies": {
+    "Huesken": 2431,
+    "Harborth": 44,
+    "Ui-Tei": 37,
+    "Khovorova": 10,
+    "Reynolds": 244,
+    "Vickers": 76,
+    "Takayuki Katoh": 702
+  },
+  "artifacts": {
+    "target_gene_sequences.fa": {
+      "sha256": "37238b168a26045eb5fa00402ee4cf0a41e82e054df8554e4f031a4a448c5c67",
+      "publisher_md5": "9ef5e26e7cf2058277341de5dd5e1b82",
+      "source_url": "https://ndownloader.figshare.com/files/46578241",
+      "bytes": 196534
+    },
+    "sirna_data.xlsx": {
+      "sha256": "6a2d01cdbc4d522ea783d164868266883f3cdb5ca1b267f4959ad224926bfd47",
+      "publisher_md5": "e980c7c3cd2d9a07319696ce4e96f9b8",
+      "source_url": "https://ndownloader.figshare.com/files/46578250",
+      "bytes": 594693
+    }
+  },
+  "figshare_license": {
+    "value": 1,
+    "name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0/"
+  },
+  "paper_license": "CC BY-NC 2.0 UK; provenance discrepancy retained",
+  "redistribution_policy": "raw snapshot local only pending license reconciliation",
+  "independent_holdout_eligible": false,
+  "reasons": [
+    "Seven source studies occur in OligoFormer development/evaluation collections; checkpoint-specific exposure unverified",
+    "Huesken has previous project training and evaluation exposure",
+    "Database Huesken metadata (HeLa/luciferase) conflicts with original-source H1299/fluorescent-reporter curation",
+    "Database percent-inhibition field rescales Huesken normalized activity; do not interpret it as percent knockdown"
+  ],
+  "checkpoint_training_audit": "unverified; no independent claim permitted",
+  "external_holdout_records": 0,
+  "independent_validation_passed": false
+}

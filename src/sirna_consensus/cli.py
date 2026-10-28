@@ -30,6 +30,7 @@ def _build_parser() -> argparse.ArgumentParser:
     run_parser.add_argument("--min-spacing", type=int, default=30,
                             help="minimum nt between selected top candidates")
     run_parser.add_argument("--lengths", default="19,20,21")
+    run_parser.add_argument("--candidate-mode", choices=["exact", "legacy_site"], default="exact")
     run_parser.add_argument("--offset-tolerance", type=int, default=2,
                             help="max nt offset for cores to be grouped into a site")
     run_parser.add_argument("--site-mode", choices=["bounded", "exact", "fuzzy"],
@@ -56,6 +57,8 @@ def _build_parser() -> argparse.ArgumentParser:
     run_parser.add_argument("--seed-gc-low", type=float, default=0.25)
 
     sub.add_parser("tools", help="list registered tools and whether they are usable")
+    from .select_cli import add_parser
+    add_parser(sub)
     return parser
 
 
@@ -131,6 +134,7 @@ def _cmd_run(args: argparse.Namespace) -> int:
         transcriptome=args.transcriptome,
         jobs=args.jobs,
         site_mode=args.site_mode,
+        candidate_mode=args.candidate_mode,
         include_singletons=not args.exclude_singletons,
         strict_specificity=args.strict_specificity,
         siren_max_offtargets=args.siren_max_offtargets,
@@ -160,6 +164,9 @@ def _cmd_run(args: argparse.Namespace) -> int:
 def main(argv: list[str] | None = None) -> int:
     parser = _build_parser()
     args = parser.parse_args(argv)
+    if args.command == "select":
+        from .select_cli import command
+        return command(args)
     if args.command == "tools":
         return _cmd_tools()
     if args.command == "run":

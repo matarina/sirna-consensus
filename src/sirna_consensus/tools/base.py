@@ -52,6 +52,7 @@ class Tool(ABC):
     def _execute(self, command: list[str], workdir: Path,
                  extra_env: dict[str, str] | None = None) -> str:
         import subprocess
+        self.last_command = list(command)
         env = dict(os.environ)
         if extra_env:
             env.update(extra_env)
@@ -71,6 +72,7 @@ class Tool(ABC):
              hits: list[RawHit] | None = None) -> ToolRun:
         return ToolRun(tool=self.name, status=status, detail=detail,
                        hits=hits or [], version=self.version(),
+                       command=getattr(self, "last_command", []),
                        role=self.role, acceptance=self.acceptance)
 
 

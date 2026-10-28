@@ -13,7 +13,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any
 
-from .types import Core, RawHit
+from .types import Core, RawHit, to_dna
 
 OFFSET_TOLERANCE = 2
 
@@ -61,28 +61,35 @@ def place(hit: RawHit, transcript_id: str, sequence: str,
           lengths: tuple[int, ...] = (19, 20, 21)) -> Placement:
     """Locate one hit on the transcript, or explain why it could not be placed."""
     sense = hit.sense
+    if any(hit.extra.get(key) for key in (
+            "source_guide_overhang", "source_passenger_overhang",
+            "source_guide_modifications", "source_passenger_modifications")):
+        return Placement(reason="unsupported_source_chemistry_requires_explicit_adapter")
     if not sense:
         return Placement(reason="empty_sequence")
     if len(sense) not in lengths:
         return Placement(reason=f"length_{len(sense)}_not_supported")
 
     positions = _positions(sequence, sense)
+    def core_at(start: int) -> Core:
+        return Core(transcript_id, start, len(sense), sense, **{
+            key: to_dna(hit.extra.get(key, "")) for key in
+            ("ordered_guide", "passenger", "guide_overhang", "passenger_overhang")})
     if hit.start is not None:
         expected = int(hit.start)
         if (1 <= expected <= len(sequence) - len(sense) + 1
                 and sequence[expected - 1: expected - 1 + len(sense)] == sense):
-            return Placement(core=Core(transcript_id, expected, len(sense), sense))
+            return Placement(core=core_at(expected))
         # The tool reported a coordinate that does not agree with its own
         # sequence. Trust the sequence, but only if it is unambiguous there.
         if len(positions) == 1:
-            return Placement(core=Core(transcript_id, positions[0], len(sense), sense))
+            return Placement(core=core_at(positions[0]))
         if positions:
-            nearest = min(positions, key=lambda p: abs(p - expected))
-            return Placement(core=Core(transcript_id, nearest, len(sense), sense))
+            return Placement(reason="ambiguous_repeat")
         return Placement(reason="not_found_in_transcript")
 
     if len(positions) == 1:
-        return Placement(core=Core(transcript_id, positions[0], len(sense), sense))
+        return Placement(core=core_at(positions[0]))
     if not positions:
         return Placement(reason="not_found_in_transcript")
     return Placement(reason="ambiguous_repeat")
@@ -93,10 +100,15 @@ def normalize_placed(hits: list[RawHit], transcript_id: str, sequence: str,
                      ) -> tuple[list[PlacedHit], NormalizeStats]:
     """Place and de-duplicate hits, carrying each hit's score and evidence."""
     stats = NormalizeStats()
-    seen: set[tuple[str, int, int]] = set()
+    seen: set[tuple[str, int, str]] = set()
     placed: list[PlacedHit] = []
-    for hit in hits:
+    for hit in sorted(hits, key=lambda h: (h.tool, h.sense, h.start or 0,
+                     -(h.score if h.score is not None else float('-inf')), repr(sorted(h.extra.items())))):
         stats.total += 1
+        import math
+        if hit.score is not None and not math.isfinite(hit.score):
+            stats.reject("nonfinite_score")
+            continue
         hit.normalise_sequence()
         placement = place(hit, transcript_id, sequence, lengths)
         if not placement.ok:
@@ -104,7 +116,7 @@ def normalize_placed(hits: list[RawHit], transcript_id: str, sequence: str,
             continue
         core = placement.core
         assert core is not None
-        dedup_key = (hit.tool, core.start, core.length)
+        dedup_key = (hit.tool, core.start, core.molecule_id)
         if dedup_key in seen:
             stats.duplicates += 1
             continue

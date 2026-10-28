@@ -9,7 +9,7 @@ filters that stay under the caller's control.
 """
 from __future__ import annotations
 
-__version__ = "1.0.0"
+__version__ = "1.1.0"
 
 from .consensus import Cluster, agree, bounded_cluster, cluster  # noqa: E402
 from .filters import FilterConfig, hard_flags, soft_flags  # noqa: E402

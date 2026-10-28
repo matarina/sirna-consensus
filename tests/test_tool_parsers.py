@@ -31,11 +31,12 @@ def test_unknown_tool_is_rejected():
 def test_sirnadesigner_parses_its_csv(tmp_path: Path):
     path = tmp_path / "_TX.csv"
     # start,end,24nt,score,guide,passenger
-    path.write_text(f"100,122,{SEQ},7,UCUCCUUCATATTTCCTGACG,{SEQ}\n")
+    path.write_text("100,122,AGCTTACGATCGTACCTGATACGA,7,TATCAGGTACGATCGTAAGCT,CTTACGATCGTACCTGATACG\n")
     hits = get_tool("sirnadesigner")._parse(path)
     assert len(hits) == 1
     assert hits[0].start == 102          # passenger starts 2 nt into the 24-mer
-    assert hits[0].sense == SEQ
+    assert hits[0].sense == "CTTACGATCGTACCTGATA"
+    assert hits[0].extra["ordered_guide"] == "TATCAGGTACGATCGTAAGCT"
     assert hits[0].score == 7.0
 
 

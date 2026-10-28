@@ -31,13 +31,14 @@ tool score.
 from __future__ import annotations
 
 import csv
+import json
 import os
 import re
 import shutil
 import subprocess
 from pathlib import Path
 
-from ..types import RawHit, ToolRun
+from ..types import RawHit, ToolRun, to_dna, reverse_complement
 from .base import Tool
 
 SAFE_NAME = re.compile(r"[^A-Za-z0-9_.-]")
@@ -63,10 +64,11 @@ class SirnaforgeTool(Tool):
         if completed.returncode != 0:
             return False, (f"image {self.env.sirnaforge_image} not pulled locally "
                            f"(`docker pull` it first)")
-        return True, f"image {self.env.sirnaforge_image} present"
+        self.image_id = json.loads(completed.stdout)[0]["Id"]
+        return True, f"image {self.env.sirnaforge_image} present ({self.image_id})"
 
     def version(self) -> str:
-        return self.env.sirnaforge_image.rsplit(":", 1)[-1][:12]
+        return getattr(self, "image_id", self.env.sirnaforge_image)
 
     def run(self, fasta: Path, workdir: Path, transcript_id: str) -> ToolRun:
         ok, detail = self.availability()
@@ -87,11 +89,12 @@ class SirnaforgeTool(Tool):
             "docker", "run", "--rm",
             "-u", f"{os.getuid()}:{os.getgid()}",
             "-v", f"{workdir}:/work",
-            self.env.sirnaforge_image,
+            getattr(self, "image_id", self.env.sirnaforge_image),
             "sirnaforge", "design", f"/work/{staged.name}",
             "-o", f"/work/{out_file.name}",
             "--top-n", top_n,
             "--length", length,
+            "--modifications", "none", "--overhang", "",
         ]
         self._execute(command, workdir)
 
@@ -103,6 +106,9 @@ class SirnaforgeTool(Tool):
             "top_n": top_n,
             "length": length,
             "image": self.env.sirnaforge_image,
+            "image_id": getattr(self, "image_id", "unverified"),
+            "chemistry": "unmodified; no appended overhang",
+            "top_n_semantics": "reporting/off-target limit; upstream emits all generated candidates",
         }
         return run
 
@@ -135,6 +141,12 @@ class SirnaforgeTool(Tool):
                 score=score,
                 score_kind="composite_score",
                 extra={"off_target_count": row.get("off_target_count"),
-                       "passes_filters": row.get("passes_filters")},
+                       "passes_filters": row.get("passes_filters"),
+                       "ordered_guide": to_dna(row.get("guide_sequence") or reverse_complement(to_dna(sense))),
+                       "passenger": to_dna(sense),
+                       "source_guide_overhang": row.get("guide_overhang", ""),
+                       "source_passenger_overhang": row.get("passenger_overhang", ""),
+                       "source_guide_modifications": row.get("guide_modifications", ""),
+                       "source_passenger_modifications": row.get("passenger_modifications", "")},
             ))
         return hits

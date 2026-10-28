@@ -25,7 +25,7 @@ from __future__ import annotations
 import json
 import uuid
 from concurrent.futures import ThreadPoolExecutor
-from dataclasses import dataclass, field
+from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -38,7 +38,7 @@ from .rank import build_candidates, diverse_top
 from .tools import DEFAULT_TOOLS, ToolEnv, get_tool
 from .types import Core, ToolRun
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 
 
 @dataclass
@@ -51,6 +51,7 @@ class Config:
     top_k: int = 10
     min_spacing: int = 30
     site_mode: str = "bounded"       # bounded | exact | fuzzy
+    candidate_mode: str = "exact"    # exact molecules; legacy_site for baseline only
     include_singletons: bool = True
     offset_tolerance: int = 2
     jobs: int = 3
@@ -87,6 +88,8 @@ class Config:
             raise ValueError("lengths must be positive integers")
         if self.site_mode not in {"bounded", "exact", "fuzzy"}:
             raise ValueError("site_mode must be bounded, exact or fuzzy")
+        if self.candidate_mode not in {"exact", "legacy_site"}:
+            raise ValueError("candidate_mode must be exact or legacy_site")
         if self.siren_max_offtargets < 0:
             raise ValueError("siren_max_offtargets must be >= 0")
         # FilterConfig validates itself at construction.
@@ -116,7 +119,8 @@ def _specificity_status(
     """Classify a generated site against available evaluator evidence."""
     matches = [hit for hit in evaluator_hits
                if hit.tool in {r.tool for r in evaluator_runs}
-               and agree(core, hit.core, config.offset_tolerance)]
+               and core.transcript_id == hit.core.transcript_id
+               and core.guide == hit.core.guide]
     evaluator_tools = sorted({hit.tool for hit in matches})
 
     if not evaluator_runs:
@@ -124,15 +128,17 @@ def _specificity_status(
     if not matches:
         return "not_screened", evaluator_tools, None
 
-    clean = [hit for hit in matches if hit.vote_eligible]
-    if clean:
-        return "clean", evaluator_tools, min(
-            int(hit.extra.get("offtargets", 0)) for hit in clean)
-
+    verified = [hit for hit in matches if hit.extra.get("screen_state") == "transcriptome_screened"
+                and hit.extra.get("transcriptome_backed") is True
+                and isinstance(hit.extra.get("offtargets"), int)
+                and hit.extra["offtargets"] >= 0]
+    if verified:
+        burden = max(hit.extra["offtargets"] for hit in verified)
+        return ("clean" if burden <= config.siren_max_offtargets else "offtarget",
+                evaluator_tools, burden)
     states = {hit.extra.get("screen_state", "") for hit in matches}
     if "transcriptome_screened" in states:
-        return "offtarget", evaluator_tools, min(
-            int(hit.extra.get("offtargets", 0)) for hit in matches)
+        return "screen_failed", evaluator_tools, None
     if "input_only" in states:
         return "input_only", evaluator_tools, None
     if "failed" in states:
@@ -182,12 +188,14 @@ def run(config: Config) -> dict:
     placed_generator: list[tuple[str, object, float | None]] = []
     evaluator_hits: list[PlacedHit] = []
     normalization = {}
+    normalized_hits = []
     for tool_run in runs:
         if not tool_run.ok or not tool_run.hits:
             continue
         placed_hits, stats = normalize_placed(
             tool_run.hits, transcript_id, sequence, config.lengths)
         normalization[tool_run.tool] = stats
+        normalized_hits.extend({**asdict(hit), "role": tool_run.role} for hit in placed_hits)
         if tool_run.role == "generator":
             for item in placed_hits:
                 if item.vote_eligible:
@@ -220,7 +228,9 @@ def run(config: Config) -> dict:
         for tool, core, score in placed_generator
     ]
 
-    if config.site_mode == "bounded":
+    if config.candidate_mode == "exact":
+        clusters = bucket(placed_generator)
+    elif config.site_mode == "bounded":
         clusters: list[Cluster] = bounded_cluster(
             placed_generator, config.offset_tolerance)
     elif config.site_mode == "fuzzy":
@@ -246,6 +256,8 @@ def run(config: Config) -> dict:
     # not design votes, and input-only/failed screens do not become
     # transcriptome-wide specificity claims.
     for candidate in candidates:
+        candidate.nearby_tools = sorted({tool for tool, core, _ in placed_generator
+                                        if agree(candidate.core, core, config.offset_tolerance)})
         status, evaluator_tools, off_min = _specificity_status(
             candidate.core, evaluator_hits, evaluator_runs, config)
         candidate.specificity_status = status
@@ -305,6 +317,8 @@ def run(config: Config) -> dict:
 
     result = {
         "schema_version": SCHEMA_VERSION,
+        "implementation_hashes": {str(p.relative_to(Path(__file__).parent)): sha256_file(p)
+                                  for p in sorted(Path(__file__).parent.rglob("*.py"))},
         "run_id": run_id,
         "tool_version": __version__,
         "created_utc": datetime.now(timezone.utc).isoformat(),
@@ -324,6 +338,7 @@ def run(config: Config) -> dict:
             "min_spacing": config.min_spacing,
             "offset_tolerance": config.offset_tolerance,
             "site_mode": config.site_mode,
+            "candidate_mode": config.candidate_mode,
             "include_singletons": config.include_singletons,
             "jobs": config.jobs,
             "strict_specificity": config.strict_specificity,
@@ -343,6 +358,7 @@ def run(config: Config) -> dict:
                 "status": r.status,
                 "detail": r.detail,
                 "version": r.version,
+                "command": r.command,
                 "hits": len(r.hits),
                 "screen_state": r.screen_state,
                 "selection_limits": r.selection_limits,
@@ -359,6 +375,9 @@ def run(config: Config) -> dict:
             for name, s in normalization.items()
         },
         "counts": counts,
+        "normalized_hits": normalized_hits,
+        "raw_output_hashes": {str(p.relative_to(out_dir)): sha256_file(p)
+                              for p in sorted(work_dir.rglob("*")) if p.is_file()},
         "candidates": candidates,
         "top": top,
         "limitations": [
@@ -367,10 +386,10 @@ def run(config: Config) -> dict:
             "Specificity is separate evidence. A transcriptome-backed SIREN "
             "screen with off-targets is a hard eligibility failure; input-only "
             "or failed screens are not transcriptome-wide claims.",
-            "Site-level consensus uses bounded offset clustering by default; "
+            "Exact molecules are preserved by default; legacy site mode uses bounded clustering; "
             "exact identity and fuzzy single-linkage modes are explicit choices.",
             "Top-K enforces min_votes. Singleton sites remain in candidates.tsv "
-            "and all_candidates.fa for inspection, not in the order-ready set.",
+            "and all_candidates.fa for inspection, not in the research-selected set.",
             "A tool that returns only its own Top-N cannot be distinguished from "
             "one that filtered a site out.",
             "No wet-lab confirmation; tool scores are not comparable across tools.",

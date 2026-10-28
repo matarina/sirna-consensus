@@ -13,3 +13,10 @@ work/
 *.tsv
 *.log
 !examples/**/*.tsv
+.scorer-venv/
+benchmarks/data/raw/
+benchmarks/data/huesken/
+benchmarks/results/runs/
+benchmarks/results/development/
+benchmarks/models/
+!tests/fixtures/**/*.tsv

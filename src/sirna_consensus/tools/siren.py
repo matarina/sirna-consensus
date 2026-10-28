@@ -430,9 +430,11 @@ class SirenTool(Tool):
         summary = workdir / "off_targets_summary.tsv"
         burden: dict[str, int] = {}
         if not summary.is_file():
-            return burden
+            raise ToolError("siren: missing off_targets_summary.tsv; screening is unverified")
         with summary.open(newline="") as handle:
             reader = csv.DictReader(handle, delimiter="\t")
+            if not reader.fieldnames or "siRNA names" not in reader.fieldnames:
+                raise ToolError("siren: invalid off-target summary; screening is unverified")
             for row in reader:
                 names = (row.get("siRNA names") or "").split(",")
                 for raw in names:
