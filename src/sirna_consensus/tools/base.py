@@ -29,6 +29,8 @@ class Tool(ABC):
     summary: str = ""
     homepage: str = ""
     license: str = ""
+    role: str = "generator"          # generator | evaluator
+    acceptance: str = ""
 
     def __init__(self, env: "ToolEnv | None" = None) -> None:
         self.env = env or ToolEnv()
@@ -68,7 +70,8 @@ class Tool(ABC):
     def wrap(self, status: str, detail: str = "",
              hits: list[RawHit] | None = None) -> ToolRun:
         return ToolRun(tool=self.name, status=status, detail=detail,
-                       hits=hits or [], version=self.version())
+                       hits=hits or [], version=self.version(),
+                       role=self.role, acceptance=self.acceptance)
 
 
 def _positive_int(raw: str | None, fallback: int) -> int:
@@ -97,6 +100,9 @@ class ToolEnv:
         self.transcriptome: str = os.environ.get("SIRNA_CONSENSUS_TRANSCRIPTOME", "")
         # Explicit override for SIREN's ``-g`` selector, used verbatim.
         self.siren_gene_selector: str = os.environ.get("SIREN_GENE_SELECTOR", "")
+        #: Maximum off-targets for a SIREN hit to count as clean evidence.
+        self.siren_max_offtargets: int = _positive_int(
+            os.environ.get("SIREN_MAX_OFFTARGETS"), 0)
 
     def child_env(self) -> dict[str, str]:
         """Environment additions the legacy tools need (RNAhybrid, etc.)."""

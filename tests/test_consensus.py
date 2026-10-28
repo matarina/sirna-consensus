@@ -1,4 +1,4 @@
-from sirna_consensus.consensus import agree, bucket, by_votes, cluster
+from sirna_consensus.consensus import agree, bounded_cluster, bucket, by_votes, cluster
 from sirna_consensus.types import Core
 
 
@@ -66,3 +66,29 @@ def test_by_votes_sorts_descending():
     items = [("a", core(100), None), ("b", core(100), None), ("c", core(300), None)]
     tiers = by_votes(cluster(items))
     assert list(tiers) == [2, 1]
+
+
+def test_bounded_cluster_joins_shifted_19_and_21_mers():
+    items = [("a", core(100, 21), None), ("b", core(102, 19), None)]
+    clusters = bounded_cluster(items)
+    assert len(clusters) == 1
+    assert clusters[0].votes == 2
+    assert clusters[0].anchor().start == 100
+
+
+def test_bounded_cluster_does_not_chain_dense_overlaps():
+    items = [("a", core(100, 21), None), ("b", core(102, 19), None),
+             ("c", core(104, 21), None)]
+    clusters = bounded_cluster(items)
+    assert len(clusters) > 1
+    for cluster_ in clusters:
+        starts = [member.start for member in cluster_.members]
+        assert max(starts) - min(starts) <= 2
+
+
+def test_bounded_cluster_counts_distinct_tools_only_once():
+    items = [("a", core(100), None), ("a", core(101), None),
+             ("b", core(102), None)]
+    clusters = bounded_cluster(items)
+    assert len(clusters) == 1
+    assert clusters[0].votes == 2     # tool a twice, tool b once

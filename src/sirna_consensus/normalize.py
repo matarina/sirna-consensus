@@ -11,6 +11,7 @@ copy it meant, so we drop it rather than guess.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from typing import Any
 
 from .types import Core, RawHit
 
@@ -25,6 +26,16 @@ class Placement:
     @property
     def ok(self) -> bool:
         return self.core is not None
+
+
+@dataclass
+class PlacedHit:
+    """A placed hit with its score and evidence carried through normalisation."""
+    tool: str
+    core: Core
+    score: float | None = None
+    vote_eligible: bool = True
+    extra: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -77,12 +88,13 @@ def place(hit: RawHit, transcript_id: str, sequence: str,
     return Placement(reason="ambiguous_repeat")
 
 
-def normalize(hits: list[RawHit], transcript_id: str, sequence: str,
-              lengths: tuple[int, ...] = (19, 20, 21)) -> tuple[list[Core], NormalizeStats]:
-    """Place and de-duplicate a hit list. Keeps one core per (tool, position)."""
+def normalize_placed(hits: list[RawHit], transcript_id: str, sequence: str,
+                     lengths: tuple[int, ...] = (19, 20, 21)
+                     ) -> tuple[list[PlacedHit], NormalizeStats]:
+    """Place and de-duplicate hits, carrying each hit's score and evidence."""
     stats = NormalizeStats()
     seen: set[tuple[str, int, int]] = set()
-    cores: list[Core] = []
+    placed: list[PlacedHit] = []
     for hit in hits:
         stats.total += 1
         hit.normalise_sequence()
@@ -97,6 +109,15 @@ def normalize(hits: list[RawHit], transcript_id: str, sequence: str,
             stats.duplicates += 1
             continue
         seen.add(dedup_key)
-        cores.append(core)
+        placed.append(PlacedHit(tool=hit.tool, core=core, score=hit.score,
+                                vote_eligible=hit.vote_eligible,
+                                extra=dict(hit.extra)))
         stats.placed += 1
-    return cores, stats
+    return placed, stats
+
+
+def normalize(hits: list[RawHit], transcript_id: str, sequence: str,
+              lengths: tuple[int, ...] = (19, 20, 21)) -> tuple[list[Core], NormalizeStats]:
+    """Compatibility wrapper: place and de-duplicate, returning only cores."""
+    placed, stats = normalize_placed(hits, transcript_id, sequence, lengths)
+    return [item.core for item in placed], stats

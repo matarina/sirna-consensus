@@ -45,3 +45,12 @@ def read_transcript(path: str | Path) -> tuple[str, str]:
 
 def sha256(text: str) -> str:
     return hashlib.sha256(text.encode()).hexdigest()
+
+
+def sha256_file(path: str | Path) -> str:
+    """Streaming hash of a reference file (transcriptomes can be multi-GB)."""
+    digest = hashlib.sha256()
+    with Path(path).open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()

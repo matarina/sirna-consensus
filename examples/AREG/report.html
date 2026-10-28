@@ -21,44 +21,59 @@ th{text-align:left;font-size:10.5px;letter-spacing:.05em;text-transform:uppercas
 padding:6px;border-bottom:1.4px solid var(--ink)}
 td{padding:6px;border-bottom:1px solid #e9eef0}
 td.n{text-align:right;font-variant-numeric:tabular-nums}
-.ok{color:#1d6b3a}.bad{color:#a4301f}
+.ok{color:#1d6b3a}.bad{color:#a4301f}.warn{color:#8a5c12}
 .note{background:#f7faf9;border-left:3px solid var(--teal);padding:11px 14px;font-size:12.5px;margin:14px 0}
+.note.warnbox{background:#fdf6e8;border-left:3px solid #8a5c12}
 footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
 @media print{body{background:#fff}.page{box-shadow:none;max-width:none;padding:0}}
 </style></head><body><div class="page">
 <h1>Consensus de novo siRNA candidates</h1>
 <p class="sub">NM_001657.4 · 1234 nt ·
 input SHA-256 <code>1275010b0a10dff9…</code> ·
-generated 2026-10-27T07:58:23.907545+00:00</p>
+generated 2026-10-28T06:53:57.628121+00:00</p>
 <div class="pills">
-  <span class="pill info">tools acting: 3</span>
+  <span class="pill info">generator tools: 2</span>
   <span class="pill warn">status research_only</span>
-  <span class="pill ok">consensus 29 unanimous</span>
-  <span class="pill bad">candidates rejected by filters: 724</span>
+  <span class="pill ok">59 unanimous generator sites</span>
+  <span class="pill info">59 consensus candidates</span>
+  <span class="pill warn">0 exploratory singletons</span>
+  <span class="pill bad">25 rejected by filters/specificity</span>
+  <span class="pill warn">145 below the vote threshold</span>
 </div>
 
 <h2>How to read this</h2>
 <div class="note">Agreement is counted at the <b>site</b> level, not the string level:
 the tools emit different lengths and offsets for the same duplex, so candidates
-within 2 nt and sharing all but 2 bases are treated as one site. A candidate's
-vote count is the number of <i>distinct tools</i> that proposed it. Sequence
-filters (GC window, homopolymer, complexity, guide 5′ end, internal palindrome)
-are applied <b>after</b> voting, so no single tool decides what survives.</div>
+within <code>offset_tolerance</code> and sharing all but 2 bases are grouped.
+The default grouping is <b>bounded</b> (an anchored cluster, not a transitive
+chain). Votes are <b>distinct generator tools</b>; SIREN is an <b>evaluator</b> and
+does not add a design vote. Sequence/specificity filters are applied <b>after</b>
+voting. The order-ready file is <code>top_guides.fa</code>; every candidate,
+including rejected ones, is in <code>all_candidates.fa</code>.</div>
+
+<h2>Effective configuration</h2>
+<table><thead><tr><th>setting</th><th>value</th></tr></thead>
+<tbody><tr><td>tools</td><td>[&#x27;sirnadesigner&#x27;, &#x27;siren&#x27;, &#x27;sirnaforge&#x27;]</td></tr><tr><td>generator_tools</td><td>[&#x27;sirnadesigner&#x27;, &#x27;sirnaforge&#x27;]</td></tr><tr><td>evaluator_tools</td><td>[&#x27;siren&#x27;]</td></tr><tr><td>acting_tools</td><td>[&#x27;sirnadesigner&#x27;, &#x27;sirnaforge&#x27;]</td></tr><tr><td>lengths</td><td>[19, 20, 21]</td></tr><tr><td>min_votes</td><td>2</td></tr><tr><td>top_k</td><td>10</td></tr><tr><td>min_spacing</td><td>30</td></tr><tr><td>offset_tolerance</td><td>2</td></tr><tr><td>site_mode</td><td>bounded</td></tr><tr><td>include_singletons</td><td>False</td></tr><tr><td>jobs</td><td>3</td></tr><tr><td>strict_specificity</td><td>False</td></tr><tr><td>siren_max_offtargets</td><td>0</td></tr><tr><td>filter_config</td><td>{&#x27;gc_min&#x27;: 0.3, &#x27;gc_max&#x27;: 0.55, &#x27;max_homopolymer&#x27;: 4, &#x27;gu_rich_cutoff&#x27;: 0.75, &#x27;seed_gc_high&#x27;: 0.75, &#x27;seed_gc_low&#x27;: 0.25}</td></tr><tr><td>transcriptome</td><td></td></tr><tr><td>transcriptome_sha256</td><td>-</td></tr><tr><td>siren_threads</td><td>32</td></tr><tr><td>tool_timeout_s</td><td>1800</td></tr></tbody></table>
 
 <h2>External tools</h2>
-<table><thead><tr><th>tool</th><th>status</th><th>hits</th><th>detail</th></tr></thead>
-<tbody><tr><td><code>siren</code></td><td class='ok'>ok</td><td class='n'>607</td><td>607 21-mers evaluated; no off-targets found</td></tr><tr><td><code>sirnadesigner</code></td><td class='ok'>ok</td><td class='n'>80</td><td>80 hits from 1 file(s)</td></tr><tr><td><code>sirnaforge</code></td><td class='ok'>ok</td><td class='n'>559</td><td>559 hits</td></tr></tbody></table>
+<table><thead><tr><th>tool</th><th>role</th><th>status</th><th>hits</th>
+<th>screen state</th><th>detail</th></tr></thead>
+<tbody><tr><td><code>siren</code></td><td>evaluator</td><td class='ok'>ok</td><td class='n'>607</td><td>input_only</td><td>607 21-mers evaluated; input only: no transcriptome configured (selector &#x27;NM_001657.4&#x27;); no off-targets found</td></tr><tr><td><code>sirnadesigner</code></td><td>generator</td><td class='ok'>ok</td><td class='n'>80</td><td>-</td><td>80 hits from 1 file(s)</td></tr><tr><td><code>sirnaforge</code></td><td>generator</td><td class='ok'>ok</td><td class='n'>559</td><td>-</td><td>559 hits</td></tr></tbody></table>
 
 <h2>Normalisation onto the transcript</h2>
 <table><thead><tr><th>tool</th><th>received</th><th>placed</th><th>duplicates</th><th>rejected</th></tr></thead>
 <tbody><tr><td><code>siren</code></td><td class='n'>607</td><td class='n'>607</td><td class='n'>0</td><td>{}</td></tr><tr><td><code>sirnadesigner</code></td><td class='n'>80</td><td class='n'>80</td><td class='n'>0</td><td>{}</td></tr><tr><td><code>sirnaforge</code></td><td class='n'>559</td><td class='n'>559</td><td class='n'>0</td><td>{}</td></tr></tbody></table>
 
-<h2>Top 10 consensus candidates</h2>
-<table><thead><tr><th>#</th><th>votes</th><th>site</th><th>guide 5′→3′ (RNA)</th>
-<th>GC</th><th>tools</th><th>soft flags</th></tr></thead><tbody><tr><td class='n'>1</td><td><span class='pill ok'>3/3</span></td><td>NM_001657.4:495-515</td><td><code>ACTGAATCATCGACAATATAG</code></td><td class='n'>0.333</td><td>siren+sirnadesigner+sirnaforge</td><td>-</td></tr><tr><td class='n'>2</td><td><span class='pill ok'>3/3</span></td><td>NM_001657.4:931-951</td><td><code>ATTTCCATTCTCTTGTCGAAG</code></td><td class='n'>0.381</td><td>siren+sirnadesigner+sirnaforge</td><td>-</td></tr><tr><td class='n'>3</td><td><span class='pill ok'>3/3</span></td><td>NM_001657.4:777-797</td><td><code>AAACTACTGTCAATCATGCTG</code></td><td class='n'>0.381</td><td>siren+sirnadesigner+sirnaforge</td><td>-</td></tr><tr><td class='n'>4</td><td><span class='pill ok'>3/3</span></td><td>NM_001657.4:897-917</td><td><code>TCAGCTTCTCCTTCATATTTC</code></td><td class='n'>0.381</td><td>siren+sirnadesigner+sirnaforge</td><td>-</td></tr><tr><td class='n'>5</td><td><span class='pill ok'>3/3</span></td><td>NM_001657.4:985-1005</td><td><code>TGACTCCAATGTGATATCCTG</code></td><td class='n'>0.429</td><td>siren+sirnadesigner+sirnaforge</td><td>-</td></tr><tr><td class='n'>6</td><td><span class='pill ok'>3/3</span></td><td>NM_001657.4:703-723</td><td><code>TTTGCATGTTACTGCTTCCAG</code></td><td class='n'>0.429</td><td>siren+sirnadesigner+sirnaforge</td><td>-</td></tr><tr><td class='n'>7</td><td><span class='pill ok'>3/3</span></td><td>NM_001657.4:339-359</td><td><code>TCAAATCCATCAGCACTGTGG</code></td><td class='n'>0.476</td><td>siren+sirnadesigner+sirnaforge</td><td>-</td></tr><tr><td class='n'>8</td><td><span class='pill ok'>3/3</span></td><td>NM_001657.4:671-691</td><td><code>ATTTGCATTCTCCGTGAATGC</code></td><td class='n'>0.429</td><td>siren+sirnadesigner+sirnaforge</td><td>-</td></tr><tr><td class='n'>9</td><td><span class='pill ok'>3/3</span></td><td>NM_001657.4:403-423</td><td><code>AGAAGGCATTTCACTCACAGG</code></td><td class='n'>0.476</td><td>siren+sirnadesigner+sirnaforge</td><td>-</td></tr><tr><td class='n'>10</td><td><span class='pill ok'>3/3</span></td><td>NM_001657.4:815-835</td><td><code>ACATAAAGGCAGCTATGGCTG</code></td><td class='n'>0.476</td><td>siren+sirnadesigner+sirnaforge</td><td>-</td></tr></tbody></table>
 
-<h2>Limitations</h2><ul><li>Site-level consensus, not sequence-level intersection: tools emit different lengths and offsets for the same duplex.</li><li>A tool that returns only its own Top-N cannot be distinguished from one that filtered a site out.</li><li>No wet-lab confirmation; tool scores are not comparable across tools.</li><li>Off-target scope is whatever each tool was given, unless a shared transcriptome was supplied.</li></ul>
-<footer>Generated by sirna-consensus 0.1.0 ·
+<h2>Top 10 consensus candidates</h2>
+<table><thead><tr><th>#</th><th>tier</th><th>site</th><th>guide 5′→3′ (RNA)</th>
+<th>GC</th><th>generators</th><th>specificity</th><th>soft flags</th></tr></thead>
+<tbody><tr><td class='n'>1</td><td><span class='pill ok'>unanimous</span></td><td>NM_001657.4:908-928</td><td><code>TCTTTCGTTCCTCAGCTTCTC</code></td><td class='n'>0.476</td><td>sirnadesigner+sirnaforge</td><td>input_only</td><td>-</td></tr><tr><td class='n'>2</td><td><span class='pill ok'>unanimous</span></td><td>NM_001657.4:406-426</td><td><code>ACTAGAAGGCATTTCACTCAC</code></td><td class='n'>0.429</td><td>sirnadesigner+sirnaforge</td><td>input_only</td><td>-</td></tr><tr><td class='n'>3</td><td><span class='pill ok'>unanimous</span></td><td>NM_001657.4:339-359</td><td><code>TCAAATCCATCAGCACTGTGG</code></td><td class='n'>0.476</td><td>sirnadesigner+sirnaforge</td><td>input_only</td><td>-</td></tr><tr><td class='n'>4</td><td><span class='pill ok'>unanimous</span></td><td>NM_001657.4:985-1005</td><td><code>TGACTCCAATGTGATATCCTG</code></td><td class='n'>0.429</td><td>sirnadesigner+sirnaforge</td><td>input_only</td><td>-</td></tr><tr><td class='n'>5</td><td><span class='pill ok'>unanimous</span></td><td>NM_001657.4:703-723</td><td><code>TTTGCATGTTACTGCTTCCAG</code></td><td class='n'>0.429</td><td>sirnadesigner+sirnaforge</td><td>input_only</td><td>-</td></tr><tr><td class='n'>6</td><td><span class='pill ok'>unanimous</span></td><td>NM_001657.4:824-844</td><td><code>TCACAGCAGACATAAAGGCAG</code></td><td class='n'>0.476</td><td>sirnadesigner+sirnaforge</td><td>input_only</td><td>-</td></tr><tr><td class='n'>7</td><td><span class='pill ok'>unanimous</span></td><td>NM_001657.4:491-511</td><td><code>AATCATCGACAATATAGCCAG</code></td><td class='n'>0.381</td><td>sirnadesigner+sirnaforge</td><td>input_only</td><td>-</td></tr><tr><td class='n'>8</td><td><span class='pill ok'>unanimous</span></td><td>NM_001657.4:862-882</td><td><code>TCTAAGCTGGACTGTAATAAC</code></td><td class='n'>0.381</td><td>sirnadesigner+sirnaforge</td><td>input_only</td><td>-</td></tr><tr><td class='n'>9</td><td><span class='pill ok'>unanimous</span></td><td>NM_001657.4:284-304</td><td><code>TGTCATTGAGGTCCAATCCAG</code></td><td class='n'>0.476</td><td>sirnadesigner+sirnaforge</td><td>input_only</td><td>-</td></tr><tr><td class='n'>10</td><td><span class='pill ok'>unanimous</span></td><td>NM_001657.4:672-692</td><td><code>TATTTGCATTCTCCGTGAATG</code></td><td class='n'>0.381</td><td>sirnadesigner+sirnaforge</td><td>input_only</td><td>-</td></tr></tbody></table>
+
+<h2>Limitations</h2><ul><li>Consensus votes are generator-tool votes. SIREN is an evaluator; its enumeration hits and input-only fallback are not design votes.</li><li>Specificity is separate evidence. A transcriptome-backed SIREN screen with off-targets is a hard eligibility failure; input-only or failed screens are not transcriptome-wide claims.</li><li>Site-level consensus uses bounded offset clustering by default; exact identity and fuzzy single-linkage modes are explicit choices.</li><li>Top-K enforces min_votes. Singleton sites remain in candidates.tsv and all_candidates.fa for inspection, not in the order-ready set.</li><li>A tool that returns only its own Top-N cannot be distinguished from one that filtered a site out.</li><li>No wet-lab confirmation; tool scores are not comparable across tools.</li><li>Off-target scope is whatever each tool was given, unless a shared transcriptome was supplied.</li></ul>
+<footer>Generated by sirna-consensus 1.0.0 ·
 full machine-readable record in <code>run.json</code> ·
-candidates in <code>candidates.tsv</code> · order-ready guides in <code>top_guides.fa</code></footer>
+candidates in <code>candidates.tsv</code> ·
+order-ready guides in <code>top_guides.fa</code> ·
+inspection-only candidates in <code>all_candidates.fa</code></footer>
 </div></body></html>

@@ -70,6 +70,10 @@ class RawHit:
     score: float | None = None
     score_kind: str = "tool_score"
     extra: dict[str, Any] = field(default_factory=dict)
+    #: A generator hit is a design claim; an evaluator hit is evidence. A hit
+    #: marked False must not contribute a design vote or be used as clean
+    #: specificity evidence.
+    vote_eligible: bool = True
 
     def normalise_sequence(self) -> "RawHit":
         self.sense = to_dna(self.sense)
@@ -87,6 +91,10 @@ class ToolRun:
     detail: str = ""
     version: str = ""
     command: list[str] = field(default_factory=list)
+    role: str = "generator"          # generator | evaluator
+    acceptance: str = ""
+    screen_state: str = ""           # transcriptome_screened | input_only | failed
+    selection_limits: dict[str, Any] = field(default_factory=dict)
 
     @property
     def ok(self) -> bool:
@@ -98,17 +106,26 @@ class Candidate:
     """A consensus candidate: one representative core plus its evidence."""
 
     core: Core
-    votes: int
-    tools: list[str]
+    votes: int                       # distinct generator tools
+    tools: list[str]                 # generator tools
     tool_scores: dict[str, float]
+    acting_tools: int = 0            # generator tools that actually ran
+    evaluator_tools: list[str] = field(default_factory=list)
+    specificity_status: str = "not_screened"
+    off_target_min: int | None = None
     filter_flags: list[str] = field(default_factory=list)
     soft_flags: list[str] = field(default_factory=list)
     score: float = 0.0
+    score_parts: dict[str, float] = field(default_factory=dict)
     rank: int = 0
 
     @property
     def consensus_tier(self) -> str:
-        return "unanimous" if self.votes == len(self.tools) else f"{self.votes}of_n"
+        if self.acting_tools <= 0:
+            return "no-generator"
+        if self.votes == self.acting_tools:
+            return "unanimous"
+        return f"{self.votes}of_{self.acting_tools}"
 
     @property
     def passed(self) -> bool:

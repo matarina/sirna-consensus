@@ -328,6 +328,9 @@ class SirenTool(Tool):
     summary = "transcriptome off-target screen of every 21-mer (RNAhybrid)"
     homepage = "https://github.com/pablovargasmejia/SIREN"
     license = "GPL-3.0"
+    role = "evaluator"
+    acceptance = ("transcriptome-backed screen with at most "
+                  "SIREN_MAX_OFFTARGETS off-targets")
 
     def _exe(self) -> str:
         return self.env.which(self.env.siren_bin or "SIREN")
@@ -365,6 +368,7 @@ class SirenTool(Tool):
             selector = override or transcript_id
             attempt = workdir / "input"
             self._invoke(fasta, selector, attempt)
+            screen_state = "input_only"
             note = f"input only: no transcriptome configured (selector {selector!r})"
         else:
             resolution = resolve_selector(fasta, transcript_id, transcriptome,
@@ -372,6 +376,7 @@ class SirenTool(Tool):
             if not resolution.matched:
                 attempt = workdir / "input"
                 self._invoke(fasta, transcript_id, attempt)
+                screen_state = "input_only"
                 note = (f"fell back to the input FASTA only: no transcriptome "
                         f"selector matched (tried {resolution.selector!r}); "
                         f"off-targets are input-scoped, not transcriptome-wide")
@@ -386,19 +391,33 @@ class SirenTool(Tool):
                     # an OOM kill, from an upstream error.
                     attempt = workdir / "input"
                     self._invoke(fasta, transcript_id, attempt)
+                    screen_state = "failed"
                     note = (f"fell back to the input FASTA only: transcriptome "
                             f"screen failed ({resolution.describe()}); no "
                             f"transcriptome-backed screen happened; last "
                             f"error: {str(exc)[:200]}")
                 else:
+                    screen_state = "transcriptome_screened"
                     note = f"screened against the transcriptome: {resolution.describe()}"
 
+        backed = screen_state == "transcriptome_screened"
         burden = self._offtarget_burden(attempt)
-        hits = self._parse_sirnas(attempt, burden)
+        hits = self._parse_sirnas(attempt, burden, screen_state, backed)
         if not hits:
             return self.wrap("empty", "SIREN produced no 21-mer records")
         screened = f"{len(burden)} siRNAs carry off-targets" if burden else "no off-targets found"
-        return self.wrap("ok", f"{len(hits)} 21-mers evaluated; {note}; {screened}", hits)
+        run = self.wrap(
+            "ok",
+            f"{len(hits)} 21-mers evaluated; {note}; {screened}",
+            hits)
+        run.screen_state = screen_state
+        run.selection_limits = {
+            "sirna_size": 21,
+            "min_align_length": 17,
+            "threads": self.env.siren_threads,
+            "max_offtargets": self.env.siren_max_offtargets,
+        }
+        return run
 
     def _invoke(self, targets: Path, selector: str, workdir: Path) -> None:
         workdir.mkdir(parents=True, exist_ok=True)
@@ -424,7 +443,9 @@ class SirenTool(Tool):
                     burden[key] = burden.get(key, 0) + 1
         return burden
 
-    def _parse_sirnas(self, workdir: Path, burden: dict[str, int]) -> list[RawHit]:
+    def _parse_sirnas(self, workdir: Path, burden: dict[str, int],
+                      screen_state: str = "input_only",
+                      transcriptome_backed: bool = False) -> list[RawHit]:
         sirnas = workdir / "other_files" / "sirnas.fa"
         if not sirnas.is_file():
             sirnas = workdir / "sirnas.fa"
@@ -444,14 +465,23 @@ class SirenTool(Tool):
             sequence = "".join(chunks).upper()
             if len(sequence) != end - start + 1:
                 return
+            n_off = burden.get(name, 0)
             hits.append(RawHit(
                 tool=self.name,
                 sense=sequence,
                 length=len(sequence),
                 start=start,
-                score=1.0 / (1.0 + burden.get(name, 0)),
+                score=1.0 / (1.0 + n_off),
                 score_kind="offtarget_cleanliness",
-                extra={"offtargets": burden.get(name, 0)},
+                extra={
+                    "offtargets": n_off,
+                    "transcriptome_backed": transcriptome_backed,
+                    "screen_state": screen_state,
+                },
+                vote_eligible=(
+                    transcriptome_backed
+                    and n_off <= self.env.siren_max_offtargets
+                ),
             ))
 
         with sirnas.open() as handle:

@@ -45,10 +45,12 @@ def run_dir(tmp_path, fasta_file, monkeypatch):
     monkeypatch.setattr(tools_module, "REGISTRY", {
         "alpha": lambda env=None: FakeTool("alpha", [1, 42, 70], env),
         "beta": lambda env=None: FakeTool("beta", [1, 70], env),
+        "gamma": lambda env=None: FakeTool("gamma", [7], env),
     })
     out = tmp_path / "out"
     run(Config(fasta=str(fasta_file), out_dir=str(out),
-               tools=("alpha", "beta"), min_votes=2, include_singletons=True))
+               tools=("alpha", "beta", "gamma"), min_votes=2,
+               include_singletons=True))
     return out
 
 
@@ -106,10 +108,13 @@ def test_html_is_escaped_and_complete(run_dir):
 def test_html_separates_vote_threshold_from_filters(run_dir):
     record = json.loads((run_dir / "run.json").read_text())
     counts = record["counts"]
-    assert counts["sites"] == counts["candidates"] + counts["below_min_votes"]
+    assert counts["sites"] == (
+        counts["consensus_candidates"] + counts["below_min_votes"])
+    assert counts["candidates"] == (
+        counts["consensus_candidates"] + counts["exploratory_singletons"])
     assert counts["candidates"] == counts["passing"] + counts["rejected_by_filters"]
     html = (run_dir / "report.html").read_text()
-    assert f"{counts['rejected_by_filters']} dropped by sequence filters" in html
+    assert f"{counts['rejected_by_filters']} rejected by filters/specificity" in html
     assert f"{counts['below_min_votes']} below the vote threshold" in html
 
 
@@ -120,3 +125,40 @@ def test_run_record_is_self_consistent(run_dir):
     assert record["input_sha256"]
     for entry in record["tools"]:
         assert entry["status"] in {"ok", "unavailable", "failed", "empty"}
+
+
+def test_top_guides_is_only_the_selected_top_k(run_dir):
+    record = json.loads((run_dir / "run.json").read_text())
+    headers = [line for line in
+               (run_dir / "top_guides.fa").read_text().splitlines()
+               if line.startswith(">")]
+    assert len(headers) == record["counts"]["top"]
+    assert len(headers) <= record["config"]["top_k"]
+
+    table = {(r["target_start"], r["target_end"]): r for r in rows(run_dir)}
+    for header in headers:
+        site = re.search(r"site=\S+?:(\d+)-(\d+)", header)
+        assert site, header
+        row = table[(site.group(1), site.group(2))]
+        assert row["passed"] == "true"
+        assert row["hard_flags"] == ""
+        assert int(row["votes"]) >= record["config"]["min_votes"]
+
+
+def test_all_candidates_fasta_includes_rejected_and_singletons(run_dir):
+    record = json.loads((run_dir / "run.json").read_text())
+    headers = [line for line in
+               (run_dir / "all_candidates.fa").read_text().splitlines()
+               if line.startswith(">")]
+    assert len(headers) == record["counts"]["candidates"]
+    assert any("passed=false" in header for header in headers)
+    assert any("passed=true" in header for header in headers)
+
+
+def test_score_components_are_exposed(run_dir):
+    row = rows(run_dir)[0]
+    for column in ("vote_component", "tool_score_component", "quality_component"):
+        assert column in row
+    assert abs(float(row["vote_component"])
+               + float(row["tool_score_component"])
+               + float(row["quality_component"]) - float(row["score"])) < 1e-3

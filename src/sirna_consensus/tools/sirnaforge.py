@@ -48,6 +48,8 @@ class SirnaforgeTool(Tool):
     summary = "thermodynamic duplex scoring and off-target counts (OCI image)"
     homepage = "https://github.com/Austin-s-h/sirnaforge"
     license = "MIT"
+    role = "generator"
+    acceptance = "thermodynamic candidate emitted by the pinned image"
 
     def availability(self) -> tuple[bool, str]:
         if not shutil.which("docker"):
@@ -96,7 +98,13 @@ class SirnaforgeTool(Tool):
         rows = self._parse(out_file)
         if not rows:
             return self.wrap("empty", "no parsable candidate table produced")
-        return self.wrap("ok", f"{len(rows)} hits", rows)
+        run = self.wrap("ok", f"{len(rows)} hits", rows)
+        run.selection_limits = {
+            "top_n": top_n,
+            "length": length,
+            "image": self.env.sirnaforge_image,
+        }
+        return run
 
     def _parse(self, path: Path) -> list[RawHit]:
         if not path.is_file():

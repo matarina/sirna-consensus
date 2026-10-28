@@ -38,6 +38,8 @@ class SirnaDesignerTool(Tool):
     summary = "rule-based siRNA scanner with an explicit published rule set"
     homepage = "https://github.com/anazhmetdin/siRNAdesigner"
     license = "MIT (upstream); see repository"
+    role = "generator"
+    acceptance = "rule-set candidate emitted by the tool"
 
     def _script(self) -> str:
         if self.env.sirnadesigner_script:
@@ -79,8 +81,13 @@ class SirnaDesignerTool(Tool):
             combined.extend(self._parse(path))
         if not combined:
             return self.wrap("empty", "no candidate survived the tool's rule set")
-        return self.wrap("ok", f"{len(combined)} hits from {len(produced)} file(s)",
-                         combined)
+        run = self.wrap("ok", f"{len(combined)} hits from {len(produced)} file(s)",
+                        combined)
+        run.selection_limits = {
+            "sirna_length": 21,
+            "score": "designer_rule_score",
+        }
+        return run
 
     def _parse(self, path: Path) -> list[RawHit]:
         hits: list[RawHit] = []

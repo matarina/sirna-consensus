@@ -76,7 +76,8 @@ def test_run_writes_outputs_and_reports_counts(registry, tmp_path, fasta_file, c
     printed = capsys.readouterr().out
     assert "placed" in printed
     assert "below vote threshold" in printed
-    for name in ("candidates.tsv", "top_guides.fa", "run.json", "report.html"):
+    for name in ("candidates.tsv", "top_guides.fa", "all_candidates.fa",
+                 "run.json", "report.html"):
         assert (out / name).is_file()
     counts = json.loads((out / "run.json").read_text())["counts"]
     assert counts["top"] <= 2
@@ -108,7 +109,36 @@ def test_fuzzy_site_mode_is_reachable(registry, tmp_path, fasta_file):
           "--tools", "alpha,beta", "--site-mode", "fuzzy"])
     record = json.loads((out / "run.json").read_text())
     assert record["config"]["offset_tolerance"] >= 0
+    assert record["config"]["site_mode"] == "fuzzy"
     assert (out / "candidates.tsv").is_file()
+
+
+def test_bounded_site_mode_is_default(registry, tmp_path, fasta_file):
+    out = tmp_path / "out"
+    main(["run", "--fasta", str(fasta_file), "--out", str(out),
+          "--tools", "alpha,beta"])
+    record = json.loads((out / "run.json").read_text())
+    assert record["config"]["site_mode"] == "bounded"
+
+
+@pytest.mark.parametrize("flag,value", [
+    ("--min-votes", "0"),
+    ("--top-k", "0"),
+    ("--min-spacing", "-1"),
+    ("--offset-tolerance", "-1"),
+    ("--jobs", "0"),
+    ("--siren-max-offtargets", "-1"),
+])
+def test_invalid_cli_parameters_are_rejected(registry, tmp_path, fasta_file, flag, value):
+    code = main(["run", "--fasta", str(fasta_file), "--out", str(tmp_path / "o"),
+                 "--tools", "alpha,beta", flag, value])
+    assert code == 2
+
+
+def test_invalid_filter_configuration_is_rejected(registry, tmp_path, fasta_file):
+    code = main(["run", "--fasta", str(fasta_file), "--out", str(tmp_path / "o"),
+                 "--tools", "alpha,beta", "--gc-min", "0.7", "--gc-max", "0.5"])
+    assert code == 2
 
 
 def test_missing_fasta_argument_exits():

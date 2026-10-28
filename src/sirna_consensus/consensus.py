@@ -50,6 +50,10 @@ class Cluster:
             if previous is None or score is not None:
                 self.tools[tool] = score
 
+    def anchor(self) -> Core:
+        """Leftmost geometry in the cluster, used as the bounded-site anchor."""
+        return min(self.members, key=lambda c: (c.start, c.length))
+
     def representative(self) -> Core:
         """Most-shared geometry in the cluster; longest, then leftmost."""
         counts: dict[tuple[int, int], int] = {}
@@ -85,19 +89,60 @@ def cluster(items: list[tuple[str, Core, float | None]],
             shared_slack: int = SHARED_SLACK) -> list[Cluster]:
     """Fuzzy grouping: union-find over :func:`agree`.
 
+    Position-indexed neighbour comparison: two cores can only agree when their
+    starts differ by at most ``offset_tolerance``, so the sweep is O(n log n)
+    instead of the old all-pairs O(n^2).
+
     Coarse by construction — a tool that proposes every window chains the whole
-    transcript into one component. Use :func:`bucket` unless you want that.
+    transcript into one component. Use :func:`bounded_cluster` or :func:`bucket`
+    unless you explicitly want that.
     """
-    uf = _UnionFind(len(items))
-    for i in range(len(items)):
-        for j in range(i + 1, len(items)):
-            if agree(items[i][1], items[j][1], offset_tolerance, shared_slack):
+    ordered = sorted(items, key=lambda x: (x[1].start, x[1].length))
+    uf = _UnionFind(len(ordered))
+    for i in range(len(ordered)):
+        start_i = ordered[i][1].start
+        for j in range(i + 1, len(ordered)):
+            start_j = ordered[j][1].start
+            if start_j - start_i > offset_tolerance:
+                break
+            if agree(ordered[i][1], ordered[j][1], offset_tolerance, shared_slack):
                 uf.union(i, j)
     buckets: dict[int, Cluster] = {}
-    for index, (tool, core, score) in enumerate(items):
+    for index, (tool, core, score) in enumerate(ordered):
         root = uf.find(index)
         buckets.setdefault(root, Cluster()).add(tool, core, score)
     return list(buckets.values())
+
+
+def bounded_cluster(items: list[tuple[str, Core, float | None]],
+                    offset_tolerance: int = OFFSET_TOLERANCE,
+                    shared_slack: int = SHARED_SLACK) -> list[Cluster]:
+    """Bounded site grouping without transitive chains.
+
+    Each cluster is anchored at its leftmost member. A new hit may join only if
+    its start is within ``offset_tolerance`` of that anchor and it agrees with
+    the anchor. This keeps a chain A-B-C where A and C are farther apart than
+    ``offset_tolerance`` from collapsing into one site. A hit that bridges two
+    anchors is assigned to the nearest anchor, not to both.
+    """
+    ordered = sorted(items, key=lambda x: (x[1].start, x[1].length))
+    clusters: list[Cluster] = []
+    for tool, core, score in ordered:
+        target: Cluster | None = None
+        best_distance: int | None = None
+        for candidate in clusters:
+            anchor = candidate.anchor()
+            distance = abs(core.start - anchor.start)
+            if (distance <= offset_tolerance
+                    and agree(anchor, core, offset_tolerance, shared_slack)
+                    and (best_distance is None or distance < best_distance)):
+                best_distance = distance
+                target = candidate
+        if target is None:
+            target = Cluster()
+            clusters.append(target)
+        target.add(tool, core, score)
+    return clusters
 
 
 def bucket(items: list[tuple[str, Core, float | None]]) -> list[Cluster]:

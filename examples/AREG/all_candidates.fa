@@ -1,0 +1,118 @@
+>rank=1 tier=unanimous site=NM_001657.4:908-928 gc=0.476 generators=sirnadesigner,sirnaforge specificity=input_only passed=true hard_flags=- evaluators=siren
+UCUUUCGUUCCUCAGCUUCUC
+>rank=2 tier=unanimous site=NM_001657.4:406-426 gc=0.429 generators=sirnadesigner,sirnaforge specificity=input_only passed=true hard_flags=- evaluators=siren
+ACUAGAAGGCAUUUCACUCAC
+>rank=3 tier=unanimous site=NM_001657.4:339-359 gc=0.476 generators=sirnadesigner,sirnaforge specificity=input_only passed=true hard_flags=- evaluators=siren
+UCAAAUCCAUCAGCACUGUGG
+>rank=4 tier=unanimous site=NM_001657.4:927-947 gc=0.429 generators=sirnadesigner,sirnaforge specificity=input_only passed=false hard_flags=guide_5p_not_AU evaluators=siren
+CCAUUCUCUUGUCGAAGUUUC
+>rank=5 tier=unanimous site=NM_001657.4:344-364 gc=0.429 generators=sirnadesigner,sirnaforge specificity=input_only passed=true hard_flags=- evaluators=siren
+UAACCUCAAAUCCAUCAGCAC
+>rank=6 tier=unanimous site=NM_001657.4:894-914 gc=0.429 generators=sirnadesigner,sirnaforge specificity=input_only passed=false hard_flags=guide_5p_not_AU evaluators=siren
+GCUUCUCCUUCAUAUUUCCUG
+>rank=7 tier=unanimous site=NM_001657.4:985-1005 gc=0.429 generators=sirnadesigner,sirnaforge specificity=input_only passed=true hard_flags=- evaluators=siren
+UGACUCCAAUGUGAUAUCCUG
+>rank=8 tier=unanimous site=NM_001657.4:703-723 gc=0.429 generators=sirnadesigner,sirnaforge specificity=input_only passed=true hard_flags=- evaluators=siren
+UUUGCAUGUUACUGCUUCCAG
+>rank=9 tier=unanimous site=NM_001657.4:891-911 gc=0.429 generators=sirnadesigner,sirnaforge specificity=input_only passed=true hard_flags=- evaluators=siren
+UCUCCUUCAUAUUUCCUGACG
+>rank=10 tier=unanimous site=NM_001657.4:824-844 gc=0.476 generators=sirnadesigner,sirnaforge specificity=input_only passed=true hard_flags=- evaluators=siren
+UCACAGCAGACAUAAAGGCAG
+>rank=11 tier=unanimous site=NM_001657.4:491-511 gc=0.381 generators=sirnadesigner,sirnaforge specificity=input_only passed=true hard_flags=- evaluators=siren
+AAUCAUCGACAAUAUAGCCAG
+>rank=12 tier=unanimous site=NM_001657.4:862-882 gc=0.381 generators=sirnadesigner,sirnaforge specificity=input_only passed=true hard_flags=- evaluators=siren
+UCUAAGCUGGACUGUAAUAAC
+>rank=13 tier=unanimous site=NM_001657.4:897-917 gc=0.381 generators=sirnadesigner,sirnaforge specificity=input_only passed=true hard_flags=- evaluators=siren
+UCAGCUUCUCCUUCAUAUUUC
+>rank=14 tier=unanimous site=NM_001657.4:931-951 gc=0.381 generators=sirnadesigner,sirnaforge specificity=input_only passed=true hard_flags=- evaluators=siren
+AUUUCCAUUCUCUUGUCGAAG
+>rank=15 tier=unanimous site=NM_001657.4:495-515 gc=0.333 generators=sirnadesigner,sirnaforge specificity=input_only passed=true hard_flags=- evaluators=siren
+ACUGAAUCAUCGACAAUAUAG
+>rank=16 tier=unanimous site=NM_001657.4:518-538 gc=0.429 generators=sirnadesigner,sirnaforge specificity=input_only passed=false hard_flags=guide_5p_not_AU evaluators=siren
+GCUUAACUACCUGUUCAACUC
+>rank=17 tier=unanimous site=NM_001657.4:284-304 gc=0.476 generators=sirnadesigner,sirnaforge specificity=input_only passed=true hard_flags=- evaluators=siren
+UGUCAUUGAGGUCCAAUCCAG
+>rank=18 tier=unanimous site=NM_001657.4:1004-1024 gc=0.476 generators=sirnadesigner,sirnaforge specificity=input_only passed=true hard_flags=- evaluators=siren
+UAUGGCUAUGACUUGGCAGUG
+>rank=19 tier=unanimous site=NM_001657.4:877-897 gc=0.429 generators=sirnadesigner,sirnaforge specificity=input_only passed=false hard_flags=guide_5p_not_AU evaluators=siren
+CCUGACGUAUUGUCUUCUAAG
+>rank=20 tier=unanimous site=NM_001657.4:672-692 gc=0.381 generators=sirnadesigner,sirnaforge specificity=input_only passed=true hard_flags=- evaluators=siren
+UAUUUGCAUUCUCCGUGAAUG
+>rank=21 tier=unanimous site=NM_001657.4:729-749 gc=0.429 generators=sirnadesigner,sirnaforge specificity=input_only passed=false hard_flags=guide_5p_not_AU evaluators=siren
+CGUUCACCGAAAUAUUCUUGC
+>rank=22 tier=unanimous site=NM_001657.4:918-938 gc=0.429 generators=sirnadesigner,sirnaforge specificity=input_only passed=true hard_flags=- evaluators=siren
+UGUCGAAGUUUCUUUCGUUCC
+>rank=23 tier=unanimous site=NM_001657.4:706-726 gc=0.381 generators=sirnadesigner,sirnaforge specificity=input_only passed=true hard_flags=- evaluators=siren
+ACAUUUGCAUGUUACUGCUUC
+>rank=24 tier=unanimous site=NM_001657.4:710-730 gc=0.429 generators=sirnadesigner,sirnaforge specificity=input_only passed=false hard_flags=guide_5p_not_AU evaluators=siren
+GCUGACAUUUGCAUGUUACUG
+>rank=25 tier=unanimous site=NM_001657.4:942-962 gc=0.333 generators=sirnadesigner,sirnaforge specificity=input_only passed=true hard_flags=- evaluators=siren
+AUAGCAUGUACAUUUCCAUUC
+>rank=26 tier=unanimous site=NM_001657.4:352-372 gc=0.429 generators=sirnadesigner,sirnaforge specificity=input_only passed=true hard_flags=- evaluators=siren
+UCUUGAGGUAACCUCAAAUCC
+>rank=27 tier=unanimous site=NM_001657.4:777-797 gc=0.381 generators=sirnadesigner,sirnaforge specificity=input_only passed=true hard_flags=- evaluators=siren
+AAACUACUGUCAAUCAUGCUG
+>rank=28 tier=unanimous site=NM_001657.4:292-312 gc=0.476 generators=sirnadesigner,sirnaforge specificity=input_only passed=true hard_flags=- evaluators=siren
+AGAGUAGGUGUCAUUGAGGUC
+>rank=29 tier=unanimous site=NM_001657.4:361-381 gc=0.429 generators=sirnadesigner,sirnaforge specificity=input_only passed=false hard_flags=guide_5p_not_AU evaluators=siren
+CAUCUCACUUCUUGAGGUAAC
+>rank=30 tier=unanimous site=NM_001657.4:881-901 gc=0.381 generators=sirnadesigner,sirnaforge specificity=input_only passed=true hard_flags=- evaluators=siren
+AUUUCCUGACGUAUUGUCUUC
+>rank=31 tier=unanimous site=NM_001657.4:1046-1066 gc=0.429 generators=sirnadesigner,sirnaforge specificity=input_only passed=false hard_flags=guide_5p_not_AU evaluators=siren
+CAUUGUCUUAUGAUCCACUGG
+>rank=32 tier=unanimous site=NM_001657.4:819-839 gc=0.476 generators=sirnadesigner,sirnaforge specificity=input_only passed=false hard_flags=guide_5p_not_AU evaluators=siren
+GCAGACAUAAAGGCAGCUAUG
+>rank=33 tier=unanimous site=NM_001657.4:504-524 gc=0.429 generators=sirnadesigner,sirnaforge specificity=input_only passed=true hard_flags=- evaluators=siren
+UCAACUCUGACUGAAUCAUCG
+>rank=34 tier=unanimous site=NM_001657.4:768-788 gc=0.381 generators=sirnadesigner,sirnaforge specificity=input_only passed=false hard_flags=homopolymer evaluators=siren
+UCAAUCAUGCUGUGAGUUUUC
+>rank=35 tier=unanimous site=NM_001657.4:676-696 gc=0.333 generators=sirnadesigner,sirnaforge specificity=input_only passed=true hard_flags=- evaluators=siren
+UAUAUAUUUGCAUUCUCCGUG
+>rank=36 tier=unanimous site=NM_001657.4:718-738 gc=0.333 generators=sirnadesigner,sirnaforge specificity=input_only passed=true hard_flags=- evaluators=siren
+AUAUUCUUGCUGACAUUUGCA
+>rank=37 tier=unanimous site=NM_001657.4:310-330 gc=0.476 generators=sirnadesigner,sirnaforge specificity=input_only passed=true hard_flags=- evaluators=siren
+AAAUGGUUCACGCUUCCCAGA
+>rank=38 tier=unanimous site=NM_001657.4:408-428 gc=0.429 generators=sirnadesigner,sirnaforge specificity=input_only passed=false hard_flags=guide_5p_not_AU evaluators=siren
+CUACUAGAAGGCAUUUCACUC
+>rank=39 tier=unanimous site=NM_001657.4:871-891 gc=0.429 generators=sirnadesigner,sirnaforge specificity=input_only passed=false hard_flags=guide_5p_not_AU evaluators=siren
+GUAUUGUCUUCUAAGCUGGAC
+>rank=40 tier=unanimous site=NM_001657.4:512-532 gc=0.476 generators=sirnadesigner,sirnaforge specificity=input_only passed=false hard_flags=guide_5p_not_AU evaluators=siren
+CUACCUGUUCAACUCUGACUG
+>rank=41 tier=unanimous site=NM_001657.4:671-691 gc=0.429 generators=sirnadesigner,sirnaforge specificity=input_only passed=true hard_flags=- evaluators=siren
+AUUUGCAUUCUCCGUGAAUGC
+>rank=42 tier=unanimous site=NM_001657.4:461-481 gc=0.381 generators=sirnadesigner,sirnaforge specificity=input_only passed=false hard_flags=guide_5p_not_AU evaluators=siren
+GUUCGUUAUCAUACUCUUCUG
+>rank=43 tier=unanimous site=NM_001657.4:955-975 gc=0.381 generators=sirnadesigner,sirnaforge specificity=input_only passed=false hard_flags=guide_5p_not_AU evaluators=siren
+CUUCAGUUAUGCUAUAGCAUG
+>rank=44 tier=unanimous site=NM_001657.4:678-698 gc=0.333 generators=sirnadesigner,sirnaforge specificity=input_only passed=true hard_flags=- evaluators=siren
+UCUAUAUAUUUGCAUUCUCCG
+>rank=45 tier=unanimous site=NM_001657.4:468-488 gc=0.333 generators=sirnadesigner,sirnaforge specificity=input_only passed=true hard_flags=- evaluators=siren
+AUUUGUGGUUCGUUAUCAUAC
+>rank=46 tier=unanimous site=NM_001657.4:716-736 gc=0.381 generators=sirnadesigner,sirnaforge specificity=input_only passed=true hard_flags=- evaluators=siren
+AUUCUUGCUGACAUUUGCAUG
+>rank=47 tier=unanimous site=NM_001657.4:827-847 gc=0.476 generators=sirnadesigner,sirnaforge specificity=input_only passed=false hard_flags=guide_5p_not_AU evaluators=siren
+GGAUCACAGCAGACAUAAAGG
+>rank=48 tier=unanimous site=NM_001657.4:914-934 gc=0.429 generators=sirnadesigner,sirnaforge specificity=input_only passed=false hard_flags=guide_5p_not_AU evaluators=siren
+GAAGUUUCUUUCGUUCCUCAG
+>rank=49 tier=unanimous site=NM_001657.4:381-401 gc=0.476 generators=sirnadesigner,sirnaforge specificity=input_only passed=false hard_flags=guide_5p_not_AU evaluators=siren
+GAAAUCUCACUCCCUGAAGAC
+>rank=50 tier=unanimous site=NM_001657.4:281-301 gc=0.524 generators=sirnadesigner,sirnaforge specificity=input_only passed=false hard_flags=guide_5p_not_AU evaluators=siren
+CAUUGAGGUCCAAUCCAGCAG
+>rank=51 tier=unanimous site=NM_001657.4:815-835 gc=0.476 generators=sirnadesigner,sirnaforge specificity=input_only passed=true hard_flags=- evaluators=siren
+ACAUAAAGGCAGCUAUGGCUG
+>rank=52 tier=unanimous site=NM_001657.4:309-329 gc=0.524 generators=sirnadesigner,sirnaforge specificity=input_only passed=true hard_flags=- evaluators=siren
+AAUGGUUCACGCUUCCCAGAG
+>rank=53 tier=unanimous site=NM_001657.4:286-306 gc=0.524 generators=sirnadesigner,sirnaforge specificity=input_only passed=false hard_flags=guide_5p_not_AU evaluators=siren
+GGUGUCAUUGAGGUCCAAUCC
+>rank=54 tier=unanimous site=NM_001657.4:1008-1028 gc=0.429 generators=sirnadesigner,sirnaforge specificity=input_only passed=false hard_flags=guide_5p_not_AU evaluators=siren
+CAUUUAUGGCUAUGACUUGGC
+>rank=55 tier=unanimous site=NM_001657.4:402-422 gc=0.524 generators=sirnadesigner,sirnaforge specificity=input_only passed=false hard_flags=guide_5p_not_AU evaluators=siren
+GAAGGCAUUUCACUCACAGGG
+>rank=56 tier=unanimous site=NM_001657.4:780-800 gc=0.333 generators=sirnadesigner,sirnaforge specificity=input_only passed=false hard_flags=guide_5p_not_AU evaluators=siren
+GAUAAACUACUGUCAAUCAUG
+>rank=57 tier=unanimous site=NM_001657.4:1036-1056 gc=0.524 generators=sirnadesigner,sirnaforge specificity=input_only passed=true hard_flags=- evaluators=siren
+UGAUCCACUGGAAAGAGGACC
+>rank=58 tier=unanimous site=NM_001657.4:272-292 gc=0.524 generators=sirnadesigner,sirnaforge specificity=input_only passed=false hard_flags=guide_5p_not_AU evaluators=siren
+CCAAUCCAGCAGCAUAAUGGC
+>rank=59 tier=unanimous site=NM_001657.4:834-854 gc=0.571 generators=sirnadesigner,sirnaforge specificity=input_only passed=false hard_flags=gc_outside_window,guide_5p_not_AU evaluators=siren
+GCUGUGAGGAUCACAGCAGAC

@@ -31,32 +31,47 @@ def _quality_term(core: Core) -> float:
     return 0.6 * gc_term + 0.25 * max(seed_term, 0.0) + 0.15 * end_term
 
 
-def score_candidate(cluster: Cluster) -> float:
+def score_components(cluster: Cluster) -> dict[str, float]:
     core = cluster.representative()
-    return (2.0 * cluster.votes
-            + 0.5 * _tool_score_term(cluster.tools)
-            + 0.5 * _quality_term(core))
+    return {
+        "vote_component": 2.0 * cluster.votes,
+        "tool_score_component": 0.5 * _tool_score_term(cluster.tools),
+        "quality_component": 0.5 * _quality_term(core),
+    }
+
+
+def score_candidate(cluster: Cluster) -> float:
+    return sum(score_components(cluster).values())
 
 
 def build_candidates(clusters: list[Cluster], min_votes: int = 2,
-                     include_singletons: bool = True) -> list[Candidate]:
-    """Turn clusters into filtered, ranked candidates."""
+                     include_singletons: bool = True,
+                     acting_tools: int = 0,
+                     filter_config: filters.FilterConfig = filters.DEFAULT_FILTERS
+                     ) -> list[Candidate]:
+    """Turn clusters into filtered, ranked candidates.
+
+    ``include_singletons`` controls the *reporting* list: singletons are kept for
+    inspection, but they are never promoted into the default Top-K because
+    :func:`diverse_top` enforces ``min_votes``.
+    """
     candidates: list[Candidate] = []
     for cluster in clusters:
-        # `min_votes` is the reporting threshold; `include_singletons` is the
-        # escape hatch that still surfaces single-tool sites (tagged by tier).
         if cluster.votes < min_votes and not (include_singletons and cluster.votes == 1):
             continue
         core = cluster.representative()
-        flags = filters.hard_flags(core)
+        flags = filters.hard_flags(core, filter_config)
+        parts = score_components(cluster)
         candidates.append(Candidate(
             core=core,
             votes=cluster.votes,
             tools=sorted(cluster.tools),
             tool_scores={k: v for k, v in cluster.tools.items() if v is not None},
+            acting_tools=acting_tools,
             filter_flags=flags,
-            soft_flags=filters.soft_flags(core),
-            score=score_candidate(cluster),
+            soft_flags=filters.soft_flags(core, filter_config),
+            score=sum(parts.values()),
+            score_parts=parts,
         ))
     # A vote is worth 2.0 and everything else tops out at 1.0, so sorting by
     # score alone is the same lexicographic order as (votes, tool score,
@@ -68,12 +83,47 @@ def build_candidates(clusters: list[Cluster], min_votes: int = 2,
 
 
 def diverse_top(candidates: list[Candidate], top_k: int,
-                min_spacing: int = 30) -> list[Candidate]:
-    """Greedy spacer so the Top-K are not all one clump on the transcript."""
+                min_spacing: int = 30, min_votes: int = 0) -> list[Candidate]:
+    """Greedy spacer so the Top-K are not all one clump on the transcript.
+
+    ``min_votes`` is a hard floor for the exported Top-K. Singletons remain in
+    ``candidates.tsv`` / ``all_candidates.fa`` for inspection but do not enter
+    the order-ready set unless the caller sets ``min_votes <= 1``.
+    """
     kept: list[Candidate] = []
     for candidate in candidates:
+        if candidate.votes < min_votes:
+            continue
         if all(abs(candidate.core.start - k.core.start) >= min_spacing for k in kept):
             kept.append(candidate)
+        if len(kept) == top_k:
+            break
+    return kept
+
+
+def diverse_top_balanced(candidates: list[Candidate], top_k: int,
+                         min_spacing: int = 30, min_votes: int = 0,
+                         bin_size: int = 200, max_per_bin: int = 2
+                         ) -> list[Candidate]:
+    """Alternative diversity-aware Top-K.
+
+    Same spacing floor as :func:`diverse_top`, plus a cap on how many selected
+    guides may come from one transcript bin. This is a comparison mode, not the
+    default, so the exported order-ready set remains the deterministic greedy one.
+    """
+    if bin_size <= 0 or max_per_bin <= 0:
+        raise ValueError("bin_size and max_per_bin must be positive")
+    kept: list[Candidate] = []
+    bin_counts: dict[int, int] = {}
+    for candidate in candidates:
+        if candidate.votes < min_votes:
+            continue
+        if all(abs(candidate.core.start - k.core.start) >= min_spacing for k in kept):
+            bin_id = candidate.core.start // bin_size
+            if bin_counts.get(bin_id, 0) >= max_per_bin:
+                continue
+            kept.append(candidate)
+            bin_counts[bin_id] = bin_counts.get(bin_id, 0) + 1
         if len(kept) == top_k:
             break
     return kept
