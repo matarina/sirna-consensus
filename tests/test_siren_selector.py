@@ -176,6 +176,53 @@ def test_detail_admits_fallback_when_siren_rejects_a_resolved_selector(
     assert [call[0] for call in tool.calls] == [str(transcriptome), str(fasta)]
 
 
+def test_fallback_parse_never_reads_the_aborted_attempt_summary(
+        tmp_path, transcriptome):
+    """run3 (2026-10-27) hazard, as a regression test.
+
+    The transcriptome attempt wrote a real (partial) transcriptome-wide
+    off_targets_summary.tsv and then died. The input-only retry finished
+    without producing its own summary. Parsing must take the *retry's*
+    directory only: input-scoped means no off-targets -- never a silent
+    adoption of the aborted screen's burden mislabelled as input-scoped.
+    """
+    class _Leaky(SirenTool):
+        def __init__(self, env):
+            super().__init__(env)
+            self.calls = []
+
+        def availability(self):
+            return True, "fake"
+
+        def _invoke(self, targets, selector, workdir):
+            self.calls.append((str(targets), selector))
+            workdir.mkdir(parents=True, exist_ok=True)
+            other = workdir / "other_files"
+            other.mkdir(exist_ok=True)
+            (other / "sirnas.fa").write_text(f">sirna_1-21\n{SEQ_A[:21]}\n")
+            if targets.name == "cdna.fa":
+                # aborted transcriptome screen: partial summary, then death
+                (workdir / "off_targets_summary.tsv").write_text(
+                    "Off target\tsiRNA number\tsiRNA names\n"
+                    "ENST9\t3\tsirna_1-21_r\n")
+                raise ToolError("fake SIREN: timed out mid screen")
+            # the input-only retry completes but screens nothing beyond the
+            # input itself: it deliberately writes no summary at all
+
+    fasta = _input(tmp_path, "NM_009.4 (GENEONE)", SEQ_C)
+    tool = _Leaky(_env(transcriptome))
+    run = tool.run(fasta, tmp_path / "wd", "NM_009.4")
+    assert run.status == "ok"
+    assert "fell back to the input FASTA only" in run.detail
+    # burden comes from the retry's own directory, which has no summary
+    assert run.hits[0].extra["offtargets"] == 0
+    # the aborted attempt's artifacts are preserved, but isolated
+    assert (tmp_path / "wd" / "transcriptome" /
+            "off_targets_summary.tsv").is_file()
+    assert not (tmp_path / "wd" / "input" /
+                "off_targets_summary.tsv").exists()
+
+
 def test_no_transcriptome_configured_says_so(tmp_path):
     fasta = _input(tmp_path, "NM_009.4", SEQ_A)
     tool = _Fake(_env(None))

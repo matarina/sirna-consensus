@@ -53,6 +53,13 @@ off-target screen then only ever sees the input, so the returned
 :class:`~sirna_consensus.types.ToolRun` ``detail`` says which selector was used
 and whether a real transcriptome-backed screen happened, rather than degrading
 silently.
+
+Each attempt is given its **own** output directory under the run's workdir
+(``input/`` and ``transcriptome/``); parsing only ever reads the directory of
+the attempt that succeeded. That keeps an aborted screen's partial artifacts
+from being mistaken for -- and consumed by -- the fallback attempt's results
+(a stale transcriptome-wide summary silently parsed as input-scoped was
+exactly what run3 on 2026-10-27 produced).
 """
 from __future__ import annotations
 
@@ -347,44 +354,54 @@ class SirenTool(Tool):
 
         override = self.env.siren_gene_selector
         resolution: Resolution | None = None
+        # Every attempt gets its own directory. A screen that dies mid-write
+        # must never leave artifacts that the *next* attempt's parse could
+        # mistake for its own result (run3, 2026-10-27: a stale
+        # transcriptome-wide off_targets_summary.tsv was consumed by an
+        # input-only fallback and reported as input-scoped).
         if transcriptome is None:
             # No reference configured: the input is all SIREN can screen, and its
             # own id is the only selector that can match it.
             selector = override or transcript_id
-            self._invoke(fasta, selector, workdir)
+            attempt = workdir / "input"
+            self._invoke(fasta, selector, attempt)
             note = f"input only: no transcriptome configured (selector {selector!r})"
         else:
             resolution = resolve_selector(fasta, transcript_id, transcriptome,
                                           override=override)
             if not resolution.matched:
-                selector = transcript_id
-                self._invoke(fasta, selector, workdir)
+                attempt = workdir / "input"
+                self._invoke(fasta, transcript_id, attempt)
                 note = (f"fell back to the input FASTA only: no transcriptome "
                         f"selector matched (tried {resolution.selector!r}); "
                         f"off-targets are input-scoped, not transcriptome-wide")
             else:
-                selector = resolution.selector
+                attempt = workdir / "transcriptome"
                 try:
-                    self._invoke(transcriptome, selector, workdir)
-                except ToolError:
+                    self._invoke(transcriptome, resolution.selector, attempt)
+                except ToolError as exc:
                     # Matched the headers, yet SIREN still refused it: fall back
-                    # to the input rather than lose the run.
-                    workdir.mkdir(parents=True, exist_ok=True)
-                    self._invoke(fasta, transcript_id, workdir)
+                    # to the input rather than lose the run. Keep the failure
+                    # reason in the detail so the next run can tell a timeout,
+                    # an OOM kill, from an upstream error.
+                    attempt = workdir / "input"
+                    self._invoke(fasta, transcript_id, attempt)
                     note = (f"fell back to the input FASTA only: transcriptome "
                             f"screen failed ({resolution.describe()}); no "
-                            f"transcriptome-backed screen happened")
+                            f"transcriptome-backed screen happened; last "
+                            f"error: {str(exc)[:200]}")
                 else:
                     note = f"screened against the transcriptome: {resolution.describe()}"
 
-        burden = self._offtarget_burden(workdir)
-        hits = self._parse_sirnas(workdir, burden)
+        burden = self._offtarget_burden(attempt)
+        hits = self._parse_sirnas(attempt, burden)
         if not hits:
             return self.wrap("empty", "SIREN produced no 21-mer records")
         screened = f"{len(burden)} siRNAs carry off-targets" if burden else "no off-targets found"
         return self.wrap("ok", f"{len(hits)} 21-mers evaluated; {note}; {screened}", hits)
 
     def _invoke(self, targets: Path, selector: str, workdir: Path) -> None:
+        workdir.mkdir(parents=True, exist_ok=True)
         command = [self._exe(), "-T", str(targets), "-g", selector,
                    "-o", str(workdir), "-t", str(self.env.siren_threads)]
         self._execute(command, workdir, self.env.child_env())
