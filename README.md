@@ -40,6 +40,47 @@ your own thresholds" would be a fiction.
 The tools keep doing their own enumeration: they take the FASTA directly. The
 only coordinate work here is *placing what comes back*.
 
+## Detailed implementation pipeline
+
+The executable orchestration is `src/sirna_consensus/pipeline.py`. Each stage is
+a separate module, so input handling, coordinate placement, voting, filters and
+reporting can be tested independently.
+
+```mermaid
+flowchart TD
+    A["Single transcript FASTA"] --> B["Validate input<br/>one record · A/C/G/T · id · SHA-256"]
+    B --> C["Tool availability check<br/>usable tools only"]
+    C --> D["Fan out to N external tools<br/>ThreadPoolExecutor · isolated work dirs"]
+    D --> E["Adapter output → RawHit<br/>sense-strand DNA, optional start/score"]
+    E --> F["Place on transcript<br/>normalize.place() · deduplicate"]
+    F --> G["Site-level consensus<br/>exact bucket (default) or fuzzy union-find<br/>votes = distinct tools"]
+    G --> H["Build candidates<br/>min_votes · singleton policy"]
+    H --> I["Sequence filters<br/>hard reject · soft annotate"]
+    I --> J["Score and rank<br/>votes dominant; tool/quality tie-break"]
+    J --> K["Diverse top-K<br/>greedy min-spacing 30 nt"]
+    K --> L["Provenance and outputs<br/>candidates.tsv · top_guides.fa · run.json · report.html"]
+    C -.-> X["Unavailable/failed tool<br/>recorded in run.json; reduces M"]
+    D -.-> X
+```
+
+| stage | module | implementation detail |
+|---|---|---|
+| 1. Input validation | `fasta.py` | exactly one FASTA record; header's first token is the transcript id; `U`→`T`; rejects ambiguity; length 21–200,000 nt; computes SHA-256 of the sequence. |
+| 2. Tool selection | `tools/__init__.py`, `tools/base.py` | registry lookup plus `availability()` without running the tool. Unusable tools are wrapped as `unavailable`; nothing is imported as a library, so each tool stays behind a subprocess boundary. |
+| 3. Concurrent fan-out | `pipeline.run` | `ThreadPoolExecutor(max_workers=min(jobs, len(tools)))`; each tool writes to `out/work/<tool>/`; a tool exception becomes `failed` and does not abort the whole run. |
+| 4. Adapter normalisation | `tools/*.py`, `types.RawHit` | each adapter decodes its own strand, overhang and alphabet conventions and returns a sense-strand DNA `RawHit`; `normalise_sequence()` converts `U`→`T`. |
+| 5. Placement on one axis | `normalize.py` | `place()` trusts a reported start only if it matches the sequence; otherwise it uses a unique sequence occurrence, nearest occurrence, or rejects `ambiguous_repeat`. Deduplication key is `(tool, start, length)`. |
+| 6. Site-level consensus | `consensus.py` | default `bucket()` groups by exact `(transcript_id, start, length)` after placement. `--site-mode fuzzy` uses union-find over `offset_tolerance` + shared-base slack. Votes count **distinct tools**, not duplicate hits. The representative is the most-shared geometry (longest, then leftmost). |
+| 7. Candidate construction | `rank.build_candidates` | applies `min_votes`; singletons are kept by default and tagged by tier; hard flags are attached; score = `2·votes + 0.5·normalised_tool_score + 0.5·quality`; candidates are sorted by score then start and assigned a rank. |
+| 8. Sequence filters | `filters.py` | hard: GC outside 30–55%, homopolymer ≥4, low complexity, guide 5′ end not A/U, internal palindrome. Soft: GU-rich guide, seed GC extremes, sense 3′ end. Filters run **after** voting. |
+| 9. Diverse top-K | `rank.diverse_top` | greedy selection with at least `min_spacing` (default 30 nt) between selected starts, stopping at `top_k`. |
+| 10. Provenance and reports | `report.py` | writes `candidates.tsv`, `top_guides.fa`, `run.json`, `report.html`; counts distinguish **sites**, **candidates**, and **filter-rejected candidates**. |
+
+Failure semantics are explicit: a failed tool is recorded and reduces the
+number of acting tools `M`; an empty placement set raises an error rather than
+emitting a bogus candidate; and SIREN's transcriptome fallback is described in
+`run.json`/the report as input-scoped, not transcriptome-wide.
+
 ---
 
 ## Install

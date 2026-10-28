@@ -1,0 +1,189 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>sirna-consensus — NM_001657.4 — real run status report</title>
+<style>
+:root{--ink:#111820;--muted:#5c6b74;--line:#d5dee2;--navy:#123b4f;--teal:#0f7b74;--amber:#8a5c12}
+*{box-sizing:border-box}
+body{margin:0;background:#eef1f2;color:var(--ink);
+font:15px/1.65 'Charter',Georgia,'Noto Serif SC',serif}
+.page{max-width:1100px;margin:0 auto;background:#fff;padding:38px 44px 52px;
+box-shadow:0 2px 20px rgba(20,35,43,.09)}
+h1{font-size:23px;margin:0 0 6px}
+h2{font-size:16px;margin:30px 0 10px;border-bottom:1px solid var(--line);padding-bottom:5px}
+code{font:12px ui-monospace,Menlo,Consolas,monospace;background:#eff3f4;padding:1px 4px;border-radius:3px}
+.sub{color:#3b4b55;font-size:13.5px;margin:0 0 16px}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 22px}
+.pill{padding:3px 10px;border-radius:3px;font:700 11px ui-sans-serif,system-ui}
+.pill.ok{background:#e2f1e7;color:#1d6b3a}.pill.bad{background:#fbe6e2;color:#a4301f}
+.pill.info{background:#e4eef5;color:#123b4f}.pill.warn{background:#f8ecd6;color:#8a5c12}
+table{width:100%;border-collapse:collapse;font:12.5px ui-sans-serif,system-ui;margin:10px 0}
+th{text-align:left;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);
+padding:6px;border-bottom:1.4px solid var(--ink)}
+td{padding:6px;border-bottom:1px solid #e9eef0}
+td.n{text-align:right;font-variant-numeric:tabular-nums}
+.ok{color:#1d6b3a}.bad{color:#a4301f}.warn{color:#8a5c12}
+.note{background:#f7faf9;border-left:3px solid var(--teal);padding:11px 14px;font-size:12.5px;margin:14px 0}
+.note.warnbox{background:#fdf6e8;border-left:3px solid var(--amber)}
+.diagram{background:#f7faf9;border:1px solid var(--line);border-radius:6px;padding:14px;margin:16px 0}
+.diagram svg{width:100%;height:auto;display:block}
+.mermaid-note{font-size:12px;color:var(--muted);margin:8px 0 0}
+footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+@media print{body{background:#fff}.page{box-shadow:none;max-width:none;padding:0}}
+</style></head><body><div class="page">
+<h1>sirna-consensus real run — status report</h1>
+<p class="sub">NM_001657.4 · 1234 nt ·
+input SHA-256 <code>1275010b0a10dff9…</code> ·
+run generated 2026-10-28T05:08:05.083978+00:00 · status checked 2026-10-28T06:12:08Z</p>
+
+<div class="pills">
+  <span class="pill ok">main run finished</span>
+  <span class="pill warn">transcriptome child still running</span>
+  <span class="pill info">tools acting: 1</span>
+  <span class="pill warn">status research_only</span>
+  <span class="pill ok">607 unanimous sites</span>
+  <span class="pill bad">454 dropped by filters</span>
+</div>
+
+<h2>Run status</h2>
+<div class="note warnbox"><b>The consensus run is complete.</b> It wrote
+<code>candidates.tsv</code>, <code>top_guides.fa</code>, <code>run.json</code> and
+<code>report.html</code> at 2026-10-28T05:08:05.083978+00:00. Its SIREN transcriptome screen
+<b>timed out and fell back to the input FASTA only</b>, so these are
+input-scoped predictions, not transcriptome-wide off-target results.
+A separate/orphaned SIREN transcriptome child process is still running
+(PID 3751971, started 2026-10-28 11:42, elapsed ~2h05m at the status check).
+That background job has not produced a final transcriptome summary, so it is
+not part of the finished result set.</div>
+
+<h2>Pipeline flow</h2>
+<div class="diagram">
+
+<svg viewBox="0 0 980 660" role="img" aria-label="sirna-consensus pipeline flow">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3"
+            orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#5c6b74"/>
+    </marker>
+    <marker id="dasharrow" markerWidth="10" markerHeight="10" refX="9" refY="3"
+            orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#8a5c12"/>
+    </marker>
+  </defs>
+
+  <g font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" fill="#111820">
+    <!-- main pipeline -->
+    <rect x="270" y="18" width="430" height="74" rx="10"
+          fill="#e4eef5" stroke="#123b4f" stroke-width="2"/>
+    <text x="485" y="42" text-anchor="middle" font-weight="700">Input transcript FASTA</text>
+    <text x="485" y="64" text-anchor="middle" font-size="13" fill="#3b4b55">NM_001657.4 · 1234 nt</text>
+
+    <path d="M485 92 L485 124" stroke="#5c6b74" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+    <rect x="270" y="124" width="430" height="74" rx="10"
+          fill="#e4eef5" stroke="#123b4f" stroke-width="2"/>
+    <text x="485" y="148" text-anchor="middle" font-weight="700">SIREN generation</text>
+    <text x="485" y="170" text-anchor="middle" font-size="13" fill="#3b4b55">607 21-mer hits</text>
+
+    <path d="M485 198 L485 230" stroke="#5c6b74" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+    <rect x="270" y="230" width="430" height="74" rx="10"
+          fill="#e4eef5" stroke="#123b4f" stroke-width="2"/>
+    <text x="485" y="254" text-anchor="middle" font-weight="700">Site-level consensus</text>
+    <text x="485" y="276" text-anchor="middle" font-size="13" fill="#3b4b55">607 sites · 607 unanimous</text>
+
+    <path d="M485 304 L485 336" stroke="#5c6b74" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+    <rect x="270" y="336" width="430" height="74" rx="10"
+          fill="#e4eef5" stroke="#123b4f" stroke-width="2"/>
+    <text x="485" y="360" text-anchor="middle" font-weight="700">Sequence filters</text>
+    <text x="485" y="382" text-anchor="middle" font-size="13" fill="#3b4b55">454 dropped · 153 pass</text>
+
+    <path d="M485 410 L485 442" stroke="#5c6b74" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+    <rect x="270" y="442" width="430" height="74" rx="10"
+          fill="#e4eef5" stroke="#123b4f" stroke-width="2"/>
+    <text x="485" y="466" text-anchor="middle" font-weight="700">Ranking + 30 nt spacing</text>
+    <text x="485" y="488" text-anchor="middle" font-size="13" fill="#3b4b55">top 5 candidates</text>
+
+    <path d="M485 516 L485 548" stroke="#5c6b74" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+    <rect x="270" y="548" width="430" height="86" rx="10"
+          fill="#e2f1e7" stroke="#1d6b3a" stroke-width="2"/>
+    <text x="485" y="574" text-anchor="middle" font-weight="700">Outputs</text>
+    <text x="485" y="596" text-anchor="middle" font-size="13" fill="#1d6b3a">candidates.tsv · top_guides.fa</text>
+    <text x="485" y="616" text-anchor="middle" font-size="13" fill="#1d6b3a">run.json · report.html</text>
+
+    <!-- timed-out transcriptome branch -->
+    <path d="M700 160 L735 190" stroke="#8a5c12" stroke-width="2.5"
+          stroke-dasharray="7 5" marker-end="url(#dasharrow)"/>
+    <rect x="735" y="150" width="220" height="96" rx="10"
+          fill="#f8ecd6" stroke="#8a5c12" stroke-width="2"/>
+    <text x="845" y="175" text-anchor="middle" font-weight="700">Transcriptome screen</text>
+    <text x="845" y="197" text-anchor="middle" font-size="13" fill="#8a5c12">SIREN child PID 3751971</text>
+    <text x="845" y="219" text-anchor="middle" font-size="13" fill="#8a5c12">still running</text>
+
+    <path d="M845 246 L845 282" stroke="#8a5c12" stroke-width="2.5"
+          stroke-dasharray="7 5" marker-end="url(#dasharrow)"/>
+    <text x="878" y="268" font-size="12" fill="#8a5c12">timed out</text>
+
+    <rect x="735" y="282" width="220" height="86" rx="10"
+          fill="#fbe6e2" stroke="#a4301f" stroke-width="2"/>
+    <text x="845" y="307" text-anchor="middle" font-weight="700">Fallback: input-only FASTA</text>
+    <text x="845" y="329" text-anchor="middle" font-size="13" fill="#a4301f">no transcriptome-wide</text>
+    <text x="845" y="349" text-anchor="middle" font-size="13" fill="#a4301f">off-target result</text>
+
+    <!-- legend -->
+    <g font-size="12" fill="#5c6b74">
+      <line x1="270" y1="638" x2="320" y2="638" stroke="#5c6b74" stroke-width="2.5"
+            marker-end="url(#arrow)"/>
+      <text x="330" y="642">finished stage</text>
+      <line x1="450" y1="638" x2="500" y2="638" stroke="#8a5c12" stroke-width="2.5"
+            stroke-dasharray="7 5" marker-end="url(#dasharrow)"/>
+      <text x="510" y="642">timed-out / fallback branch</text>
+    </g>
+  </g>
+</svg>
+
+<div class="mermaid-note">Mermaid-style flowchart. Solid arrows are finished
+stages; the dashed amber branch is the timed-out transcriptome screen and its
+input-only fallback. The diagram is self-contained SVG, so it does not need an
+external renderer.</div>
+</div>
+
+<h2>Pipeline counts</h2>
+<table><thead><tr><th>stage</th><th>count</th></tr></thead><tbody>
+<tr><td>raw hits received</td><td class='n'>607</td></tr>
+<tr><td>placed on transcript</td><td class='n'>607</td></tr>
+<tr><td>distinct sites</td><td class='n'>607</td></tr>
+<tr><td>unanimous sites</td><td class='n'>607</td></tr>
+<tr><td>below vote threshold</td><td class='n'>0</td></tr>
+<tr><td>dropped by sequence filters</td><td class='n'>454</td></tr>
+<tr><td>passing filters</td><td class='n'>153</td></tr>
+<tr><td>selected top candidates</td><td class='n'>5</td></tr>
+</tbody></table>
+
+<h2>External tools</h2>
+<table><thead><tr><th>tool</th><th>status</th><th>hits</th><th>detail</th></tr></thead>
+<tbody><tr><td><code>siren</code></td><td class='ok'>ok</td><td class='n'>607</td><td>607 21-mers evaluated; fell back to the input FASTA only: transcriptome screen failed (selector &#x27;ENST00000395748.8&#x27; resolved by gene-symbol, maps to ENST00000395748.8, gene ENSG00000109321.13); no transcriptome-backed screen happened; no off-targets found</td></tr></tbody></table>
+
+<h2>Normalisation onto the transcript</h2>
+<table><thead><tr><th>tool</th><th>received</th><th>placed</th><th>duplicates</th><th>rejected</th></tr></thead>
+<tbody><tr><td><code>siren</code></td><td class='n'>607</td><td class='n'>607</td><td class='n'>0</td><td>{}</td></tr></tbody></table>
+
+<h2>Top 5 consensus candidates</h2>
+<table><thead><tr><th>#</th><th>votes</th><th>site</th><th>guide 5′→3′ (RNA)</th>
+<th>GC</th><th>tools</th><th>soft flags</th></tr></thead><tbody><tr><td class='n'>1</td><td><span class='pill ok'>1/1</span></td><td>NM_001657.4:343-363</td><td><code>AACCUCAAAUCCAUCAGCACU</code></td><td class='n'>0.4286</td><td>siren</td><td>-</td></tr><tr><td class='n'>2</td><td><span class='pill ok'>1/1</span></td><td>NM_001657.4:379-399</td><td><code>AAUCUCACUCCCUGAAGACAU</code></td><td class='n'>0.4286</td><td>siren</td><td>-</td></tr><tr><td class='n'>3</td><td><span class='pill ok'>1/1</span></td><td>NM_001657.4:447-467</td><td><code>UCUUCUGAGUAGUCAUAGUCG</code></td><td class='n'>0.4286</td><td>siren</td><td>-</td></tr><tr><td class='n'>4</td><td><span class='pill ok'>1/1</span></td><td>NM_001657.4:489-509</td><td><code>UCAUCGACAAUAUAGCCAGGU</code></td><td class='n'>0.4286</td><td>siren</td><td>-</td></tr><tr><td class='n'>5</td><td><span class='pill ok'>1/1</span></td><td>NM_001657.4:691-711</td><td><code>UGCUUCCAGGUGCUCUAUAUA</code></td><td class='n'>0.4286</td><td>siren</td><td>-</td></tr></tbody></table>
+
+<h2>Limitations and interpretation</h2>
+<ul><li>Site-level consensus, not sequence-level intersection: tools emit different lengths and offsets for the same duplex.</li><li>A tool that returns only its own Top-N cannot be distinguished from one that filtered a site out.</li><li>No wet-lab confirmation; tool scores are not comparable across tools.</li><li>Off-target scope is whatever each tool was given, unless a shared transcriptome was supplied.</li></ul>
+<div class="note">Because the transcriptome screen did not complete, the off-target
+claim is limited to the input transcript. The 607 hits are candidate sites from
+SIREN's input-only pass; the pipeline still applies site-level consensus and its
+sequence filters after voting. No wet-lab knockdown evidence exists in this
+report.</div>
+
+<footer>Generated from <code>run.json</code> and <code>candidates.tsv</code> by
+sirna-consensus 0.1.0 ·
+full machine-readable record in <code>run.json</code> ·
+candidates in <code>candidates.tsv</code> · order-ready guides in <code>top_guides.fa</code></footer>
+</div></body></html>
