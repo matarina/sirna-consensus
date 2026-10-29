@@ -153,3 +153,11 @@ coverage and assay suitability, not observed advantage. Plot strata separately;
 show complete-panel performance alongside coverage/completion tables. Raw source
 snapshots and bulky per-run artifacts are local and ignored by Git; manifests,
 protocol, scripts, compact reports and figures form the reviewable package.
+
+`report_zh.html` is a Chinese, paper-style rendering of the frozen development
+results (abstract, context, methods, results, figures). `make_report_zh.py` reads
+the result JSONs verbatim — no recomputation, figures are inline SVG:
+
+```bash
+python benchmarks/make_report_zh.py -o benchmarks/report_zh.html
+```

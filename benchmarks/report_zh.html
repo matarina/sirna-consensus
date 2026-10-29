@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>共识 siRNA 选择的开发集基准测试: 结果报告</title>
+<style>
+:root{--ink:#111820;--muted:#5c6b74;--line:#d5dee2;--navy:#123b4f;--teal:#0f7b74;
+--red:#a4301f;--green:#1d6b3a;--amber:#8a5c12}
+*{box-sizing:border-box}
+body{margin:0;background:#eef1f2;color:var(--ink);
+font:15px/1.8 'Noto Serif SC','Songti SC','Charter',Georgia,serif}
+.page{max-width:960px;margin:0 auto;background:#fff;padding:46px 56px 60px;
+box-shadow:0 2px 20px rgba(20,35,43,.09)}
+h1{font-size:21px;line-height:1.55;margin:0 0 8px}
+h2{font-size:16px;margin:34px 0 10px;color:var(--navy);
+border-bottom:1px solid var(--line);padding-bottom:5px}
+h3{font-size:14px;margin:22px 0 8px;color:var(--navy)}
+h3 .num,h2 .num{color:var(--teal)}
+p{margin:10px 0;text-align:justify}
+code{font:12px ui-monospace,Menlo,Consolas,monospace;background:#eff3f4;padding:1px 4px;border-radius:3px}
+.byline{color:#3b4b55;font-size:13px;margin:0 0 4px}
+.meta{color:var(--muted);font-size:12.5px;margin:0 0 20px}
+.abstract{background:#f7faf9;border:1px solid var(--line);border-left:3px solid var(--teal);
+padding:14px 18px;font-size:13.5px;margin:18px 0}
+.abstract h2{border:0;margin:0 0 6px;font-size:13px;letter-spacing:.1em;color:var(--teal)}
+.kw{font-size:12.5px;color:#3b4b55;margin:10px 0 0}
+table{width:100%;border-collapse:collapse;font:12.5px ui-sans-serif,system-ui;margin:12px 0}
+caption{text-align:left;font-size:12px;color:var(--muted);padding:0 0 6px}
+th{text-align:left;font-size:10.5px;letter-spacing:.05em;color:var(--muted);
+padding:6px;border-top:1.4px solid var(--ink);border-bottom:1px solid var(--ink)}
+td{padding:6px;border-bottom:1px solid #e9eef0;vertical-align:top}
+tbody tr:last-child td{border-bottom:1.4px solid var(--ink)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.ok{color:var(--green)}.bad{color:var(--red)}.warn{color:var(--amber)}
+.note{background:#f7faf9;border-left:3px solid var(--teal);padding:11px 14px;font-size:12.5px;margin:14px 0}
+.note.warnbox{background:#fdf6e8;border-left:3px solid var(--amber)}
+figure{margin:20px 0;padding:0}
+figcaption{font-size:12px;color:#3b4b55;margin-top:8px;line-height:1.6}
+svg{max-width:100%;height:auto;display:block}
+ul.plain,ol.refs{font-size:12.5px;padding-left:22px}
+ul.plain li,ol.refs li{margin:7px 0}
+footer{margin-top:34px;padding-top:14px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+@media print{body{background:#fff}.page{box-shadow:none;max-width:none;padding:0}}
+</style></head><body><div class="page">
+
+<h1>以公开实测数据评估共识 siRNA 选择流程:<br>Huesken 开发集基准测试报告</h1>
+<p class="byline">sirna-consensus v1.1.0 (schema v2) ·
+包状态 <code>reviewable working-tree implementation; development snapshot only</code></p>
+<p class="meta">数据: 25 个人源克隆构建体 · 1,941 条全长引导链 ·
+实测表 SHA-256 <code>326784ff93a4f78f…</code> · 生成于
+2026-10-29 01:52 UTC</p>
+
+<div class="abstract">
+<h2>摘要</h2>
+<p><b>背景.</b> 去新设计流程需要外部实测数据来标定 "排序是否有效", 但公开 siRNA 数据集
+大多已被同类模型的开发集覆盖, 难以构成真正的留出集。本文报告在 Huesken 人源克隆构建体
+开发集上的一次完整基准测试, 并明确标注其证据等级。</p>
+<p><b>方法.</b> 主终点是<b>基因加权的 Top-5 实测精确率</b> (即前 5 条候选中有多少条实测有效),
+每基因内先对测定取平均、再对基因等权。次级终点含 Top-10、完成度、填充率、候选覆盖率与命中回收。
+比较的对象是 6 种排序策略与 2 个单个生成器; 统计使用 10,000 次
+配对基因自助与 1,000 次基因内标签置换。</p>
+<p><b>结果.</b> 25 个构建体、1,941 条引导链全部完成打分,
+生成器共产生 11,015 条原始命中。开发集上最优策略为
+<b>quality (0.8 模型 + 0.1 native + 0.1 质量)</b> (92.8% Top-5);
+相对冻结模型的配对差异为 <b>+2.4 个百分点</b>,
+95% 自助 CI <b>[-0.8, +5.6]</b> ——
+区间跨过 0, 且低于预设的 +10 pt 门槛。置换对照给出 p = 0.0010 (单侧),
+说明排序整体显著优于随机, 但<b>相对模型的增益未被证实</b>。</p>
+<p><b>结论.</b> 实现与执行检查全部通过, 但预先约定的 "效力提升" 判据<b>未达成</b>;
+独立验证标志 <code>independent_validation_passed = false</code>。所有数字应视为开发集诊断值。</p>
+<p class="kw"><b>关键词:</b> siRNA 基准测试; 基因加权精确率; 配对自助; 标签置换; 暴露审计</p>
+</div>
+
+<div class="note warnbox">
+<b>证据等级声明 (全文最重要的限定):</b> 该 Huesken 队列同时出现在冻结模型的开发/评估集合中,
+且被姊妹项目使用过, 因此<b>当前不存在独立留出集</b>。模型选择与性能估计使用同一批数据,
+下列所有结论都是<b>开发集诊断</b>, 不是泛化性能估计。
+</div>
+
+<h2><span class="num">1.</span> 背景</h2>
+<p>公开 siRNA 活性数据集 (Huesken 2005 等) 已被广泛用于训练, 直接在其上报告准确率会高估泛化能力。
+本工作把 "证据等级" 当作一等公民: 先冻结数据与模型, 用固定的协议与终点统计, 再明确标注
+哪些结论在什么前提下成立。</p>
+<p>临床前的核心问题是<b>排序</b>: 在给定预算 (例如 5 条合成) 下, 前 K 条里有多少条真的有效。
+因此主终点取<b>基因加权的 Top-5 实测精确率</b>, 并同时报告完成度与覆盖率 —— 一个只在少数基因上
+"精确" 但对其余基因交白卷的方法, 单看精确率会被高估。</p>
+
+<h2><span class="num">2.</span> 方法</h2>
+<h3>2.1 数据与终点</h3>
+<p>数据来自 Figshare 快照 (article 25908841, v1, 3,544 条记录, 7 项研究),
+其中与本队列相关的为 25 个人源克隆构建体上的 1,941 条全长引导链,
+活性为原始归一化抑制活性 (非百分比敲低)。终点定义为
+<code>0.7</code> 阈值下的有效/无效二分类;
+同一条件的重复测定先取平均再判定阈值; 不同条件保持分离。</p>
+
+<h3>2.2 比较对象</h3>
+<p>包含 2 个单个生成器 (siRNAdesigner、siRNAforge)、精确共识 (consensus)、冻结的 OligoFormer
+语言模型打分 (model), 以及 3 种融合策略 (fusion / support / quality) 与并集回退 (native)。
+生成器未产出某条候选记为<b>弃权</b>, 而不是判定无效。</p>
+
+<h3>2.3 统计与判据</h3>
+<p>先在同一基因内对测定取平均, 再对基因等权, 以消除测量密度差。
+数值判据为: 精确率提升 ≥ 10 pt、
+配对基因自助 95% CI 下界 &gt; 0、完成度不下降、预算产出为正;
+至少需要 5 个完整配对基因作为可行性下限。
+自助与置换分别使用 10,000 与 1,000 次重复 (种子 2026)。</p>
+
+<h3>2.4 执行与合规检查</h3>
+<p>141 项密闭单元测试与 2 项外部冒烟测试通过,
+并完成了一次真实转录组筛查 (AREG; Ensembl 116; Bowtie 1.3.1)。数据集清单记录了出版商校验和与已知的不一致之处。</p>
+
+<h2><span class="num">3.</span> 结果</h2>
+<h3>3.1 主终点: 各方法 Top-5 精确率</h3>
+<table><caption>表 1. 基因加权 Top-5 精确率 (仅计完整基因)。"完成度" 指在 25 个基因中都交得出 5 条候选的基因数,
+"覆盖率" 指该方法候选占全部已测分子池的比例。sirnaforge 与 consensus 在本队列格式下无完整面板,
+属覆盖缺失而非效力证据。</caption>
+<thead><tr><th>方法</th><th class="n">Top-5 精确率</th><th class="n">完整基因</th>
+<th class="n">填充率</th><th class="n">候选覆盖率</th></tr></thead>
+<tbody><tr><td>quality (0.8 模型 + 0.1 native + 0.1 质量)</td><td class='n'>92.8%</td><td class='n'>25/25</td><td class='n'>100.0%</td><td class='n'>100.00%</td></tr><tr><td>model (冻结 OligoFormer)</td><td class='n'>90.4%</td><td class='n'>25/25</td><td class='n'>100.0%</td><td class='n'>100.00%</td></tr><tr><td>support (0.8 模型 + 0.2 支持度)</td><td class='n'>90.4%</td><td class='n'>25/25</td><td class='n'>100.0%</td><td class='n'>100.00%</td></tr><tr><td>fusion (模型 ⊕ native 百分位)</td><td class='n'>89.6%</td><td class='n'>25/25</td><td class='n'>100.0%</td><td class='n'>100.00%</td></tr><tr><td>siRNAdesigner (单个生成器)</td><td class='n'>89.3%</td><td class='n'>15/25</td><td class='n'>77.6%</td><td class='n'>8.03%</td></tr><tr><td>native (并集 + 序列质量回退)</td><td class='n'>77.6%</td><td class='n'>25/25</td><td class='n'>100.0%</td><td class='n'>100.00%</td></tr><tr><td>siRNAforge (单个生成器)</td><td class='n'>不可用</td><td class='n'>0/25</td><td class='n'>0.0%</td><td class='n'>0.00%</td></tr><tr><td>exact consensus (精确共识)</td><td class='n'>不可用</td><td class='n'>0/25</td><td class='n'>0.0%</td><td class='n'>0.00%</td></tr></tbody></table>
+<p>最优为 <b>92.8%</b>, 但需注意: 具有 25/25 完成度的 4 个非 native 方法彼此相差在 3.2 pt 以内,
+而 siRNAdesigner 的 89.3% 只在
+15 个基因上成立, 不可与 25 基因均值直接比较。</p>
+
+<h3>3.2 配对比较: 最优策略 vs 冻结模型</h3>
+<table><caption>表 2. 开发集最优策略 (quality) 相对冻结模型的配对差异。均值为基因加权,
+CI 为 10,000 次基因自助。判据要求 ≥10 pt 且 CI 下界 &gt; 0。</caption>
+<thead><tr><th class="n">K</th><th class="n">配对基因</th><th class="n">均值差 (pt)</th>
+<th class="n">95% CI</th><th class="n">预算产出差</th><th>判定</th></tr></thead>
+<tbody><tr><td class='n'>5</td><td class='n'>25</td><td class='n'>+2.4</td><td class='n'>[-0.8, +5.6]</td><td class='n'>+2.4</td><td class='bad'>未达标</td></tr><tr><td class='n'>10</td><td class='n'>25</td><td class='n'>+1.2</td><td class='n'>[-0.8, +3.6]</td><td class='n'>+1.2</td><td class='bad'>未达标</td></tr></tbody></table>
+<p>Top-5 上 25 个基因里只有 5 个出现非零差异 (其余完全并列), 其中正负各有之。
+CI 跨零是本报告的关键否定性结果。</p>
+
+<h3>3.3 消融</h3>
+<table><caption>表 3. 组件消融。完整配置 (与 quality 策略等价) 取得最高 Top-5 精确率;
+"硬过滤" 精确率再高 2.9 pt 但覆盖率骤降, 是<b>以覆盖换精确</b>的典型权衡。</caption>
+<thead><tr><th>配置</th><th class="n">Top-5 精确率</th><th class="n">完整基因</th><th class="n">填充率</th></tr></thead>
+<tbody><tr><td>硬过滤 (非 soft)</td><td class='n'>95.7%</td><td class='n'>23/25</td><td class='n'>96.8%</td></tr><tr><td>完整配置 (= quality)</td><td class='n'>92.8%</td><td class='n'>25/25</td><td class='n'>100.0%</td></tr><tr><td>关闭全部过滤器</td><td class='n'>92.8%</td><td class='n'>25/25</td><td class='n'>100.0%</td></tr><tr><td>去掉工具打分</td><td class='n'>91.2%</td><td class='n'>25/25</td><td class='n'>100.0%</td></tr><tr><td>去掉序列质量项</td><td class='n'>90.4%</td><td class='n'>25/25</td><td class='n'>100.0%</td></tr><tr><td>support 策略</td><td class='n'>90.4%</td><td class='n'>25/25</td><td class='n'>100.0%</td></tr><tr><td>去掉支持度项</td><td class='n'>90.4%</td><td class='n'>25/25</td><td class='n'>100.0%</td></tr><tr><td>面板最小间距 30 nt</td><td class='n'>89.6%</td><td class='n'>25/25</td><td class='n'>100.0%</td></tr></tbody></table>
+
+<h3>3.4 置换对照与转录组筛查</h3>
+<p>1,000 次基因内标签置换给出零假设均值 51.0%,
+观测值 92.8%, 单侧 p = 0.0010。
+真实序列筛查在 639 条 AREG 候选上执行:
+630 通过、9 因错配被排除,
+仅满足<b>计算</b>错配判据, 不等于生物学特异性。</p>
+
+<h3>3.5 数据集来源审计</h3>
+<table><caption>表 4. Figshare 快照中的研究构成 (共 3,544 条)。</caption>
+<thead><tr><th>研究</th><th class="n">记录数</th></tr></thead><tbody><tr><td>Huesken</td><td class='n'>2,431</td></tr><tr><td>Takayuki Katoh</td><td class='n'>702</td></tr><tr><td>Reynolds</td><td class='n'>244</td></tr><tr><td>Vickers</td><td class='n'>76</td></tr><tr><td>Harborth</td><td class='n'>44</td></tr><tr><td>Ui-Tei</td><td class='n'>37</td></tr><tr><td>Khovorova</td><td class='n'>10</td></tr></tbody></table>
+<ol class="plain"><li><b>7 项来源研究</b>都出现在 OligoFormer 的开发/评估集合中, 检查点级暴露未经验证。<br><span class='seq'>(Seven source studies occur in OligoFormer development/evaluation c…)</span></li><li>该 Huesken 队列已被姊妹项目用于训练与评估, 存在重复暴露。<br><span class='seq'>(Huesken has previous project training and evaluation exposure…)</span></li><li>数据库标注 (HeLa / 荧光素酶) 与原始文献整理 (H1299 / 荧光报告基因) 冲突, 未强行统一。<br><span class='seq'>(Database Huesken metadata (HeLa/luciferase) conflicts with origina…)</span></li><li>数据库的百分比抑制字段重置了 Huesken 的归一化活性尺度, <b>不可</b>当作敲低百分比解读。<br><span class='seq'>(Database percent-inhibition field rescales Huesken normalized acti…)</span></li></ol>
+
+<h2><span class="num">4.</span> 图</h2>
+<figure>
+<svg viewBox="0 0 760 274" role="img" aria-label="各方法 Top-5 精确率"><text x="0" y="36" font-size="11.5" fill="#3b4b55">native (并集 + 序列质量回退)</text><rect x="250" y="24" width="201.8" height="19" rx="2" fill="#123b4f"/><text x="459.8" y="36" font-size="11.5" font-weight="700" fill="#123b4f">77.6%</text><text x="760" y="36" font-size="10.5" fill="#7a878e" text-anchor="end">覆盖 100% · 25/25 基因</text><text x="0" y="66" font-size="11.5" fill="#3b4b55">siRNAdesigner (单个生成器)</text><rect x="250" y="54" width="232.3" height="19" rx="2" fill="#8a5c12"/><text x="490.3" y="66" font-size="11.5" font-weight="700" fill="#8a5c12">89.3%</text><text x="760" y="66" font-size="10.5" fill="#7a878e" text-anchor="end">覆盖 8% · 15/25 基因</text><text x="0" y="96" font-size="11.5" fill="#3b4b55">fusion (模型 ⊕ native 百分位)</text><rect x="250" y="84" width="233.0" height="19" rx="2" fill="#123b4f"/><text x="491.0" y="96" font-size="11.5" font-weight="700" fill="#123b4f">89.6%</text><text x="760" y="96" font-size="10.5" fill="#7a878e" text-anchor="end">覆盖 100% · 25/25 基因</text><text x="0" y="126" font-size="11.5" fill="#3b4b55">model (冻结 OligoFormer)</text><rect x="250" y="114" width="235.0" height="19" rx="2" fill="#123b4f"/><text x="493.0" y="126" font-size="11.5" font-weight="700" fill="#123b4f">90.4%</text><text x="760" y="126" font-size="10.5" fill="#7a878e" text-anchor="end">覆盖 100% · 25/25 基因</text><text x="0" y="156" font-size="11.5" fill="#3b4b55">support (0.8 模型 + 0.2 支持度)</text><rect x="250" y="144" width="235.0" height="19" rx="2" fill="#123b4f"/><text x="493.0" y="156" font-size="11.5" font-weight="700" fill="#123b4f">90.4%</text><text x="760" y="156" font-size="10.5" fill="#7a878e" text-anchor="end">覆盖 100% · 25/25 基因</text><text x="0" y="186" font-size="11.5" fill="#3b4b55">quality (0.8 模型 + 0.1 native + 0.1 质量)</text><rect x="250" y="174" width="241.3" height="19" rx="2" fill="#123b4f"/><text x="499.3" y="186" font-size="11.5" font-weight="700" fill="#123b4f">92.8%</text><text x="760" y="186" font-size="10.5" fill="#7a878e" text-anchor="end">覆盖 100% · 25/25 基因</text><text x="0" y="216" font-size="11.5" fill="#3b4b55">siRNAforge (单个生成器)</text><text x="258" y="216" font-size="11.5" fill="#a4301f">无完整面板 (0/25 基因)</text><text x="0" y="246" font-size="11.5" fill="#3b4b55">exact consensus (精确共识)</text><text x="258" y="246" font-size="11.5" fill="#a4301f">无完整面板 (0/25 基因)</text><text x="250" y="12" font-size="10.5" fill="#7a878e">基因加权 Top-5 精确率 (完整基因)</text></svg>
+<figcaption><b>图 1. 各方法的主终点表现。</b>深色为 25/25 完整基因的方法, 琥珀色为面板不完整的方法;
+右侧标注候选覆盖率, 用来说明精确率是否建立在全池覆盖之上。
+sirnaforge 与 consensus 在本队列的双链格式下没有完整面板。</figcaption>
+</figure>
+<figure>
+<svg viewBox="0 0 760 599" role="img" aria-label="逐基因配对差异"><rect x="367.5" y="30" width="60.2" height="527" fill="#123b4f" opacity="0.08"/><line x1="367.5" y1="30" x2="367.5" y2="557" stroke="#123b4f" stroke-dasharray="3 3"/><line x1="427.6" y1="30" x2="427.6" y2="557" stroke="#123b4f" stroke-dasharray="3 3"/><line x1="397.6" y1="30" x2="397.6" y2="557" stroke="#123b4f" stroke-width="2"/><line x1="375.0" y1="26" x2="375.0" y2="557" stroke="#7a878e"/><text x="375.0" y="18" font-size="10.5" fill="#7a878e" text-anchor="middle">0</text><text x="132" y="46" font-size="10.5" fill="#3b4b55" text-anchor="end">P2RX3</text><line x1="375.0" y1="42" x2="187.0" y2="42" stroke="#a4301f" stroke-width="1.6"/><circle cx="187.0" cy="42" r="3.4" fill="#a4301f"/><text x="132" y="67" font-size="10.5" fill="#3b4b55" text-anchor="end">C6orf110</text><line x1="375.0" y1="63" x2="375.0" y2="63" stroke="#c9d4d8" stroke-width="1.6"/><circle cx="375.0" cy="63" r="3.4" fill="#c9d4d8"/><text x="132" y="88" font-size="10.5" fill="#3b4b55" text-anchor="end">CDC34</text><line x1="375.0" y1="84" x2="375.0" y2="84" stroke="#c9d4d8" stroke-width="1.6"/><circle cx="375.0" cy="84" r="3.4" fill="#c9d4d8"/><text x="132" y="109" font-size="10.5" fill="#3b4b55" text-anchor="end">FLJ11011</text><line x1="375.0" y1="105" x2="375.0" y2="105" stroke="#c9d4d8" stroke-width="1.6"/><circle cx="375.0" cy="105" r="3.4" fill="#c9d4d8"/><text x="132" y="130" font-size="10.5" fill="#3b4b55" text-anchor="end">HIP2</text><line x1="375.0" y1="126" x2="375.0" y2="126" stroke="#c9d4d8" stroke-width="1.6"/><circle cx="375.0" cy="126" r="3.4" fill="#c9d4d8"/><text x="132" y="151" font-size="10.5" fill="#3b4b55" text-anchor="end">HSPC150</text><line x1="375.0" y1="147" x2="375.0" y2="147" stroke="#c9d4d8" stroke-width="1.6"/><circle cx="375.0" cy="147" r="3.4" fill="#c9d4d8"/><text x="132" y="172" font-size="10.5" fill="#3b4b55" text-anchor="end">NOG</text><line x1="375.0" y1="168" x2="375.0" y2="168" stroke="#c9d4d8" stroke-width="1.6"/><circle cx="375.0" cy="168" r="3.4" fill="#c9d4d8"/><text x="132" y="193" font-size="10.5" fill="#3b4b55" text-anchor="end">RAB6IP1</text><line x1="375.0" y1="189" x2="375.0" y2="189" stroke="#c9d4d8" stroke-width="1.6"/><circle cx="375.0" cy="189" r="3.4" fill="#c9d4d8"/><text x="132" y="214" font-size="10.5" fill="#3b4b55" text-anchor="end">TC10</text><line x1="375.0" y1="210" x2="375.0" y2="210" stroke="#c9d4d8" stroke-width="1.6"/><circle cx="375.0" cy="210" r="3.4" fill="#c9d4d8"/><text x="132" y="235" font-size="10.5" fill="#3b4b55" text-anchor="end">UBE2B</text><line x1="375.0" y1="231" x2="375.0" y2="231" stroke="#c9d4d8" stroke-width="1.6"/><circle cx="375.0" cy="231" r="3.4" fill="#c9d4d8"/><text x="132" y="256" font-size="10.5" fill="#3b4b55" text-anchor="end">UBE2C</text><line x1="375.0" y1="252" x2="375.0" y2="252" stroke="#c9d4d8" stroke-width="1.6"/><circle cx="375.0" cy="252" r="3.4" fill="#c9d4d8"/><text x="132" y="277" font-size="10.5" fill="#3b4b55" text-anchor="end">UBE2D3</text><line x1="375.0" y1="273" x2="375.0" y2="273" stroke="#c9d4d8" stroke-width="1.6"/><circle cx="375.0" cy="273" r="3.4" fill="#c9d4d8"/><text x="132" y="298" font-size="10.5" fill="#3b4b55" text-anchor="end">UBE2E3</text><line x1="375.0" y1="294" x2="375.0" y2="294" stroke="#c9d4d8" stroke-width="1.6"/><circle cx="375.0" cy="294" r="3.4" fill="#c9d4d8"/><text x="132" y="319" font-size="10.5" fill="#3b4b55" text-anchor="end">UBE2G1</text><line x1="375.0" y1="315" x2="375.0" y2="315" stroke="#c9d4d8" stroke-width="1.6"/><circle cx="375.0" cy="315" r="3.4" fill="#c9d4d8"/><text x="132" y="340" font-size="10.5" fill="#3b4b55" text-anchor="end">UBE2H</text><line x1="375.0" y1="336" x2="375.0" y2="336" stroke="#c9d4d8" stroke-width="1.6"/><circle cx="375.0" cy="336" r="3.4" fill="#c9d4d8"/><text x="132" y="361" font-size="10.5" fill="#3b4b55" text-anchor="end">UBE2I</text><line x1="375.0" y1="357" x2="375.0" y2="357" stroke="#c9d4d8" stroke-width="1.6"/><circle cx="375.0" cy="357" r="3.4" fill="#c9d4d8"/><text x="132" y="382" font-size="10.5" fill="#3b4b55" text-anchor="end">UBE2J1</text><line x1="375.0" y1="378" x2="375.0" y2="378" stroke="#c9d4d8" stroke-width="1.6"/><circle cx="375.0" cy="378" r="3.4" fill="#c9d4d8"/><text x="132" y="403" font-size="10.5" fill="#3b4b55" text-anchor="end">UBE2L3</text><line x1="375.0" y1="399" x2="375.0" y2="399" stroke="#c9d4d8" stroke-width="1.6"/><circle cx="375.0" cy="399" r="3.4" fill="#c9d4d8"/><text x="132" y="424" font-size="10.5" fill="#3b4b55" text-anchor="end">UBE2N</text><line x1="375.0" y1="420" x2="375.0" y2="420" stroke="#c9d4d8" stroke-width="1.6"/><circle cx="375.0" cy="420" r="3.4" fill="#c9d4d8"/><text x="132" y="445" font-size="10.5" fill="#3b4b55" text-anchor="end">UBE2V1</text><line x1="375.0" y1="441" x2="375.0" y2="441" stroke="#c9d4d8" stroke-width="1.6"/><circle cx="375.0" cy="441" r="3.4" fill="#c9d4d8"/><text x="132" y="466" font-size="10.5" fill="#3b4b55" text-anchor="end">Ufc1</text><line x1="375.0" y1="462" x2="375.0" y2="462" stroke="#c9d4d8" stroke-width="1.6"/><circle cx="375.0" cy="462" r="3.4" fill="#c9d4d8"/><text x="132" y="487" font-size="10.5" fill="#3b4b55" text-anchor="end">SOST</text><line x1="375.0" y1="483" x2="563.0" y2="483" stroke="#0f7b74" stroke-width="1.6"/><circle cx="563.0" cy="483" r="3.4" fill="#0f7b74"/><text x="132" y="508" font-size="10.5" fill="#3b4b55" text-anchor="end">UBE2M</text><line x1="375.0" y1="504" x2="563.0" y2="504" stroke="#0f7b74" stroke-width="1.6"/><circle cx="563.0" cy="504" r="3.4" fill="#0f7b74"/><text x="132" y="529" font-size="10.5" fill="#3b4b55" text-anchor="end">UBE2L6</text><line x1="375.0" y1="525" x2="563.0" y2="525" stroke="#0f7b74" stroke-width="1.6"/><circle cx="563.0" cy="525" r="3.4" fill="#0f7b74"/><text x="132" y="550" font-size="10.5" fill="#3b4b55" text-anchor="end">UBE2S</text><line x1="375.0" y1="546" x2="563.0" y2="546" stroke="#0f7b74" stroke-width="1.6"/><circle cx="563.0" cy="546" r="3.4" fill="#0f7b74"/><text x="367.5" y="573" font-size="10.5" fill="#123b4f" text-anchor="middle">CI 下界 -0.8</text><text x="427.6" y="573" font-size="10.5" fill="#123b4f" text-anchor="middle">CI 上界 +5.6</text><text x="397.6" y="589" font-size="10.5" font-weight="700" fill="#123b4f" text-anchor="middle">均值 +2.4 pt</text></svg>
+<figcaption><b>图 2. quality 与冻结模型的逐基因配对差异 (Top-5)。</b>每行为一个基因,
+横轴为精确率之差; 竖向阴影为自助 95% CI, 实线为均值。多数基因为 0 (完全并列),
+正负各有少数基因移动 —— 这解释了 CI 为何跨过 0。</figcaption>
+</figure>
+<figure>
+<svg viewBox="0 0 640 234" role="img" aria-label="消融研究"><text x="0" y="28" font-size="11.5" fill="#3b4b55">面板最小间距 30 nt</text><rect x="230" y="16" width="299.8" height="17" rx="2" fill="#9db4c0"/><text x="537.8" y="28" font-size="11.5" fill="#3b4b55">89.6% · 25/25 基因</text><text x="0" y="55" font-size="11.5" fill="#3b4b55">去掉序列质量项</text><rect x="230" y="43" width="302.4" height="17" rx="2" fill="#9db4c0"/><text x="540.4" y="55" font-size="11.5" fill="#3b4b55">90.4% · 25/25 基因</text><text x="0" y="82" font-size="11.5" fill="#3b4b55">support 策略</text><rect x="230" y="70" width="302.4" height="17" rx="2" fill="#9db4c0"/><text x="540.4" y="82" font-size="11.5" fill="#3b4b55">90.4% · 25/25 基因</text><text x="0" y="109" font-size="11.5" fill="#3b4b55">去掉支持度项</text><rect x="230" y="97" width="302.4" height="17" rx="2" fill="#9db4c0"/><text x="540.4" y="109" font-size="11.5" fill="#3b4b55">90.4% · 25/25 基因</text><text x="0" y="136" font-size="11.5" fill="#3b4b55">去掉工具打分</text><rect x="230" y="124" width="305.1" height="17" rx="2" fill="#9db4c0"/><text x="543.1" y="136" font-size="11.5" fill="#3b4b55">91.2% · 25/25 基因</text><text x="0" y="163" font-size="11.5" fill="#3b4b55">完整配置 (= quality)</text><rect x="230" y="151" width="310.5" height="17" rx="2" fill="#123b4f"/><text x="548.5" y="163" font-size="11.5" fill="#3b4b55">92.8% · 25/25 基因</text><text x="0" y="190" font-size="11.5" fill="#3b4b55">关闭全部过滤器</text><rect x="230" y="178" width="310.5" height="17" rx="2" fill="#9db4c0"/><text x="548.5" y="190" font-size="11.5" fill="#3b4b55">92.8% · 25/25 基因</text><text x="0" y="217" font-size="11.5" fill="#3b4b55">硬过滤 (非 soft)</text><rect x="230" y="205" width="320.0" height="17" rx="2" fill="#9db4c0"/><text x="558.0" y="217" font-size="11.5" fill="#3b4b55">95.7% · 23/25 基因</text></svg>
+<figcaption><b>图 3. 组件消融。</b>深色为完整配置。硬过滤以大幅降低覆盖率换取最高精确率;
+去掉质量项或支持度项使精确率下降约 2 pt, 说明这些项确有贡献但幅度有限。</figcaption>
+</figure>
+<figure>
+<svg viewBox="0 0 640 190" role="img" aria-label="置换对照"><rect x="314.5" y="84.1" width="34" height="45.9" fill="#8a5c12"/><text x="331.5" y="76.1" font-size="11.5" font-weight="700" fill="#8a5c12" text-anchor="middle">零假设均值 51.0%</text><rect x="538.3" y="46.5" width="34" height="83.5" fill="#0f7b74"/><text x="555.3" y="38.5" font-size="11.5" font-weight="700" fill="#0f7b74" text-anchor="middle">观测值 92.8%</text><line x1="70" y1="130" x2="580" y2="130" stroke="#7a878e"/><text x="70" y="152" font-size="11" fill="#7a878e">1,000 次基因内标签置换 · p = 0.0010 (单侧) · 种子 2026</text></svg>
+<figcaption><b>图 4. 置换对照。</b>观测精确率远高于基因内标签置换的零分布均值,
+说明排序显著优于随机; 但该对照<b>不能</b>消除预训练数据暴露与开发集选择偏差。</figcaption>
+</figure>
+
+<h2><span class="num">5.</span> 讨论与局限</h2>
+<ul class="plain">
+<li><b>无独立留出集。</b>7 项来源研究均出现在冻结模型的开发/评估集合中,
+检查点级暴露审计状态为 <code>unverified; no independent claim permitted</code>。</li>
+<li><b>发布判据未达成。</b>数值门槛要求 ≥10 pt 且 CI&gt;0, 实测为
++2.4 pt、CI 跨零, 故 <code>publication_criterion_met = false</code>。</li>
+<li><b>端点单位不可混用。</b>Huesken 的归一化活性与数据库的百分比抑制字段含义不同,
+阈值 0.7 与 70 不可互换。</li>
+<li><b>元数据冲突已保留。</b>数据库标注 (HeLa/荧光素酶) 与原始文献整理 (H1299/荧光报告基因) 不一致,
+未强行统一。</li>
+<li><b>覆盖 vs 精确。</b>硬过滤与 sirnadesigner 都说明 "精确率高" 可能只是候选面窄。</li>
+<li><b>模型分是序, 不是百分比。</b>OligoFormer 输出为未标定的排序分。</li>
+<li><b>批大小为 1</b> 是上游 LSTM 布局所致, 改变批大小会影响推断结果。</li>
+</ul>
+
+<h2><span class="num">6.</span> 结论</h2>
+<p>在 25 个构建体、1,941 条引导链上, 流程的<b>实现与执行</b>通过了全部检查,
+排序整体显著优于随机 (p &lt; 0.001); 但<b>相对冻结模型的效力提升尚未达成</b> ——
+增益 +2.4 pt、CI 跨零, 且缺少独立留出集。
+下一步的关键动作是取得一个审计干净的未用队列 (满足
+<code>independent_holdout_eligible</code> 与 <code>checkpoint_training_audit: verified</code>)
+并走 <code>evaluate.py --phase final</code> 的冻结闸门。</p>
+
+<h2><span class="num">7.</span> 数据与复现</h2>
+<table><caption>表 5. 本报告关联的机读产物 (位于 <code>benchmarks/</code>)。</caption>
+<thead><tr><th>文件</th><th>内容</th></tr></thead><tbody>
+<tr><td><code>results/development_results.json</code></td><td>方法/消融/配对比较/筛查冒烟</td></tr>
+<tr><td><code>results/development_comparison.json</code></td><td>逐基因配对差异与自助 CI</td></tr>
+<tr><td><code>results/permutation_control.json</code></td><td>1,000 次标签置换对照</td></tr>
+<tr><td><code>dataset_manifest.json</code></td><td>快照校验和、暴露审计与不一致记录</td></tr>
+<tr><td><code>benchmark_config.json</code></td><td>冻结的终点、阈值、判据与种子</td></tr>
+<tr><td><code>figures/benchmark.pdf</code></td><td>英文版图组</td></tr>
+<tr><td><code>report_zh.html</code></td><td>本中文报告</td></tr>
+</tbody></table>
+<ol class="refs">
+<li>Huesken et al. (2005) —— 人源克隆构建体与实测活性队列 (原始来源重新整理)。</li>
+<li>OligoFormer —— 冻结的语言模型打分器 (checkpoint 已哈希固定)。</li>
+<li>RNA-FM —— 模型骨干权重来源, 官方发布版本。</li>
+<li>Bowtie 1.3.1 + Ensembl 116 cDNA —— 计算错配筛查所用索引。</li>
+</ol>
+
+<footer>本报告由 <code>benchmarks/make_report_zh.py</code> 从上述冻结 JSON 直接渲染, 未做重新计算。
+生成时间 2026-10-29 01:52 UTC。
+开发集诊断值, 非独立验证; 未经湿实验确认前不得称任何引导链无效。</footer>
+</div></body></html>
