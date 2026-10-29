@@ -30,3 +30,11 @@ contains all 59 candidate sites with explicit `passed=true/false` and flags.
 
 This is a reproducibility artifact, not a wet-lab benchmark. Use
 `benchmarks/evaluate.py` with a measured knockdown dataset for that comparison.
+
+`report_zh.html` is a Chinese, paper-style write-up of this same run (abstract,
+context, methods, results, figures) rendered straight from `run.json` by
+`make_report_zh.py` — no recomputation, figures are inline SVG:
+
+```bash
+python examples/AREG/make_report_zh.py examples/AREG/run.json -o examples/AREG/report_zh.html
+```
