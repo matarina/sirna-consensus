@@ -5,6 +5,73 @@ scorer, separate computational specificity screening, and experimental benchmark
 Schema version 2 fixes molecular identity and benchmark semantics. It does not
 establish knockdown efficacy or independent validation.
 
+## Pipeline
+
+The package has two commands. `run` fans a single transcript out to isolated
+external tools and reduces their opinions to a site-level consensus. `select`
+then replays those exact molecules (or an explicit candidate list) through
+ranking, an optional frozen efficacy scorer, and an optional transcriptome
+screen. Nothing is enumerated locally: the generator tools enumerate, and this
+package only *places* what they return onto the transcript.
+
+```mermaid
+flowchart TD
+    FASTA["transcript FASTA<br/>(single sequence)"]
+
+    subgraph run["sirna-consensus run — consensus, no local enumeration"]
+        direction TB
+        VAL["validate input<br/>record sha256 + config"]
+        subgraph tools["external tools, isolated subprocesses"]
+            direction LR
+            SD["siRNAdesigner<br/><i>generator</i>"]
+            SF["siRNAforge<br/><i>generator</i>"]
+            SIREN["SIREN<br/><i>evaluator — never a design vote</i>"]
+        end
+        NORM["normalise + place hits<br/>1-based coords, strand/overhang identity"]
+        BUCKET["site-level consensus<br/>exact bucket (start+length)"]
+        FILT["sequence filters"]
+        RANK["diverse top-k<br/>min_votes, min_spacing"]
+        REPORT["report<br/>run.json, candidates.tsv,<br/>all_candidates.fa, report.html"]
+    end
+
+    FASTA --> VAL --> SD & SF & SIREN
+    SD --> NORM
+    SF --> NORM
+    SIREN -. "specificity evidence only" .-> NORM
+    NORM --> BUCKET --> FILT --> RANK --> REPORT
+
+    REPORT --> RUNJSON["run.json — schema v2<br/>all normalized hits + raw hashes"]
+
+    subgraph select["sirna-consensus select — replay + rank"]
+        direction TB
+        SRC{"candidate source"}
+        CAND["candidates.tsv or --enumerate"]
+        SCORE["frozen efficacy scorer<br/><i>optional, hashed checkpoint</i>"]
+        STRAT["ranking strategy<br/>native · model · fusion · support · quality"]
+        POLICY["frozen format/strategy policy<br/><i>optional</i>"]
+        SCREEN["Bowtie transcriptome screen<br/><i>optional, hash-pinned index</i>"]
+        OUT["selection.json<br/>research_top.fa · screened_top.fa · diverse_top.fa"]
+    end
+
+    RUNJSON --> SRC
+    CAND --> SRC
+    SRC --> STRAT
+    SRC --> SCORE
+    SCORE --> STRAT
+    POLICY --> STRAT
+    STRAT --> OUT
+    STRAT --> SCREEN --> OUT
+
+    style SIREN stroke-dasharray: 4 3
+    style run fill:#f6f8fa,stroke:#8b949e
+    style select fill:#f6f8fa,stroke:#8b949e
+    style tools fill:#eef4fb,stroke:#8b949e
+```
+
+Tool roles are not interchangeable: **generators** cast design votes, **SIREN**
+is an evaluator whose screen can only *support or disqualify* a generated site.
+An evaluator hit is never promoted to a positive vote.
+
 ## Run and select
 
 ```bash
