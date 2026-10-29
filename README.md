@@ -15,58 +15,82 @@ screen. Nothing is enumerated locally: the generator tools enumerate, and this
 package only *places* what they return onto the transcript.
 
 ```mermaid
-flowchart TD
-    FASTA["transcript FASTA<br/>(single sequence)"]
+flowchart TB
+    %% 角色配色: 生成器=深色(投票) · 评估器=虚线框(仅证据) · 核心=青绿 · 产物=琥珀
+    classDef io     fill:#eef2f5,stroke:#5c6b74,color:#111820
+    classDef gen    fill:#123b4f,stroke:#0b2735,color:#ffffff
+    classDef eval   fill:#ffffff,stroke:#123b4f,color:#123b4f,stroke-dasharray:5 3
+    classDef core   fill:#e7f0ef,stroke:#0f7b74,color:#093b38
+    classDef out    fill:#fdf6e8,stroke:#8a5c12,color:#5a3c0a
+    classDef gate   fill:#fbf1ef,stroke:#a4301f,color:#7a2313,stroke-dasharray:4 3
 
-    subgraph run["sirna-consensus run — consensus, no local enumeration"]
+    FASTA(["转录本 FASTA<br/>单条序列"]):::io
+
+    subgraph RUN["run · 位点共识 (不做本地枚举)"]
         direction TB
-        VAL["validate input<br/>record sha256 + config"]
-        subgraph tools["external tools, isolated subprocesses"]
-            direction LR
-            SD["siRNAdesigner<br/><i>generator</i>"]
-            SF["siRNAforge<br/><i>generator</i>"]
-            SIREN["SIREN<br/><i>evaluator — never a design vote</i>"]
-        end
-        NORM["normalise + place hits<br/>1-based coords, strand/overhang identity"]
-        BUCKET["site-level consensus<br/>exact bucket (start+length)"]
-        FILT["sequence filters"]
-        RANK["diverse top-k<br/>min_votes, min_spacing"]
-        REPORT["report<br/>run.json, candidates.tsv,<br/>all_candidates.fa, report.html"]
+        VAL["校验 + sha256"]:::core
+        SD["siRNAdesigner<br/>生成器"]:::gen
+        SF["siRNAforge<br/>生成器"]:::gen
+        SIREN["SIREN<br/>评估器"]:::eval
+        NORM["归一化 + 定位<br/>坐标 · 链 · 悬垂"]:::core
+        BUCKET["位点级共识<br/>start+length"]:::core
+        FILT["序列过滤器"]:::core
+        RANK["多样性 top-k<br/>min_votes · spacing"]:::core
+        VAL --> SD & SF & SIREN
+        SD --> NORM
+        SF --> NORM
+        SIREN -. 仅提供证据, 不投票 .-> NORM
+        NORM --> BUCKET --> FILT --> RANK
     end
 
-    FASTA --> VAL --> SD & SF & SIREN
-    SD --> NORM
-    SF --> NORM
-    SIREN -. "specificity evidence only" .-> NORM
-    NORM --> BUCKET --> FILT --> RANK --> REPORT
+    RUNJSON[("run.json · schema v2<br/>全部命中 + 原始输出哈希")]:::out
+    FASTA --> VAL
+    RANK --> RUNJSON
 
-    REPORT --> RUNJSON["run.json — schema v2<br/>all normalized hits + raw hashes"]
-
-    subgraph select["sirna-consensus select — replay + rank"]
+    subgraph SEL["select · 回放与排序"]
         direction TB
-        SRC{"candidate source"}
-        CAND["candidates.tsv or --enumerate"]
-        SCORE["frozen efficacy scorer<br/><i>optional, hashed checkpoint</i>"]
-        STRAT["ranking strategy<br/>native · model · fusion · support · quality"]
-        POLICY["frozen format/strategy policy<br/><i>optional</i>"]
-        SCREEN["Bowtie transcriptome screen<br/><i>optional, hash-pinned index</i>"]
-        OUT["selection.json<br/>research_top.fa · screened_top.fa · diverse_top.fa"]
+        SRC{"候选来源"}:::gate
+        SCORE["冻结效力打分器<br/>哈希固定"]:::eval
+        STRAT["排序策略<br/>native · model · fusion<br/>support · quality"]:::core
+        SCREEN["Bowtie 筛查"]:::eval
+        PANEL["面板输出<br/>research / screened"]:::out
+        SRC --> STRAT
+        SRC --> SCORE --> STRAT
+        STRAT --> SCREEN --> PANEL
     end
 
     RUNJSON --> SRC
-    CAND --> SRC
-    SRC --> STRAT
-    SRC --> SCORE
-    SCORE --> STRAT
-    POLICY --> STRAT
-    STRAT --> OUT
-    STRAT --> SCREEN --> OUT
+    CAND["candidates.tsv<br/>或 --enumerate"]:::io --> SRC
+    POLICY["开发集冻结策略"]:::eval -.-> STRAT
+    PANEL --> OUT(["selection.json<br/>+ 面板 FASTA"]):::io
+    OUT -.-> NOTE["计算预测<br/>非湿实验验证"]:::gate
 
-    style SIREN stroke-dasharray: 4 3
-    style run fill:#f6f8fa,stroke:#8b949e
-    style select fill:#f6f8fa,stroke:#8b949e
-    style tools fill:#eef4fb,stroke:#8b949e
+    style RUN fill:#f8fafb,stroke:#d5dee2
+    style SEL fill:#f8fafb,stroke:#d5dee2
 ```
+
+```mermaid
+flowchart LR
+    classDef gen  fill:#123b4f,stroke:#0b2735,color:#fff
+    classDef eval fill:#fff,stroke:#123b4f,color:#123b4f,stroke-dasharray:5 3
+    classDef core fill:#e7f0ef,stroke:#0f7b74,color:#093b38
+    G["生成器<br/>投设计票"]:::gen --> C["共识<br/>只在生成器之间统计<br/>同工具不重复计票"]:::core
+    E["评估器<br/>只给证据"]:::eval -. 可支持或淘汰 .-> C
+```
+
+
+```mermaid
+flowchart LR
+    classDef gen  fill:#123b4f,stroke:#0b2735,color:#fff
+    classDef eval fill:#fff,stroke:#123b4f,color:#123b4f,stroke-dasharray:5 3
+    classDef core fill:#e7f0ef,stroke:#0f7b74,color:#093b38
+    def0["生成器 — 投设计票"]:::gen
+    def1["评估器 — 只给证据<br/>可支持或淘汰, 从不投票"]:::eval
+    def2["共识只在生成器之间统计<br/>同一工具多个命中不重复计票"]:::core
+    def0 --> def2
+    def1 -.-> def2
+```
+
 
 Tool roles are not interchangeable: **generators** cast design votes, **SIREN**
 is an evaluator whose screen can only *support or disqualify* a generated site.

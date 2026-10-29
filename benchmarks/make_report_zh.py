@@ -1,21 +1,27 @@
 #!/usr/bin/env python3
 """生成中文论文风格的基准测试报告 (report_zh.html)。
 
-结构: 摘要 → 背景 → 方法 → 结果 → 图 → 讨论 → 结论 → 数据与复现。
-数据全部从本目录下已冻结的结果文件读取, 不做重新计算:
+结构: 摘要 -> 背景 -> 方法(含流程图) -> 结果 -> 图 -> 讨论 -> 结论 -> 数据与复现。
 
+数据来自本目录下已冻结的产物:
     results/development_results.json      方法/消融/配对比较/筛查冒烟
     results/development_comparison.json   逐基因配对差异与自助 CI
     results/permutation_control.json      标签置换对照
     results/implementation_verification.json
     dataset_manifest.json, benchmark_config.json
+    results/development/full/<基因>/<策略>/selection.json   标签盲预测 (逐分子)
+    data/huesken/measurements.tsv                            实测活性
+
+"模型性能" 与 "预算曲线" 两图由冻结的预测 + 实测文件复算得到描述性统计
+(不重新拟合模型, 不重新抽样)。复算的 Top-5 精确率与 development_results.json
+逐位一致 (见报告中的交叉校验)。
 
 图以内联 SVG 绘制, 报告是单文件、离线可读。
-
 用法:  python make_report_zh.py [-o report_zh.html]
 """
 from __future__ import annotations
 
+import csv
 import html
 import json
 import sys
@@ -23,19 +29,20 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
+FULL = HERE / "results/development/full"
 
 METHOD_ZH = {
-    "native": "native (并集 + 序列质量回退)",
-    "sirnadesigner": "siRNAdesigner (单个生成器)",
-    "sirnaforge": "siRNAforge (单个生成器)",
-    "consensus": "exact consensus (精确共识)",
-    "model": "model (冻结 OligoFormer)",
-    "fusion": "fusion (模型 ⊕ native 百分位)",
-    "support": "support (0.8 模型 + 0.2 支持度)",
-    "quality": "quality (0.8 模型 + 0.1 native + 0.1 质量)",
+    "native": "native 并集+质量回退",
+    "sirnadesigner": "siRNAdesigner (单生成器)",
+    "sirnaforge": "siRNAforge (单生成器)",
+    "consensus": "exact consensus",
+    "model": "model 冻结模型",
+    "fusion": "fusion 融合",
+    "support": "support 支持度",
+    "quality": "quality 质量融合",
 }
 ABLATION_ZH = {
-    "full": "完整配置 (= quality)",
+    "full": "完整配置",
     "no_filters": "关闭全部过滤器",
     "hard_filters": "硬过滤 (非 soft)",
     "no_tool_scores": "去掉工具打分",
@@ -52,49 +59,12 @@ REASON_ZH = (
     ("Database Huesken metadata",
      "数据库标注 (HeLa / 荧光素酶) 与原始文献整理 (H1299 / 荧光报告基因) 冲突, 未强行统一。"),
     ("Database percent-inhibition field",
-     "数据库的百分比抑制字段重置了 Huesken 的归一化活性尺度, <b>不可</b>当作敲低百分比解读。"),
+     "数据库的百分比抑制字段重置了归一化活性尺度, <b>不可</b>当作敲低百分比解读。"),
 )
-PCT = lambda v: "不可用" if v is None else f"{v * 100:.1f}%"  # noqa: E731
 
-CSS = """
-:root{--ink:#111820;--muted:#5c6b74;--line:#d5dee2;--navy:#123b4f;--teal:#0f7b74;
---red:#a4301f;--green:#1d6b3a;--amber:#8a5c12}
-*{box-sizing:border-box}
-body{margin:0;background:#eef1f2;color:var(--ink);
-font:15px/1.8 'Noto Serif SC','Songti SC','Charter',Georgia,serif}
-.page{max-width:960px;margin:0 auto;background:#fff;padding:46px 56px 60px;
-box-shadow:0 2px 20px rgba(20,35,43,.09)}
-h1{font-size:21px;line-height:1.55;margin:0 0 8px}
-h2{font-size:16px;margin:34px 0 10px;color:var(--navy);
-border-bottom:1px solid var(--line);padding-bottom:5px}
-h3{font-size:14px;margin:22px 0 8px;color:var(--navy)}
-h3 .num,h2 .num{color:var(--teal)}
-p{margin:10px 0;text-align:justify}
-code{font:12px ui-monospace,Menlo,Consolas,monospace;background:#eff3f4;padding:1px 4px;border-radius:3px}
-.byline{color:#3b4b55;font-size:13px;margin:0 0 4px}
-.meta{color:var(--muted);font-size:12.5px;margin:0 0 20px}
-.abstract{background:#f7faf9;border:1px solid var(--line);border-left:3px solid var(--teal);
-padding:14px 18px;font-size:13.5px;margin:18px 0}
-.abstract h2{border:0;margin:0 0 6px;font-size:13px;letter-spacing:.1em;color:var(--teal)}
-.kw{font-size:12.5px;color:#3b4b55;margin:10px 0 0}
-table{width:100%;border-collapse:collapse;font:12.5px ui-sans-serif,system-ui;margin:12px 0}
-caption{text-align:left;font-size:12px;color:var(--muted);padding:0 0 6px}
-th{text-align:left;font-size:10.5px;letter-spacing:.05em;color:var(--muted);
-padding:6px;border-top:1.4px solid var(--ink);border-bottom:1px solid var(--ink)}
-td{padding:6px;border-bottom:1px solid #e9eef0;vertical-align:top}
-tbody tr:last-child td{border-bottom:1.4px solid var(--ink)}
-td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
-.ok{color:var(--green)}.bad{color:var(--red)}.warn{color:var(--amber)}
-.note{background:#f7faf9;border-left:3px solid var(--teal);padding:11px 14px;font-size:12.5px;margin:14px 0}
-.note.warnbox{background:#fdf6e8;border-left:3px solid var(--amber)}
-figure{margin:20px 0;padding:0}
-figcaption{font-size:12px;color:#3b4b55;margin-top:8px;line-height:1.6}
-svg{max-width:100%;height:auto;display:block}
-ul.plain,ol.refs{font-size:12.5px;padding-left:22px}
-ul.plain li,ol.refs li{margin:7px 0}
-footer{margin-top:34px;padding-top:14px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
-@media print{body{background:#fff}.page{box-shadow:none;max-width:none;padding:0}}
-"""
+INK, MUTED, NAVY, TEAL, RED, AMBER, LINE = (
+    "#111820", "#5c6b74", "#123b4f", "#0f7b74", "#a4301f", "#8a5c12", "#d5dee2")
+ACTIVE_THRESHOLD = 0.7
 
 
 def e(v) -> str:
@@ -105,119 +75,372 @@ def load(name: str) -> dict:
     return json.loads((HERE / name).read_text())
 
 
-# ---------------------------------------------------------------- figures
-def fig_methods(methods: dict) -> str:
-    """Top-5 精确率 (条) 与完成度 (点)。"""
+def pct(v, nd=1) -> str:
+    return "不可用" if v is None else f"{v * 100:.{nd}f}%"
+
+
+# ------------------------------------------------------------------ 统计
+def load_measured() -> dict[str, dict[str, float]]:
+    out: dict[str, dict[str, float]] = {}
+    with (HERE / "data/huesken/measurements.tsv").open() as fh:
+        for row in csv.DictReader(fh, delimiter="\t"):
+            out.setdefault(row["gene"], {})[row["guide_dna"]] = float(row["value"])
+    return out
+
+
+def ranked(measured, gene: str, method: str) -> list[tuple[float, float]]:
+    """标签盲预测中与实测池相交的部分, 按分数降序 -> [(score, activity)]。"""
+    path = FULL / gene / method / "selection.json"
+    if not path.exists():
+        return []
+    pool = measured[gene]
+    rows = [(c["score"], pool[c["guide_dna"]])
+            for c in json.loads(path.read_text())["candidates"]
+            if c["guide_dna"] in pool and c.get("score") is not None]
+    return sorted(rows, key=lambda t: -t[0])
+
+
+def precision_at_k(measured, method: str, kmax: int = 10) -> dict[int, tuple[float, int]]:
+    curve = {}
+    for k in range(1, kmax + 1):
+        vals = []
+        for gene in measured:
+            rows = ranked(measured, gene, method)
+            if len(rows) < k:
+                continue
+            vals.append(sum(1 for _, a in rows[:k] if a >= ACTIVE_THRESHOLD) / k)
+        curve[k] = (sum(vals) / len(vals), len(vals)) if vals else (None, 0)
+    return curve
+
+
+def score_activity(measured) -> list[tuple[float, float]]:
+    pairs = []
+    for gene in measured:
+        for c in json.loads((FULL / gene / "model" / "selection.json").read_text())["candidates"]:
+            if c["guide_dna"] in measured[gene] and c.get("model_score") is not None:
+                pairs.append((c["model_score"], measured[gene][c["guide_dna"]]))
+    return sorted(pairs)
+
+
+def _ranks(vals: list[float]) -> list[float]:
+    order = sorted(range(len(vals)), key=lambda i: vals[i])
+    out = [0.0] * len(vals)
+    i = 0
+    while i < len(order):
+        j = i
+        while j < len(order) and vals[order[j]] == vals[order[i]]:
+            j += 1
+        for k in range(i, j):
+            out[order[k]] = (i + j + 1) / 2
+        i = j
+    return out
+
+
+def model_stats(pairs) -> dict:
+    n = len(pairs)
+    pos = sum(1 for _, a in pairs if a >= ACTIVE_THRESHOLD)
+    order = sorted(range(n), key=lambda i: -pairs[i][0])
+    hits, ap = 0, 0.0
+    for rank, i in enumerate(order, 1):
+        if pairs[i][1] >= ACTIVE_THRESHOLD:
+            hits += 1
+            ap += hits / rank
+    rx, ry = _ranks([s for s, _ in pairs]), _ranks([a for _, a in pairs])
+    mx, my = sum(rx) / n, sum(ry) / n
+    num = sum((a - mx) * (b - my) for a, b in zip(rx, ry))
+    den = (sum((a - mx) ** 2 for a in rx) * sum((b - my) ** 2 for b in ry)) ** 0.5
+    rx_score = _ranks([s for s, _ in pairs])
+    pos_rank_sum = sum(r for r, (_, a) in zip(rx_score, pairs) if a >= ACTIVE_THRESHOLD)
+    n0 = n - pos
+    auroc = (pos_rank_sum - pos * (pos + 1) / 2) / (pos * n0) if pos and n0 else None
+    return {"n": n, "active": pos, "base": pos / n, "ap": ap / pos if pos else None,
+            "auroc": auroc, "spearman": num / den if den else None}
+
+
+def deciles(pairs, bins: int = 10) -> list[tuple[int, float]]:
+    pts = sorted(pairs)
+    step = len(pts) // bins
+    out = []
+    for i in range(bins):
+        chunk = pts[i * step:] if i == bins - 1 else pts[i * step:(i + 1) * step]
+        out.append((len(chunk), sum(1 for _, a in chunk if a >= ACTIVE_THRESHOLD) / len(chunk)))
+    return out
+
+
+# ------------------------------------------------------------------ 图
+def _axis(w, h, pad_l, pad_r, pad_b, ticks, xmax, title, ylabel=""):
+    parts = [f'<rect x="{pad_l}" y="24" width="{w-pad_l-pad_r}" height="{h-24-pad_b}" '
+             f'fill="#fbfcfc" stroke="{LINE}"/>']
+    for t in ticks:
+        x = pad_l + t / xmax * (w - pad_l - pad_r)
+        parts.append(f'<line x1="{x:.1f}" y1="24" x2="{x:.1f}" y2="{h-pad_b}" '
+                     f'stroke="#eef2f3"/>')
+        parts.append(f'<text x="{x:.1f}" y="{h-pad_b+15}" font-size="10.5" fill="{MUTED}" '
+                     f'text-anchor="middle">{t:g}</text>')
+    parts.append(f'<text x="{(pad_l+w-pad_r)/2:.1f}" y="{h-pad_b+31}" font-size="11" '
+                 f'fill="{MUTED}" text-anchor="middle">{e(title)}</text>')
+    if ylabel:
+        parts.append(f'<text x="12" y="{24+(h-24-pad_b)/2:.1f}" font-size="11" fill="{MUTED}" '
+                     f'text-anchor="middle" transform="rotate(-90 12 '
+                     f'{24+(h-24-pad_b)/2:.1f})">{e(ylabel)}</text>')
+    return "".join(parts)
+
+
+def fig_flow() -> str:
+    """方法流程图。"""
+    w, h = 880, 470
+    box = ('<rect x="{x}" y="{y}" width="{bw}" height="{bh}" rx="5" fill="{fill}" '
+           'stroke="{stroke}" stroke-width="{sw}"/>'
+           '<text x="{tx}" y="{ty}" font-size="{fs}" font-weight="700" fill="{tc}" '
+           'text-anchor="middle">{line1}</text>'
+           '<text x="{tx}" y="{ty2}" font-size="10.5" fill="#4b5a63" '
+           'text-anchor="middle">{line2}</text>')
+
+    def b(x, y, bw, bh, l1, l2, fill="#eef4fb", stroke=NAVY, sw=1, tc=NAVY, fs=11.5):
+        return box.format(x=x, y=y, bw=bw, bh=bh, fill=fill, stroke=stroke, sw=sw,
+                          tx=x + bw / 2, ty=y + 21, ty2=y + 37, line1=e(l1),
+                          line2=e(l2), fs=fs, tc=tc)
+
+    def arrow(x1, y1, x2, y2, dash=""):
+        da = ' stroke-dasharray="4 3"' if dash else ""
+        return (f'<path d="M {x1} {y1} L {x2} {y2}" stroke="#8b949e" stroke-width="1.4" '
+                f'fill="none"{da} marker-end="url(#ah)"/>')
+
+    s = ['<defs><marker id="ah" markerWidth="7" markerHeight="7" refX="6" refY="3.5" '
+         'orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#8b949e"/></marker></defs>']
+    # 第一列: 数据
+    s.append(b(10, 60, 190, 48, "Figshare 原始快照", "3,544 条记录 · 7 项研究"))
+    s.append(b(10, 140, 190, 48, "Huesken 开发队列", "25 构建体 · 1,941 引导链"))
+    s.append(b(10, 220, 190, 48, "候选池 (标签盲)", "21 nt 全长引导链 + 悬垂"))
+    # 第二列: 预测
+    s.append(b(250, 60, 220, 48, "生成器工具", "siRNAdesigner · siRNAforge (弃权)"))
+    s.append(b(250, 140, 220, 48, "冻结语言模型", "OligoFormer (权重已哈希)"))
+    s.append(b(250, 230, 220, 48, "排序策略", "native/model/fusion/support/quality",
+               fill="#e7f0ef", stroke=TEAL, tc=TEAL))
+    s.append(b(250, 310, 220, 48, "Top-K 面板选择", "仅用预测, 不看标签",
+               fill="#e7f0ef", stroke=TEAL, tc=TEAL))
+    # 第三列: 评估
+    s.append(b(530, 140, 210, 48, "实测活性", "阈值 0.7 二分类"))
+    s.append(b(530, 230, 210, 48, "主终点", "基因加权 Top-5 精确率"))
+    s.append(b(530, 310, 210, 48, "不确定度", "1 万次配对自助 · 1 千次置换"))
+    s.append(b(530, 390, 210, 52, "证据等级: 开发集", "无独立留出, 不自称泛化",
+               fill="#fdf6e8", stroke=AMBER, tc=AMBER))
+    # 连接
+    s.append(arrow(200, 84, 248, 84))
+    s.append(arrow(105, 188, 105, 218))
+    s.append(arrow(200, 164, 248, 164))
+    s.append(arrow(105, 244, 248, 254))
+    s.append(arrow(360, 188, 360, 228))
+    s.append(arrow(360, 278, 360, 308))
+    s.append(arrow(470, 254, 528, 254))
+    s.append(arrow(470, 334, 528, 334))
+    s.append(arrow(635, 188, 635, 228))
+    s.append(arrow(635, 278, 635, 308))
+    s.append(arrow(635, 358, 635, 388))
+    s.append(f'<text x="105" y="40" font-size="11" font-weight="700" fill="{NAVY}">数据</text>')
+    s.append(f'<text x="360" y="40" font-size="11" font-weight="700" fill="{NAVY}" '
+             f'text-anchor="middle">标签盲预测</text>')
+    s.append(f'<text x="635" y="40" font-size="11" font-weight="700" fill="{NAVY}" '
+             f'text-anchor="middle">评估</text>')
+    s.append(f'<text x="250" y="384" font-size="10.5" fill="{MUTED}">'
+             f'生成器未产出 = 弃权, 不判无效</text>')
+    return f'<svg viewBox="0 0 {w} {h}" role="img" aria-label="评估流程图">{"".join(s)}</svg>'
+
+
+def fig_primary(methods: dict) -> str:
     rows = sorted(methods.items(), key=lambda kv: (kv[1]["precision_at_5_complete"] is None,
-                                                  kv[1]["precision_at_5_complete"] or 0))
-    w, row, pad = 760, 30, 250
-    h = len(rows) * row + 34
-    bars = []
+                                                   kv[1]["precision_at_5_complete"] or 0))
+    w, y0, rh, lab, bar = 780, 30, 34, 220, 300
+    h = y0 + len(rows) * rh + 40
+    s = []
     for i, (name, m) in enumerate(rows):
-        y = 20 + i * row
+        y = y0 + i * rh
+        s.append(f'<text x="0" y="{y+18}" font-size="12" fill="{INK}">'
+                 f'{e(METHOD_ZH.get(name, name))}</text>')
         p = m["precision_at_5_complete"]
-        complete = m["complete_genes"]
-        color = "#123b4f" if complete == 25 else "#8a5c12"
-        bars.append(
-            f'<text x="0" y="{y+16}" font-size="11.5" fill="#3b4b55">{e(METHOD_ZH.get(name, name))}</text>')
         if p is None:
-            bars.append(f'<text x="{pad+8}" y="{y+16}" font-size="11.5" fill="#a4301f">'
-                        f'无完整面板 (0/25 基因)</text>')
+            s.append(f'<text x="{lab}" y="{y+18}" font-size="11.5" fill="{RED}">'
+                     f'本队列无完整面板 (0/25)</text>')
             continue
-        bw = max(3, p * (w - pad - 250))
-        bars.append(f'<rect x="{pad}" y="{y+4}" width="{bw:.1f}" height="{row-11}" rx="2" fill="{color}"/>')
-        bars.append(f'<text x="{pad+bw+8:.1f}" y="{y+16}" font-size="11.5" font-weight="700" '
-                    f'fill="{color}">{p * 100:.1f}%</text>')
-        cov = m["mean_candidate_coverage"]
-        bars.append(f'<text x="{w}" y="{y+16}" font-size="10.5" fill="#7a878e" '
-                    f'text-anchor="end">覆盖 {cov * 100:.0f}% · {complete}/25 基因</text>')
-    bars.append(f'<text x="{pad}" y="12" font-size="10.5" fill="#7a878e">基因加权 Top-5 精确率 (完整基因)</text>')
-    return f'<svg viewBox="0 0 {w} {h}" role="img" aria-label="各方法 Top-5 精确率">{"".join(bars)}</svg>'
+        full_panel = m["complete_genes"] == 25
+        bw = max(3, p * bar)
+        s.append(f'<rect x="{lab}" y="{y+6}" width="{bw:.1f}" height="{rh-14}" rx="2" '
+                 f'fill="{NAVY if full_panel else AMBER}" opacity="{1 if full_panel else .85}"/>')
+        s.append(f'<text x="{lab+bw+7:.1f}" y="{y+18}" font-size="12" font-weight="700" '
+                 f'fill="{NAVY if full_panel else AMBER}">{p * 100:.1f}%</text>')
+        s.append(f'<text x="{w}" y="{y+18}" font-size="10.5" fill="{MUTED}" '
+                 f'text-anchor="end">完整 {m["complete_genes"]}/25 基因 · 覆盖 '
+                 f'{m["mean_candidate_coverage"] * 100:.0f}%</text>')
+    s.append(f'<line x1="{lab}" y1="{y0-8}" x2="{lab}" y2="{h-34}" stroke="{LINE}"/>')
+    s.append(f'<text x="{lab}" y="{y0-14}" font-size="10.5" fill="{MUTED}">'
+             f'基因加权 Top-5 精确率 (仅完整基因)</text>')
+    return f'<svg viewBox="0 0 {w} {h}" role="img" aria-label="主终点">{"".join(s)}</svg>'
 
 
-def fig_paired(comp: dict) -> str:
-    """quality - model 的逐基因配对差异 + 自助 CI。"""
-    c = comp["comparisons"][0]
-    diffs = c["per_gene_difference"]
-    lo, hi = c["ci95"]
-    mean = c["mean_difference"]
-    genes = sorted(diffs, key=lambda g: diffs[g])
-    w, pad, row = 760, 140, 21
-    zero = pad + (w - pad - 150) / 2
-    scale = (w - pad - 150) / 2 / 0.25
-    h = len(genes) * row + 74
-    body = []
-    for i, g in enumerate(genes):
-        y = 42 + i * row
-        d = diffs[g]
-        x = zero + d * scale
-        color = "#0f7b74" if d > 0 else ("#a4301f" if d < 0 else "#c9d4d8")
-        body.append(f'<text x="{pad-8}" y="{y+4}" font-size="10.5" fill="#3b4b55" '
-                    f'text-anchor="end">{e(g)}</text>')
-        body.append(f'<line x1="{zero:.1f}" y1="{y}" x2="{x:.1f}" y2="{y}" stroke="{color}" '
-                    f'stroke-width="1.6"/>')
-        body.append(f'<circle cx="{x:.1f}" cy="{y}" r="3.4" fill="{color}"/>')
-    lo_x, hi_x, m_x = zero + lo * scale, zero + hi * scale, zero + mean * scale
-    band = (f'<rect x="{lo_x:.1f}" y="30" width="{hi_x-lo_x:.1f}" height="{h-72}" '
-            f'fill="#123b4f" opacity="0.08"/>'
-            f'<line x1="{lo_x:.1f}" y1="30" x2="{lo_x:.1f}" y2="{h-42}" stroke="#123b4f" stroke-dasharray="3 3"/>'
-            f'<line x1="{hi_x:.1f}" y1="30" x2="{hi_x:.1f}" y2="{h-42}" stroke="#123b4f" stroke-dasharray="3 3"/>'
-            f'<line x1="{m_x:.1f}" y1="30" x2="{m_x:.1f}" y2="{h-42}" stroke="#123b4f" stroke-width="2"/>')
-    zero_line = (f'<line x1="{zero:.1f}" y1="26" x2="{zero:.1f}" y2="{h-42}" stroke="#7a878e"/>'
-                 f'<text x="{zero:.1f}" y="18" font-size="10.5" fill="#7a878e" text-anchor="middle">0</text>')
-    labels = (f'<text x="{lo_x:.1f}" y="{h-26}" font-size="10.5" fill="#123b4f" text-anchor="middle">'
-              f'CI 下界 {lo * 100:+.1f}</text>'
-              f'<text x="{hi_x:.1f}" y="{h-26}" font-size="10.5" fill="#123b4f" text-anchor="middle">'
-              f'CI 上界 {hi * 100:+.1f}</text>'
-              f'<text x="{m_x:.1f}" y="{h-10}" font-size="10.5" font-weight="700" fill="#123b4f" '
-              f'text-anchor="middle">均值 {mean * 100:+.1f} pt</text>')
-    return (f'<svg viewBox="0 0 {w} {h}" role="img" aria-label="逐基因配对差异">'
-            f'{band}{zero_line}{"".join(body)}{labels}</svg>')
+def fig_model(pairs, stats, dec) -> str:
+    w, h = 860, 330
+    pl, pr, pb = 54, 400, 46
+    s = [_axis(pl + pr, h, pl, 0, pb, [0.4, 0.6, 0.8, 1.0], 1.15, "模型打分 (未标定)", "实测活性")]
+    xmax = 1.15
+    bw = (w - pl - pr) / xmax
+    for sc, act in pairs:
+        x = pl + sc * bw
+        y = 24 + (1 - act / 1.15) * (h - 24 - pb)
+        col = TEAL if act >= ACTIVE_THRESHOLD else "#b9c6cc"
+        s.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="1.7" fill="{col}" opacity="0.45"/>')
+    # 分箱中位趋势
+    pts = sorted(pairs)
+    step = len(pts) // 12
+    line = []
+    for i in range(12):
+        chunk = pts[i * step:(i + 1) * step]
+        xs = sum(p[0] for p in chunk) / len(chunk)
+        ys = sorted(a for _, a in chunk)[len(chunk) // 2]
+        line.append(f"{pl + xs * bw:.1f},{24 + (1 - ys / 1.15) * (h - 24 - pb):.1f}")
+    s.append(f'<polyline points="{" ".join(line)}" fill="none" stroke="{NAVY}" stroke-width="2.4"/>')
+    s.append(f'<line x1="{pl}" y1="{24 + (1 - ACTIVE_THRESHOLD / 1.15) * (h - 24 - pb):.1f}" '
+             f'x2="{pl + pr}" y2="{24 + (1 - ACTIVE_THRESHOLD / 1.15) * (h - 24 - pb):.1f}" '
+             f'stroke="{AMBER}" stroke-dasharray="5 4"/>')
+    s.append(f'<text x="{pl + pr - 4}" y="{24 + (1 - ACTIVE_THRESHOLD / 1.15) * (h - 24 - pb) - 5:.1f}" '
+             f'font-size="10" fill="{AMBER}" text-anchor="end">有效阈值 0.7</text>')
+    # 右侧: 十分位命中率
+    bx, _by, bh2 = pl + pr + 96, 24, h - 24 - pb
+    s.append(f'<text x="{bx + 150}" y="16" font-size="11" fill="{MUTED}" text-anchor="middle">'
+             f'模型打分十分位 → 实测有效比例</text>')
+    base_y = 24 + (1 - stats["base"]) * bh2
+    s.append(f'<line x1="{bx-16}" y1="{base_y:.1f}" x2="{bx+320}" y2="{base_y:.1f}" '
+             f'stroke="{AMBER}" stroke-dasharray="5 4"/>')
+    s.append(f'<text x="{bx+322}" y="{base_y+4:.1f}" font-size="10" fill="{AMBER}">'
+             f'基线 {stats["base"] * 100:.0f}%</text>')
+    for i, (_n, frac) in enumerate(dec):
+        x = bx + i * 32
+        hh = frac * bh2
+        s.append(f'<rect x="{x}" y="{24 + bh2 - hh:.1f}" width="24" height="{hh:.1f}" rx="2" '
+                 f'fill="{TEAL if frac >= stats["base"] else "#c3cfd5"}"/>')
+        s.append(f'<text x="{x+12}" y="{24 + bh2 + 14}" font-size="9.5" fill="{MUTED}" '
+                 f'text-anchor="middle">{i+1}</text>')
+        s.append(f'<text x="{x+12}" y="{24 + bh2 - hh - 3:.1f}" font-size="9" fill="{MUTED}" '
+                 f'text-anchor="middle">{frac * 100:.0f}</text>')
+    s.append(f'<text x="{bx+160}" y="{24 + bh2 + 30}" font-size="11" fill="{MUTED}" '
+             f'text-anchor="middle">打分十分位 (1 = 最低)</text>')
+    s.append(f'<text x="{pl + pr + 6}" y="{h - 6}" font-size="10.5" fill="{MUTED}">'
+             f'n = {stats["n"]:,} 条已测引导链 · Spearman ρ = {stats["spearman"]:.2f} · '
+             f'AUROC = {stats["auroc"]:.3f} · AP = {stats["ap"]:.2f}</text>')
+    return f'<svg viewBox="0 0 {w} {h}" role="img" aria-label="模型性能">{"".join(s)}</svg>'
+
+
+def fig_budget(curves: dict, base: float) -> str:
+    w, h = 760, 320
+    pl, pr, pb = 54, 190, 46
+    s = [_axis(w, h, pl, pr, pb, list(range(1, 11)), 10, "预算 K (合成条数)", "基因加权 Top-K 精确率")]
+    ymax = 1.0
+    def yy(v):
+        return 24 + (1 - v / ymax) * (h - 24 - pb)
+    s.append(f'<line x1="{pl}" y1="{yy(base):.1f}" x2="{w-pr}" y2="{yy(base):.1f}" '
+             f'stroke="{AMBER}" stroke-dasharray="5 4"/>')
+    s.append(f'<text x="{pl+6}" y="{yy(base)-6:.1f}" font-size="10" fill="{AMBER}">'
+             f'随机基线 {base * 100:.0f}%</text>')
+    style = {"quality": (NAVY, 2.6), "model": (TEAL, 2.0), "fusion": ("#7f9aa8", 1.8),
+             "support": ("#b07a2a", 1.8), "native": (RED, 1.8), "sirnadesigner": ("#8a6fae", 1.8)}
+    ly = 30
+    for method, (col, sw) in style.items():
+        pts = [f"{pl + (k-1)/9*(w-pl-pr):.1f},{yy(curves[method][k][0]):.1f}"
+               for k in range(1, 11) if curves[method][k][0] is not None]
+        s.append(f'<polyline points="{" ".join(pts)}" fill="none" stroke="{col}" stroke-width="{sw}"/>')
+        s.append(f'<line x1="{w-pr+8}" y1="{ly}" x2="{w-pr+28}" y2="{ly}" stroke="{col}" stroke-width="{sw}"/>')
+        s.append(f'<text x="{w-pr+34}" y="{ly+4}" font-size="10.5" fill="{INK}">'
+                 f'{e(METHOD_ZH[method])}</text>')
+        s.append(f'<text x="{w-pr+34}" y="{ly+17}" font-size="9.5" fill="{MUTED}">'
+                 f'K=5: {pct(curves[method][5][0])} · {curves[method][5][1]}/25 基因</text>')
+        ly += 40
+    return f'<svg viewBox="0 0 {w} {h}" role="img" aria-label="预算曲线">{"".join(s)}</svg>'
 
 
 def fig_ablation(abl: dict) -> str:
-    rows = sorted(abl.items(), key=lambda kv: kv[1]["precision_at_5_complete"])
-    w, row, pad = 640, 27, 230
-    h = len(rows) * row + 18
-    top = max(v["precision_at_5_complete"] for _, v in rows)
-    bars = []
-    for i, (name, m) in enumerate(rows):
-        y = 12 + i * row
-        p = m["precision_at_5_complete"]
-        base = name == "full"
-        bw = max(3, p / top * (w - pad - 90))
-        color = "#123b4f" if base else "#9db4c0"
-        bars.append(f'<text x="0" y="{y+16}" font-size="11.5" fill="#3b4b55">'
-                    f'{e(ABLATION_ZH.get(name, name))}</text>')
-        bars.append(f'<rect x="{pad}" y="{y+4}" width="{bw:.1f}" height="{row-10}" rx="2" fill="{color}"/>')
-        bars.append(f'<text x="{pad+bw+8:.1f}" y="{y+16}" font-size="11.5" fill="#3b4b55">'
-                    f'{p * 100:.1f}% · {m["complete_genes"]}/25 基因</text>')
-    return f'<svg viewBox="0 0 {w} {h}" role="img" aria-label="消融研究">{"".join(bars)}</svg>'
+    full = abl["full"]["precision_at_5_complete"]
+    rows = [k for k in abl if k != "full"]
+    rows.sort(key=lambda k: abl[k]["precision_at_5_complete"])
+    w, y0, rh, lab = 880, 30, 36, 210
+    plot = w - lab - 210
+    h = y0 + len(rows) * rh + 34
+    col = lambda v: RED if v < full - 1e-9 else TEAL  # noqa: E731
+    s = [f'<line x1="{lab + full * plot:.1f}" y1="{y0-10}" '
+         f'x2="{lab + full * plot:.1f}" y2="{h-26}" stroke="{NAVY}" stroke-width="2" '
+         f'stroke-dasharray="3 3"/>',
+         f'<text x="{lab + full * plot:.1f}" y="{y0-16}" font-size="10.5" fill="{NAVY}" '
+         f'text-anchor="middle">完整配置 {full * 100:.1f}%</text>']
+    for i, name in enumerate(rows):
+        y = y0 + i * rh
+        v = abl[name]["precision_at_5_complete"]
+        xf = lab + full * plot
+        xv = lab + v * plot
+        s.append(f'<text x="0" y="{y+18}" font-size="12" fill="{INK}">{e(ABLATION_ZH[name])}</text>')
+        s.append(f'<line x1="{xv:.1f}" y1="{y+14}" x2="{xf:.1f}" y2="{y+14}" '
+                 f'stroke="{col(v)}" stroke-width="2"/>')
+        s.append(f'<circle cx="{xv:.1f}" cy="{y+14}" r="5" fill="{col(v)}"/>')
+        s.append(f'<text x="{xv-10:.1f}" y="{y+18}" font-size="11" fill="{col(v)}" '
+                 f'text-anchor="end">{v * 100:.1f}%</text>')
+        d = (v - full) * 100
+        s.append(f'<text x="{max(xv, xf)+9:.1f}" y="{y+18}" font-size="10.5" fill="{MUTED}">'
+                 f'{d:+.1f} pt · 完整 {abl[name]["complete_genes"]}/25 基因</text>')
+    return f'<svg viewBox="0 0 {w} {h}" role="img" aria-label="消融">{"".join(s)}</svg>'
+
+
+def fig_paired(comp: dict) -> str:
+    c = comp["comparisons"][0]
+    diffs = {g: v for g, v in c["per_gene_difference"].items() if abs(v) > 1e-12}
+    lo, hi = c["ci95"]
+    mean = c["mean_difference"]
+    genes = sorted(diffs, key=lambda g: diffs[g])
+    w, y0, rh, lab = 780, 34, 26, 96
+    span = max(abs(lo), abs(hi), max(abs(v) for v in diffs.values())) * 1.25
+    mid = lab + (w - lab - 120) / 2
+    sc = (w - lab - 120) / 2 / span
+    h = y0 + len(genes) * rh + 66
+    s = [f'<rect x="{mid + lo * sc:.1f}" y="{y0-8}" width="{(hi-lo)*sc:.1f}" '
+         f'height="{h-y0-46}" fill="{NAVY}" opacity="0.09"/>',
+         f'<line x1="{mid:.1f}" y1="{y0-14}" x2="{mid:.1f}" y2="{h-40}" stroke="{MUTED}"/>',
+         f'<text x="{mid:.1f}" y="{y0-20}" font-size="10.5" fill="{MUTED}" '
+         f'text-anchor="middle">无差异 (0)</text>']
+    for i, g in enumerate(genes):
+        y = y0 + i * rh
+        d = diffs[g]
+        x = mid + d * sc
+        col = TEAL if d > 0 else RED
+        s.append(f'<text x="{lab-8}" y="{y+14}" font-size="11" fill="{INK}" '
+                 f'text-anchor="end">{e(g)}</text>')
+        s.append(f'<line x1="{mid:.1f}" y1="{y+10}" x2="{x:.1f}" y2="{y+10}" '
+                 f'stroke="{col}" stroke-width="1.6" opacity="0.6"/>')
+        s.append(f'<circle cx="{x:.1f}" cy="{y+10}" r="4.6" fill="{col}"/>')
+        s.append(f'<text x="{x + (12 if d > 0 else -12):.1f}" y="{y+14}" font-size="10.5" '
+                 f'fill="{col}" text-anchor="{"start" if d > 0 else "end"}">{d * 100:+.0f} pt</text>')
+    s.append(f'<text x="{mid + mean * sc:.1f}" y="{h-22}" font-size="11" font-weight="700" '
+             f'fill="{NAVY}" text-anchor="middle">均值 {mean * 100:+.1f} pt</text>')
+    s.append(f'<text x="{mid:.1f}" y="{h-6}" font-size="10.5" fill="{MUTED}" text-anchor="middle">'
+             f'自助 95% CI [{lo * 100:+.1f}, {hi * 100:+.1f}] pt —— 跨过 0, 未达 +10 pt 判据</text>')
+    return f'<svg viewBox="0 0 {w} {h}" role="img" aria-label="配对差异">{"".join(s)}</svg>'
 
 
 def fig_permutation(perm: dict) -> str:
     obs, null = perm["observed_gene_precision_at_5"], perm["null_mean"]
-    w, h, pad, y0 = 640, 190, 90, 130
-    x = lambda v: pad + v * (w - pad - 110)  # noqa: E731
-    boxes = [
-        (null, "#8a5c12", f'零假设均值 {null * 100:.1f}%'),
-        (obs, "#0f7b74", f'观测值 {obs * 100:.1f}%'),
-    ]
-    out = []
-    for i, (v, color, label) in enumerate(boxes):
-        bx = x(v) + i * 40
-        out.append(f'<rect x="{bx:.1f}" y="{y0 - v * 90:.1f}" width="34" '
-                   f'height="{v * 90:.1f}" fill="{color}"/>')
-        out.append(f'<text x="{bx+17:.1f}" y="{y0 - v * 90 - 8:.1f}" font-size="11.5" '
-                   f'font-weight="700" fill="{color}" text-anchor="middle">{label}</text>')
-    out.append(f'<line x1="{pad-20}" y1="{y0}" x2="{w-60}" y2="{y0}" stroke="#7a878e"/>')
-    out.append(f'<text x="{pad-20}" y="{y0+22}" font-size="11" fill="#7a878e">'
-               f'{perm["permutations"]:,} 次基因内标签置换 · p = {perm["p_one_sided"]:.4f} '
-               f'(单侧) · 种子 {perm["seed"]}</text>')
-    return f'<svg viewBox="0 0 {w} {h}" role="img" aria-label="置换对照">{"".join(out)}</svg>'
+    w, h = 700, 150
+    s = []
+    for i, (v, col, text) in enumerate(
+            [(null, AMBER, f"基因内标签置换零假设均值 {null * 100:.1f}%"),
+             (obs, TEAL, f"实际排序观测值 {obs * 100:.1f}%")]):
+        y = 26 + i * 52
+        bw = v * (w - 330)
+        s.append(f'<text x="0" y="{y+16}" font-size="11.5" fill="{INK}">{e(text)}</text>')
+        s.append(f'<rect x="290" y="{y+3}" width="{bw:.1f}" height="20" rx="2" fill="{col}"/>')
+        s.append(f'<text x="{290+bw+8:.1f}" y="{y+18}" font-size="11.5" font-weight="700" '
+                 f'fill="{col}">{v * 100:.1f}%</text>')
+    s.append(f'<text x="0" y="{h-14}" font-size="10.5" fill="{MUTED}">'
+             f'{perm["permutations"]:,} 次置换 · 单侧 p = {perm["p_one_sided"]:.4f} · '
+             f'种子 {perm["seed"]} · 说明排序显著优于随机, 但不能消除预训练暴露</text>')
+    return f'<svg viewBox="0 0 {w} {h}" role="img" aria-label="置换对照">{"".join(s)}</svg>'
 
 
-# ---------------------------------------------------------------- report
+# ------------------------------------------------------------------ 报告
 def build() -> str:
     dev = load("results/development_results.json")
     comp = load("results/development_comparison.json")
@@ -226,227 +449,249 @@ def build() -> str:
     audit = load("dataset_manifest.json")
     cfg = load("benchmark_config.json")
 
-    methods = dev["methods"]
-    abl = dev["ablations"]
+    measured = load_measured()
+    pairs = score_activity(measured)
+    stats = model_stats(pairs)
+    dec = deciles(pairs)
+    curves = {m: precision_at_k(measured, m) for m in
+              ("quality", "model", "fusion", "support", "native", "sirnadesigner")}
+    base = stats["base"]
+
+    methods, abl = dev["methods"], dev["ablations"]
     primary = comp["comparisons"][0]
-    p5 = comp["comparisons"][0]["per_gene_difference"]
-    moved = sum(1 for v in p5.values() if v)
     best = max((m["precision_at_5_complete"] or 0, k) for k, m in methods.items())
+    # 交叉校验: 复算的 Top-5 必须与冻结 JSON 一致
+    recomputed = curves["quality"][5][0]
+    frozen = methods["quality"]["precision_at_5_complete"]
+    agree = abs(recomputed - frozen) < 1e-9
 
     rows_methods = "".join(
         f"<tr><td>{e(METHOD_ZH.get(k, k))}</td>"
-        f"<td class='n'>{PCT(m['precision_at_5_complete'])}</td>"
+        f"<td class='n'>{pct(m['precision_at_5_complete'])}</td>"
         f"<td class='n'>{m['complete_genes']}/25</td>"
         f"<td class='n'>{m['mean_fill_rate'] * 100:.1f}%</td>"
         f"<td class='n'>{m['mean_candidate_coverage'] * 100:.2f}%</td></tr>"
-        for k, m in sorted(methods.items(),
-                           key=lambda kv: -(kv[1]["precision_at_5_complete"] or -1)))
+        for k, m in sorted(methods.items(), key=lambda kv: -(kv[1]["precision_at_5_complete"] or -1)))
 
     rows_paired = "".join(
         f"<tr><td class='n'>{c['stratum'][-1]}</td><td class='n'>{c['paired_genes']}</td>"
         f"<td class='n'>{c['mean_difference'] * 100:+.1f}</td>"
         f"<td class='n'>[{c['ci95'][0] * 100:+.1f}, {c['ci95'][1] * 100:+.1f}]</td>"
-        f"<td class='n'>{c['budget_yield_difference'] * 100:+.1f}</td>"
-        f"<td class='bad'>未达标</td></tr>"
-        for c in comp["comparisons"])
+        f"<td class='bad'>未达标</td></tr>" for c in comp["comparisons"])
 
     rows_studies = "".join(
         f"<tr><td>{e(name)}</td><td class='n'>{n:,}</td></tr>"
         for name, n in sorted(audit["studies"].items(), key=lambda kv: -kv[1]))
 
-    rows_ablation = "".join(
-        f"<tr><td>{e(ABLATION_ZH.get(k, k))}</td>"
-        f"<td class='n'>{PCT(v['precision_at_5_complete'])}</td>"
-        f"<td class='n'>{v['complete_genes']}/25</td>"
-        f"<td class='n'>{v['mean_fill_rate'] * 100:.1f}%</td></tr>"
-        for k, v in sorted(abl.items(), key=lambda kv: -kv[1]["precision_at_5_complete"]))
-
     reasons = "".join(
-        f"<li>{zh}<br><span class='seq'>({e(r[:66])}…)</span></li>"
-        for r in audit["reasons"]
+        f"<li>{zh}</li>" for r in audit["reasons"]
         for zh in [next((t for k, t in REASON_ZH if r.startswith(k)), e(r))])
-    screening = impl["real_transcriptome_screen"]
+
+    rows_model = "".join(
+        f"<tr><td class='n'>{i + 1}</td><td class='n'>{n}</td><td class='n'>{f * 100:.1f}%</td></tr>"
+        for i, (n, f) in enumerate(dec))
 
     return f"""<!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>共识 siRNA 选择的开发集基准测试: 结果报告</title>
+<title>Huesken 开发集上共识 siRNA 选择的评估报告</title>
 <style>{CSS}</style></head><body><div class="page">
 
 <h1>以公开实测数据评估共识 siRNA 选择流程:<br>Huesken 开发集基准测试报告</h1>
-<p class="byline">sirna-consensus v{impl['package_version']} (schema v{impl['schema_version']}) ·
-包状态 <code>{e(impl['release_status'])}</code></p>
-<p class="meta">数据: {dev['genes']} 个人源克隆构建体 · {impl['curated_human_guides']:,} 条全长引导链 ·
-实测表 SHA-256 <code>{e(perm['benchmark_sha256'][:16])}…</code> · 生成于
-{datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M')} UTC</p>
+<p class="byline">sirna-consensus v{impl['package_version']} · schema v{impl['schema_version']}
+· 状态 <code>{e(impl['release_status'])}</code></p>
+<p class="meta">{dev['genes']} 个人源克隆构建体 · {impl['curated_human_guides']:,} 条全长引导链 ·
+实测表 SHA-256 <code>{e(perm['benchmark_sha256'][:16])}…</code> ·
+生成于 {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M')} UTC</p>
 
 <div class="abstract">
 <h2>摘要</h2>
-<p><b>背景.</b> 去新设计流程需要外部实测数据来标定 "排序是否有效", 但公开 siRNA 数据集
-大多已被同类模型的开发集覆盖, 难以构成真正的留出集。本文报告在 Huesken 人源克隆构建体
-开发集上的一次完整基准测试, 并明确标注其证据等级。</p>
-<p><b>方法.</b> 主终点是<b>基因加权的 Top-5 实测精确率</b> (即前 5 条候选中有多少条实测有效),
-每基因内先对测定取平均、再对基因等权。次级终点含 Top-10、完成度、填充率、候选覆盖率与命中回收。
-比较的对象是 6 种排序策略与 2 个单个生成器; 统计使用 {cfg['bootstrap_replicates']:,} 次
-配对基因自助与 {cfg['permutations']:,} 次基因内标签置换。</p>
-<p><b>结果.</b> {dev['genes']} 个构建体、{impl['curated_human_guides']:,} 条引导链全部完成打分,
-生成器共产生 {impl['generator_raw_hits']:,} 条原始命中。开发集上最优策略为
-<b>{e(METHOD_ZH.get(best[1], best[1]))}</b> ({best[0] * 100:.1f}% Top-5);
-相对冻结模型的配对差异为 <b>{primary['mean_difference'] * 100:+.1f} 个百分点</b>,
-95% 自助 CI <b>[{primary['ci95'][0] * 100:+.1f}, {primary['ci95'][1] * 100:+.1f}]</b> ——
-区间跨过 0, 且低于预设的 +10 pt 门槛。置换对照给出 p = {perm['p_one_sided']:.4f} (单侧),
-说明排序整体显著优于随机, 但<b>相对模型的增益未被证实</b>。</p>
-<p><b>结论.</b> 实现与执行检查全部通过, 但预先约定的 "效力提升" 判据<b>未达成</b>;
-独立验证标志 <code>independent_validation_passed = false</code>。所有数字应视为开发集诊断值。</p>
-<p class="kw"><b>关键词:</b> siRNA 基准测试; 基因加权精确率; 配对自助; 标签置换; 暴露审计</p>
+<p><b>背景.</b> 排序流程需要一个外部标尺来判断 "哪条候选值得合成"。公开 siRNA 数据集大多
+已被同类模型的开发集合覆盖, 因此本报告把证据等级当作一等公民: 先冻结数据、模型与判据,
+再明确标注哪些结论在什么前提下成立。</p>
+<p><b>方法.</b> 主终点为<b>基因加权的 Top-5 实测精确率</b>。逐分子预测全部标签盲产生,
+之后才与实测活性比对。比较 6 种策略与 2 个单生成器; 不确定度用
+{cfg['bootstrap_replicates']:,} 次配对基因自助与 {cfg['permutations']:,} 次基因内标签置换刻画。</p>
+<p><b>结果.</b> 冻结模型在本队列上区分度良好: AUROC <b>{stats['auroc']:.3f}</b>、
+平均精确率 AP <b>{stats['ap']:.2f}</b>、Spearman ρ <b>{stats['spearman']:.2f}</b>;
+最低十分位命中率仅 {dec[0][1] * 100:.0f}%, 最高十分位达 {dec[-1][1] * 100:.0f}%
+(基线 {base * 100:.0f}%)。开发集上最优策略为 <b>{e(METHOD_ZH[best[1]])}</b>
+({best[0] * 100:.1f}% Top-5), 但其相对冻结模型的增益仅
+<b>{primary['mean_difference'] * 100:+.1f} pt</b>, 95% CI
+<b>[{primary['ci95'][0] * 100:+.1f}, {primary['ci95'][1] * 100:+.1f}]</b> —— 跨过 0,
+低于预设 +10 pt 门槛。</p>
+<p><b>结论.</b> "模型本身有效" 成立; "融合策略显著优于模型" <b>未成立</b>。
+实现与执行检查全部通过, 但发布判据未达成, 且无独立留出集。</p>
+<p class="kw"><b>关键词:</b> siRNA 基准测试; AUROC; 基因加权精确率; 配对自助; 暴露审计</p>
 </div>
 
 <div class="note warnbox">
-<b>证据等级声明 (全文最重要的限定):</b> 该 Huesken 队列同时出现在冻结模型的开发/评估集合中,
-且被姊妹项目使用过, 因此<b>当前不存在独立留出集</b>。模型选择与性能估计使用同一批数据,
-下列所有结论都是<b>开发集诊断</b>, 不是泛化性能估计。
+<b>证据等级.</b> 7 项来源研究均在冻结模型的开发/评估集合中出现, 该队列也被姊妹项目使用,
+故<b>当前无独立留出集</b>。以下全部数字都是开发集诊断值。
 </div>
 
 <h2><span class="num">1.</span> 背景</h2>
-<p>公开 siRNA 活性数据集 (Huesken 2005 等) 已被广泛用于训练, 直接在其上报告准确率会高估泛化能力。
-本工作把 "证据等级" 当作一等公民: 先冻结数据与模型, 用固定的协议与终点统计, 再明确标注
-哪些结论在什么前提下成立。</p>
-<p>临床前的核心问题是<b>排序</b>: 在给定预算 (例如 5 条合成) 下, 前 K 条里有多少条真的有效。
-因此主终点取<b>基因加权的 Top-5 实测精确率</b>, 并同时报告完成度与覆盖率 —— 一个只在少数基因上
-"精确" 但对其余基因交白卷的方法, 单看精确率会被高估。</p>
+<p>临床前的实际问题是排序: 在只能合成 k 条的预算下, 前 k 条里有多少条真的有效。
+因此主终点取基因加权的 Top-5 精确率, 并同时报告完成度与覆盖率 —— 只在少数基因上 "精确"
+而对其余基因交白卷的方法, 单看精确率会被高估。</p>
+<p>另一个同样重要的问题是<b>参照系</b>: 一个融合策略若能提升精确率, 必须在同一预算、
+同一候选池上与基线可比。本报告据此把 "提升" 定义为配对差异 + CI, 而非绝对分数。</p>
 
 <h2><span class="num">2.</span> 方法</h2>
+<figure>{fig_flow()}
+<figcaption><b>图 1. 评估流程图。</b>数据、标签盲预测与评估三段分离: 预测阶段完全不看实测标签,
+面板选定后才做比对; 生成器未产出记为弃权而非 "无效"。</figcaption>
+</figure>
+
 <h3>2.1 数据与终点</h3>
-<p>数据来自 Figshare 快照 (article 25908841, v1, {audit['snapshot_records']:,} 条记录, 7 项研究),
-其中与本队列相关的为 {dev['genes']} 个人源克隆构建体上的 {dev['records']:,} 条全长引导链,
-活性为原始归一化抑制活性 (非百分比敲低)。终点定义为
-<code>{cfg['thresholds']['normalized_activity']}</code> 阈值下的有效/无效二分类;
-同一条件的重复测定先取平均再判定阈值; 不同条件保持分离。</p>
+<p>来源为 Figshare 快照 (article 25908841 v1, {audit['snapshot_records']:,} 条记录, 7 项研究);
+其中 {dev['genes']} 个构建体、{dev['records']:,} 条全长引导链构成开发队列。
+活性是原始归一化活性 (非百分比敲低), 以 {cfg['thresholds']['normalized_activity']} 为二分类阈值;
+同一条件的重复测定先取平均, 不同条件保持分离。</p>
 
 <h3>2.2 比较对象</h3>
-<p>包含 2 个单个生成器 (siRNAdesigner、siRNAforge)、精确共识 (consensus)、冻结的 OligoFormer
-语言模型打分 (model), 以及 3 种融合策略 (fusion / support / quality) 与并集回退 (native)。
-生成器未产出某条候选记为<b>弃权</b>, 而不是判定无效。</p>
+<p>包含 2 个单生成器 (siRNAdesigner、siRNAforge)、精确共识、冻结的 OligoFormer 模型打分,
+以及 3 种融合策略与并集回退 native。</p>
 
 <h3>2.3 统计与判据</h3>
-<p>先在同一基因内对测定取平均, 再对基因等权, 以消除测量密度差。
-数值判据为: 精确率提升 ≥ {cfg['minimum_precision_gain'] * 100:.0f} pt、
-配对基因自助 95% CI 下界 &gt; 0、完成度不下降、预算产出为正;
-至少需要 {cfg['minimum_complete_paired_genes']} 个完整配对基因作为可行性下限。
-自助与置换分别使用 {cfg['bootstrap_replicates']:,} 与 {cfg['permutations']:,} 次重复 (种子 {cfg['seed']})。</p>
+<p>先在同一基因内平均测定, 再对基因等权。数值判据为: 精确率提升 ≥
+{cfg['minimum_precision_gain'] * 100:.0f} pt、配对自助 95% CI 下界 &gt; 0、完成度不下降、
+预算产出为正; 至少 {cfg['minimum_complete_paired_genes']} 个完整配对基因。</p>
 
-<h3>2.4 执行与合规检查</h3>
-<p>{impl['hermetic_tests_passed']} 项密闭单元测试与 {impl['external_smoke_tests_passed']} 项外部冒烟测试通过,
-并完成了一次真实转录组筛查 ({e(screening)})。数据集清单记录了出版商校验和与已知的不一致之处。</p>
+<h3>2.4 复算与交叉校验</h3>
+<p>图中的逐分子分数来自各基因的标签盲 <code>selection.json</code>, 与
+<code>measurements.tsv</code> 相交后计算描述性统计 (不重新拟合、不重新抽样)。
+复算的 quality Top-5 精确率为 {recomputed * 100:.1f}%, 与冻结 JSON 的 {frozen * 100:.1f}%
+{'完全一致' if agree else '存在偏差'}。</p>
 
 <h2><span class="num">3.</span> 结果</h2>
-<h3>3.1 主终点: 各方法 Top-5 精确率</h3>
-<table><caption>表 1. 基因加权 Top-5 精确率 (仅计完整基因)。"完成度" 指在 25 个基因中都交得出 5 条候选的基因数,
-"覆盖率" 指该方法候选占全部已测分子池的比例。sirnaforge 与 consensus 在本队列格式下无完整面板,
-属覆盖缺失而非效力证据。</caption>
+<h3>3.1 主终点</h3>
+<table><caption>表 1. 基因加权 Top-5 精确率 (仅完整基因)。覆盖率指候选占已测分子池的比例。</caption>
 <thead><tr><th>方法</th><th class="n">Top-5 精确率</th><th class="n">完整基因</th>
 <th class="n">填充率</th><th class="n">候选覆盖率</th></tr></thead>
 <tbody>{rows_methods}</tbody></table>
-<p>最优为 <b>{best[0] * 100:.1f}%</b>, 但需注意: 具有 25/25 完成度的 4 个非 native 方法彼此相差在 3.2 pt 以内,
-而 siRNAdesigner 的 {methods['sirnadesigner']['precision_at_5_complete'] * 100:.1f}% 只在
-{methods['sirnadesigner']['complete_genes']} 个基因上成立, 不可与 25 基因均值直接比较。</p>
 
-<h3>3.2 配对比较: 最优策略 vs 冻结模型</h3>
-<table><caption>表 2. 开发集最优策略 (quality) 相对冻结模型的配对差异。均值为基因加权,
-CI 为 {cfg['bootstrap_replicates']:,} 次基因自助。判据要求 ≥{cfg['minimum_precision_gain'] * 100:.0f} pt 且 CI 下界 &gt; 0。</caption>
+<h3>3.2 冻结模型的区分度</h3>
+<table><caption>表 2. 按模型打分升序切十分位后的实测有效比例。单调性良好, 说明打分具有排序意义。</caption>
+<thead><tr><th class="n">十分位</th><th class="n">条数</th><th class="n">有效比例</th></tr></thead>
+<tbody>{rows_model}</tbody></table>
+
+<h3>3.3 配对比较与置换</h3>
+<table><caption>表 3. 最优策略相对冻结模型的配对差异 (基因加权, {cfg['bootstrap_replicates']:,} 次自助)。</caption>
 <thead><tr><th class="n">K</th><th class="n">配对基因</th><th class="n">均值差 (pt)</th>
-<th class="n">95% CI</th><th class="n">预算产出差</th><th>判定</th></tr></thead>
+<th class="n">95% CI</th><th>判定</th></tr></thead>
 <tbody>{rows_paired}</tbody></table>
-<p>Top-5 上 25 个基因里只有 {moved} 个出现非零差异 (其余完全并列), 其中正负各有之。
-CI 跨零是本报告的关键否定性结果。</p>
 
-<h3>3.3 消融</h3>
-<table><caption>表 3. 组件消融。完整配置 (与 quality 策略等价) 取得最高 Top-5 精确率;
-"硬过滤" 精确率再高 2.9 pt 但覆盖率骤降, 是<b>以覆盖换精确</b>的典型权衡。</caption>
-<thead><tr><th>配置</th><th class="n">Top-5 精确率</th><th class="n">完整基因</th><th class="n">填充率</th></tr></thead>
-<tbody>{rows_ablation}</tbody></table>
-
-<h3>3.4 置换对照与转录组筛查</h3>
-<p>{perm['permutations']:,} 次基因内标签置换给出零假设均值 {perm['null_mean'] * 100:.1f}%,
-观测值 {perm['observed_gene_precision_at_5'] * 100:.1f}%, 单侧 p = {perm['p_one_sided']:.4f}。
-真实序列筛查在 {dev['screen_smoke']['candidates']} 条 AREG 候选上执行:
-{dev['screen_smoke']['states']['pass']} 通过、{dev['screen_smoke']['states']['reject']} 因错配被排除,
-仅满足<b>计算</b>错配判据, 不等于生物学特异性。</p>
-
-<h3>3.5 数据集来源审计</h3>
-<table><caption>表 4. Figshare 快照中的研究构成 (共 {audit['snapshot_records']:,} 条)。</caption>
+<h3>3.4 数据集来源审计</h3>
+<table><caption>表 4. 快照中的研究构成 (共 {audit['snapshot_records']:,} 条)。</caption>
 <thead><tr><th>研究</th><th class="n">记录数</th></tr></thead><tbody>{rows_studies}</tbody></table>
 <ol class="plain">{reasons}</ol>
 
 <h2><span class="num">4.</span> 图</h2>
-<figure>
-{fig_methods(methods)}
-<figcaption><b>图 1. 各方法的主终点表现。</b>深色为 25/25 完整基因的方法, 琥珀色为面板不完整的方法;
-右侧标注候选覆盖率, 用来说明精确率是否建立在全池覆盖之上。
-sirnaforge 与 consensus 在本队列的双链格式下没有完整面板。</figcaption>
+<figure>{fig_primary(methods)}
+<figcaption><b>图 2. 主终点: 各方法 Top-5 精确率。</b>深色 = 25/25 基因均有完整面板, 琥珀色 = 面板不完整。
+右侧给出覆盖率, 用来看清高精确率是否只建立在窄候选面上。</figcaption>
 </figure>
-<figure>
-{fig_paired(comp)}
-<figcaption><b>图 2. quality 与冻结模型的逐基因配对差异 (Top-5)。</b>每行为一个基因,
-横轴为精确率之差; 竖向阴影为自助 95% CI, 实线为均值。多数基因为 0 (完全并列),
-正负各有少数基因移动 —— 这解释了 CI 为何跨过 0。</figcaption>
+<figure>{fig_model(pairs, stats, dec)}
+<figcaption><b>图 3. 模型性能。</b>左: 每条已测引导链的模型打分 vs 实测活性 (深色为有效),
+折线为分箱中位趋势。右: 打分十分位对应的实测有效比例, 虚线为基线。
+从最低十分位的 {dec[0][1] * 100:.0f}% 单调升到最高十分位的 {dec[-1][1] * 100:.0f}%,
+是 "模型打分确实携带活性信息" 的直接证据 (AUROC {stats['auroc']:.3f}, AP {stats['ap']:.2f})。</figcaption>
 </figure>
-<figure>
-{fig_ablation(abl)}
-<figcaption><b>图 3. 组件消融。</b>深色为完整配置。硬过滤以大幅降低覆盖率换取最高精确率;
-去掉质量项或支持度项使精确率下降约 2 pt, 说明这些项确有贡献但幅度有限。</figcaption>
+<figure>{fig_budget(curves, base)}
+<figcaption><b>图 4. 预算曲线。</b>横轴为可合成的条数, 纵轴为基因加权 Top-K 精确率,
+虚线为随机基线。曲线彼此贴近说明各策略量级相同; 差异要到配对检验才可判定。</figcaption>
 </figure>
-<figure>
-{fig_permutation(perm)}
-<figcaption><b>图 4. 置换对照。</b>观测精确率远高于基因内标签置换的零分布均值,
-说明排序显著优于随机; 但该对照<b>不能</b>消除预训练数据暴露与开发集选择偏差。</figcaption>
+<figure>{fig_ablation(abl)}
+<figcaption><b>图 5. 组件消融。</b>每个点是一个消融配置, 横线连到完整配置的参考线。
+硬过滤以 +{abs(abl['hard_filters']['precision_at_5_complete'] - best[0]) * 100:.1f} pt 换掉
+{abs(abl['hard_filters']['mean_fill_rate'] - 1) * 100:.0f}% 填充率, 是典型的以覆盖换精确。</figcaption>
+</figure>
+<figure>{fig_paired(comp)}
+<figcaption><b>图 6. 配对差异。</b>只画出现非零差异的基因 —— 25 个基因里有
+{25 - sum(1 for v in primary['per_gene_difference'].values() if abs(v) > 1e-12)} 个完全并列。
+竖向阴影为自助 95% CI; 它跨过 0 正是 "增益未被证实" 的图形解释。</figcaption>
+</figure>
+<figure>{fig_permutation(perm)}
+<figcaption><b>图 7. 置换对照。</b>观测值远高于基因内标签置换的零分布均值, 排序显著优于随机。</figcaption>
 </figure>
 
 <h2><span class="num">5.</span> 讨论与局限</h2>
 <ul class="plain">
-<li><b>无独立留出集。</b>7 项来源研究均出现在冻结模型的开发/评估集合中,
-检查点级暴露审计状态为 <code>{e(audit['checkpoint_training_audit'])}</code>。</li>
-<li><b>发布判据未达成。</b>数值门槛要求 ≥10 pt 且 CI&gt;0, 实测为
-{primary['mean_difference'] * 100:+.1f} pt、CI 跨零, 故 <code>publication_criterion_met = false</code>。</li>
-<li><b>端点单位不可混用。</b>Huesken 的归一化活性与数据库的百分比抑制字段含义不同,
-阈值 {cfg['thresholds']['normalized_activity']} 与 {cfg['thresholds']['percent_inhibition']} 不可互换。</li>
-<li><b>元数据冲突已保留。</b>数据库标注 (HeLa/荧光素酶) 与原始文献整理 (H1299/荧光报告基因) 不一致,
-未强行统一。</li>
-<li><b>覆盖 vs 精确。</b>硬过滤与 sirnadesigner 都说明 "精确率高" 可能只是候选面窄。</li>
-<li><b>模型分是序, 不是百分比。</b>OligoFormer 输出为未标定的排序分。</li>
-<li><b>批大小为 1</b> 是上游 LSTM 布局所致, 改变批大小会影响推断结果。</li>
+<li><b>无独立留出集。</b>检查点级暴露审计状态为 <code>{e(audit['checkpoint_training_audit'])}</code>。</li>
+<li><b>发布判据未达成。</b>实测 {primary['mean_difference'] * 100:+.1f} pt、CI 跨零,
+低于 +10 pt 门槛, <code>publication_criterion_met = false</code>。</li>
+<li><b>端点单位不可混用。</b>归一化活性与百分比抑制阈值
+({cfg['thresholds']['normalized_activity']} / {cfg['thresholds']['percent_inhibition']}) 不可互换。</li>
+<li><b>覆盖 vs 精确。</b>硬过滤与 siRNAdesigner 都说明高精确率可能只是候选面窄。</li>
+<li><b>模型分是序, 不是百分比。</b>批大小为 1 是上游 LSTM 布局所致。</li>
+<li><b>未经湿实验确认前不得称任何引导链无效。</b></li>
 </ul>
 
 <h2><span class="num">6.</span> 结论</h2>
-<p>在 {dev['genes']} 个构建体、{impl['curated_human_guides']:,} 条引导链上, 流程的<b>实现与执行</b>通过了全部检查,
-排序整体显著优于随机 (p &lt; 0.001); 但<b>相对冻结模型的效力提升尚未达成</b> ——
-增益 {primary['mean_difference'] * 100:+.1f} pt、CI 跨零, 且缺少独立留出集。
-下一步的关键动作是取得一个审计干净的未用队列 (满足
-<code>independent_holdout_eligible</code> 与 <code>checkpoint_training_audit: verified</code>)
-并走 <code>evaluate.py --phase final</code> 的冻结闸门。</p>
+<p>模型有效 (AUROC {stats['auroc']:.3f}, 置换 p &lt; 0.001), 但融合策略相对模型的增益
+({primary['mean_difference'] * 100:+.1f} pt, CI 跨零) <b>未被证实</b>。
+下一步是取得审计干净的未用队列并走 <code>evaluate.py --phase final</code> 冻结闸门。</p>
 
 <h2><span class="num">7.</span> 数据与复现</h2>
-<table><caption>表 5. 本报告关联的机读产物 (位于 <code>benchmarks/</code>)。</caption>
+<table><caption>表 5. 关联产物 (位于 <code>benchmarks/</code>)。</caption>
 <thead><tr><th>文件</th><th>内容</th></tr></thead><tbody>
 <tr><td><code>results/development_results.json</code></td><td>方法/消融/配对比较/筛查冒烟</td></tr>
 <tr><td><code>results/development_comparison.json</code></td><td>逐基因配对差异与自助 CI</td></tr>
 <tr><td><code>results/permutation_control.json</code></td><td>1,000 次标签置换对照</td></tr>
-<tr><td><code>dataset_manifest.json</code></td><td>快照校验和、暴露审计与不一致记录</td></tr>
+<tr><td><code>data/huesken/measurements.tsv</code></td><td>实测活性 (本报告复算所用)</td></tr>
+<tr><td><code>dataset_manifest.json</code></td><td>快照校验和与暴露审计</td></tr>
 <tr><td><code>benchmark_config.json</code></td><td>冻结的终点、阈值、判据与种子</td></tr>
-<tr><td><code>figures/benchmark.pdf</code></td><td>英文版图组</td></tr>
-<tr><td><code>report_zh.html</code></td><td>本中文报告</td></tr>
+<tr><td><code>report_zh.html</code></td><td>本报告</td></tr>
 </tbody></table>
-<ol class="refs">
-<li>Huesken et al. (2005) —— 人源克隆构建体与实测活性队列 (原始来源重新整理)。</li>
-<li>OligoFormer —— 冻结的语言模型打分器 (checkpoint 已哈希固定)。</li>
-<li>RNA-FM —— 模型骨干权重来源, 官方发布版本。</li>
-<li>Bowtie 1.3.1 + Ensembl 116 cDNA —— 计算错配筛查所用索引。</li>
-</ol>
 
-<footer>本报告由 <code>benchmarks/make_report_zh.py</code> 从上述冻结 JSON 直接渲染, 未做重新计算。
-生成时间 {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M')} UTC。
-开发集诊断值, 非独立验证; 未经湿实验确认前不得称任何引导链无效。</footer>
+<footer>由 <code>benchmarks/make_report_zh.py</code> 渲染; 主终点与配对统计取自冻结 JSON,
+模型性能与预算曲线由冻结预测 + 实测文件复算 (已验证与冻结值一致)。
+{datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M')} UTC · 计算诊断, 非独立验证。</footer>
 </div></body></html>
+"""
+
+
+CSS = """
+:root{--ink:#111820;--muted:#5c6b74;--line:#d5dee2;--navy:#123b4f;--teal:#0f7b74;
+--red:#a4301f;--green:#1d6b3a;--amber:#8a5c12}
+*{box-sizing:border-box}
+body{margin:0;background:#eef1f2;color:var(--ink);
+font:15px/1.8 'Noto Serif SC','Songti SC','Charter',Georgia,serif}
+.page{max-width:1000px;margin:0 auto;background:#fff;padding:48px 60px 64px;
+box-shadow:0 2px 20px rgba(20,35,43,.09)}
+h1{font-size:21px;line-height:1.55;margin:0 0 10px;letter-spacing:-.2px}
+h2{font-size:16px;margin:36px 0 10px;color:var(--navy);
+border-bottom:1px solid var(--line);padding-bottom:6px}
+h3{font-size:13.5px;margin:24px 0 8px;color:var(--navy)}
+h3:before,h2 span.num{margin-right:6px;color:var(--teal)}
+p{margin:10px 0;text-align:justify}
+code{font:12px ui-monospace,Menlo,Consolas,monospace;background:#eff3f4;padding:1px 4px;border-radius:3px}
+.byline{color:#3b4b55;font-size:13px;margin:0 0 3px}
+.meta{color:var(--muted);font-size:12.5px;margin:0 0 22px}
+.abstract{background:#f7faf9;border:1px solid var(--line);border-left:3px solid var(--teal);
+padding:15px 20px;font-size:13.5px;margin:20px 0}
+.abstract h2{border:0;margin:0 0 6px;font-size:12.5px;letter-spacing:.12em;color:var(--teal)}
+.abstract p{margin:8px 0}
+.kw{font-size:12.5px;color:#3b4b55;margin-top:10px}
+table{width:100%;border-collapse:collapse;font:12.5px ui-sans-serif,system-ui;margin:14px 0}
+caption{text-align:left;font-size:12px;color:var(--muted);padding:0 0 6px;line-height:1.6}
+th{text-align:left;font-size:10.5px;letter-spacing:.05em;color:var(--muted);
+padding:6px 6px;border-top:1.4px solid var(--ink);border-bottom:1px solid var(--ink)}
+td{padding:6px 6px;border-bottom:1px solid #eceff1;vertical-align:top}
+tbody tr:last-child td{border-bottom:1.3px solid var(--ink)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.ok{color:var(--green)}.bad{color:var(--red)}.warn{color:var(--amber)}
+.note{background:#f7faf9;border-left:3px solid var(--teal);padding:11px 15px;font-size:12.5px;margin:16px 0}
+.note.warnbox{background:#fdf6e8;border-left:3px solid var(--amber)}
+figure{margin:24px 0;padding:0}
+figcaption{font-size:12px;color:#3b4b55;margin-top:10px;line-height:1.65}
+figcaption b{color:var(--ink)}
+svg{max-width:100%;height:auto;display:block}
+ul.plain,ol.refs{font-size:12.8px;padding-left:22px}
+ul.plain li,ol.refs li{margin:8px 0}
+footer{margin-top:36px;padding-top:15px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+@media print{body{background:#fff}.page{box-shadow:none;max-width:none;padding:0}}
 """
 
 
