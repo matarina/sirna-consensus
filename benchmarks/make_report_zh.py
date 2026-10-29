@@ -186,6 +186,65 @@ def _axis(w, h, pad_l, pad_r, pad_b, ticks, xmax, title, ylabel=""):
     return "".join(parts)
 
 
+def fig_scale() -> str:
+    """活性刻度示意: 两个对照锚点 + 阈值线。"""
+    w, h, pad = 820, 190, 60
+    lo, hi = 0.0, 1.30
+    def x(v):
+        return pad + (v - lo) / (hi - lo) * (w - 2 * pad)
+    y = 118
+    s = [f'<rect x="{x(ACTIVE_THRESHOLD):.1f}" y="{y-14}" width="{x(hi)-x(ACTIVE_THRESHOLD):.1f}" '
+         f'height="28" fill="{TEAL}" opacity="0.10"/>',
+         f'<line x1="{x(lo):.1f}" y1="{y}" x2="{x(hi):.1f}" y2="{y}" stroke="{INK}" stroke-width="1.5"/>']
+    for v in (0.0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.2):
+        s.append(f'<line x1="{x(v):.1f}" y1="{y}" x2="{x(v):.1f}" y2="{y+6}" stroke="{MUTED}"/>'
+                 f'<text x="{x(v):.1f}" y="{y+21}" font-size="10.5" fill="{MUTED}" '
+                 f'text-anchor="middle">{v:.1f}</text>')
+    # 上下两条标注带, 避免 0.7 与 0.701 同 x 相撞
+    for v, col, lines, dy in (
+            (0.354, MUTED, ("阴性对照 0.354", "基本没效果"), -34),
+            (0.701, AMBER, ("数据中位数 0.701", "线恰好压在它上面"), -34),
+            (0.900, NAVY, ("阳性对照 0.900", "强抑制"), -34),
+            (ACTIVE_THRESHOLD, RED, ("阈值 0.7 —— 人为画线", "≥ 此值记作有效"), -84)):
+        s.append(f'<line x1="{x(v):.1f}" y1="{y-12}" x2="{x(v):.1f}" y2="{y+12}" stroke="{col}" '
+                 f'stroke-width="1.6" stroke-dasharray="3 3"/>')
+        for i, line in enumerate(lines):
+            s.append(f'<text x="{x(v):.1f}" y="{y+dy+i*15}" font-size="10.5" '
+                     f'fill="{col}" text-anchor="middle">{e(line)}</text>')
+    s.append(f'<text x="{x(hi)-6:.1f}" y="{y-20}" font-size="10.5" fill="{TEAL}" '
+             f'text-anchor="end">这一段记为"有效"</text>')
+    return f'<svg viewBox="0 0 {w} {h}" role="img" aria-label="活性刻度">{"".join(s)}</svg>'
+
+
+def fig_scoring() -> str:
+    """算分流程示意图。"""
+    w, h = 900, 150
+    boxes = [("推荐 5 条", "按打分排序, 仅原有实测者", "#e7f0ef", TEAL),
+             ("去实测表核对", "拿序列查当年的活性值", "#eef2f5", NAVY),
+             ("对照 0.7 数数", "≥0.7 记中, 否则没中", "#fdf6e8", AMBER),
+             ("÷ 5", "得到一个基因的成绩", "#eef2f5", NAVY),
+             ("25 个基因平均", "等权, 结果 = 90.4%", "#123b4f", NAVY)]
+    bw, gap = 156, 28
+    s = ['<defs><marker id="ah2" markerWidth="7" markerHeight="7" refX="6" refY="3.5" '
+         'orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#8b949e"/></marker></defs>']
+    for i, (l1, l2, fill, stroke) in enumerate(boxes):
+        x = i * (bw + gap)
+        tc = "#ffffff" if i == len(boxes) - 1 else stroke
+        s.append(f'<rect x="{x}" y="40" width="{bw}" height="58" rx="5" fill="{fill}" '
+                 f'stroke="{stroke}"/>'
+                 f'<text x="{x+bw/2}" y="{40+25}" font-size="12.5" font-weight="700" fill="{tc}" '
+                 f'text-anchor="middle">{e(l1)}</text>'
+                 f'<text x="{x+bw/2}" y="{40+43}" font-size="10.5" fill="'
+                 f'{"#cfd9de" if i == len(boxes) - 1 else "#4b5a63"}" text-anchor="middle">{e(l2)}</text>')
+        if i < len(boxes) - 1:
+            ax = x + bw
+            s.append(f'<path d="M {ax+3} 69 L {ax+gap-4} 69" stroke="#8b949e" stroke-width="1.4" '
+                     f'fill="none" marker-end="url(#ah2)"/>')
+    s.append(f'<text x="0" y="24" font-size="11" fill="{MUTED}">'
+             f'每个基因走一遍, 与外部工具的产出无关 —— 只用到已冻结的预测和实测表</text>')
+    return f'<svg viewBox="0 0 {w} {h}" role="img" aria-label="算分流程">{"".join(s)}</svg>'
+
+
 def fig_flow() -> str:
     """方法流程图。"""
     w, h = 880, 470
@@ -456,6 +515,34 @@ def build() -> str:
     curves = {m: precision_at_k(measured, m) for m in
               ("quality", "model", "fusion", "support", "native", "sirnadesigner")}
     base = stats["base"]
+    n_gene = len(measured)
+
+    # 算分演示: 挑一个带"没中"的基因, 比满分更能说明问题
+    demo_gene, demo_rows = None, []
+    for g in sorted(measured):
+        cands = json.loads((FULL / g / "quality" / "selection.json").read_text())["candidates"]
+        rows = [(c["guide_dna"], measured[g][c["guide_dna"]]) for c in cands
+                if c["guide_dna"] in measured[g]][:5]
+        if len(rows) == 5 and sum(1 for _, a in rows if a >= ACTIVE_THRESHOLD) == 4:
+            demo_gene, demo_rows = g, rows
+            break
+    if not demo_gene:
+        demo_gene = sorted(measured)[0]
+        cands = json.loads((FULL / demo_gene / "quality" / "selection.json").read_text())["candidates"]
+        demo_rows = [(c["guide_dna"], measured[demo_gene][c["guide_dna"]]) for c in cands
+                     if c["guide_dna"] in measured[demo_gene]][:5]
+
+    sens = []
+    for thr in (0.6, 0.7, 0.8, 0.9):
+        b = sum(1 for g in measured for v in measured[g].values() if v >= thr) / \
+            sum(len(v) for v in measured.values())
+        vals_m, vals_q = [], []
+        for g in measured:
+            for store, meth in ((vals_m, "model"), (vals_q, "quality")):
+                r = ranked(measured, g, meth)[:5]
+                if len(r) == 5:
+                    store.append(sum(1 for _, a in r if a >= thr) / 5)
+        sens.append((thr, b, sum(vals_m) / len(vals_m), sum(vals_q) / len(vals_q)))
 
     methods, abl = dev["methods"], dev["ablations"]
     primary = comp["comparisons"][0]
@@ -486,6 +573,21 @@ def build() -> str:
     reasons = "".join(
         f"<li>{zh}</li>" for r in audit["reasons"]
         for zh in [next((t for k, t in REASON_ZH if r.startswith(k)), e(r))])
+
+    demo_hits = sum(1 for _, a in demo_rows if a >= ACTIVE_THRESHOLD)
+
+    rows_demo = "".join(
+        f"<tr><td class='n'>{i}</td><td class='seq'>{e(gd)}</td><td class='n'>{a:.3f}</td>"
+        f"<td class='n'>{'是' if a >= ACTIVE_THRESHOLD else '否'}</td>"
+        f"<td class='{'ok' if a >= ACTIVE_THRESHOLD else 'bad'}'>"
+        f"{'中' if a >= ACTIVE_THRESHOLD else '没中'}</td></tr>"
+        for i, (gd, a) in enumerate(demo_rows, 1))
+
+    rows_sens = "".join(
+        f"<tr><td class='n'>{thr}</td><td class='n'>{b * 100:.1f}%</td>"
+        f"<td class='n'>{m * 100:.1f}%</td><td class='n'>{q * 100:.1f}%</td>"
+        f"<td class='n'>{'—' if abs(m - q) < 1e-9 else f'{(q - m) * 100:+.1f} pt'}</td></tr>"
+        for thr, b, m, q in sens)
 
     rows_model = "".join(
         f"<tr><td class='n'>{i + 1}</td><td class='n'>{n}</td><td class='n'>{f * 100:.1f}%</td></tr>"
@@ -558,7 +660,53 @@ def build() -> str:
 {cfg['minimum_precision_gain'] * 100:.0f} pt、配对自助 95% CI 下界 &gt; 0、完成度不下降、
 预算产出为正; 至少 {cfg['minimum_complete_paired_genes']} 个完整配对基因。</p>
 
-<h3>2.4 复算与交叉校验</h3>
+<h3>2.4 评分流程: 这 5 条怎么变成一个数</h3>
+<p>整个评分没有公式, 只有数数。先要知道"分数"是什么 —— 它不是敲低百分比, 而是相对对照的
+抑制活性: 0.354 处是阴性对照(基本没效果), 0.900 处是阳性对照(强抑制)。</p>
+<figure>{fig_scale()}
+<figcaption><b>图 2. 活性刻度与阈值的位置。</b><b>阈值 0.7 完全是人画的</b>,
+恰好落在数据中位数 0.701 上 —— 所以"有效 50.2%"是这条线切出来的, 不是生物学结论。</figcaption>
+</figure>
+<figure>{fig_scoring()}
+<figcaption><b>图 3. 算分流程。</b>全程只用到已冻结的预测与实测表, 不调用任何外部工具。</figcaption>
+</figure>
+<ol class="steps">
+<li><b>取前 5 条</b>: 只统计"有实测活性"的候选, 按打分排序取前 5。</li>
+<li><b>查实测</b>: 拿这 5 条去实测表核对当年的活性值。</li>
+<li><b>数过线</b>: 活性 ≥ 0.7 记"中", 否则记"没中"。</li>
+<li><b>除以 5</b>: 得到该基因的成绩(只能是 0.0/0.2/…/1.0)。</li>
+</ol>
+<p>{n_gene} 个基因各算一次, 再<b>等权平均</b>, 就是表 1 里的数字。下面用真实的
+{e(demo_gene)} 举例(该基因 5 条里中 {demo_hits} 条):</p>
+<table><caption>表 2. 算分实录 —— {e(demo_gene)}, 逐步走完。</caption>
+<thead><tr><th class="n">序</th><th>推荐序列</th><th class="n">实测活性</th>
+<th class="n">≥ 0.7 ?</th><th>记</th></tr></thead><tbody>
+{rows_demo}
+<tr><td colspan="4" class="n"><b>本基因成绩 = {demo_hits} ÷ 5</b></td>
+<td><b>{demo_hits / 5:.1f}</b></td></tr>
+</tbody></table>
+<div class="note">
+<b>三条规则.</b>
+(i) 实测表里查不到的分子<b>不算"没中", 而是跳过不数</b> —— 所以程序先筛"有实测的"再取前 5。
+(ii) 某个基因凑不满 5 条, <b>整个基因剔除</b>; 这正是 siRNAdesigner 只有
+{methods['sirnadesigner']['complete_genes']}/25 个基因有成绩的原因。
+(iii) 基因<b>等权</b>, 候选 49 条的基因与 145 条的基因分量相同。
+</div>
+<p>作为参照: 同一个基因闭着眼从候选里抓 5 条, 平均中
+{base * 5:.1f} 条(基线 {base * 100:.1f}%)。整套流程的价值就体现在这个差值上。</p>
+
+<h3>2.5 阈值敏感性: 换个线, 数字全变</h3>
+<p>阈值 0.7 没有生物学含义, 是个可调旋钮。<code>benchmark_config.json</code> 本就写了
+<code>sensitivity_thresholds: [0.6, 0.8]</code>。把线挪一挪(模型一点没变):</p>
+<table><caption>表 3. 阈值敏感性。绝对精度随阈值收紧而崩塌, 而 quality 相对 model 的优势在 0.9 归零。</caption>
+<thead><tr><th class="n">阈值</th><th class="n">随机基线</th><th class="n">model Top-5</th>
+<th class="n">quality Top-5</th><th class="n">融合优势</th></tr></thead>
+<tbody>{rows_sens}</tbody></table>
+<p>两个读法: <b>想要更严的标准</b>(0.9 ≈ 阳性对照水平), 就得接受 Top-5 只中 2.2 条;
+<b>想要稳的结论</b>, 别只看 0.7 那一行的 90.4%。反过来, 模型的相对区分度随阈值收紧反而变强
+(0.7 时 1.8×, 0.9 时 3.1×), 说明排序能力是真的。</p>
+
+<h3>2.6 复算与交叉校验</h3>
 <p>图中的逐分子分数来自各基因的标签盲 <code>selection.json</code>, 与
 <code>measurements.tsv</code> 相交后计算描述性统计 (不重新拟合、不重新抽样)。
 复算的 quality Top-5 精确率为 {recomputed * 100:.1f}%, 与冻结 JSON 的 {frozen * 100:.1f}%
@@ -572,48 +720,48 @@ def build() -> str:
 <tbody>{rows_methods}</tbody></table>
 
 <h3>3.2 冻结模型的区分度</h3>
-<table><caption>表 2. 按模型打分升序切十分位后的实测有效比例。单调性良好, 说明打分具有排序意义。</caption>
+<table><caption>表 4. 按模型打分升序切十分位后的实测有效比例。单调性良好, 说明打分具有排序意义。</caption>
 <thead><tr><th class="n">十分位</th><th class="n">条数</th><th class="n">有效比例</th></tr></thead>
 <tbody>{rows_model}</tbody></table>
 
 <h3>3.3 配对比较与置换</h3>
-<table><caption>表 3. 最优策略相对冻结模型的配对差异 (基因加权, {cfg['bootstrap_replicates']:,} 次自助)。</caption>
+<table><caption>表 5. 最优策略相对冻结模型的配对差异 (基因加权, {cfg['bootstrap_replicates']:,} 次自助)。</caption>
 <thead><tr><th class="n">K</th><th class="n">配对基因</th><th class="n">均值差 (pt)</th>
 <th class="n">95% CI</th><th>判定</th></tr></thead>
 <tbody>{rows_paired}</tbody></table>
 
 <h3>3.4 数据集来源审计</h3>
-<table><caption>表 4. 快照中的研究构成 (共 {audit['snapshot_records']:,} 条)。</caption>
+<table><caption>表 6. 快照中的研究构成 (共 {audit['snapshot_records']:,} 条)。</caption>
 <thead><tr><th>研究</th><th class="n">记录数</th></tr></thead><tbody>{rows_studies}</tbody></table>
 <ol class="plain">{reasons}</ol>
 
 <h2><span class="num">4.</span> 图</h2>
 <figure>{fig_primary(methods)}
-<figcaption><b>图 2. 主终点: 各方法 Top-5 精确率。</b>深色 = 25/25 基因均有完整面板, 琥珀色 = 面板不完整。
+<figcaption><b>图 4. 主终点: 各方法 Top-5 精确率。</b>深色 = 25/25 基因均有完整面板, 琥珀色 = 面板不完整。
 右侧给出覆盖率, 用来看清高精确率是否只建立在窄候选面上。</figcaption>
 </figure>
 <figure>{fig_model(pairs, stats, dec)}
-<figcaption><b>图 3. 模型性能。</b>左: 每条已测引导链的模型打分 vs 实测活性 (深色为有效),
+<figcaption><b>图 5. 模型性能。</b>左: 每条已测引导链的模型打分 vs 实测活性 (深色为有效),
 折线为分箱中位趋势。右: 打分十分位对应的实测有效比例, 虚线为基线。
 从最低十分位的 {dec[0][1] * 100:.0f}% 单调升到最高十分位的 {dec[-1][1] * 100:.0f}%,
 是 "模型打分确实携带活性信息" 的直接证据 (AUROC {stats['auroc']:.3f}, AP {stats['ap']:.2f})。</figcaption>
 </figure>
 <figure>{fig_budget(curves, base)}
-<figcaption><b>图 4. 预算曲线。</b>横轴为可合成的条数, 纵轴为基因加权 Top-K 精确率,
+<figcaption><b>图 6. 预算曲线。</b>横轴为可合成的条数, 纵轴为基因加权 Top-K 精确率,
 虚线为随机基线。曲线彼此贴近说明各策略量级相同; 差异要到配对检验才可判定。</figcaption>
 </figure>
 <figure>{fig_ablation(abl)}
-<figcaption><b>图 5. 组件消融。</b>每个点是一个消融配置, 横线连到完整配置的参考线。
+<figcaption><b>图 7. 组件消融。</b>每个点是一个消融配置, 横线连到完整配置的参考线。
 硬过滤以 +{abs(abl['hard_filters']['precision_at_5_complete'] - best[0]) * 100:.1f} pt 换掉
 {abs(abl['hard_filters']['mean_fill_rate'] - 1) * 100:.0f}% 填充率, 是典型的以覆盖换精确。</figcaption>
 </figure>
 <figure>{fig_paired(comp)}
-<figcaption><b>图 6. 配对差异。</b>只画出现非零差异的基因 —— 25 个基因里有
+<figcaption><b>图 8. 配对差异。</b>只画出现非零差异的基因 —— 25 个基因里有
 {25 - sum(1 for v in primary['per_gene_difference'].values() if abs(v) > 1e-12)} 个完全并列。
 竖向阴影为自助 95% CI; 它跨过 0 正是 "增益未被证实" 的图形解释。</figcaption>
 </figure>
 <figure>{fig_permutation(perm)}
-<figcaption><b>图 7. 置换对照。</b>观测值远高于基因内标签置换的零分布均值, 排序显著优于随机。</figcaption>
+<figcaption><b>图 9. 置换对照。</b>观测值远高于基因内标签置换的零分布均值, 排序显著优于随机。</figcaption>
 </figure>
 
 <h2><span class="num">5.</span> 讨论与局限</h2>
@@ -634,7 +782,7 @@ def build() -> str:
 下一步是取得审计干净的未用队列并走 <code>evaluate.py --phase final</code> 冻结闸门。</p>
 
 <h2><span class="num">7.</span> 数据与复现</h2>
-<table><caption>表 5. 关联产物 (位于 <code>benchmarks/</code>)。</caption>
+<table><caption>表 7. 关联产物 (位于 <code>benchmarks/</code>)。</caption>
 <thead><tr><th>文件</th><th>内容</th></tr></thead><tbody>
 <tr><td><code>results/development_results.json</code></td><td>方法/消融/配对比较/筛查冒烟</td></tr>
 <tr><td><code>results/development_comparison.json</code></td><td>逐基因配对差异与自助 CI</td></tr>
@@ -688,6 +836,7 @@ figure{margin:24px 0;padding:0}
 figcaption{font-size:12px;color:#3b4b55;margin-top:10px;line-height:1.65}
 figcaption b{color:var(--ink)}
 svg{max-width:100%;height:auto;display:block}
+ol.steps{font-size:13px;padding-left:24px}ol.steps li{margin:6px 0}
 ul.plain,ol.refs{font-size:12.8px;padding-left:22px}
 ul.plain li,ol.refs li{margin:8px 0}
 footer{margin-top:36px;padding-top:15px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
