@@ -31,8 +31,10 @@ def screen(rows: list[dict], manifest_path: Path, gene: str, executable: str,
     mapping = manifest.get('transcript_genes', {})
     index = Path(manifest.get('bowtie_index') or '')
     reference = Path(manifest['reference_fasta'])
-    if not index.is_absolute(): index = manifest_path.resolve().parent/index
-    if not reference.is_absolute(): reference = manifest_path.resolve().parent/reference
+    if not index.is_absolute():
+        index = manifest_path.resolve().parent/index
+    if not reference.is_absolute():
+        reference = manifest_path.resolve().parent/reference
     artifacts = manifest.get('bowtie_index_artifacts', {})
     suffixes = ('.1.ebwt','.2.ebwt','.3.ebwt','.4.ebwt','.rev.1.ebwt','.rev.2.ebwt')
     expected_names = {index.name + suffix for suffix in suffixes}
@@ -64,7 +66,8 @@ def screen(rows: list[dict], manifest_path: Path, gene: str, executable: str,
                 raise ValueError('unexpected Bowtie query/strand')
             other_gene = mapping.get(fields[2])
             if not other_gene:
-                unknown.add(i); continue
+                unknown.add(i)
+                continue
             n = len([x for x in fields[7].split(',') if x]) if len(fields) > 7 else 0
             if n > 2:
                 raise ValueError('unexpected mismatch count')

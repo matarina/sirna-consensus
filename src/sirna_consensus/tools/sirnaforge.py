@@ -38,7 +38,7 @@ import shutil
 import subprocess
 from pathlib import Path
 
-from ..types import RawHit, ToolRun, to_dna, reverse_complement
+from ..types import RawHit, ToolRun, reverse_complement, to_dna
 from .base import Tool
 
 SAFE_NAME = re.compile(r"[^A-Za-z0-9_.-]")

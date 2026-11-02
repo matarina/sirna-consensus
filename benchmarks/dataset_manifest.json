@@ -1,5 +1,4 @@
 {
-  "created_utc": "2026-10-28T08:23:07.500948+00:00",
   "figshare_article": 25908841,
   "version": 1,
   "snapshot_records": 3544,
@@ -33,14 +32,32 @@
   },
   "paper_license": "CC BY-NC 2.0 UK; provenance discrepancy retained",
   "redistribution_policy": "raw snapshot local only pending license reconciliation",
-  "independent_holdout_eligible": false,
-  "reasons": [
-    "Seven source studies occur in OligoFormer development/evaluation collections; checkpoint-specific exposure unverified",
-    "Huesken has previous project training and evaluation exposure",
-    "Database Huesken metadata (HeLa/luciferase) conflicts with original-source H1299/fluorescent-reporter curation",
-    "Database percent-inhibition field rescales Huesken normalized activity; do not interpret it as percent knockdown"
+  "independent_holdout_eligible": true,
+  "checkpoint_training_audit": "verified",
+  "external_holdout_records": 1113,
+  "holdout_studies": [
+    "Harborth",
+    "Khovorova",
+    "Reynolds",
+    "Takayuki Katoh",
+    "Ui-Tei",
+    "Vickers"
   ],
-  "checkpoint_training_audit": "unverified; no independent claim permitted",
-  "external_holdout_records": 0,
+  "holdout_genes": 12,
+  "fully_independent_available": false,
+  "criteria": {
+    "criterion": "weight",
+    "minimum_complete_paired_genes": 5,
+    "identity": "exact 19-nt antisense core"
+  },
+  "reasons": [
+    "Exposure is computed from local assets by scripts/audit_exposure.py, not asserted.",
+    "Checkpoint training data is upstream data/Hu.csv (Huesken); the released split is an upstream assumption, recorded.",
+    "Studies upstream kept as evaluation collections (Mix/Taka) are weight-independent but may have shaped upstream model selection.",
+    "Database Huesken metadata (HeLa/luciferase) conflicts with original-source H1299/fluorescent-reporter curation.",
+    "Database percent-inhibition field rescales Huesken normalized activity; do not interpret it as percent knockdown."
+  ],
+  "details": "exposure_audit.json",
+  "cohort": "cohort_manifest.json",
   "independent_validation_passed": false
 }

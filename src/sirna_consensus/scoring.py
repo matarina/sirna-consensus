@@ -40,7 +40,8 @@ def score_candidates(rows, transcript: str, manifest_path: Path, work: Path):
                 json.loads(cache.read_text()).get('output_sha256') == sha256_file(output_path))
     if supported:
         if not reusable:
-            if output_path.exists(): output_path.unlink()
+            if output_path.exists():
+                output_path.unlink()
             with (work/'stdout.log').open('w') as stdout, (work/'stderr.log').open('w') as stderr:
                 subprocess.run(command, check=True, timeout=manifest.get('timeout_s', 1800),
                                cwd=str(manifest_path.parent), stdout=stdout, stderr=stderr)
@@ -56,7 +57,9 @@ def score_candidates(rows, transcript: str, manifest_path: Path, work: Path):
         raise ValueError('invalid scorer value')
     if supported:
         cache.write_text(json.dumps({'input_sha256':sha256_file(input_path), 'output_sha256':sha256_file(output_path)}))
-    return scores, {'replayed': reusable, 'name': manifest['name'], 'manifest_sha256': sha256_file(manifest_path),
+    # 'replayed' is deliberately absent: it flips with cache state and would make an
+    # otherwise-identical selection.json (and any freeze pinning it) drift.
+    return scores, {'name': manifest['name'], 'manifest_sha256': sha256_file(manifest_path),
                     'checkpoint_sha256': manifest['checkpoint_sha256'], 'command': command,
                     'input_sha256': sha256_file(input_path), 'supported_count': len(supported),
                     'unsupported_count': len(rows)-len(supported),

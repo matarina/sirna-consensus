@@ -14,6 +14,6 @@
   "diverse_panel_spacing": 30,
   "primary_gene_weighting": "equal genes; equal assay weights within gene",
   "screen_criterion": "exclude unintended-gene exact or one-mismatch sites; require intended-gene exact hit",
-  "holdout_status": "unavailable: database studies overlap frozen model development/evaluation",
+  "holdout_status": "weight-independent cohort available (6 studies / 1113 records / 12 genes); see cohort_manifest.json; upstream evaluation exposure disclosed",
   "independent_validation_passed": false
 }

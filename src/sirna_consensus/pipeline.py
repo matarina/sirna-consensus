@@ -22,11 +22,12 @@ site's off-target burden is within the configured threshold.
 """
 from __future__ import annotations
 
+import fcntl
+import hashlib
 import json
-import uuid
+import shutil
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import asdict, dataclass, field
-from datetime import datetime, timezone
 from pathlib import Path
 
 from . import __version__, filters, report
@@ -39,6 +40,25 @@ from .tools import DEFAULT_TOOLS, ToolEnv, get_tool
 from .types import Core, ToolRun
 
 SCHEMA_VERSION = 2
+
+
+def _run_id(config, input_sha: str, transcript_id: str) -> str:
+    """Content-derived id so run.json is byte-reproducible across regenerations.
+
+    A timestamp/uuid id would make every regeneration change run.json (and every
+    selection.json that records its hash), breaking freeze --verify for no semantic
+    reason. Two identical runs therefore share a run id and work directory, so the
+    digest must cover every field that can change the outputs (filters, transcriptome,
+    specificity) -- anything affecting results that is omitted would collide.
+
+    ``transcript_id`` (the FASTA header) is included because tool output filenames
+    derive from the record id: same sequence, different header, same work dir would
+    otherwise let a second run re-glob the first run's files.
+    """
+    fields = {k: v for k, v in asdict(config).items() if k not in ('out_dir', 'fasta', 'jobs')}
+    fields['input'] = input_sha
+    fields['transcript_id'] = transcript_id
+    return hashlib.sha256(json.dumps(fields, sort_keys=True, default=str).encode()).hexdigest()[:16]
 
 
 @dataclass
@@ -152,13 +172,29 @@ def run(config: Config) -> dict:
     out_dir = Path(config.out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    run_id = f"{stamp}-{uuid.uuid4().hex[:8]}"
-    work_dir = out_dir / "work" / run_id
-    work_dir.mkdir(parents=True, exist_ok=True)
-
     transcript_id, sequence = read_transcript(config.fasta)
     input_sha = sha256(sequence)
+    run_id = _run_id(config, input_sha, transcript_id)
+    # One lock per out_dir. Identical runs share a work dir (fixed run id); *different*
+    # runs into one out_dir also write out_dir/run.json|report.html, so they must not
+    # interleave either. try/finally so a raised run still releases the lock even if the
+    # traceback (and thus the frame) is retained by a caller.
+    lock_handle = (out_dir / ".run.lock").open("a")
+    fcntl.flock(lock_handle, fcntl.LOCK_EX)
+    try:
+        return _run_locked(config, out_dir, run_id, transcript_id, sequence, input_sha)
+    finally:
+        fcntl.flock(lock_handle, fcntl.LOCK_UN)
+        lock_handle.close()
+
+
+def _run_locked(config, out_dir, run_id, transcript_id, sequence, input_sha) -> dict:
+    work_dir = out_dir / "work" / run_id
+    # Clear the whole run dir, not just configured tools: an unavailable tool would
+    # otherwise leave a stale subdir that the raw-output glob still hashes, making
+    # run.json history-dependent even at a fixed run id.
+    shutil.rmtree(work_dir, ignore_errors=True)
+    work_dir.mkdir(parents=True, exist_ok=True)
 
     transcriptome_sha = None
     if config.transcriptome:
@@ -172,8 +208,8 @@ def run(config: Config) -> dict:
         raise RuntimeError("no external tool is usable: " + detail)
 
     def execute(tool) -> ToolRun:
-        # Each run gets a unique work directory. A reused output directory can no
-        # longer feed stale *_csv / off_targets_summary.tsv files to a new run.
+        # The whole run dir was cleared before fan-out, so a tool can never re-glob a
+        # previous run's *_csv / off_targets_summary.tsv files.
         target = work_dir / tool.name
         target.mkdir(parents=True, exist_ok=True)
         try:
@@ -321,7 +357,6 @@ def run(config: Config) -> dict:
                                   for p in sorted(Path(__file__).parent.rglob("*.py"))},
         "run_id": run_id,
         "tool_version": __version__,
-        "created_utc": datetime.now(timezone.utc).isoformat(),
         "status": status,
         "status_reason": status_reason,
         "transcript_id": transcript_id,

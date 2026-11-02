@@ -105,7 +105,8 @@ def rank_candidates(rows: list[dict], strategy='native', filter_policy='soft',
             raise ValueError('nonfinite model score')
         model_p = percentiles(scores)
         for row in group:
-            core = row['core']; key = core.key
+            core = row['core']
+            key = core.key
             flags = filters.hard_flags(core, config) if filter_policy != 'off' else []
             native = [tool_p[t][key] for t in tools if key in tool_p[t]]
             tool_score = sum(native)/len(native) if native and 'tools' in components else 0.
@@ -154,7 +155,8 @@ def panels(rows: list[dict], k=5, spacing=0, screened=False) -> dict[str, list[s
         if screened and row.get('screen', {}).get('status') != 'pass':
             continue
         if all(abs(row['start']-other['start']) >= spacing for other in kept):
-            kept.append(row); seen[row['group']].add(row['guide_dna'])
+            kept.append(row)
+            seen[row['group']].add(row['guide_dna'])
     return {group: [row['key'] for row in kept] for group, kept in groups.items()}
 
 

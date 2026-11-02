@@ -1,11 +1,16 @@
 """Freeze both native generators on original constructs; no efficacy labels read."""
-import argparse,json,sys
-from pathlib import Path
+import argparse
+import json
+import sys
 from concurrent.futures import ThreadPoolExecutor
+from pathlib import Path
+
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'src'))
-from sirna_consensus.pipeline import Config,run
+from sirna_consensus.pipeline import Config, run
+
 p=argparse.ArgumentParser(description=__doc__)
-p.add_argument('--transcripts',required=True,type=Path);p.add_argument('--out',required=True,type=Path)
+p.add_argument('--transcripts',required=True,type=Path)
+p.add_argument('--out',required=True,type=Path)
 p.add_argument('--workers',type=int,default=2)
 a=p.parse_args()
 def execute(fasta):

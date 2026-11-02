@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "source": "exposure_audit.json",
+  "criterion": "weight",
+  "checkpoint_training_audit": "verified",
+  "training_match_fraction": 1.0,
+  "training_split_basis": "checkpoint training set is upstream data/Hu.csv; verified when >=50% of its molecules fall in one snapshot study (released split is an upstream assumption)",
+  "independent_holdout_eligible": true,
+  "minimum_complete_paired_genes": 5,
+  "holdout_studies": [
+    "Harborth",
+    "Khovorova",
+    "Reynolds",
+    "Takayuki Katoh",
+    "Ui-Tei",
+    "Vickers"
+  ],
+  "excluded_studies": {
+    "Huesken": "training_exposed"
+  },
+  "holdout_records": 1113,
+  "holdout_genes": 12,
+  "holdout_gene_names": [
+    "Cyclophilin B",
+    "DBI",
+    "EGFP",
+    "Firefly luciferase",
+    "FireflyLuc",
+    "GAPDH",
+    "ICAM-1",
+    "Lamin A",
+    "MMAC1",
+    "PLK",
+    "RenillaLuc",
+    "SEAP"
+  ],
+  "fully_independent_studies": [],
+  "fully_independent_records": 0,
+  "fully_independent_available": false,
+  "reason": "6 studies / 1113 records / 12 genes share no molecule with checkpoint training or the development cohort; all are upstream-evaluation-exposed, so this is weight-independent, not fully independent",
+  "residual_exposure": [
+    "Exact 19-nt antisense-core identity only; no coordinates, isoforms or near-duplicates.",
+    "Checkpoint training set is taken as upstream data/Hu.csv (the Huesken file its trainer consumes); the released split itself is an upstream assumption, recorded not assumed away.",
+    "Gene names are source strings; synonyms (e.g. 'Firefly luciferase' vs 'FireflyLuc') are not merged.",
+    "Studies upstream kept as evaluation collections (Mix/Taka) are retained at weight level. Upstream trains on Hu and selects epochs on Mix, so those molecules did not fit the weights but did steer early stopping: exposure is stronger than pure 'published eval'.",
+    "Strategy/policy selection is confined to the Huesken development cohort, so the holdout is never used to choose a winner here.",
+    "No study is free of upstream-evaluation exposure either; run --criterion fully to see it."
+  ],
+  "buildable_holdout": {
+    "dataset_manifest": "data/holdout/dataset_manifest.json",
+    "note": "records whose accession or strands do not place exactly on a reference are excluded there, so the built cohort can be smaller than holdout_records (e.g. an accession absent from the snapshot FASTA)"
+  },
+  "inputs": {
+    "snapshot": {
+      "path": "/data1/maxw/proj/cargo_denovo/sirna-consensus/benchmarks/data/raw/sirna_data.xlsx",
+      "sha256": "6a2d01cdbc4d522ea783d164868266883f3cdb5ca1b267f4959ad224926bfd47"
+    },
+    "checkpoint_training_source": {
+      "path": "/data1/maxw/proj/cargo_denovo/sirnaforge-platform/data/raw/oligoformer/data/Hu.csv",
+      "sha256": "fa0e5ae9c9c6afa609b458bd39762f3f8f83d1de8d248262795d7ad9eef268a0"
+    },
+    "upstream_evaluation_sources": [
+      {
+        "path": "/data1/maxw/proj/cargo_denovo/sirnaforge-platform/data/raw/oligoformer/data/Mix.csv",
+        "sha256": "10c34deaa5a02e5a168e6951edbd7144fe9025ad40a679c3defb8fe726620c87"
+      },
+      {
+        "path": "/data1/maxw/proj/cargo_denovo/sirnaforge-platform/data/raw/oligoformer/data/Taka.csv",
+        "sha256": "221672544ee0bd7e4c8029d9e8f5d7463c90aa9f5623976002b5e68c35300b2f"
+      }
+    ],
+    "development": {
+      "path": "/data1/maxw/proj/cargo_denovo/sirna-consensus/benchmarks/data/huesken/measurements.tsv",
+      "sha256": "326784ff93a4f78fb3f821d7a29b4cac98f9b42a18b242a5e68434f07e947d75"
+    }
+  }
+}

@@ -4,7 +4,7 @@
   "strategies": {
     "binding19-guide21-overhang2-passenger_unknown": "quality"
   },
-  "scorer_manifest_sha256": "85330ac8957d24157e4daa93ec0a69b2d9ec69b47dced2bb9615838aef3a1324",
+  "scorer_manifest_sha256": "a9973129913042af0d741db5ca0b25bf55c5d041c9b2da2b6d0a881d6ff6cf69",
   "measurement_sha256": "326784ff93a4f78fb3f821d7a29b4cac98f9b42a18b242a5e68434f07e947d75",
   "independent_validation_passed": false
 }

@@ -18,5 +18,6 @@ benchmarks/data/raw/
 benchmarks/data/huesken/
 benchmarks/results/runs/
 benchmarks/results/development/
+benchmarks/results/holdout/*/*/work/
 benchmarks/models/
 !tests/fixtures/**/*.tsv

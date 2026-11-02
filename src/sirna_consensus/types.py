@@ -7,9 +7,9 @@ complement of the core. Documented overhangs and passenger identity are separate
 """
 from __future__ import annotations
 
+import hashlib
 from dataclasses import dataclass, field
 from typing import Any
-import hashlib
 
 DNA_COMPLEMENT = str.maketrans("ACGT", "TGCA")
 VALID_LENGTHS = (19, 20, 21)

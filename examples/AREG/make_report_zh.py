@@ -255,7 +255,9 @@ def build(run: dict) -> str:
                "<tr><td colspan='2'>—</td></tr>"
 
     limits = "".join(f"<li>{e(x)}</li>" for x in run["limitations"])
-    created = run["created_utc"][:19].replace("T", " ") + " UTC"
+    # run.json no longer carries created_utc (content-derived run_id); fall back.
+    stamp = run.get("created_utc") or run.get("run_id", "")
+    created = stamp[:19].replace("T", " ") + (" UTC" if run.get("created_utc") else "")
 
     return f"""<!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8">

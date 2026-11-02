@@ -25,7 +25,6 @@ import csv
 import html
 import json
 import sys
-from datetime import datetime, timezone
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -282,7 +281,7 @@ def fig_flow() -> str:
     s.append(b(530, 140, 210, 48, "实测活性", "阈值 0.7 二分类"))
     s.append(b(530, 230, 210, 48, "主终点", "基因加权 Top-5 精确率"))
     s.append(b(530, 310, 210, 48, "不确定度", "1 万次配对自助 · 1 千次置换"))
-    s.append(b(530, 390, 210, 52, "证据等级: 开发集", "无独立留出, 不自称泛化",
+    s.append(b(530, 390, 210, 52, "证据等级: 开发集", "留出集已审计, 待最终评估",
                fill="#fdf6e8", stroke=AMBER, tc=AMBER))
     # 连接
     s.append(arrow(200, 84, 248, 84))
@@ -604,7 +603,7 @@ def build() -> str:
 · 状态 <code>{e(impl['release_status'])}</code></p>
 <p class="meta">{dev['genes']} 个人源克隆构建体 · {impl['curated_human_guides']:,} 条全长引导链 ·
 实测表 SHA-256 <code>{e(perm['benchmark_sha256'][:16])}…</code> ·
-生成于 {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M')} UTC</p>
+开发集诊断</p>
 
 <div class="abstract">
 <h2>摘要</h2>
@@ -623,13 +622,15 @@ def build() -> str:
 <b>[{primary['ci95'][0] * 100:+.1f}, {primary['ci95'][1] * 100:+.1f}]</b> —— 跨过 0,
 低于预设 +10 pt 门槛。</p>
 <p><b>结论.</b> "模型本身有效" 成立; "融合策略显著优于模型" <b>未成立</b>。
-实现与执行检查全部通过, 但发布判据未达成, 且无独立留出集。</p>
+实现与执行检查全部通过, 但发布判据未达成; 留出集已审计, 尚未做最终评估。</p>
 <p class="kw"><b>关键词:</b> siRNA 基准测试; AUROC; 基因加权精确率; 配对自助; 暴露审计</p>
 </div>
 
 <div class="note warnbox">
-<b>证据等级.</b> 7 项来源研究均在冻结模型的开发/评估集合中出现, 该队列也被姊妹项目使用,
-故<b>当前无独立留出集</b>。以下全部数字都是开发集诊断值。
+<b>证据等级.</b> Huesken 与冻结模型训练集重叠, 但暴露审计已分离训练与评估暴露,
+认定 <b>{len(audit.get('holdout_studies', []))} 项 weight-independent 留出研究</b>
+（{audit.get('external_holdout_records', 0):,} 条 / {audit.get('holdout_genes', 0)} 基因）。
+本报告数字仍是开发集诊断值; 最终评估尚未运行。
 </div>
 
 <h2><span class="num">1.</span> 背景</h2>
@@ -766,7 +767,9 @@ def build() -> str:
 
 <h2><span class="num">5.</span> 讨论与局限</h2>
 <ul class="plain">
-<li><b>无独立留出集。</b>检查点级暴露审计状态为 <code>{e(audit['checkpoint_training_audit'])}</code>。</li>
+<li><b>留出集尚未用于最终评估。</b>检查点级暴露审计: <code>{e(audit['checkpoint_training_audit'])}</code>,
+<code>independent_holdout_eligible = {e(audit['independent_holdout_eligible'])}</code>（weight-independent,
+上游评估暴露已披露）。</li>
 <li><b>发布判据未达成。</b>实测 {primary['mean_difference'] * 100:+.1f} pt、CI 跨零,
 低于 +10 pt 门槛, <code>publication_criterion_met = false</code>。</li>
 <li><b>端点单位不可混用。</b>归一化活性与百分比抑制阈值
@@ -795,7 +798,7 @@ def build() -> str:
 
 <footer>由 <code>benchmarks/make_report_zh.py</code> 渲染; 主终点与配对统计取自冻结 JSON,
 模型性能与预算曲线由冻结预测 + 实测文件复算 (已验证与冻结值一致)。
-{datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M')} UTC · 计算诊断, 非独立验证。</footer>
+计算诊断, 非独立验证。</footer>
 </div></body></html>
 """
 

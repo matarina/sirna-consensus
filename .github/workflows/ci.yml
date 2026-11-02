@@ -32,3 +32,5 @@ jobs:
         run: |
           pip install "ruff>=0.9,<1"
           ruff check src tests
+      - name: Verify freeze locks (tracked subset)
+        run: python benchmarks/scripts/verify_freezes.py

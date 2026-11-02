@@ -8,7 +8,7 @@
   ],
   "checkpoint_sha256": "8c2fb4bc847e20c63dfe69381c5dc5c341be71e65c011f4e9a4cd6fdb0e34eca",
   "artifacts": {
-    "/data1/maxw/proj/cargo_denovo/sirna-consensus/benchmarks/scripts/oligoformer_worker.py": "0805ea68db81d605038d28f73e27415bdf14777a09d0df6b7625188ca040dbba",
+    "/data1/maxw/proj/cargo_denovo/sirna-consensus/benchmarks/scripts/oligoformer_worker.py": "80017c182ba5f34f7eb4b1cd79c211d0354e16947f4b8a934c7b1b712cca11fa",
     "/data1/maxw/proj/cargo_denovo/sirnaforge-platform/data/raw/oligoformer/scripts/model.py": "9bb055a5d08eaddd0dad7b3d8df90975f150fa2b23147b36adf0583ad015bc13",
     "/data1/maxw/proj/cargo_denovo/sirnaforge-platform/data/raw/oligoformer/scripts/infer.py": "ec77cffdc9e76e478068430f37b284f1f9d83780675c44cc6078e7ccbfd5127f",
     "/data1/maxw/proj/cargo_denovo/sirnaforge-platform/data/raw/oligoformer/model/best_model.pth": "8c2fb4bc847e20c63dfe69381c5dc5c341be71e65c011f4e9a4cd6fdb0e34eca",
@@ -61,7 +61,7 @@
     "rna-fm": "0.2.2"
   },
   "inference_policy": "eval mode, fixed seed 2026, batch size one, no fitting, local checkpoint only",
-  "training_audit": "unverified checkpoint split; all siRNAEfficacyDB studies exposed in published model development/evaluation",
+  "training_audit": "checkpoint training source exposure audited (upstream Hu.csv); 6 weight-independent holdout studies / 1113 records / 12 genes exit every training and development molecule; upstream evaluation exposure disclosed. See benchmarks/cohort_manifest.json",
   "timeout_s": 3600,
   "independent_validation_passed": false
 }

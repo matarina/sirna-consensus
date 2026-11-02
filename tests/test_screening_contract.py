@@ -1,11 +1,11 @@
-import json
 import hashlib
-import sys
-from pathlib import Path
+import json
+
 import pytest
+
 from sirna_consensus.screening import screen
-from sirna_consensus.types import Core
 from sirna_consensus.selection import from_record
+from sirna_consensus.types import Core
 
 
 def test_overhang_without_its_strand_is_invalid():
@@ -34,10 +34,12 @@ def test_passenger_geometries_are_distinct():
 
 
 def test_hashes_for_a_different_index_are_rejected(tmp_path):
-    ref=tmp_path/'ref.fa';ref.write_text('>TX\n'+'A'*30+'\n')
+    ref=tmp_path/'ref.fa'
+    ref.write_text('>TX\n'+'A'*30+'\n')
     manifest={'reference_fasta':str(ref),'reference_sha256':hashlib.sha256(ref.read_bytes()).hexdigest(),
               'bowtie_index':str(tmp_path/'actual'),'transcript_genes':{'TX':'G'},
               'bowtie_index_artifacts':{f'wrong.{i}.ebwt':'fake' for i in range(6)}}
-    p=tmp_path/'manifest.json';p.write_text(json.dumps(manifest))
+    p=tmp_path/'manifest.json'
+    p.write_text(json.dumps(manifest))
     with pytest.raises(ValueError,match='six pinned'):
         screen([],p,'G','not-invoked',tmp_path/'work')

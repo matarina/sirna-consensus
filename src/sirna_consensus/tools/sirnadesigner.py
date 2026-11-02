@@ -24,7 +24,7 @@ from __future__ import annotations
 import csv
 from pathlib import Path
 
-from ..types import RawHit, ToolRun, to_dna, reverse_complement
+from ..types import RawHit, ToolRun, reverse_complement, to_dna
 from .base import Tool
 
 CANDIDATE_SCRIPT_SUFFIXES = (
