@@ -137,17 +137,10 @@ label-blind predictions in the freeze. Never overwrite a frozen lock or choose a
 holdout after inspecting its results. The development lock (`development_freeze.json`) is rebuilt by
 `scripts/gen_development_freeze.py` (`--regenerate` re-runs the dev pipeline first);
 `scripts/verify_freezes.py` and CI verify whichever locks are present. The summarizer
-consumes a recorded AREG screen (`results/runs/AREG_v2/screened/selection.json`); it is
-not produced by `--regenerate`, so regenerate it once (or the summarizer falls back to
-`screen_smoke: null`):
-
-```bash
-sirna-consensus select --fasta examples/AREG/NM_001657.4.fa \
-  --run benchmarks/results/runs/AREG_v2/run.json \
-  --screen-manifest ../sirnaforge-platform/references/platform-release116/manifest.json \
-  --target-gene ENSG00000109321 --bowtie ../sirnaforge-platform/tools/bowtie-local/usr/bin/bowtie \
-  --out benchmarks/results/runs/AREG_v2/screened
-```
+accepts an optional recorded screen artifact. It is not produced by `--regenerate`; if
+none is supplied, the summary records `screen_smoke: null`. To include one, run a
+transcript FASTA through `select --screen-manifest <manifest>` and pass its
+`selection.json` to `summarize.py --screen <path>`.
 Lock keys are stored relative to the lock
 directory, so a verbatim copy at a different absolute path verifies; regenerating a
 `run.json` (whose tool commands embed absolute paths) changes its bytes and recuts.

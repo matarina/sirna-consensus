@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "status": "benchmark_only",
+  "note": "Operational routing derived from external benchmark tests; not a development-selected efficacy policy and not an independent-validation gate.",
+  "strategies": {
+    "binding19-guide21-overhang2-passenger_unknown": "model",
+    "binding21-guide21-overhang0-passenger21-overhang0": "model",
+    "binding19-guide19-overhang0-passenger_unknown": "model",
+    "binding19-guide21-overhang2-passenger21-overhang2": "native"
+  },
+  "scorer_manifest_sha256": "1ec398dacb27e6c87f0371769aebe06d4a6ab11a63a25fea7ca907181e15814c",
+  "independent_validation_passed": false
+}

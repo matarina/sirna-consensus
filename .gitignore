@@ -21,3 +21,5 @@ benchmarks/results/development/
 benchmarks/results/holdout/*/*/work/
 benchmarks/models/
 !tests/fixtures/**/*.tsv
+
+benchmarks/final_report_paper.docx

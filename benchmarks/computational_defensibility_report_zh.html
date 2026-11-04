@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>sirna-consensus 计算可辩护性审查报告（当前状态）</title>
+<style>
+  :root{--ink:#111820;--muted:#5c6b74;--line:#d5dee2;--navy:#123b4f;--teal:#0f7b74;
+        --red:#a4301f;--green:#1d6b3a;--amber:#8a5c12;--paper:#fff;--bg:#eef1f2}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:15px/1.85 "Noto Serif CJK SC","Source Han Serif SC","Songti SC","SimSun",Georgia,serif}
+  .page{max-width:1120px;margin:0 auto;background:var(--paper);padding:40px 52px 58px;
+        box-shadow:0 2px 22px rgba(20,35,43,.10)}
+  h1{font-size:25px;margin:0 0 6px;line-height:1.35}
+  .sub{font-size:14px;color:var(--muted);margin:0 0 4px}
+  .meta{font-size:12px;color:var(--muted);margin:0 0 20px}
+  .chips{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0 22px}
+  .chip{font:12px/1.2 ui-sans-serif,system-ui,sans-serif;padding:7px 12px;border-radius:20px;
+        border:1px solid var(--line);background:#f7faf9}
+  .chip.ok{border-color:#9cc7b6;background:#eef7f2;color:var(--green)}
+  .chip.warn{border-color:#e0b98a;background:#fdf6e8;color:var(--amber)}
+  .chip.bad{border-color:#d8a59a;background:#fbf1ef;color:var(--red)}
+  .abstract{background:#f7faf9;border:1px solid var(--line);
+            padding:15px 19px;margin:16px 0 24px}
+  .abstract h2{border:0;margin:0 0 6px;font-size:12.5px;letter-spacing:.12em;color:var(--teal)}
+  .abstract p{margin:7px 0;font-size:14px}
+  h2{font-size:17px;margin:30px 0 10px;color:var(--navy);border-bottom:1px solid var(--line);
+     padding-bottom:6px}
+  h3{font-size:13.5px;margin:20px 0 7px;color:var(--navy)}
+  p{margin:8px 0;text-align:justify}
+  code{font:12px ui-monospace,Menlo,Consolas,monospace;background:#eff3f4;padding:1px 5px;border-radius:4px}
+  table{width:100%;border-collapse:collapse;font:12.5px ui-sans-serif,system-ui,sans-serif;margin:12px 0}
+  caption{display:block;text-align:left;font-size:12px;color:var(--muted);padding:0 0 6px}
+  th{text-align:left;font-size:10.5px;letter-spacing:.05em;color:var(--muted);
+     padding:7px 8px;border-top:1.4px solid var(--ink);border-bottom:1px solid var(--ink);background:#eef3f4}
+  td{padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+  tr:last-child td{border-bottom:1px solid var(--ink)}
+  .callout{border:1px solid #d8a59a;background:#fbf1ef;
+           padding:13px 17px;border-radius:6px;margin:16px 0}
+  .callout strong{color:var(--red)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .note{font-size:12.5px;color:var(--muted)}
+  footer{font-size:11.5px;color:var(--muted);margin-top:26px;border-top:1px solid var(--line);padding-top:10px}
+  @media(max-width:800px){.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>sirna-consensus 计算可辩护性审查报告（当前状态）</h1>
+  <p class="sub">两生成器 + SIREN 评估器 + OligoFormer selector；多 benchmark 测试</p>
+  <p class="meta">版本 v1.1.0 · 审查日期 2026-11-04 · 工作树 /data1/maxw/proj/cargo_denovo/sirna-consensus</p>
+
+  <div class="chips">
+    <span class="chip ok">6 个兼容 benchmark 达标</span>
+    <span class="chip warn">scorer-only / measured-candidate 测试</span>
+    <span class="chip bad">Sciabola CNN 全量 checkpoint 泄漏</span>
+    <span class="chip bad">UBE2H 完整生成 coverage = 0</span>
+    <span class="chip warn">SIREN 当前不可用</span>
+    <span class="chip bad">freeze lock 仍需重建</span>
+  </div>
+
+  <div class="abstract">
+    <h2>审查结论</h2>
+    <p><strong>按“measured-candidate scorer-only”标准，当前 pipeline 在 6 个兼容 benchmark 上达标：UBE2H、Reynolds、Vickers、Ui-Tei、Khovorova、siRNAEfficacyDB 子集。</strong></p>
+    <p><strong>但这不是完整生成 pipeline 的通用证明。</strong> UBE2H 的完整 `run` 因生成器 format 与实测 `passenger_unknown` 不匹配，candidate coverage = 0；Sciabola 的 CNN 用全量 checkpoint 测会泄漏；Shabalina、Martinelli 的 19-mer/修饰格式不达标。</p>
+    <p><strong>一句话：</strong> 计算层面可辩护的是“OligoFormer 在 measured candidates 上的排序富集”；完整生成、独立外部验证和生物/临床层面仍不可辩护。</p>
+  </div>
+
+  <h2>1. 当前 pipeline 的工具链</h2>
+  <table>
+    <caption>表 1. 角色与当前状态。</caption>
+    <thead><tr><th>角色</th><th>工具/模型</th><th>当前状态</th><th>在 pipeline 中的作用</th></tr></thead>
+    <tbody>
+      <tr><td>生成器 1</td><td><code>siRNAdesigner</code></td><td>可用（vendored 脚本 + NumPy/Biopython）</td><td>规则型 scanner；固定 21-mer guide/passenger；投设计票</td></tr>
+      <tr><td>生成器 2</td><td><code>siRNAforge</code></td><td>可用（Docker OCI 镜像）</td><td>热力学 duplex 评分；<code>--length</code> 可配置，默认 21；投设计票</td></tr>
+      <tr><td>评估器</td><td><code>SIREN</code></td><td>不可用：缺 SIREN/RNAhybrid 与 transcriptome</td><td>只提供特异性证据，不投票；当前 benchmark 中 <code>evaluator_hits=0</code></td></tr>
+      <tr><td>selector 1</td><td><code>OligoFormer</code></td><td>冻结 19-nt paired antisense scorer</td><td>给候选打分；进入 model/fusion/support/quality 排序</td></tr>
+      <tr><td>可选筛查</td><td><code>Bowtie</code></td><td>独立 sequence screen</td><td>不是生成器或 selector；当前未用于这些 benchmark</td></tr>
+    </tbody>
+  </table>
+
+  <p class="note">当前默认 policy：<code>benchmarks/results/selection_policy.json</code> 仍 pin OligoFormer；新增的 <code>benchmarks/results/benchmark_selector_policy.json</code> 是操作性的 format routing，不是 development-selected efficacy policy。</p>
+
+  <h2>2. 多 benchmark 测试结果</h2>
+  <p>以下结果全部是 <strong>measured-candidate scorer-only</strong>，即直接输入已测候选，不等同于完整生成 pipeline。</p>
+
+  <table>
+    <caption>表 2. 当前 pipeline 在各 benchmark 上的表现。</caption>
+    <thead><tr><th>Benchmark</th><th>最佳 selector/策略</th><th>Top-5 vs 随机</th><th>Bootstrap CI</th><th>AUROC</th><th>Coverage</th><th>判定</th></tr></thead>
+    <tbody>
+      <tr><td>5-study holdout（Harborth/Khovorova/Reynolds/Ui-Tei/Vickers）</td><td>OligoFormer <code>model</code></td><td>约 +24 pt</td><td>[+0.133, +0.344]</td><td>0.848</td><td>1.0</td><td>达标（composite）</td></tr>
+      <tr><td>UBE2H（70 条 / NM_003344 / HeLa luciferase）</td><td>OligoFormer <code>model</code></td><td>+30.7 pt</td><td>单基因，无 gene CI</td><td>0.806</td><td>1.0</td><td>达标（scorer-only）</td></tr>
+      <tr><td>siRNAEfficacyDB 子集（Mmp7/TCAP/P2rx2/Fxyd6/Cacnb1）</td><td>OligoFormer <code>model</code></td><td>+40.2 pt</td><td>[+0.358, +0.463]</td><td>0.808</td><td>1.0</td><td>达标</td></tr>
+      <tr><td>Reynolds 2004（232 条 / 7 基因）</td><td>OligoFormer <code>model</code></td><td>+24.7 pt</td><td>—</td><td>0.845</td><td>1.0</td><td>达标</td></tr>
+      <tr><td>Vickers 2003（76 条 / 2 基因）</td><td>OligoFormer <code>model</code></td><td>+21.7 pt</td><td>—</td><td>0.711</td><td>1.0</td><td>达标（基因少）</td></tr>
+      <tr><td>Ui-Tei 2004（37 条 / 1 基因）</td><td>OligoFormer <code>model</code></td><td>+45.4 pt</td><td>—</td><td>0.988</td><td>1.0</td><td>强信号，单基因</td></tr>
+      <tr><td>Khovorova 2006（10 条 / 1 基因）</td><td>OligoFormer <code>model</code></td><td>+29.9 pt</td><td>—</td><td>1.0</td><td>1.0</td><td>强信号，样本太小</td></tr>
+      <tr><td>Harborth 2003（44 条 / 1 基因）</td><td>OligoFormer <code>model</code></td><td>0.0 pt（1.0 vs 1.0）</td><td>—</td><td>—</td><td>1.0</td><td>无 enrichment；单基因</td></tr>
+      <tr><td>Shabalina 2006（269 条 / 41 基因 / 19-mer）</td><td>OligoFormer <code>model</code></td><td>+2.8 pt</td><td>[-0.0065, +0.066]</td><td>0.642</td><td>~0.99</td><td>不达标</td></tr>
+      <tr><td>Martinelli（577 raw / 87 mapped / 12 基因 / 修饰 21-mer）</td><td>native/quality</td><td>+3.6 pt</td><td>[-0.0107, +0.0938]</td><td>0.598</td><td>~0.97</td><td>不达标</td></tr>
+      <tr><td>Sciabola 2013（356 条 / 10 基因）</td><td>OligoFormer <code>model</code></td><td>+3.8 pt</td><td>[-0.028, +0.121]</td><td>0.666</td><td>1.0</td><td>不达标</td></tr>
+      <tr><td>UBE2H 完整生成流程（两生成器）</td><td>OligoFormer</td><td>—</td><td>—</td><td>—</td><td><strong>0.0</strong></td><td>不达标：format 不匹配</td></tr>
+    </tbody>
+  </table>
+
+
+  <div class="callout">
+    <strong>关键风险：</strong> Sciabola 的 LO-GO 历史值需要每折排除测试基因重训，但仓库没有保存每折模型和输出，不能从单一 checkpoint 复现。
+  </div>
+
+  <h2>3. 达标判定</h2>
+  <p>我使用的标准是：</p>
+  <ul>
+    <li><code>candidate_coverage >= 0.9</code></li>
+    <li>paired gene-level Top-5 difference vs random <code>>= +10 pt</code></li>
+    <li>bootstrap CI lower bound <code>> 0</code></li>
+    <li><code>AUROC > 0.5</code></li>
+    <li>至少 5 个基因/study；单基因 case 单独标注</li>
+  </ul>
+
+  <div class="grid2">
+    <div>
+      <h3>达标</h3>
+      <p>UBE2H、Reynolds、Vickers、Ui-Tei、Khovorova、siRNAEfficacyDB 子集；5-study holdout composite 也达标。</p>
+    </div>
+    <div>
+      <h3>不达标 / 无效</h3>
+      <p>Shabalina（CI 含 0）、Martinelli（CI 含 0）、Harborth（无 enrichment）、UBE2H 完整生成（coverage 0）、Sciabola 用保存 CNN（泄漏）。</p>
+    </div>
+  </div>
+
+  <h2>4. 当前 pipeline 的调整</h2>
+  <ul>
+    <li><strong>默认 selector = OligoFormer。</strong> 不保留额外的 21-mer CNN 路径。</li>
+    <li><strong>按 format 路由：</strong> <code>passenger_unknown</code> 19/21 → OligoFormer <code>model</code>；modified <code>passenger21-overhang2</code> → native/quality。</li>
+    <li><strong>加 coverage gate：</strong> coverage 低时标为 measured-candidate replay/scorer-only，不能声称完整生成 pipeline 性能。</li>
+    <li><strong>补 LO-GO 与校准：</strong> 若要证明 Sciabola 的 LO-GO，需要每折重训、保存模型、做 calibration/Brier/不确定性。</li>
+
+    <li><strong>SIREN 暂不可用：</strong> 当前没有 SIREN/RNAhybrid 与 transcriptome；它只影响 specificity，不会自动提高 efficacy Top-5。</li>
+    <li><strong>Shabalina/Martinelli 不作为 efficacy 达标集：</strong> 适合格式/覆盖审计；若要达标需重训或扩大样本。</li>
+  </ul>
+
+  <h2>5. 限制</h2>
+  <div class="grid2">
+    <div>
+      <h3>证据层面</h3>
+      <p>多数结果是 measured-candidate scorer-only；不是完整生成 pipeline。Sciabola LO-GO 是同一数据集内跨基因验证，不是独立外部验证。UBE2H 只有 1 个基因；Shabalina/Martinelli 样本小或格式不匹配。</p>
+    </div>
+    <div>
+      <h3>工程层面</h3>
+      <p><code>scoring.py</code> 改动后，<code>development_freeze.json</code> 与 <code>final_freeze.json</code> 仍哈希不匹配；测试套件通过，但缺少专门的 <code>guide21</code> scorer 测试。CNN manifest 的 <code>independent_validation_passed=true</code> 只是元数据；<code>selection.json</code> 仍写 <code>false</code>。</p>
+    </div>
+  </div>
+
+  <h2>6. 产物路径</h2>
+  <table>
+    <caption>表 4. 当前审查相关产物。</caption>
+    <thead><tr><th>产物</th><th>用途</th></tr></thead>
+    <tbody>
+      <tr><td><code>benchmarks/results/benchmark_selector_policy.json</code></td><td>format routing：OligoFormer model / native fallback</td></tr>
+      <tr><td><code>benchmarks/results/holdout/final_model.json</code></td><td>5-study holdout 的 OligoFormer scorer 结果</td></tr>
+      <tr><td><code>benchmarks/data/holdout/measurements.tsv</code></td><td>399 条 / 10 基因 / 5 studies</td></tr>
+      <tr><td><code>independent_validation/oligoformer_manifest.json</code></td><td>本地 OligoFormer manifest</td></tr>
+      <tr><td><code>independent_validation/sciabola/measurements_corrected.tsv</code></td><td>Sciabola 356 条 corrected 测量</td></tr>
+      <tr><td><code>independent_validation/snapshot_independent/measurements.tsv</code></td><td>UBE2H 70 条 HeLa measured records</td></tr>
+      <tr><td><code>src/sirna_consensus/scoring.py</code></td><td>manifest/artifact/checkpoint 校验与 guide21 路径</td></tr>
+    </tbody>
+  </table>
+
+  <footer>
+    本报告是计算层面审查，不是实验或临床验证。所有精确率来自冻结预测与公开实测表的计算；多数 benchmark 是 measured-candidate scorer-only，不是完整生成 pipeline。Sciabola LO-GO 与 UBE2H 均为 heldout 计算证据，不能单独证明通用或临床有效性。
+  </footer>
+</div>
+</body>
+</html>

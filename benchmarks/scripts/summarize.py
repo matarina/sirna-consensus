@@ -13,13 +13,13 @@ p=argparse.ArgumentParser(description=__doc__)
 p.add_argument('--development',type=Path,required=True)
 p.add_argument('--comparison',type=Path,required=True)
 p.add_argument('--ablations',type=Path,required=True)
-p.add_argument('--screen',type=Path,required=True)
+p.add_argument('--screen',type=Path,default=None)
 p.add_argument('--out',type=Path,required=True)
 a=p.parse_args()
 a.out.mkdir(parents=True,exist_ok=True)
 summary=json.loads((a.development/'development_summary.json').read_text())
 comparison=json.loads(a.comparison.read_text())
-screen=json.loads(a.screen.read_text()) if a.screen.is_file() else None
+screen=json.loads(a.screen.read_text()) if a.screen is not None and a.screen.is_file() else None
 def summarize(rows):
  rows=[r for r in rows if r['requested_k']==5]
  genes=defaultdict(list)
@@ -39,7 +39,7 @@ result={'status':'development_only_not_independently_validated','records':1941,'
                         'states':dict(Counter(r.get('screen',{}).get('status','unverified') for r in screen['candidates'])),
                         'screened_panels':{g:len(keys) for g,keys in screen['screened_top'].items()},
                         'reference_sha256':screen['provenance']['screen'].get('reference_sha256')}),
-        'source_hashes':{str(p):sha256_file(p) for p in [a.comparison,a.screen,a.development/'development_summary.json'] if p.is_file()},
+        'source_hashes':{str(p):sha256_file(p) for p in [a.comparison,a.screen,a.development/'development_summary.json'] if p is not None and p.is_file()},
         'independent_validation_passed':False}
 (a.out/'development_results.json').write_text(json.dumps(result,indent=2)+'\n')
 lines=['# Development benchmark results','',
@@ -64,10 +64,9 @@ lines += ['',f"Development-selected quality fusion versus frozen model: **{prima
  'Eight component ablations and 1,000 within-gene/assay label permutations were run. '
  'They are development diagnostics; pretrained exposure and development selection prevent '
  'interpreting their statistics as independent generalization evidence.', '',
- ('The real AREG sequence screen completed against the pinned Ensembl 116 cDNA reference. '
-  'Its separately screened panels satisfy the computational mismatch criterion only.'
+ ('A recorded sequence screen is supplied and its screened panels satisfy the computational mismatch criterion only.'
   if screen is not None else
-  'No AREG sequence screen artifact was supplied; screened panels are unavailable.'), '',
+  'No sequence screen artifact was supplied; screened panels are unavailable.'), '',
  'See [figures](../figures/benchmark.pdf), [machine-readable results](development_results.json), '
  '[source audit](../dataset_manifest.json), and [reproduction instructions](../README.md).']
 (a.out/'REVIEW.md').write_text('\n'.join(lines)+'\n')

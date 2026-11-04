@@ -25,7 +25,6 @@ PATTERNS = [
     ROOT / "results/development/full/**/*",
     ROOT / "results/development/ablations/**/*",
     ROOT / "results/runs/huesken/*/run.json",   # native evidence the dev pipeline consumes
-    ROOT / "results/runs/AREG_v2/screened/selection.json",   # screen the summarizer consumes
     ROOT / "results/development_comparison.json",
     ROOT / "results/development_results.json",
     ROOT / "results/permutation_control.json",
@@ -71,7 +70,7 @@ def main() -> int:
     p.add_argument("--data", type=Path, default=ROOT / "data/huesken")
     p.add_argument("--tool-runs", type=Path, default=ROOT / "results/runs/huesken")
     p.add_argument("--scorer-manifest", type=Path, default=ROOT / "models/oligoformer_manifest.json")
-    p.add_argument("--screen", type=Path, default=ROOT / "results/runs/AREG_v2/screened/selection.json")
+    p.add_argument("--screen", type=Path, default=None, help="optional recorded screen artifact")
     a = p.parse_args()
     py = str(REPO / ".venv/bin/python")
     if a.regenerate:
@@ -106,10 +105,13 @@ def main() -> int:
                         "--benchmark", str(measured),
                         "--out", str(ROOT / "results/development/ablations")], check=True, cwd=REPO)
         # summarize tolerates a missing --screen (writes screen_smoke: null), so always run it.
-        subprocess.run([py, str(ROOT / "scripts/summarize.py"), "--development", str(full),
-                        "--comparison", str(ROOT / "results/development_comparison.json"),
-                        "--ablations", str(ROOT / "results/development/ablations"),
-                        "--screen", str(a.screen), "--out", str(ROOT / "results")], check=True, cwd=REPO)
+        summarize_args = [py, str(ROOT / "scripts/summarize.py"), "--development", str(full),
+                          "--comparison", str(ROOT / "results/development_comparison.json"),
+                          "--ablations", str(ROOT / "results/development/ablations"),
+                          "--out", str(ROOT / "results")]
+        if a.screen is not None:
+            summarize_args += ["--screen", str(a.screen)]
+        subprocess.run(summarize_args, check=True, cwd=REPO)
         subprocess.run([py, str(ROOT / "make_report_zh.py"), "-o", str(ROOT / "report_zh.html")],
                        check=True, cwd=REPO)
     base = LOCK.parent.resolve()
