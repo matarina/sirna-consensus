@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>sirna-consensus — current pipeline report</title>
+<style>
+  :root{
+    --ink:#111820; --muted:#5c6b74; --line:#d5dee2;
+    --navy:#123b4f; --teal:#0f7b74; --red:#a4301f;
+    --green:#1d6b3a; --amber:#8a5c12; --paper:#ffffff; --bg:#eef1f2;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:15px/1.7 "Liberation Serif","Times New Roman",Georgia,serif;}
+  .page{max-width:1180px;margin:0 auto;background:var(--paper);
+        padding:42px 54px 64px;box-shadow:0 2px 24px rgba(20,35,43,.10)}
+  h1{font-size:26px;line-height:1.3;margin:0 0 6px;letter-spacing:-.3px}
+  .sub{font-size:15px;color:var(--muted);margin:0 0 4px}
+  .meta{font-size:12.5px;color:var(--muted);margin:0 0 22px}
+  .chips{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0 24px}
+  .chip{font:12px/1.2 ui-sans-serif,system-ui,sans-serif;padding:7px 12px;
+        border:1px solid var(--line);border-radius:20px;background:#f7faf9}
+  .chip.ok{border-color:#9cc7b6;background:#eef7f2;color:var(--green)}
+  .chip.warn{border-color:#e0b98a;background:#fdf6e8;color:var(--amber)}
+  .chip.bad{border-color:#d8a59a;background:#fbf1ef;color:var(--red)}
+  .abstract{background:#f7faf9;border:1px solid var(--line);
+            padding:16px 20px;margin:18px 0 26px}
+  .abstract h2{border:0;margin:0 0 6px;font-size:13px;letter-spacing:.12em;color:var(--teal)}
+  .abstract p{margin:8px 0;font-size:14px}
+  h2{font-size:18px;margin:34px 0 12px;color:var(--navy);
+     border-bottom:1px solid var(--line);padding-bottom:7px}
+  h3{font-size:14.5px;margin:22px 0 8px;color:var(--navy)}
+  p{margin:9px 0;text-align:justify}
+  code,.mono{font:12px ui-monospace,Menlo,Consolas,monospace;background:#eff3f4;
+             padding:1px 5px;border-radius:4px}
+  pre{background:#f4f7f8;border:1px solid var(--line);border-radius:6px;padding:14px;
+      font:12px ui-monospace,Menlo,Consolas,monospace;overflow:auto}
+  table{width:100%;border-collapse:collapse;font:12.5px ui-sans-serif,system-ui,sans-serif;
+        margin:12px 0}
+  caption{display:block;text-align:left;font-size:12px;color:var(--muted);
+          padding:0 0 7px;line-height:1.5}
+  th{text-align:left;font-size:10.5px;letter-spacing:.05em;color:var(--muted);
+     padding:7px 8px;border-top:1.4px solid var(--ink);border-bottom:1px solid var(--ink);
+     background:#eef3f4}
+  td{padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+  tr:last-child td{border-bottom:1px solid var(--ink)}
+  .status-card{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}
+  .stat{background:#f8fafb;border:1px solid var(--line);border-radius:8px;padding:14px 16px}
+  .stat .k{font:11px ui-sans-serif,system-ui,sans-serif;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+  .stat .v{font:20px/1.4 ui-sans-serif,system-ui,sans-serif;font-weight:700;color:var(--navy)}
+  .stat .n{font-size:12px;color:var(--muted);margin-top:4px}
+  .callout{border:1px solid #d8a59a;background:#fbf1ef;
+           padding:14px 18px;border-radius:6px;margin:18px 0}
+  .callout strong{color:var(--red)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .note{font-size:12.5px;color:var(--muted)}
+  .diagram{background:#f8fafb;border:1px solid var(--line);border-radius:8px;padding:12px;margin:14px 0}
+  .diagram svg{width:100%;height:auto;display:block}
+  .legend{font:11.5px ui-sans-serif,system-ui,sans-serif;color:var(--muted);margin-top:6px}
+  .legend b{color:var(--navy)}
+  footer{font-size:12px;color:var(--muted);margin-top:30px;border-top:1px solid var(--line);padding-top:12px}
+  a{color:var(--teal)}
+  @media (max-width:800px){.status-card,.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>sirna-consensus — current pipeline report</h1>
+  <p class="sub">Single-transcript, site-level consensus design with frozen scoring, separate safety screening, and audited benchmarking.</p>
+  <p class="meta">v1.1.0 · schema v2 · generated 3 November 2026 · artefacts from the working tree at <code>/data1/maxw/proj/cargo_denovo/sirna-consensus</code></p>
+
+  <div class="chips">
+    <span class="chip ok">implementation checks pass</span>
+    <span class="chip warn">research-only</span>
+    <span class="chip bad">scientific release not passed</span>
+    <span class="chip bad">independent_validation_passed = false</span>
+    <span class="chip warn">fully_independent_available = false</span>
+  </div>
+
+  <div class="abstract">
+    <h2>EXECUTIVE SUMMARY</h2>
+    <p><strong>What the pipeline does.</strong> A single transcript FASTA is fanned out to independent open-source design tools. Their heterogeneous outputs are normalised onto transcript coordinates, merged at the level of the exact site (start + length), voted by distinct generator tools, filtered, and ranked into a Top-K panel. An optional frozen OligoFormer scorer and a Bowtie/Ensembl screen add efficacy ranking and computational specificity evidence; neither is a design vote.</p>
+    <p><strong>What the current evidence shows.</strong> On the exposed Huesken development cohort the frozen scorer is genuinely discriminative (AUROC 0.827, AP 0.82, Spearman rho 0.66; decile hit rate 5.2% → 92.3%). Quality fusion reaches 92.8% gene-weighted Top-5 precision versus 90.4% for the model, but the paired gain is +2.4 points with a 95% CI of [-0.8, +5.6] and misses the +10-point criterion. In the final weight-independent holdout (399 evaluable records / 10 labels / 5 studies), policy and model are identical at +0.0 points. The AREG run is reproducible (1,246 hits → 204 sites → 59 two-vote sites → 34 filtered → 10 selected) but its specificity status is <code>input_only</code>.</p>
+    <p><strong>What is not established.</strong> No independent efficacy validation, no evidence that consensus/fusion beats the frozen scorer, and no transcriptome-wide specificity claim. The holdout is weight-independent but upstream-evaluation-exposed; near-duplicate and gene-synonym leakage are not audited. This is a research-grade design aid, not clinical evidence.</p>
+  </div>
+
+  <h2>1. Pipeline map</h2>
+  <div class="diagram">
+    <svg viewBox="0 0 1120 560" role="img" aria-label="Pipeline from FASTA to consensus, selection, screening and evaluation">
+      <defs>
+        <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="#123b4f"/>
+        </marker>
+        <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="#a4301f"/>
+        </marker>
+      </defs>
+
+      <!-- RUN column -->
+      <rect x="40" y="30" width="300" height="40" rx="8" fill="#eef2f5" stroke="#5c6b74"/>
+      <text x="190" y="55" text-anchor="middle" font-family="system-ui" font-size="14" fill="#111820">Transcript FASTA · one sequence</text>
+
+      <rect x="40" y="90" width="300" height="42" rx="8" fill="#e7f0ef" stroke="#0f7b74"/>
+      <text x="190" y="116" text-anchor="middle" font-family="system-ui" font-size="13" fill="#093b38">validate + SHA-256</text>
+
+      <rect x="20" y="160" width="135" height="54" rx="8" fill="#123b4f" stroke="#0b2735"/>
+      <text x="87" y="184" text-anchor="middle" font-family="system-ui" font-size="12.5" fill="#fff">siRNAdesigner</text>
+      <text x="87" y="200" text-anchor="middle" font-family="system-ui" font-size="10.5" fill="#dce8ec">generator · votes</text>
+
+      <rect x="225" y="160" width="135" height="54" rx="8" fill="#123b4f" stroke="#0b2735"/>
+      <text x="292" y="184" text-anchor="middle" font-family="system-ui" font-size="12.5" fill="#fff">siRNAforge</text>
+      <text x="292" y="200" text-anchor="middle" font-family="system-ui" font-size="10.5" fill="#dce8ec">generator · votes</text>
+
+      <rect x="40" y="235" width="300" height="52" rx="8" fill="#e7f0ef" stroke="#0f7b74"/>
+      <text x="190" y="258" text-anchor="middle" font-family="system-ui" font-size="12.5" fill="#093b38">normalise + place on transcript</text>
+      <text x="190" y="274" text-anchor="middle" font-family="system-ui" font-size="10.5" fill="#456b66">core · guide/passenger · overhang</text>
+
+      <rect x="40" y="305" width="300" height="52" rx="8" fill="#e7f0ef" stroke="#0f7b74"/>
+      <text x="190" y="328" text-anchor="middle" font-family="system-ui" font-size="12.5" fill="#093b38">site bucket (start + length)</text>
+      <text x="190" y="344" text-anchor="middle" font-family="system-ui" font-size="10.5" fill="#456b66">vote by distinct generator tools</text>
+
+      <rect x="40" y="375" width="300" height="46" rx="8" fill="#e7f0ef" stroke="#0f7b74"/>
+      <text x="190" y="400" text-anchor="middle" font-family="system-ui" font-size="12.5" fill="#093b38">filters after voting</text>
+
+      <rect x="40" y="435" width="300" height="46" rx="8" fill="#e7f0ef" stroke="#0f7b74"/>
+      <text x="190" y="460" text-anchor="middle" font-family="system-ui" font-size="12.5" fill="#093b38">diverse Top-K · spacing &gt; 30 nt</text>
+
+      <rect x="360" y="435" width="170" height="46" rx="8" fill="#fdf6e8" stroke="#8a5c12"/>
+      <text x="445" y="456" text-anchor="middle" font-family="system-ui" font-size="12" fill="#5a3c0a">run.json</text>
+      <text x="445" y="471" text-anchor="middle" font-family="system-ui" font-size="10" fill="#8a5c12">all hits + hashes</text>
+
+      <!-- evaluator / dashed -->
+      <rect x="380" y="160" width="150" height="54" rx="8" fill="#fff" stroke="#123b4f" stroke-dasharray="5 3"/>
+      <text x="455" y="184" text-anchor="middle" font-family="system-ui" font-size="12.5" fill="#123b4f">SIREN</text>
+      <text x="455" y="200" text-anchor="middle" font-family="system-ui" font-size="10.5" fill="#3b4b55">evaluator · evidence only</text>
+
+      <!-- arrows run -->
+      <line x1="190" y1="70" x2="190" y2="90" stroke="#123b4f" stroke-width="2" marker-end="url(#arrow)"/>
+      <line x1="155" y1="132" x2="87" y2="160" stroke="#123b4f" stroke-width="2" marker-end="url(#arrow)"/>
+      <line x1="225" y1="132" x2="292" y2="160" stroke="#123b4f" stroke-width="2" marker-end="url(#arrow)"/>
+      <line x1="87" y1="214" x2="150" y2="235" stroke="#123b4f" stroke-width="2" marker-end="url(#arrow)"/>
+      <line x1="292" y1="214" x2="235" y2="235" stroke="#123b4f" stroke-width="2" marker-end="url(#arrow)"/>
+      <line x1="380" y1="214" x2="340" y2="250" stroke="#123b4f" stroke-width="2" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+      <line x1="190" y1="287" x2="190" y2="305" stroke="#123b4f" stroke-width="2" marker-end="url(#arrow)"/>
+      <line x1="190" y1="357" x2="190" y2="375" stroke="#123b4f" stroke-width="2" marker-end="url(#arrow)"/>
+      <line x1="190" y1="421" x2="190" y2="435" stroke="#123b4f" stroke-width="2" marker-end="url(#arrow)"/>
+      <line x1="340" y1="458" x2="360" y2="458" stroke="#123b4f" stroke-width="2" marker-end="url(#arrow)"/>
+
+      <!-- SELECT column -->
+      <rect x="600" y="30" width="440" height="40" rx="8" fill="#eef2f5" stroke="#5c6b74"/>
+      <text x="820" y="55" text-anchor="middle" font-family="system-ui" font-size="14" fill="#111820">select · replay exact molecules</text>
+
+      <rect x="600" y="95" width="440" height="42" rx="8" fill="#fbf1ef" stroke="#a4301f" stroke-dasharray="4 3"/>
+      <text x="820" y="121" text-anchor="middle" font-family="system-ui" font-size="12.5" fill="#7a2313">candidate source: run.json / candidates.tsv / --enumerate</text>
+
+      <rect x="600" y="160" width="190" height="54" rx="8" fill="#fff" stroke="#123b4f" stroke-dasharray="5 3"/>
+      <text x="695" y="184" text-anchor="middle" font-family="system-ui" font-size="12.5" fill="#123b4f">frozen scorer</text>
+      <text x="695" y="200" text-anchor="middle" font-family="system-ui" font-size="10.5" fill="#3b4b55">OligoFormer · hashed</text>
+
+      <rect x="820" y="160" width="220" height="54" rx="8" fill="#e7f0ef" stroke="#0f7b74"/>
+      <text x="930" y="184" text-anchor="middle" font-family="system-ui" font-size="12.5" fill="#093b38">ranking strategies</text>
+      <text x="930" y="200" text-anchor="middle" font-family="system-ui" font-size="10.5" fill="#456b66">native · model · fusion · support · quality</text>
+
+      <rect x="600" y="235" width="440" height="52" rx="8" fill="#fff" stroke="#123b4f" stroke-dasharray="5 3"/>
+      <text x="820" y="258" text-anchor="middle" font-family="system-ui" font-size="12.5" fill="#123b4f">Bowtie screen · Ensembl 116</text>
+      <text x="820" y="274" text-anchor="middle" font-family="system-ui" font-size="10.5" fill="#3b4b55">exact / one-mismatch other-gene hits exclude</text>
+
+      <rect x="600" y="305" width="440" height="48" rx="8" fill="#fdf6e8" stroke="#8a5c12"/>
+      <text x="820" y="326" text-anchor="middle" font-family="system-ui" font-size="12" fill="#5a3c0a">selection.json + panels</text>
+      <text x="820" y="341" text-anchor="middle" font-family="system-ui" font-size="10" fill="#8a5c12">research_top.fa · screened_top.fa · diverse_top.fa</text>
+
+      <rect x="600" y="375" width="440" height="50" rx="8" fill="#fbf1ef" stroke="#a4301f"/>
+      <text x="820" y="392" text-anchor="middle" font-family="system-ui" font-size="12" fill="#7a2313">freeze lock + final gate</text>
+      <text x="820" y="408" text-anchor="middle" font-family="system-ui" font-size="10.5" fill="#7a2313">label-blind · no re-cut after inspection</text>
+
+      <rect x="600" y="445" width="440" height="42" rx="8" fill="#eef7f2" stroke="#1d6b3a"/>
+      <text x="820" y="470" text-anchor="middle" font-family="system-ui" font-size="12" fill="#1d6b3a">research-only output · not wet-lab validated</text>
+
+      <!-- arrows select -->
+      <line x1="820" y1="70" x2="820" y2="95" stroke="#123b4f" stroke-width="2" marker-end="url(#arrow)"/>
+      <line x1="695" y1="137" x2="695" y2="160" stroke="#123b4f" stroke-width="2" marker-end="url(#arrow)"/>
+      <line x1="820" y1="137" x2="820" y2="160" stroke="#123b4f" stroke-width="2" marker-end="url(#arrow)"/>
+      <line x1="790" y1="180" x2="820" y2="180" stroke="#123b4f" stroke-width="2" marker-end="url(#arrow)"/>
+      <line x1="820" y1="214" x2="820" y2="235" stroke="#123b4f" stroke-width="2" marker-end="url(#arrow)"/>
+      <line x1="820" y1="287" x2="820" y2="305" stroke="#123b4f" stroke-width="2" marker-end="url(#arrow)"/>
+      <line x1="820" y1="353" x2="820" y2="375" stroke="#a4301f" stroke-width="2" marker-end="url(#arrow)"/>
+      <line x1="820" y1="425" x2="820" y2="445" stroke="#a4301f" stroke-width="2" marker-end="url(#arrow)"/>
+
+      <!-- bridge run.json -> select -->
+      <path d="M530 458 L560 458 L560 121 L600 121" fill="none" stroke="#123b4f" stroke-width="2" marker-end="url(#arrow)"/>
+    </svg>
+    <div class="legend">
+      <b>Dark navy</b> = generator tools that cast design votes. <b>Dashed</b> = evaluator/scorer, evidence only. <b>Teal</b> = core consensus logic. <b>Amber</b> = artefacts. <b>Red</b> = release gate / label-blind evaluation.
+    </div>
+  </div>
+
+  <h2>2. Stage-by-stage current implementation</h2>
+  <table>
+    <caption>Table 1. Pipeline stages, code modules and current behaviour.</caption>
+    <thead>
+      <tr><th>Stage</th><th>Module</th><th>What happens now</th><th>Current status / artefact</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Input</td><td><code>fasta.py</code></td><td>Single transcript FASTA; validates sequence and records SHA-256. No gene-name input and no local window enumeration.</td><td>AREG example: 1,234 nt, input hash recorded in <code>run.json</code>.</td></tr>
+      <tr><td>Tool execution</td><td><code>pipeline.py</code></td><td>siRNAdesigner and siRNAforge run as independent generators in separate environments; SIREN is an evaluator, never a design vote.</td><td>AREG: siRNAdesigner 80 hits, siRNAforge 559 hits, SIREN 607 evaluator hits.</td></tr>
+      <tr><td>Normalisation</td><td><code>normalize.py</code></td><td>Outputs converted to 1-based closed intervals; binding core, original guide/passenger and 3-prime overhang kept separate; offset tolerance 2 for merging.</td><td>1,246 raw hits placed with zero rejections and zero duplicates.</td></tr>
+      <tr><td>Site consensus</td><td><code>consensus.py</code></td><td>Votes counted only across distinct generator tools; same tool's repeated hits do not count twice; singleton sites excluded by default.</td><td>204 bounded sites; 59 sites with two generator votes.</td></tr>
+      <tr><td>Filters</td><td><code>filters.py</code></td><td>Hard: GC window 0.3–0.55, homopolymer ≤4, guide 5-prime non-A/U. Soft: seed-GC and sense-strand warnings. Filters run after voting.</td><td>25 candidates removed; 34 pass into ranking.</td></tr>
+      <tr><td>Ranking / Top-K</td><td><code>rank.py</code>, <code>selection.py</code></td><td>Strategies native, model, fusion, support, quality; ties by molecular ID/position; distinct guides; optional 30-nt spacing.</td><td>AREG: final Top-10 output; development: quality fusion 92.8% Top-5.</td></tr>
+      <tr><td>Frozen scorer</td><td><code>scoring.py</code></td><td>OligoFormer checkpoint hashed and frozen; evaluation mode, batch size one; output is an uncalibrated ranking score, not percent knockdown.</td><td>AUROC 0.827, AP 0.82, rho 0.66 on 1,941 development guides.</td></tr>
+      <tr><td>Specificity screen</td><td><code>screening.py</code></td><td>Bowtie against pinned Ensembl 116 cDNA; exact/one-mismatch hits in other genes exclude; exact intended-gene hit required; two-mismatch and seed counts advisory.</td><td>AREG: no transcriptome supplied, so all 59 candidates are <code>input_only</code>; 0 clean.</td></tr>
+      <tr><td>Freeze / final gate</td><td><code>benchmark.py</code>, <code>evaluate.py</code></td><td>Locks data, code, model, split and predictions before labels are read. Final mode verifies the lock and requires <code>checkpoint_training_audit=verified</code> and <code>independent_holdout_eligible=true</code>.</td><td>Holdout: 399 records / 10 labels / 5 studies evaluated; <code>independent_validation_passed=false</code>.</td></tr>
+      <tr><td>Reporting</td><td><code>report.py</code></td><td>Produces HTML/JSON reports from frozen results; no recomputation or invented scores.</td><td><code>benchmarks/report_zh.html</code>, <code>examples/AREG/report_zh.html</code>, and this report.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>3. Tool roles: generators versus evaluators</h2>
+  <table>
+    <caption>Table 2. Role separation is the central semantic rule.</caption>
+    <thead><tr><th>Tool</th><th>Role</th><th>Does it vote?</th><th>What it contributes</th></tr></thead>
+    <tbody>
+      <tr><td>siRNAdesigner</td><td>Generator</td><td>Yes</td><td>19-bp staggered duplex output; retains original 21-nt strands.</td></tr>
+      <tr><td>siRNAforge</td><td>Generator</td><td>Yes</td><td>Explicitly run with <code>--modifications none --overhang ''</code>; unsupported chemistry rejected.</td></tr>
+      <tr><td>SIREN</td><td>Evaluator</td><td>No</td><td>Can support or disqualify a generated site; its hits are never promoted to positive votes.</td></tr>
+      <tr><td>OligoFormer scorer</td><td>Frozen efficacy model</td><td>No</td><td>Uncalibrated ranking score; absence creates a separately labelled native fallback panel.</td></tr>
+      <tr><td>Bowtie / Ensembl 116</td><td>Specificity screen</td><td>No</td><td>Computational mismatch evidence only; not biological proof of specificity.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>4. Current benchmark results</h2>
+
+  <div class="status-card">
+    <div class="stat"><div class="k">Development Top-5</div><div class="v">92.8%</div><div class="n">quality fusion vs 90.4% model; +2.4 pt, CI [-0.8, +5.6]</div></div>
+    <div class="stat"><div class="k">Final holdout</div><div class="v">+0.0 pt</div><div class="n">399 records / 10 labels / 5 studies; policy vs model identical</div></div>
+    <div class="stat"><div class="k">Release gate</div><div class="v">false</div><div class="n">independent_validation_passed; research-only</div></div>
+  </div>
+
+  <h3>4.1 Development cohort</h3>
+  <table>
+    <caption>Table 3. Gene-weighted Top-5 measured precision on the exposed Huesken development cohort (25 constructs, 1,941 guides).</caption>
+    <thead><tr><th>Method</th><th>Top-5 precision</th><th>Complete genes</th><th>Fill rate</th><th>Candidate coverage</th></tr></thead>
+    <tbody>
+      <tr><td>quality fusion</td><td>92.8%</td><td>25/25</td><td>100.0%</td><td>100.0%</td></tr>
+      <tr><td>frozen model</td><td>90.4%</td><td>25/25</td><td>100.0%</td><td>100.0%</td></tr>
+      <tr><td>support</td><td>90.4%</td><td>25/25</td><td>100.0%</td><td>100.0%</td></tr>
+      <tr><td>fusion</td><td>89.6%</td><td>25/25</td><td>100.0%</td><td>100.0%</td></tr>
+      <tr><td>siRNAdesigner</td><td>89.3%</td><td>15/25</td><td>77.6%</td><td>8.0%</td></tr>
+      <tr><td>native union + fallback</td><td>77.6%</td><td>25/25</td><td>100.0%</td><td>100.0%</td></tr>
+      <tr><td>siRNAforge</td><td>unavailable</td><td>0/25</td><td>0.0%</td><td>0.0%</td></tr>
+      <tr><td>exact consensus</td><td>unavailable</td><td>0/25</td><td>0.0%</td><td>0.0%</td></tr>
+    </tbody>
+  </table>
+
+  <h3>4.2 Final weight-independent holdout</h3>
+  <p>The audited cohort is 6 studies / 1,113 records / 12 source labels. Exact strand placement left <strong>399 records, 10 labels and 5 studies</strong> evaluable; 714 were excluded. On the 9 shared genes the policy and model arms are identical.</p>
+  <table>
+    <caption>Table 4. Final holdout per-gene Top-5 precision.</caption>
+    <thead><tr><th>Gene / label</th><th>Policy</th><th>Model</th><th>Difference</th></tr></thead>
+    <tbody>
+      <tr><td>Cyclophilin B</td><td>1.00</td><td>1.00</td><td>+0.00</td></tr>
+      <tr><td>DBI</td><td>0.20</td><td>0.20</td><td>+0.00</td></tr>
+      <tr><td>Firefly luciferase</td><td>1.00</td><td>1.00</td><td>+0.00</td></tr>
+      <tr><td>FireflyLuc</td><td>0.80</td><td>0.80</td><td>+0.00</td></tr>
+      <tr><td>GAPDH</td><td>1.00</td><td>1.00</td><td>+0.00</td></tr>
+      <tr><td>ICAM-1</td><td>0.00</td><td>0.00</td><td>+0.00</td></tr>
+      <tr><td>MMAC1</td><td>0.60</td><td>0.60</td><td>+0.00</td></tr>
+      <tr><td>PLK</td><td>0.40</td><td>0.40</td><td>+0.00</td></tr>
+      <tr><td>SEAP</td><td>0.50</td><td>0.50</td><td>+0.00</td></tr>
+    </tbody>
+  </table>
+  <p class="note">This is a small, single-construct-per-molecule cohort. It is a directional holdout check, not a powered estimate. Native generator evidence covers 210/356 policy-arm candidates (59%), so the quality arm still leans substantially on the scorer.</p>
+
+  <h3>4.3 AREG real-run example</h3>
+  <table>
+    <caption>Table 5. AREG reproducibility funnel (NM_001657.4, 1,234 nt).</caption>
+    <thead><tr><th>Stage</th><th>Count</th></tr></thead>
+    <tbody>
+      <tr><td>raw tool hits</td><td>1,246</td></tr>
+      <tr><td>successfully placed hits</td><td>1,246</td></tr>
+      <tr><td>bounded consensus sites</td><td>204</td></tr>
+      <tr><td>sites with two generator votes</td><td>59</td></tr>
+      <tr><td>candidates passing hard filters</td><td>34</td></tr>
+      <tr><td>final Top-10 output</td><td>10</td></tr>
+      <tr><td>specificity status</td><td><code>input_only</code> (0 clean)</td></tr>
+    </tbody>
+  </table>
+
+  <h2>5. Leakage and defensibility</h2>
+  <div class="callout">
+    <strong>Important:</strong> the benchmark is honest about exposure but does not eliminate it. Development data is checkpoint-training exposed. The holdout is weight-independent, but every holdout study is upstream-evaluation-exposed; <code>fully_independent_available = false</code>. The audit matches only exact 19-nt antisense cores, not near-duplicates, isoforms or coordinates, and gene synonyms are not merged (<code>Firefly luciferase</code> vs <code>FireflyLuc</code>). The final holdout is small and reporter-heavy, so +0.0 points is not evidence of superiority. The defensible claim is: the scorer is informative on development; the pipeline is reproducible; consensus/fusion superiority is not established.
+  </div>
+
+  <div class="grid2">
+    <div>
+      <h3>What is supported</h3>
+      <p>Frozen scorer discrimination: AUROC 0.827, AP 0.82, rho 0.66; decile gradient 5.2% → 92.3% against a 50.2% baseline. Reproducible normalisation, site voting and freezes. Honest evidence-tier labelling.</p>
+    </div>
+    <div>
+      <h3>What is not supported</h3>
+      <p>Independent efficacy validation; consensus/fusion superiority; transcriptome-wide specificity from the AREG run; generalization from reporter/ single-construct holdout labels; any wet-lab knockdown claim.</p>
+    </div>
+  </div>
+
+  <h2>6. Artefacts and reproduction</h2>
+  <table>
+    <caption>Table 6. Current artefacts in the working tree.</caption>
+    <thead><tr><th>Artefact</th><th>Contents</th></tr></thead>
+    <tbody>
+      <tr><td><code>src/sirna_consensus/pipeline.py</code></td><td>Run orchestration: tool calls, normalisation, consensus, filters, ranking.</td></tr>
+      <tr><td><code>src/sirna_consensus/selection.py</code></td><td>Replays exact molecules, scoring strategies, panels.</td></tr>
+      <tr><td><code>src/sirna_consensus/screening.py</code></td><td>Bowtie/Ensembl specificity screen with hash-verified manifest.</td></tr>
+      <tr><td><code>benchmarks/data/huesken/</code></td><td>Development candidates, measurements, transcripts.</td></tr>
+      <tr><td><code>benchmarks/data/holdout/</code></td><td>Audited holdout measurements and exclusions.</td></tr>
+      <tr><td><code>benchmarks/cohort_manifest.json</code></td><td>Exposure audit result: weight-independent holdout; fully independent unavailable.</td></tr>
+      <tr><td><code>benchmarks/final_freeze.json</code></td><td>Frozen data/model/split/prediction hashes.</td></tr>
+      <tr><td><code>benchmarks/results/holdout/REVIEW.md</code></td><td>Final gate review: +0.0 pt, independent_validation_passed false.</td></tr>
+      <tr><td><code>examples/AREG/run.json</code> and <code>report_zh.html</code></td><td>Real AREG run and paper-style Chinese report.</td></tr>
+      <tr><td><code>benchmarks/final_report_paper.docx</code></td><td>Paper-style DOCX report generated from these results.</td></tr>
+    </tbody>
+  </table>
+
+  <pre># reproducibility commands
+sirna-consensus run --fasta examples/AREG/NM_001657.4.fa \
+  --out examples/AREG --tools sirnadesigner,siren,sirnaforge \
+  --min-votes 2 --top-k 10 --exclude-singletons
+
+sirna-consensus select --fasta examples/AREG/NM_001657.4.fa \
+  --run examples/AREG/run.json --out examples/AREG/selection \
+  --strategy quality --top-k 10
+
+python benchmarks/scripts/run_final.py
+python benchmarks/scripts/verify_freezes.py</pre>
+
+  <p class="note">The specificity screen needs the pinned Ensembl 116 manifest and Bowtie binary; the scorer needs the OligoFormer checkpoint and RNA-FM weights. These external assets are hash-verified, not bundled in the zero-dependency package.</p>
+
+  <footer>
+    sirna-consensus v1.1.0 · schema v2 · generated from the current working tree, 3 November 2026.<br>
+    This is a computational research report, not experimental validation. All precision values are computational estimates from frozen predictions and measured assay tables.
+  </footer>
+</div>
+</body>
+</html>

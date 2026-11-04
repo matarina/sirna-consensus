@@ -1,29 +1,45 @@
 """Reproducible development replay; never makes an independent efficacy claim."""
-import argparse,json,sys
+import argparse
+import json
+import sys
 from pathlib import Path
 from statistics import mean
+
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'src'))
-from sirna_consensus.selection import supplied_candidates,rank_candidates,write_selection,load_candidates
-from sirna_consensus.fasta import read_transcript,sha256,sha256_file
-from sirna_consensus.benchmark import load_measurements,evaluate_record,paired_summary
+from sirna_consensus.benchmark import evaluate_record, load_measurements
+from sirna_consensus.fasta import read_transcript, sha256, sha256_file
 from sirna_consensus.scoring import score_candidates
+from sirna_consensus.selection import (
+ load_candidates,
+ rank_candidates,
+ supplied_candidates,
+ write_selection,
+)
 
 p=argparse.ArgumentParser(description=__doc__)
-p.add_argument('--data',type=Path,required=True);p.add_argument('--out',type=Path,required=True)
+p.add_argument('--data',type=Path,required=True)
+p.add_argument('--out',type=Path,required=True)
 p.add_argument('--tool-runs',type=Path,help='per-gene schema-v2 runs containing native generator evidence')
-p.add_argument('--scorer-manifest',type=Path);p.add_argument('--genes',help='optional comma-separated development smoke subset')
+p.add_argument('--scorer-manifest',type=Path)
+p.add_argument('--genes',help='optional comma-separated development smoke subset')
 p.add_argument('--random-repeats',type=int,default=1000)
-a=p.parse_args();a.out.mkdir(parents=True,exist_ok=True)
-measured=load_measurements(a.data/'measurements.tsv');all_results={}
+a=p.parse_args()
+a.out.mkdir(parents=True,exist_ok=True)
+measured=load_measurements(a.data/'measurements.tsv')
+all_results={}
 strategies=('native', 'sirnadesigner', 'sirnaforge', 'consensus') if a.tool_runs else ('native',)
-if a.scorer_manifest: strategies += ('model','fusion','support','quality') if a.tool_runs else ('model','quality')
+if a.scorer_manifest:
+    strategies += ('model','fusion','support','quality') if a.tool_runs else ('model','quality')
 chosen=set(a.genes.split(',')) if a.genes else None
 for fasta in sorted((a.data/'transcripts').glob('*.fa')):
- if chosen and fasta.stem not in chosen:continue
- tid,sequence=read_transcript(fasta);rows=supplied_candidates(a.data/'candidates.tsv',tid,sequence)
+ if chosen and fasta.stem not in chosen:
+     continue
+ tid,sequence=read_transcript(fasta)
+ rows=supplied_candidates(a.data/'candidates.tsv',tid,sequence)
  if a.tool_runs:
   native,native_run=load_candidates(a.tool_runs/fasta.stem/'run.json')
-  if native_run['input_sha256']!=sha256(sequence):raise ValueError('native evidence target mismatch')
+  if native_run['input_sha256']!=sha256(sequence):
+      raise ValueError('native evidence target mismatch')
   for row in rows:
    core=row['core']
    for hit in native:
@@ -31,7 +47,8 @@ for fasta in sorted((a.data/'transcripts').glob('*.fa')):
     if h.guide==core.guide and h.sense==core.sense and h.guide_overhang==core.guide_overhang:
      row['tools']=sorted(set(row['tools'])|set(hit['tools']))
      row['tool_scores'].update(hit['tool_scores'])
- scores={};scorer={}
+ scores={}
+ scorer={}
  if a.scorer_manifest:
   scores,scorer=score_candidates(rows,sequence,a.scorer_manifest.resolve(),(a.out/fasta.stem/'scorer').resolve())
  for strategy in strategies:
@@ -41,7 +58,8 @@ for fasta in sorted((a.data/'transcripts').glob('*.fa')):
    method_rows=[{**r,'tools':[strategy],'tool_scores':{strategy:r['tool_scores'][strategy]} if strategy in r['tool_scores'] else {}} for r in rows if strategy in r['tools']]
    ranking='native'
   elif strategy=='consensus':
-   method_rows=[r for r in rows if len(r['tools'])>=2];ranking='legacy'
+   method_rows=[r for r in rows if len(r['tools'])>=2]
+   ranking='legacy'
   ranked=rank_candidates(method_rows,ranking,filter_policy='soft',model_scores=scores if strategy not in ('native','sirnadesigner','sirnaforge','consensus') else {})
   record=write_selection(ranked,a.out/fasta.stem/strategy,
                          {'transcript_id':tid,'target_sha256':sha256(sequence),'strategy':strategy,

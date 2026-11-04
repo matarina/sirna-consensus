@@ -1,0 +1,3253 @@
+{
+  "schema_version": 2,
+  "kind": "exact_guide_selection",
+  "config": {
+    "top_k": 10
+  },
+  "provenance": {
+    "transcript_id": "M60857.1",
+    "target_sha256": "ad2f9996f2a3633ed5e094f0807d03d7b35d9c3cb6d1e3ff3ab7ebf75f62bcc2",
+    "strategy": "native",
+    "filter_policy": "soft",
+    "source": "/data1/maxw/proj/cargo_denovo/sirna-consensus/benchmarks/data/holdout/candidates.tsv",
+    "source_sha256": "736ce317c6f86cf93a7705f41c492a82c75b12f08b3314e3ee2e0f8bafc2a79a",
+    "evidence_sha256": "9bde3633852a2d7778fa61637fba08b59a9f442c3ff9853c313427eb2a8461c2",
+    "evidence_attached": 52,
+    "evidence_skipped_short": 0,
+    "scorer": {
+      "name": "OligoFormer",
+      "manifest_sha256": "a9973129913042af0d741db5ca0b25bf55c5d041c9b2da2b6d0a881d6ff6cf69",
+      "checkpoint_sha256": "8c2fb4bc847e20c63dfe69381c5dc5c341be71e65c011f4e9a4cd6fdb0e34eca",
+      "command": [
+        "/data1/maxw/proj/cargo_denovo/sirna-consensus/.scorer-venv/bin/python",
+        "/data1/maxw/proj/cargo_denovo/sirna-consensus/benchmarks/scripts/oligoformer_worker.py",
+        "--input",
+        "/data1/maxw/proj/cargo_denovo/sirna-consensus/benchmarks/results/holdout/policy/M60857.1/work/3059ec11715648eb/scorer/scorer_input.json",
+        "--output",
+        "/data1/maxw/proj/cargo_denovo/sirna-consensus/benchmarks/results/holdout/policy/M60857.1/work/3059ec11715648eb/scorer/scorer_output.json",
+        "--model-source",
+        "/data1/maxw/proj/cargo_denovo/sirnaforge-platform/data/raw/oligoformer/scripts/model.py",
+        "--features-source",
+        "/data1/maxw/proj/cargo_denovo/sirnaforge-platform/data/raw/oligoformer/scripts/infer.py",
+        "--checkpoint",
+        "/data1/maxw/proj/cargo_denovo/sirnaforge-platform/data/raw/oligoformer/model/best_model.pth",
+        "--rna-fm-checkpoint",
+        "/data1/maxw/proj/cargo_denovo/sirna-consensus/benchmarks/models/RNA-FM_pretrained.pth",
+        "--device",
+        "cpu",
+        "--threads",
+        "4"
+      ],
+      "input_sha256": "88077df36c5f08cdb2111b307fbf7289879f4479ea2ff7aca60bdb2454d9ea00",
+      "supported_count": 90,
+      "unsupported_count": 0,
+      "training_audit": "checkpoint training source exposure audited (upstream Hu.csv); 6 weight-independent holdout studies / 1113 records / 12 genes exit every training and development molecule; upstream evaluation exposure disclosed. See benchmarks/cohort_manifest.json",
+      "independent_validation_passed": false
+    },
+    "components": [
+      "tools",
+      "support",
+      "quality"
+    ],
+    "policy_sha256": "35af2bb5242cf2a92fb071dbe52963b6fe7e71f54d7276aa2202a2c67f5803dd",
+    "policy_status": "development_only"
+  },
+  "candidates": [
+    {
+      "transcript_id": "M60857.1",
+      "start": 237,
+      "length": 19,
+      "sense": "GAAAGGATTTGGCTACAAA",
+      "ordered_guide": "TTTGTAGCCAAATCCTTTCTC",
+      "passenger": "",
+      "guide_overhang": "TC",
+      "passenger_overhang": "",
+      "key": "M60857.1:237:19:ba7e1fba8572865b",
+      "guide_dna": "TTTGTAGCCAAATCCTTTCTC",
+      "molecule_id": "ba7e1fba8572865b1478f9a9a54d47587890c09ce8ae064766a921b85b35efbb",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnadesigner"
+      ],
+      "tool_scores": {
+        "sirnadesigner": 10.0
+      },
+      "score": 0.9768496240601504,
+      "model_score": 1.0674390424489975,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [],
+      "components": {
+        "model": 1.0,
+        "native": 1.0,
+        "support": 0.5,
+        "quality": 0.7684962406015037
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 271,
+      "length": 19,
+      "sense": "CGTGTAATCAAGGACTTCA",
+      "ordered_guide": "TGAAGTCCTTGATTACACGAT",
+      "passenger": "",
+      "guide_overhang": "AT",
+      "passenger_overhang": "",
+      "key": "M60857.1:271:19:4e691c71215733e1",
+      "guide_dna": "TGAAGTCCTTGATTACACGAT",
+      "molecule_id": "4e691c71215733e1db84cabc2f771405a2871455a6017257fb730f9dd41c8f41",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 85.32415670946588
+      },
+      "score": 0.9535261468277436,
+      "model_score": 1.0269527458548546,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [],
+      "components": {
+        "model": 0.9550561797752809,
+        "native": 1.0,
+        "support": 0.5,
+        "quality": 0.894812030075188
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 233,
+      "length": 19,
+      "sense": "GAGAGAAAGGATTTGGCTA",
+      "ordered_guide": "TAGCCAAATCCTTTCTCTCCT",
+      "passenger": "",
+      "guide_overhang": "CT",
+      "passenger_overhang": "",
+      "key": "M60857.1:233:19:f6dab1da73997dc1",
+      "guide_dna": "TAGCCAAATCCTTTCTCTCCT",
+      "molecule_id": "f6dab1da73997dc1a9728275f996765269aed926ff3cb095c5d58a1519fbd160",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnadesigner": 8.0,
+        "sirnaforge": 79.32415670946588
+      },
+      "score": 0.9469818006647027,
+      "model_score": 1.063141055703163,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [],
+      "components": {
+        "model": 0.9887640449438202,
+        "native": 0.6648936170212766,
+        "support": 1.0,
+        "quality": 0.894812030075188
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 361,
+      "length": 19,
+      "sense": "GATGAGAACTTCAAACTGA",
+      "ordered_guide": "TCAGTTTGAAGTTCTCATCGG",
+      "passenger": "",
+      "guide_overhang": "GG",
+      "passenger_overhang": "",
+      "key": "M60857.1:361:19:ff1567ab6e731566",
+      "guide_dna": "TCAGTTTGAAGTTCTCATCGG",
+      "molecule_id": "ff1567ab6e731566a83298aede1a8d38a190c6b85fdb57a1e08a27d4248a029d",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnadesigner": 9.0,
+        "sirnaforge": 76.44172689948185
+      },
+      "score": 0.9320103938426031,
+      "model_score": 1.0354321816563605,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [],
+      "components": {
+        "model": 0.9775280898876404,
+        "native": 0.7313829787234043,
+        "support": 1.0,
+        "quality": 0.7684962406015037
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 259,
+      "length": 19,
+      "sense": "AGCAAATTCCATCGTGTAA",
+      "ordered_guide": "TTACACGATGGAATTTGCTGT",
+      "passenger": "",
+      "guide_overhang": "GT",
+      "passenger_overhang": "",
+      "key": "M60857.1:259:19:8536793cfd84c305",
+      "guide_dna": "TTACACGATGGAATTTGCTGT",
+      "molecule_id": "8536793cfd84c305b530a5d1a7189981b47cfdc0228732f7e1520935d61f8f62",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 83.96553642329138
+      },
+      "score": 0.9297781442609633,
+      "model_score": 1.0029072956442833,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [],
+      "components": {
+        "model": 0.9438202247191011,
+        "native": 0.9787234042553191,
+        "support": 0.5,
+        "quality": 0.7684962406015037
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 241,
+      "length": 19,
+      "sense": "GGATTTGGCTACAAAAACA",
+      "ordered_guide": "TGTTTTTGTAGCCAAATCCTT",
+      "passenger": "",
+      "guide_overhang": "TT",
+      "passenger_overhang": "",
+      "key": "M60857.1:241:19:7335457576b1609e",
+      "guide_dna": "TGTTTTTGTAGCCAAATCCTT",
+      "molecule_id": "7335457576b1609e254bfd1c61a22af519cd2a1432b0c6f74544df057fb40e27",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnadesigner"
+      ],
+      "tool_scores": {
+        "sirnadesigner": 9.0
+      },
+      "score": 0.9177404747824618,
+      "model_score": 1.0280453066825868,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "homopolymer"
+      ],
+      "components": {
+        "model": 0.9662921348314607,
+        "native": 0.75,
+        "support": 0.5,
+        "quality": 0.6970676691729323
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 235,
+      "length": 19,
+      "sense": "GAGAAAGGATTTGGCTACA",
+      "ordered_guide": "TGTAGCCAAATCCTTTCTCTC",
+      "passenger": "",
+      "guide_overhang": "TC",
+      "passenger_overhang": "",
+      "key": "M60857.1:235:19:101f54ea8b38464a",
+      "guide_dna": "TGTAGCCAAATCCTTTCTCTC",
+      "molecule_id": "101f54ea8b38464a48d1c5eca6977dac5e9e8d8d0367bdb7cde47a878ea2c3f7",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 79.96553642329138
+      },
+      "score": 0.9137938972461036,
+      "model_score": 1.000494693696499,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [],
+      "components": {
+        "model": 0.9213483146067416,
+        "native": 0.8723404255319149,
+        "support": 0.5,
+        "quality": 0.894812030075188
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 263,
+      "length": 19,
+      "sense": "AATTCCATCGTGTAATCAA",
+      "ordered_guide": "TTGATTACACGATGGAATTTG",
+      "passenger": "",
+      "guide_overhang": "TG",
+      "passenger_overhang": "",
+      "key": "M60857.1:263:19:c91bb5790ba736b4",
+      "guide_dna": "TTGATTACACGATGGAATTTG",
+      "molecule_id": "c91bb5790ba736b44e8697c3e7ab56eb508c284f2421f1e9c3586f8d5e28ff63",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 76.44172689948185
+      },
+      "score": 0.8744191994449427,
+      "model_score": 1.0015375381708145,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [],
+      "components": {
+        "model": 0.9325842696629213,
+        "native": 0.7127659574468085,
+        "support": 0.5,
+        "quality": 0.570751879699248
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 227,
+      "length": 19,
+      "sense": "CTACAGGAGAGAAAGGATT",
+      "ordered_guide": "AATCCTTTCTCTCCTGTAGCT",
+      "passenger": "",
+      "guide_overhang": "CT",
+      "passenger_overhang": "",
+      "key": "M60857.1:227:19:1e2be98a6b0dec95",
+      "guide_dna": "AATCCTTTCTCTCCTGTAGCT",
+      "molecule_id": "1e2be98a6b0dec952e0e8aa6c6e44b6a4cb540ad14aa88f1fe689d2bd0b4f135",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnadesigner": 9.0,
+        "sirnaforge": 83.32415670946588
+      },
+      "score": 0.8328792256160362,
+      "model_score": 0.9431719779968262,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [],
+      "components": {
+        "model": 0.8314606741573034,
+        "native": 0.8537234042553192,
+        "support": 1.0,
+        "quality": 0.8233834586466166
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 365,
+      "length": 19,
+      "sense": "AGAACTTCAAACTGAAGCA",
+      "ordered_guide": "TGCTTCAGTTTGAAGTTCTCA",
+      "passenger": "",
+      "guide_overhang": "CA",
+      "passenger_overhang": "",
+      "key": "M60857.1:365:19:04144ca4abe9f5d7",
+      "guide_dna": "TGCTTCAGTTTGAAGTTCTCA",
+      "molecule_id": "04144ca4abe9f5d7bc261b4ae38efa4742b900a921f492622922880ead30732f",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 66.72744118519613
+      },
+      "score": 0.8146215580787973,
+      "model_score": 0.9813154513835907,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [],
+      "components": {
+        "model": 0.8876404494382022,
+        "native": 0.2765957446808511,
+        "support": 0.5,
+        "quality": 0.7684962406015038
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 359,
+      "length": 19,
+      "sense": "CCGATGAGAACTTCAAACT",
+      "ordered_guide": "AGTTTGAAGTTCTCATCGGGG",
+      "passenger": "",
+      "guide_overhang": "GG",
+      "passenger_overhang": "",
+      "key": "M60857.1:359:19:2a97baf311455f8e",
+      "guide_dna": "AGTTTGAAGTTCTCATCGGGG",
+      "molecule_id": "2a97baf311455f8e22b7cbf9e79b248b07fdc6a84ff207d3942a2d55c085f8b8",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnadesigner": 6.0,
+        "sirnaforge": 79.32415670946588
+      },
+      "score": 0.8073600109375758,
+      "model_score": 0.9475807474851609,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [],
+      "components": {
+        "model": 0.8426966292134831,
+        "native": 0.5086436170212766,
+        "support": 1.0,
+        "quality": 0.8233834586466166
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 331,
+      "length": 19,
+      "sense": "GGAAAGAGCATCTACGGTG",
+      "ordered_guide": "CACCGTAGATGCTCTTTCCTC",
+      "passenger": "",
+      "guide_overhang": "TC",
+      "passenger_overhang": "",
+      "key": "M60857.1:331:19:7e2ea3ed1664ba0f",
+      "guide_dna": "CACCGTAGATGCTCTTTCCTC",
+      "molecule_id": "7e2ea3ed1664ba0fa22ade655c4511feec437f1abc6474b97484280d3196da50",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 72.73869471375896
+      },
+      "score": 0.806897147242958,
+      "model_score": 0.9478393204808235,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "guide_5p_not_AU",
+        "sense_3p_not_AU"
+      ],
+      "components": {
+        "model": 0.8539325842696629,
+        "native": 0.6063829787234043,
+        "support": 0.5,
+        "quality": 0.6311278195488723
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 207,
+      "length": 19,
+      "sense": "GGATAATTTTGTGGCCTTA",
+      "ordered_guide": "TAAGGCCACAAAATTATCCAC",
+      "passenger": "",
+      "guide_overhang": "AC",
+      "passenger_overhang": "",
+      "key": "M60857.1:207:19:b00b96837e14fd9a",
+      "guide_dna": "TAAGGCCACAAAATTATCCAC",
+      "molecule_id": "b00b96837e14fd9a4b77239d8acb55d482a29dfac563a0a109e4874535dee507",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [],
+      "tool_scores": {},
+      "score": 0.8049395117005999,
+      "model_score": 0.9910964645147323,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "homopolymer"
+      ],
+      "components": {
+        "model": 0.9101123595505618,
+        "native": 0.0,
+        "support": 0.0,
+        "quality": 0.7684962406015038
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 247,
+      "length": 19,
+      "sense": "GGCTACAAAAACAGCAAAT",
+      "ordered_guide": "ATTTGCTGTTTTTGTAGCCAA",
+      "passenger": "",
+      "guide_overhang": "AA",
+      "passenger_overhang": "",
+      "key": "M60857.1:247:19:2d4508f62f1f5047",
+      "guide_dna": "ATTTGCTGTTTTTGTAGCCAA",
+      "molecule_id": "2d4508f62f1f5047c20f6149ce4e04bec00272fc71a4d7c4129278eb191aa3ea",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnadesigner"
+      ],
+      "tool_scores": {
+        "sirnadesigner": 5.0
+      },
+      "score": 0.795950747655656,
+      "model_score": 0.9838938277959823,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "homopolymer"
+      ],
+      "components": {
+        "model": 0.898876404494382,
+        "native": 0.0,
+        "support": 0.5,
+        "quality": 0.7684962406015037
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 221,
+      "length": 19,
+      "sense": "CCTTAGCTACAGGAGAGAA",
+      "ordered_guide": "TTCTCTCCTGTAGCTAAGGCC",
+      "passenger": "",
+      "guide_overhang": "CC",
+      "passenger_overhang": "",
+      "key": "M60857.1:221:19:6e82b16d19307740",
+      "guide_dna": "TTCTCTCCTGTAGCTAAGGCC",
+      "molecule_id": "6e82b16d193077404d8c8e032a75b69b35a65f8cc6438ecd083945d6765748d9",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 74.18000111340717
+      },
+      "score": 0.7837876312823657,
+      "model_score": 0.9160815210342407,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [],
+      "components": {
+        "model": 0.7865168539325843,
+        "native": 0.6382978723404256,
+        "support": 0.5,
+        "quality": 0.9074436090225565
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 225,
+      "length": 19,
+      "sense": "AGCTACAGGAGAGAAAGGA",
+      "ordered_guide": "TCCTTTCTCTCCTGTAGCTAA",
+      "passenger": "",
+      "guide_overhang": "AA",
+      "passenger_overhang": "",
+      "key": "M60857.1:225:19:078911d2bf7d18c4",
+      "guide_dna": "TCCTTTCTCTCCTGTAGCTAA",
+      "molecule_id": "078911d2bf7d18c4f8db6f3897eda43fc7a10937174619e27fa0439f0547f7e1",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 81.32415670946588
+      },
+      "score": 0.7744283197834415,
+      "model_score": 0.8921344644427299,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [],
+      "components": {
+        "model": 0.7415730337078652,
+        "native": 0.9042553191489362,
+        "support": 0.5,
+        "quality": 0.9074436090225565
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 357,
+      "length": 19,
+      "sense": "CCCCGATGAGAACTTCAAA",
+      "ordered_guide": "TTTGAAGTTCTCATCGGGGAA",
+      "passenger": "",
+      "guide_overhang": "AA",
+      "passenger_overhang": "",
+      "key": "M60857.1:357:19:48da21e61dbf5246",
+      "guide_dna": "TTTGAAGTTCTCATCGGGGAA",
+      "molecule_id": "48da21e61dbf5246ddb177d307699ca186e63ffdb5229afdbf131e09db4fe292",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnadesigner"
+      ],
+      "tool_scores": {
+        "sirnadesigner": 7.0
+      },
+      "score": 0.7682925149953537,
+      "model_score": 0.9324865588545799,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "homopolymer"
+      ],
+      "components": {
+        "model": 0.8089887640449438,
+        "native": 0.375,
+        "support": 0.5,
+        "quality": 0.8360150375939851
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 239,
+      "length": 19,
+      "sense": "AAGGATTTGGCTACAAAAA",
+      "ordered_guide": "TTTTTGTAGCCAAATCCTTTC",
+      "passenger": "",
+      "guide_overhang": "TC",
+      "passenger_overhang": "",
+      "key": "M60857.1:239:19:7f2a3d4c2b2e2971",
+      "guide_dna": "TTTTTGTAGCCAAATCCTTTC",
+      "molecule_id": "7f2a3d4c2b2e29719d73076527f3fbb5fef7c52aacac98dd3bb002dbb9dec887",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [],
+      "tool_scores": {},
+      "score": 0.7510559263326857,
+      "model_score": 0.9753813010454178,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "homopolymer",
+        "seed_gc_low"
+      ],
+      "components": {
+        "model": 0.8764044943820225,
+        "native": 0.0,
+        "support": 0.0,
+        "quality": 0.4993233082706766
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 329,
+      "length": 19,
+      "sense": "GAGGAAAGAGCATCTACGG",
+      "ordered_guide": "CCGTAGATGCTCTTTCCTCCT",
+      "passenger": "",
+      "guide_overhang": "CT",
+      "passenger_overhang": "",
+      "key": "M60857.1:329:19:f306422e18590d4c",
+      "guide_dna": "CCGTAGATGCTCTTTCCTCCT",
+      "molecule_id": "f306422e18590d4c8699cd4d7eb52da7737b0aa1823d601763d0e9fe15ed0753",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 70.73869471375896
+      },
+      "score": 0.7481235397841963,
+      "model_score": 0.9219239119291305,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "guide_5p_not_AU",
+        "sense_3p_not_AU"
+      ],
+      "components": {
+        "model": 0.797752808988764,
+        "native": 0.46808510638297873,
+        "support": 0.5,
+        "quality": 0.6311278195488722
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 193,
+      "length": 19,
+      "sense": "GTTCCAAAAACAGTGGATA",
+      "ordered_guide": "TATCCACTGTTTTTGGAACAG",
+      "passenger": "",
+      "guide_overhang": "AG",
+      "passenger_overhang": "",
+      "key": "M60857.1:193:19:2ab32bdc152f6872",
+      "guide_dna": "TATCCACTGTTTTTGGAACAG",
+      "molecule_id": "2ab32bdc152f687226dda44c49644150df2770ea0a6257cda8457f10e5309b75",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [],
+      "tool_scores": {},
+      "score": 0.7330293993410493,
+      "model_score": 0.934868947327137,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "homopolymer"
+      ],
+      "components": {
+        "model": 0.8202247191011236,
+        "native": 0.0,
+        "support": 0.0,
+        "quality": 0.7684962406015037
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 197,
+      "length": 19,
+      "sense": "CAAAAACAGTGGATAATTT",
+      "ordered_guide": "AAATTATCCACTGTTTTTGGA",
+      "passenger": "",
+      "guide_overhang": "GA",
+      "passenger_overhang": "",
+      "key": "M60857.1:197:19:fc5f96274c43b199",
+      "guide_dna": "AAATTATCCACTGTTTTTGGA",
+      "molecule_id": "fc5f96274c43b1993dde17ff2f1e5c05aa0bf53c17c56c0206edf274d5fa6704",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [],
+      "tool_scores": {},
+      "score": 0.7294355833403735,
+      "model_score": 0.9586783647537231,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "gc_outside_window",
+        "homopolymer",
+        "seed_gc_low"
+      ],
+      "components": {
+        "model": 0.8651685393258427,
+        "native": 0.0,
+        "support": 0.0,
+        "quality": 0.3730075187969924
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 269,
+      "length": 19,
+      "sense": "ATCGTGTAATCAAGGACTT",
+      "ordered_guide": "AAGTCCTTGATTACACGATGG",
+      "passenger": "",
+      "guide_overhang": "GG",
+      "passenger_overhang": "",
+      "key": "M60857.1:269:19:ea11845d6d2c8686",
+      "guide_dna": "AAGTCCTTGATTACACGATGG",
+      "molecule_id": "ea11845d6d2c868664b32f5c587f91ed8830cd3494a3ed470ee82e3d967b7a1b",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 81.96553642329137
+      },
+      "score": 0.7277700161232631,
+      "model_score": 0.8796981024742127,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [],
+      "components": {
+        "model": 0.6966292134831461,
+        "native": 0.9361702127659575,
+        "support": 0.5,
+        "quality": 0.7684962406015037
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 275,
+      "length": 19,
+      "sense": "TAATCAAGGACTTCATGAT",
+      "ordered_guide": "ATCATGAAGTCCTTGATTACA",
+      "passenger": "",
+      "guide_overhang": "CA",
+      "passenger_overhang": "",
+      "key": "M60857.1:275:19:de9dd802991c9d34",
+      "guide_dna": "ATCATGAAGTCCTTGATTACA",
+      "molecule_id": "de9dd802991c9d34288569ba4f8d06a50ef8f3c6fd013e86dab9df949f8e0fec",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 76.34648880424375
+      },
+      "score": 0.7004411932293081,
+      "model_score": 0.8846767716407775,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [],
+      "components": {
+        "model": 0.7191011235955056,
+        "native": 0.6808510638297872,
+        "support": 0.5,
+        "quality": 0.570751879699248
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 245,
+      "length": 19,
+      "sense": "TTGGCTACAAAAACAGCAA",
+      "ordered_guide": "TTGCTGTTTTTGTAGCCAAAT",
+      "passenger": "",
+      "guide_overhang": "AT",
+      "passenger_overhang": "",
+      "key": "M60857.1:245:19:f4e64eccc4cf4c0d",
+      "guide_dna": "TTGCTGTTTTTGTAGCCAAAT",
+      "molecule_id": "f4e64eccc4cf4c0d1db28c24784706808df38e7bdc081917c1f42c4ec5b9e316",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [],
+      "tool_scores": {},
+      "score": 0.697074343161274,
+      "model_score": 0.9117267841100692,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "homopolymer"
+      ],
+      "components": {
+        "model": 0.7752808988764045,
+        "native": 0.0,
+        "support": 0.0,
+        "quality": 0.7684962406015037
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 211,
+      "length": 19,
+      "sense": "AATTTTGTGGCCTTAGCTA",
+      "ordered_guide": "TAGCTAAGGCCACAAAATTAT",
+      "passenger": "",
+      "guide_overhang": "AT",
+      "passenger_overhang": "",
+      "key": "M60857.1:211:19:7f8c4294f248656e",
+      "guide_dna": "TAGCTAAGGCCACAAAATTAT",
+      "molecule_id": "7f8c4294f248656e86afde3ebc94041e94f84c747a6631d7cd95adfb105d8d7b",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [],
+      "tool_scores": {},
+      "score": 0.6790968150713863,
+      "model_score": 0.8966211655139923,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "homopolymer"
+      ],
+      "components": {
+        "model": 0.7528089887640449,
+        "native": 0.0,
+        "support": 0.0,
+        "quality": 0.7684962406015037
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 287,
+      "length": 19,
+      "sense": "TCATGATCCAGGGCGGAGA",
+      "ordered_guide": "TCTCCGCCCTGGATCATGAAG",
+      "passenger": "",
+      "guide_overhang": "AG",
+      "passenger_overhang": "",
+      "key": "M60857.1:287:19:2edecfac0b0b2a27",
+      "guide_dna": "TCTCCGCCCTGGATCATGAAG",
+      "molecule_id": "2edecfac0b0b2a27960dc4c545f310947eabe529107e74e3cab81ef78f3c935f",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 62.579671814704916
+      },
+      "score": 0.6741335714375587,
+      "model_score": 0.9005282154679298,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "gc_outside_window",
+        "seed_gc_high"
+      ],
+      "components": {
+        "model": 0.7640449438202247,
+        "native": 0.11702127659574468,
+        "support": 0.5,
+        "quality": 0.511954887218045
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 325,
+      "length": 19,
+      "sense": "ACAGGAGGAAAGAGCATCT",
+      "ordered_guide": "AGATGCTCTTTCCTCCTGTGC",
+      "passenger": "",
+      "guide_overhang": "GC",
+      "passenger_overhang": "",
+      "key": "M60857.1:325:19:7857b75dd8e69455",
+      "guide_dna": "AGATGCTCTTTCCTCCTGTGC",
+      "molecule_id": "7857b75dd8e69455977acbecb84994004dee486a2c63bcdc3f295c5e7474c376",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 77.8942868276929
+      },
+      "score": 0.6627859578422509,
+      "model_score": 0.8394188241362571,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [],
+      "components": {
+        "model": 0.6179775280898876,
+        "native": 0.776595744680851,
+        "support": 0.5,
+        "quality": 0.9074436090225565
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 317,
+      "length": 19,
+      "sense": "GAGATGGCACAGGAGGAAA",
+      "ordered_guide": "TTTCCTCCTGTGCCATCTCCC",
+      "passenger": "",
+      "guide_overhang": "CC",
+      "passenger_overhang": "",
+      "key": "M60857.1:317:19:ff69a64aacb46071",
+      "guide_dna": "TTTCCTCCTGTGCCATCTCCC",
+      "molecule_id": "ff69a64aacb46071133b683a2c5f833d50e40ccfc9fcddf3ec9842bd4fb8a99b",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 68.73869471375897
+      },
+      "score": 0.6572784525262475,
+      "model_score": 0.87261408162117,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [],
+      "components": {
+        "model": 0.6853932584269663,
+        "native": 0.30851063829787234,
+        "support": 0.5,
+        "quality": 0.7811278195488723
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 267,
+      "length": 19,
+      "sense": "CCATCGTGTAATCAAGGAC",
+      "ordered_guide": "GTCCTTGATTACACGATGGAA",
+      "passenger": "",
+      "guide_overhang": "AA",
+      "passenger_overhang": "",
+      "key": "M60857.1:267:19:fb6d34a21ebb3fb0",
+      "guide_dna": "GTCCTTGATTACACGATGGAA",
+      "molecule_id": "fb6d34a21ebb3fb0ca4bc28369c740bb01949906dd0db81b7ead5b75dae43c79",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 71.80034718565635
+      },
+      "score": 0.657145269341175,
+      "model_score": 0.8608514481782913,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "guide_5p_not_AU",
+        "sense_3p_not_AU"
+      ],
+      "components": {
+        "model": 0.6629213483146067,
+        "native": 0.5106382978723404,
+        "support": 0.5,
+        "quality": 0.7574436090225565
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 251,
+      "length": 19,
+      "sense": "ACAAAAACAGCAAATTCCA",
+      "ordered_guide": "TGGAATTTGCTGTTTTTGTAG",
+      "passenger": "",
+      "guide_overhang": "AG",
+      "passenger_overhang": "",
+      "key": "M60857.1:251:19:4c378aab72603795",
+      "guide_dna": "TGGAATTTGCTGTTTTTGTAG",
+      "molecule_id": "4c378aab72603795f25a2d6efa346ace4e9c3c0aa15979f2bb2f8f92b2ef9e33",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [],
+      "tool_scores": {},
+      "score": 0.6413448508912731,
+      "model_score": 0.8907815721631049,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "homopolymer",
+        "guide_gu_rich"
+      ],
+      "components": {
+        "model": 0.7303370786516854,
+        "native": 0.0,
+        "support": 0.0,
+        "quality": 0.570751879699248
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 257,
+      "length": 19,
+      "sense": "ACAGCAAATTCCATCGTGT",
+      "ordered_guide": "ACACGATGGAATTTGCTGTTT",
+      "passenger": "",
+      "guide_overhang": "TT",
+      "passenger_overhang": "",
+      "key": "M60857.1:257:19:bee03c1e6953078c",
+      "guide_dna": "ACACGATGGAATTTGCTGTTT",
+      "molecule_id": "bee03c1e6953078c68699ceeae6af2d6dfded31b55560be118c204d2aa960c5c",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 70.53696499471994
+      },
+      "score": 0.6332775214392664,
+      "model_score": 0.8556743931770324,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [],
+      "components": {
+        "model": 0.6292134831460674,
+        "native": 0.40425531914893614,
+        "support": 0.5,
+        "quality": 0.894812030075188
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 355,
+      "length": 19,
+      "sense": "TTCCCCGATGAGAACTTCA",
+      "ordered_guide": "TGAAGTTCTCATCGGGGAAGC",
+      "passenger": "",
+      "guide_overhang": "GC",
+      "passenger_overhang": "",
+      "key": "M60857.1:355:19:81c4ba4eefe8916f",
+      "guide_dna": "TGAAGTTCTCATCGGGGAAGC",
+      "molecule_id": "81c4ba4eefe8916fd07f32737f11e329f22a8df291ffc962135d5599855708e4",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [],
+      "tool_scores": {},
+      "score": 0.6120926755089973,
+      "model_score": 0.8598285861611366,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "homopolymer"
+      ],
+      "components": {
+        "model": 0.651685393258427,
+        "native": 0.0,
+        "support": 0.0,
+        "quality": 0.9074436090225565
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 347,
+      "length": 19,
+      "sense": "GTGAGCGCTTCCCCGATGA",
+      "ordered_guide": "TCATCGGGGAAGCGCTCACCG",
+      "passenger": "",
+      "guide_overhang": "CG",
+      "passenger_overhang": "",
+      "key": "M60857.1:347:19:87b198139c751868",
+      "guide_dna": "TCATCGGGGAAGCGCTCACCG",
+      "molecule_id": "87b198139c7518687ee062ffedab3f97169e4bd4965393aac95e08b5ffffc2b5",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [],
+      "tool_scores": {},
+      "score": 0.6119989017487539,
+      "model_score": 0.8811315640211105,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "gc_outside_window",
+        "homopolymer"
+      ],
+      "components": {
+        "model": 0.7078651685393258,
+        "native": 0.0,
+        "support": 0.0,
+        "quality": 0.4570676691729324
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 319,
+      "length": 19,
+      "sense": "GATGGCACAGGAGGAAAGA",
+      "ordered_guide": "TCTTTCCTCCTGTGCCATCTC",
+      "passenger": "",
+      "guide_overhang": "TC",
+      "passenger_overhang": "",
+      "key": "M60857.1:319:19:0851af2c575ec89a",
+      "guide_dna": "TCTTTCCTCCTGTGCCATCTC",
+      "molecule_id": "0851af2c575ec89a2de9370d5530424c16a0b9923aa8535af8f6e546d5d18c52",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 72.29395752899063
+      },
+      "score": 0.6008476612281362,
+      "model_score": 0.8275247860550881,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [],
+      "components": {
+        "model": 0.5842696629213483,
+        "native": 0.5531914893617021,
+        "support": 0.5,
+        "quality": 0.7811278195488722
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 195,
+      "length": 19,
+      "sense": "TCCAAAAACAGTGGATAAT",
+      "ordered_guide": "ATTATCCACTGTTTTTGGAAC",
+      "passenger": "",
+      "guide_overhang": "AC",
+      "passenger_overhang": "",
+      "key": "M60857.1:195:19:b000ecf1f94d56a2",
+      "guide_dna": "ATTATCCACTGTTTTTGGAAC",
+      "molecule_id": "b000ecf1f94d56a211d43c56d5f6880a5bb2b949dabcef1136b692be062a1dd3",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [],
+      "tool_scores": {},
+      "score": 0.596401030666554,
+      "model_score": 0.8645958409309387,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "homopolymer"
+      ],
+      "components": {
+        "model": 0.6741573033707865,
+        "native": 0.0,
+        "support": 0.0,
+        "quality": 0.570751879699248
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 219,
+      "length": 19,
+      "sense": "GGCCTTAGCTACAGGAGAG",
+      "ordered_guide": "CTCTCCTGTAGCTAAGGCCAC",
+      "passenger": "",
+      "guide_overhang": "AC",
+      "passenger_overhang": "",
+      "key": "M60857.1:219:19:3293062c9cbbffe4",
+      "guide_dna": "CTCTCCTGTAGCTAAGGCCAC",
+      "molecule_id": "3293062c9cbbffe44ea8463cf75eda40b56a3203bcdc7e8978a0a72d8d2a625e",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 65.02440899947325
+      },
+      "score": 0.5819896897395294,
+      "model_score": 0.8563300575613976,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "gc_outside_window",
+        "guide_5p_not_AU",
+        "sense_3p_not_AU"
+      ],
+      "components": {
+        "model": 0.6404494382022472,
+        "native": 0.19148936170212766,
+        "support": 0.5,
+        "quality": 0.5048120300751879
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 261,
+      "length": 19,
+      "sense": "CAAATTCCATCGTGTAATC",
+      "ordered_guide": "GATTACACGATGGAATTTGCT",
+      "passenger": "",
+      "guide_overhang": "CT",
+      "passenger_overhang": "",
+      "key": "M60857.1:261:19:1b29406f8d677181",
+      "guide_dna": "GATTACACGATGGAATTTGCT",
+      "molecule_id": "1b29406f8d67718172d6fe710609375856c7190ecd1162cb233da0682f267341",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 77.11770582644931
+      },
+      "score": 0.5786130542708673,
+      "model_score": 0.8112597053647042,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "guide_5p_not_AU",
+        "sense_3p_not_AU"
+      ],
+      "components": {
+        "model": 0.5617977528089888,
+        "native": 0.7446808510638298,
+        "support": 0.5,
+        "quality": 0.5470676691729323
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 279,
+      "length": 19,
+      "sense": "CAAGGACTTCATGATCCAG",
+      "ordered_guide": "CTGGATCATGAAGTCCTTGAT",
+      "passenger": "",
+      "guide_overhang": "AT",
+      "passenger_overhang": "",
+      "key": "M60857.1:279:19:cba9428c9651c71d",
+      "guide_dna": "CTGGATCATGAAGTCCTTGAT",
+      "molecule_id": "cba9428c9651c71dae467a2c8afb0be198c6332b06401a133fe746105aa5ec06",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 65.11964709471135
+      },
+      "score": 0.574489280816193,
+      "model_score": 0.8344678906202316,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "guide_5p_not_AU",
+        "sense_3p_not_AU"
+      ],
+      "components": {
+        "model": 0.5955056179775281,
+        "native": 0.22340425531914893,
+        "support": 0.5,
+        "quality": 0.7574436090225565
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 229,
+      "length": 19,
+      "sense": "ACAGGAGAGAAAGGATTTG",
+      "ordered_guide": "CAAATCCTTTCTCTCCTGTAG",
+      "passenger": "",
+      "guide_overhang": "AG",
+      "passenger_overhang": "",
+      "key": "M60857.1:229:19:12e7c50030dc5b1f",
+      "guide_dna": "CAAATCCTTTCTCTCCTGTAG",
+      "molecule_id": "12e7c50030dc5b1fe967ea909c22ea797f0e53eff228cd170813c4551d5197a0",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 77.8942868276929
+      },
+      "score": 0.5674698304451063,
+      "model_score": 0.8048811451792717,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "guide_5p_not_AU",
+        "sense_3p_not_AU"
+      ],
+      "components": {
+        "model": 0.5280898876404494,
+        "native": 0.776595744680851,
+        "support": 0.5,
+        "quality": 0.6733834586466165
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 363,
+      "length": 19,
+      "sense": "TGAGAACTTCAAACTGAAG",
+      "ordered_guide": "CTTCAGTTTGAAGTTCTCATC",
+      "passenger": "",
+      "guide_overhang": "TC",
+      "passenger_overhang": "",
+      "key": "M60857.1:363:19:46560327e440ec3d",
+      "guide_dna": "CTTCAGTTTGAAGTTCTCATC",
+      "molecule_id": "46560327e440ec3df9c312f8dd0873f014b92cbd2d4325d173c932d66920d740",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 70.53696499471994
+      },
+      "score": 0.5535592651243216,
+      "model_score": 0.8178245819807053,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "guide_5p_not_AU",
+        "sense_3p_not_AU"
+      ],
+      "components": {
+        "model": 0.5730337078651685,
+        "native": 0.40425531914893614,
+        "support": 0.5,
+        "quality": 0.5470676691729323
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 349,
+      "length": 19,
+      "sense": "GAGCGCTTCCCCGATGAGA",
+      "ordered_guide": "TCTCATCGGGGAAGCGCTCAC",
+      "passenger": "",
+      "guide_overhang": "AC",
+      "passenger_overhang": "",
+      "key": "M60857.1:349:19:f2de996098b491f3",
+      "guide_dna": "TCTCATCGGGGAAGCGCTCAC",
+      "molecule_id": "f2de996098b491f3d223f0aceb22696d9e5da0d27867fe32f3806b633de3dedb",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [],
+      "tool_scores": {},
+      "score": 0.5382428824871167,
+      "model_score": 0.8357570788264275,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "gc_outside_window",
+        "homopolymer"
+      ],
+      "components": {
+        "model": 0.6067415730337079,
+        "native": 0.0,
+        "support": 0.0,
+        "quality": 0.5284962406015039
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 327,
+      "length": 19,
+      "sense": "AGGAGGAAAGAGCATCTAC",
+      "ordered_guide": "GTAGATGCTCTTTCCTCCTGT",
+      "passenger": "",
+      "guide_overhang": "GT",
+      "passenger_overhang": "",
+      "key": "M60857.1:327:19:0811f7057aabfdcd",
+      "guide_dna": "GTAGATGCTCTTTCCTCCTGT",
+      "molecule_id": "0811f7057aabfdcd012364260ea6bcfa2a3dca9b5fe85e52d0ce81ed5c467207",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 70.73869471375896
+      },
+      "score": 0.5360360176079693,
+      "model_score": 0.8017473363876343,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "guide_5p_not_AU",
+        "sense_3p_not_AU"
+      ],
+      "components": {
+        "model": 0.5168539325842697,
+        "native": 0.46808510638297873,
+        "support": 0.5,
+        "quality": 0.7574436090225565
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 367,
+      "length": 19,
+      "sense": "AACTTCAAACTGAAGCACT",
+      "ordered_guide": "AGTGCTTCAGTTTGAAGTTCT",
+      "passenger": "",
+      "guide_overhang": "CT",
+      "passenger_overhang": "",
+      "key": "M60857.1:367:19:3f9d95aa4f8f213b",
+      "guide_dna": "AGTGCTTCAGTTTGAAGTTCT",
+      "molecule_id": "3f9d95aa4f8f213b084c8fa45988c1715d519c84eb2acc7e2945aba5b8aca8e4",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 72.53696499471994
+      },
+      "score": 0.48485823032359776,
+      "model_score": 0.7797263488769531,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [],
+      "components": {
+        "model": 0.43820224719101125,
+        "native": 0.574468085106383,
+        "support": 0.5,
+        "quality": 0.7684962406015038
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 295,
+      "length": 19,
+      "sense": "CAGGGCGGAGACTTCACCA",
+      "ordered_guide": "TGGTGAAGTCTCCGCCCTGGA",
+      "passenger": "",
+      "guide_overhang": "GA",
+      "passenger_overhang": "",
+      "key": "M60857.1:295:19:f759a78043dc3796",
+      "guide_dna": "TGGTGAAGTCTCCGCCCTGGA",
+      "molecule_id": "f759a78043dc379615ef4262a648f2c7bda13cdac980cfb47128163e4ae2f9d4",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [],
+      "tool_scores": {},
+      "score": 0.48431029821745375,
+      "model_score": 0.810137090921402,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "gc_outside_window"
+      ],
+      "components": {
+        "model": 0.5393258426966292,
+        "native": 0.0,
+        "support": 0.0,
+        "quality": 0.5284962406015039
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 205,
+      "length": 19,
+      "sense": "GTGGATAATTTTGTGGCCT",
+      "ordered_guide": "AGGCCACAAAATTATCCACTG",
+      "passenger": "",
+      "guide_overhang": "TG",
+      "passenger_overhang": "",
+      "key": "M60857.1:205:19:804f5fa23ce5fea4",
+      "guide_dna": "AGGCCACAAAATTATCCACTG",
+      "molecule_id": "804f5fa23ce5fea484d8fd8e9f6964a2c65dc34314bc9e68c7c73f8f0b73d371",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [],
+      "tool_scores": {},
+      "score": 0.47784396384218975,
+      "model_score": 0.8006776354908943,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "homopolymer"
+      ],
+      "components": {
+        "model": 0.4943820224719101,
+        "native": 0.0,
+        "support": 0.0,
+        "quality": 0.8233834586466166
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 351,
+      "length": 19,
+      "sense": "GCGCTTCCCCGATGAGAAC",
+      "ordered_guide": "GTTCTCATCGGGGAAGCGCTC",
+      "passenger": "",
+      "guide_overhang": "TC",
+      "passenger_overhang": "",
+      "key": "M60857.1:351:19:deea42d14ae64105",
+      "guide_dna": "GTTCTCATCGGGGAAGCGCTC",
+      "molecule_id": "deea42d14ae641054ab34fba601eaf45bba087ca1beef0e6d6079bf37f9f3c8f",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [],
+      "tool_scores": {},
+      "score": 0.4711562051195405,
+      "model_score": 0.8107011557221413,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "gc_outside_window",
+        "homopolymer",
+        "guide_5p_not_AU",
+        "sense_3p_not_AU"
+      ],
+      "components": {
+        "model": 0.550561797752809,
+        "native": 0.0,
+        "support": 0.0,
+        "quality": 0.30706766917293243
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 323,
+      "length": 19,
+      "sense": "GCACAGGAGGAAAGAGCAT",
+      "ordered_guide": "ATGCTCTTTCCTCCTGTGCCA",
+      "passenger": "",
+      "guide_overhang": "CA",
+      "passenger_overhang": "",
+      "key": "M60857.1:323:19:56fee3981be8d87c",
+      "guide_dna": "ATGCTCTTTCCTCCTGTGCCA",
+      "molecule_id": "56fee3981be8d87c244b5dca4cc501394a57cf4df2329d6922621904125e53dc",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnadesigner",
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnadesigner": 6.0,
+        "sirnaforge": 70.73869471375896
+      },
+      "score": 0.470442599071789,
+      "model_score": 0.7848466536998748,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [],
+      "components": {
+        "model": 0.449438202247191,
+        "native": 0.32779255319148937,
+        "support": 1.0,
+        "quality": 0.7811278195488722
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 337,
+      "length": 19,
+      "sense": "AGCATCTACGGTGAGCGCT",
+      "ordered_guide": "AGCGCTCACCGTAGATGCTCT",
+      "passenger": "",
+      "guide_overhang": "CT",
+      "passenger_overhang": "",
+      "key": "M60857.1:337:19:4fd79f1ac369ce72",
+      "guide_dna": "AGCGCTCACCGTAGATGCTCT",
+      "molecule_id": "4fd79f1ac369ce7288f0390c2f3b8601f751546bdc97a32d11f82150f916179f",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 58.8653861004192
+      },
+      "score": 0.4649603874616017,
+      "model_score": 0.8010425950884819,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "gc_outside_window"
+      ],
+      "components": {
+        "model": 0.5056179775280899,
+        "native": 0.02127659574468085,
+        "support": 0.5,
+        "quality": 0.5833834586466164
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 369,
+      "length": 19,
+      "sense": "CTTCAAACTGAAGCACTAC",
+      "ordered_guide": "GTAGTGCTTCAGTTTGAAGTT",
+      "passenger": "",
+      "guide_overhang": "TT",
+      "passenger_overhang": "",
+      "key": "M60857.1:369:19:42a8aae9fefa1fc1",
+      "guide_dna": "GTAGTGCTTCAGTTTGAAGTT",
+      "molecule_id": "42a8aae9fefa1fc1ff2f54075445e2d954570bf0e5f16aa940d189b251b9d780",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 70.37047730388338
+      },
+      "score": 0.45222444948134144,
+      "model_score": 0.7786688772439957,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "guide_5p_not_AU",
+        "sense_3p_not_AU"
+      ],
+      "components": {
+        "model": 0.42696629213483145,
+        "native": 0.3617021276595745,
+        "support": 0.5,
+        "quality": 0.7448120300751879
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 291,
+      "length": 19,
+      "sense": "GATCCAGGGCGGAGACTTC",
+      "ordered_guide": "GAAGTCTCCGCCCTGGATCAT",
+      "passenger": "",
+      "guide_overhang": "AT",
+      "passenger_overhang": "",
+      "key": "M60857.1:291:19:ea1330e6914723a5",
+      "guide_dna": "GAAGTCTCCGCCCTGGATCAT",
+      "molecule_id": "ea1330e6914723a56ce23c4d3eee7f92cd61d491ade3659480d641b765211f24",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [],
+      "tool_scores": {},
+      "score": 0.4243664779927347,
+      "model_score": 0.7970090162158012,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "gc_outside_window",
+        "guide_5p_not_AU",
+        "sense_3p_not_AU"
+      ],
+      "components": {
+        "model": 0.48314606741573035,
+        "native": 0.0,
+        "support": 0.0,
+        "quality": 0.3784962406015039
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 339,
+      "length": 19,
+      "sense": "CATCTACGGTGAGCGCTTC",
+      "ordered_guide": "GAAGCGCTCACCGTAGATGCT",
+      "passenger": "",
+      "guide_overhang": "CT",
+      "passenger_overhang": "",
+      "key": "M60857.1:339:19:062fedff681c4634",
+      "guide_dna": "GAAGCGCTCACCGTAGATGCT",
+      "molecule_id": "062fedff681c4634b36708ab4a2692ef6653903a4231e3900acba45398bf330f",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [],
+      "tool_scores": {},
+      "score": 0.41902052885021546,
+      "model_score": 0.7902536668181419,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "gc_outside_window",
+        "guide_5p_not_AU",
+        "sense_3p_not_AU"
+      ],
+      "components": {
+        "model": 0.4606741573033708,
+        "native": 0.0,
+        "support": 0.0,
+        "quality": 0.5048120300751879
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 353,
+      "length": 19,
+      "sense": "GCTTCCCCGATGAGAACTT",
+      "ordered_guide": "AAGTTCTCATCGGGGAAGCGC",
+      "passenger": "",
+      "guide_overhang": "GC",
+      "passenger_overhang": "",
+      "key": "M60857.1:353:19:cb03ff8084b4bfbf",
+      "guide_dna": "AAGTTCTCATCGGGGAAGCGC",
+      "molecule_id": "cb03ff8084b4bfbfd455ccf6e852c9b8213108104796bab4f42951e94260ce20",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [],
+      "tool_scores": {},
+      "score": 0.4106970516178086,
+      "model_score": 0.7746362575292587,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "homopolymer"
+      ],
+      "components": {
+        "model": 0.4157303370786517,
+        "native": 0.0,
+        "support": 0.0,
+        "quality": 0.7811278195488722
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 301,
+      "length": 19,
+      "sense": "GGAGACTTCACCAGGGGAG",
+      "ordered_guide": "CTCCCCTGGTGAAGTCTCCGC",
+      "passenger": "",
+      "guide_overhang": "GC",
+      "passenger_overhang": "",
+      "key": "M60857.1:301:19:f9de415b173c1166",
+      "guide_dna": "CTCCCCTGGTGAAGTCTCCGC",
+      "molecule_id": "f9de415b173c116631c91f5520a53fad197533f3f16efe586ca4825da77bab70",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [],
+      "tool_scores": {},
+      "score": 0.4082348568049337,
+      "model_score": 0.7927251770496369,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "gc_outside_window",
+        "homopolymer",
+        "guide_5p_not_AU",
+        "sense_3p_not_AU"
+      ],
+      "components": {
+        "model": 0.47191011235955055,
+        "native": 0.0,
+        "support": 0.0,
+        "quality": 0.30706766917293243
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 231,
+      "length": 19,
+      "sense": "AGGAGAGAAAGGATTTGGC",
+      "ordered_guide": "GCCAAATCCTTTCTCTCCTGT",
+      "passenger": "",
+      "guide_overhang": "GT",
+      "passenger_overhang": "",
+      "key": "M60857.1:231:19:f5b70cb5caca2879",
+      "guide_dna": "GCCAAATCCTTTCTCTCCTGT",
+      "molecule_id": "f5b70cb5caca287979260eaa63e394a241f843e3aa13ef712371c221200c638b",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 79.32415670946588
+      },
+      "score": 0.40141971351999417,
+      "model_score": 0.729746386885643,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "guide_5p_not_AU",
+        "sense_3p_not_AU"
+      ],
+      "components": {
+        "model": 0.30337078651685395,
+        "native": 0.8297872340425532,
+        "support": 0.5,
+        "quality": 0.7574436090225565
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 273,
+      "length": 19,
+      "sense": "TGTAATCAAGGACTTCATG",
+      "ordered_guide": "CATGAAGTCCTTGATTACACG",
+      "passenger": "",
+      "guide_overhang": "CG",
+      "passenger_overhang": "",
+      "key": "M60857.1:273:19:8c5ab11aa6ce3da7",
+      "guide_dna": "CATGAAGTCCTTGATTACACG",
+      "molecule_id": "8c5ab11aa6ce3da7ba87e0cadbaca464f0f292a132fdb65bd07e7495125f1a64",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 69.59389630263978
+      },
+      "score": 0.3943672976368725,
+      "model_score": 0.763549510717392,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "guide_5p_not_AU",
+        "sense_3p_not_AU"
+      ],
+      "components": {
+        "model": 0.38202247191011235,
+        "native": 0.3404255319148936,
+        "support": 0.5,
+        "quality": 0.5470676691729323
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 217,
+      "length": 19,
+      "sense": "GTGGCCTTAGCTACAGGAG",
+      "ordered_guide": "CTCCTGTAGCTAAGGCCACAA",
+      "passenger": "",
+      "guide_overhang": "AA",
+      "passenger_overhang": "",
+      "key": "M60857.1:217:19:ebf2b5aebc84e5ee",
+      "guide_dna": "CTCCTGTAGCTAAGGCCACAA",
+      "molecule_id": "ebf2b5aebc84e5ee5b925abc6fafb1506484de448964d6740fd6eaf77ea3f86d",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 62.579671814704916
+      },
+      "score": 0.376790072240127,
+      "model_score": 0.7677724433541298,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "gc_outside_window",
+        "guide_5p_not_AU",
+        "sense_3p_not_AU"
+      ],
+      "components": {
+        "model": 0.39325842696629215,
+        "native": 0.11702127659574468,
+        "support": 0.5,
+        "quality": 0.5048120300751879
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 315,
+      "length": 19,
+      "sense": "GGGAGATGGCACAGGAGGA",
+      "ordered_guide": "TCCTCCTGTGCCATCTCCCCT",
+      "passenger": "",
+      "guide_overhang": "CT",
+      "passenger_overhang": "",
+      "key": "M60857.1:315:19:12d6468e6328b23c",
+      "guide_dna": "TCCTCCTGTGCCATCTCCCCT",
+      "molecule_id": "12d6468e6328b23c1b7655693b4d8539a2eb6b5a81ddd4c6958b9e23f8221342",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 66.29395752899063
+      },
+      "score": 0.3588791312491125,
+      "model_score": 0.7553593409657479,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "gc_outside_window"
+      ],
+      "components": {
+        "model": 0.3595505617977528,
+        "native": 0.2553191489361702,
+        "support": 0.5,
+        "quality": 0.4570676691729324
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 213,
+      "length": 19,
+      "sense": "TTTTGTGGCCTTAGCTACA",
+      "ordered_guide": "TGTAGCTAAGGCCACAAAATT",
+      "passenger": "",
+      "guide_overhang": "TT",
+      "passenger_overhang": "",
+      "key": "M60857.1:213:19:e0aeb9b6969afa9d",
+      "guide_dna": "TGTAGCTAAGGCCACAAAATT",
+      "molecule_id": "e0aeb9b6969afa9d0e973e9576cb0be8100d344ebcc1b5d0d5907d5cd66133bb",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [],
+      "tool_scores": {},
+      "score": 0.35015536031088956,
+      "model_score": 0.7426797525286675,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "homopolymer"
+      ],
+      "components": {
+        "model": 0.3258426966292135,
+        "native": 0.0,
+        "support": 0.0,
+        "quality": 0.894812030075188
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 281,
+      "length": 19,
+      "sense": "AGGACTTCATGATCCAGGG",
+      "ordered_guide": "CCCTGGATCATGAAGTCCTTG",
+      "passenger": "",
+      "guide_overhang": "TG",
+      "passenger_overhang": "",
+      "key": "M60857.1:281:19:7661c589a87ebad0",
+      "guide_dna": "CCCTGGATCATGAAGTCCTTG",
+      "molecule_id": "7661c589a87ebad091c1edf66efc3a26ce251a3415b1dc1a2cf22cc73b1ed73d",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 60.67490990994301
+      },
+      "score": 0.34601978649708187,
+      "model_score": 0.753673860669136,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "guide_5p_not_AU",
+        "sense_3p_not_AU"
+      ],
+      "components": {
+        "model": 0.34831460674157305,
+        "native": 0.0425531914893617,
+        "support": 0.5,
+        "quality": 0.6311278195488723
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 299,
+      "length": 19,
+      "sense": "GCGGAGACTTCACCAGGGG",
+      "ordered_guide": "CCCCTGGTGAAGTCTCCGCCC",
+      "passenger": "",
+      "guide_overhang": "CC",
+      "passenger_overhang": "",
+      "key": "M60857.1:299:19:ed0060fe3d77a3db",
+      "guide_dna": "CCCCTGGTGAAGTCTCCGCCC",
+      "molecule_id": "ed0060fe3d77a3dbae24c907480d8f51eb437811d221250d512066bdffcbd567",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [],
+      "tool_scores": {},
+      "score": 0.34167069358790236,
+      "model_score": 0.7722732120752335,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "gc_outside_window",
+        "homopolymer",
+        "guide_5p_not_AU",
+        "sense_3p_not_AU"
+      ],
+      "components": {
+        "model": 0.4044943820224719,
+        "native": 0.0,
+        "support": 0.0,
+        "quality": 0.1807518796992481
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 303,
+      "length": 19,
+      "sense": "AGACTTCACCAGGGGAGAT",
+      "ordered_guide": "ATCTCCCCTGGTGAAGTCTCC",
+      "passenger": "",
+      "guide_overhang": "CC",
+      "passenger_overhang": "",
+      "key": "M60857.1:303:19:c984bd77f3d312bd",
+      "guide_dna": "ATCTCCCCTGGTGAAGTCTCC",
+      "molecule_id": "c984bd77f3d312bda28ba714a08c24741949ba1a4d9198afbc4f86992d6198ad",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [],
+      "tool_scores": {},
+      "score": 0.34063284616034467,
+      "model_score": 0.7466142184138298,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "homopolymer"
+      ],
+      "components": {
+        "model": 0.33707865168539325,
+        "native": 0.0,
+        "support": 0.0,
+        "quality": 0.7096992481203008
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 249,
+      "length": 19,
+      "sense": "CTACAAAAACAGCAAATTC",
+      "ordered_guide": "GAATTTGCTGTTTTTGTAGCC",
+      "passenger": "",
+      "guide_overhang": "CC",
+      "passenger_overhang": "",
+      "key": "M60857.1:249:19:2d19febba566d85e",
+      "guide_dna": "GAATTTGCTGTTTTTGTAGCC",
+      "molecule_id": "2d19febba566d85e5dfc8169081fe83f8c35b10640f457dc85c5c14de1e6e267",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [],
+      "tool_scores": {},
+      "score": 0.3387044014530709,
+      "model_score": 0.7626329553723336,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "homopolymer",
+        "guide_5p_not_AU",
+        "sense_3p_not_AU"
+      ],
+      "components": {
+        "model": 0.3707865168539326,
+        "native": 0.0,
+        "support": 0.0,
+        "quality": 0.42075187969924804
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 285,
+      "length": 19,
+      "sense": "CTTCATGATCCAGGGCGGA",
+      "ordered_guide": "TCCGCCCTGGATCATGAAGTC",
+      "passenger": "",
+      "guide_overhang": "TC",
+      "passenger_overhang": "",
+      "key": "M60857.1:285:19:0c11a63793c72b56",
+      "guide_dna": "TCCGCCCTGGATCATGAAGTC",
+      "molecule_id": "0c11a63793c72b5672e9c990a1ca12e4591f756f37a8b7a1ee6395939637a8ec",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 64.57967181470492
+      },
+      "score": 0.3199021585759762,
+      "model_score": 0.7401793076992035,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "gc_outside_window",
+        "seed_gc_high"
+      ],
+      "components": {
+        "model": 0.3146067415730337,
+        "native": 0.1702127659574468,
+        "support": 0.5,
+        "quality": 0.511954887218045
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 309,
+      "length": 19,
+      "sense": "CACCAGGGGAGATGGCACA",
+      "ordered_guide": "TGTGCCATCTCCCCTGGTGAA",
+      "passenger": "",
+      "guide_overhang": "AA",
+      "passenger_overhang": "",
+      "key": "M60857.1:309:19:06e7b5ac915c9eff",
+      "guide_dna": "TGTGCCATCTCCCCTGGTGAA",
+      "molecule_id": "06e7b5ac915c9eff6c73a1199db17bc3dbe4a61e3405a9812d83feb2f7005839",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [],
+      "tool_scores": {},
+      "score": 0.28655748922868973,
+      "model_score": 0.7236719596982002,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "gc_outside_window",
+        "homopolymer"
+      ],
+      "components": {
+        "model": 0.29213483146067415,
+        "native": 0.0,
+        "support": 0.0,
+        "quality": 0.5284962406015039
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 333,
+      "length": 19,
+      "sense": "AAAGAGCATCTACGGTGAG",
+      "ordered_guide": "CTCACCGTAGATGCTCTTTCC",
+      "passenger": "",
+      "guide_overhang": "CC",
+      "passenger_overhang": "",
+      "key": "M60857.1:333:19:90b432d13f3b1c94",
+      "guide_dna": "CTCACCGTAGATGCTCTTTCC",
+      "molecule_id": "90b432d13f3b1c946f1f145408d3344843787df156ea97da52eac74c4d03839b",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 65.11964709471135
+      },
+      "score": 0.27786006733304697,
+      "model_score": 0.6779161292910576,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "guide_5p_not_AU",
+        "sense_3p_not_AU"
+      ],
+      "components": {
+        "model": 0.2247191011235955,
+        "native": 0.22340425531914893,
+        "support": 0.5,
+        "quality": 0.7574436090225565
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 223,
+      "length": 19,
+      "sense": "TTAGCTACAGGAGAGAAAG",
+      "ordered_guide": "CTTTCTCTCCTGTAGCTAAGG",
+      "passenger": "",
+      "guide_overhang": "GG",
+      "passenger_overhang": "",
+      "key": "M60857.1:223:19:34147fe5eb6caaa8",
+      "guide_dna": "CTTTCTCTCCTGTAGCTAAGG",
+      "molecule_id": "34147fe5eb6caaa846080b889633fa1ee5bd4b00a61d4137530b04c9a12e18d2",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 81.32415670946588
+      },
+      "score": 0.2656290463188811,
+      "model_score": 0.6114897258281707,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "guide_5p_not_AU",
+        "sense_3p_not_AU"
+      ],
+      "components": {
+        "model": 0.1348314606741573,
+        "native": 0.9042553191489362,
+        "support": 0.5,
+        "quality": 0.6733834586466165
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 283,
+      "length": 19,
+      "sense": "GACTTCATGATCCAGGGCG",
+      "ordered_guide": "CGCCCTGGATCATGAAGTCCT",
+      "passenger": "",
+      "guide_overhang": "CT",
+      "passenger_overhang": "",
+      "key": "M60857.1:283:19:4f98d57676fe3f47",
+      "guide_dna": "CGCCCTGGATCATGAAGTCCT",
+      "molecule_id": "4f98d57676fe3f47d5a6c90807a157eb2cb08c75a4d99620cacde073906e7356",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 62.579671814704916
+      },
+      "score": 0.26362795346003065,
+      "model_score": 0.7153477476239204,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "gc_outside_window",
+        "guide_5p_not_AU",
+        "seed_gc_high",
+        "sense_3p_not_AU"
+      ],
+      "components": {
+        "model": 0.2696629213483146,
+        "native": 0.11702127659574468,
+        "support": 0.5,
+        "quality": 0.3619548872180451
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 345,
+      "length": 19,
+      "sense": "CGGTGAGCGCTTCCCCGAT",
+      "ordered_guide": "ATCGGGGAAGCGCTCACCGTA",
+      "passenger": "",
+      "guide_overhang": "TA",
+      "passenger_overhang": "",
+      "key": "M60857.1:345:19:340440d2104f94d1",
+      "guide_dna": "ATCGGGGAAGCGCTCACCGTA",
+      "molecule_id": "340440d2104f94d1f5a0a70aba4588a947e3dd9d8d26a67048de351c82328017",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [],
+      "tool_scores": {},
+      "score": 0.2577942890935203,
+      "model_score": 0.7199044672250747,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "gc_outside_window",
+        "homopolymer"
+      ],
+      "components": {
+        "model": 0.2808988764044944,
+        "native": 0.0,
+        "support": 0.0,
+        "quality": 0.33075187969924813
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 371,
+      "length": 19,
+      "sense": "TCAAACTGAAGCACTACGG",
+      "ordered_guide": "CCGTAGTGCTTCAGTTTGAAG",
+      "passenger": "",
+      "guide_overhang": "AG",
+      "passenger_overhang": "",
+      "key": "M60857.1:371:19:ab71054fd3548631",
+      "guide_dna": "CCGTAGTGCTTCAGTTTGAAG",
+      "molecule_id": "ab71054fd3548631657fb7e47ac9e528422ae1cffbf23709797876376d0ebe85",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 72.73869471375896
+      },
+      "score": 0.2532365913588658,
+      "model_score": 0.6246473346054554,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "guide_5p_not_AU",
+        "sense_3p_not_AU"
+      ],
+      "components": {
+        "model": 0.14606741573033707,
+        "native": 0.6063829787234043,
+        "support": 0.5,
+        "quality": 0.7574436090225565
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 255,
+      "length": 19,
+      "sense": "AAACAGCAAATTCCATCGT",
+      "ordered_guide": "ACGATGGAATTTGCTGTTTTT",
+      "passenger": "",
+      "guide_overhang": "TT",
+      "passenger_overhang": "",
+      "key": "M60857.1:255:19:cd362d40c2ebfba5",
+      "guide_dna": "ACGATGGAATTTGCTGTTTTT",
+      "molecule_id": "cd362d40c2ebfba59986dcf1236c46262a2671387196e56bbca1a1632d7c4ef4",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 70.53696499471994
+      },
+      "score": 0.2431178526042575,
+      "model_score": 0.626653613269329,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [],
+      "components": {
+        "model": 0.15730337078651685,
+        "native": 0.40425531914893614,
+        "support": 0.5,
+        "quality": 0.7684962406015038
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 313,
+      "length": 19,
+      "sense": "AGGGGAGATGGCACAGGAG",
+      "ordered_guide": "CTCCTGTGCCATCTCCCCTGG",
+      "passenger": "",
+      "guide_overhang": "GG",
+      "passenger_overhang": "",
+      "key": "M60857.1:313:19:1471d9a1ac348359",
+      "guide_dna": "CTCCTGTGCCATCTCCCCTGG",
+      "molecule_id": "1471d9a1ac348359be754b02fa4bb90c091a4b56d097cba09614ef1ec13bb38a",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [],
+      "tool_scores": {},
+      "score": 0.23560243304891443,
+      "model_score": 0.6929598821997642,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "gc_outside_window",
+        "homopolymer",
+        "guide_5p_not_AU",
+        "sense_3p_not_AU"
+      ],
+      "components": {
+        "model": 0.24719101123595505,
+        "native": 0.0,
+        "support": 0.0,
+        "quality": 0.3784962406015039
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 335,
+      "length": 19,
+      "sense": "AGAGCATCTACGGTGAGCG",
+      "ordered_guide": "CGCTCACCGTAGATGCTCTTT",
+      "passenger": "",
+      "guide_overhang": "TT",
+      "passenger_overhang": "",
+      "key": "M60857.1:335:19:b0c1e477ba14cc38",
+      "guide_dna": "CGCTCACCGTAGATGCTCTTT",
+      "molecule_id": "b0c1e477ba14cc38374a639c28a4dd7827ffe8b1e1584eadcfe3456c7a53974a",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 56.8653861004192
+      },
+      "score": 0.23210239080848188,
+      "model_score": 0.6906077871322631,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "gc_outside_window",
+        "guide_5p_not_AU",
+        "sense_3p_not_AU"
+      ],
+      "components": {
+        "model": 0.23595505617977527,
+        "native": 0.0,
+        "support": 0.5,
+        "quality": 0.4333834586466165
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 297,
+      "length": 19,
+      "sense": "GGGCGGAGACTTCACCAGG",
+      "ordered_guide": "CCTGGTGAAGTCTCCGCCCTG",
+      "passenger": "",
+      "guide_overhang": "TG",
+      "passenger_overhang": "",
+      "key": "M60857.1:297:19:ee7d896d80de99be",
+      "guide_dna": "CCTGGTGAAGTCTCCGCCCTG",
+      "molecule_id": "ee7d896d80de99bebc716de7282f13428c8b3e5b78989c12acf6893d97ad0ab1",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [],
+      "tool_scores": {},
+      "score": 0.23195961814648985,
+      "model_score": 0.7151479230523109,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "gc_outside_window",
+        "guide_5p_not_AU",
+        "sense_3p_not_AU"
+      ],
+      "components": {
+        "model": 0.25842696629213485,
+        "native": 0.0,
+        "support": 0.0,
+        "quality": 0.25218045112781956
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 277,
+      "length": 19,
+      "sense": "ATCAAGGACTTCATGATCC",
+      "ordered_guide": "GGATCATGAAGTCCTTGATTA",
+      "passenger": "",
+      "guide_overhang": "TA",
+      "passenger_overhang": "",
+      "key": "M60857.1:277:19:71b6f7d71142caab",
+      "guide_dna": "GGATCATGAAGTCCTTGATTA",
+      "molecule_id": "71b6f7d71142caab69b08455b28e97b5766d8e675d3f1959216cec81d423ce84",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 75.70510909041826
+      },
+      "score": 0.23032629026546764,
+      "model_score": 0.5938264326453209,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "guide_5p_not_AU",
+        "sense_3p_not_AU"
+      ],
+      "components": {
+        "model": 0.11235955056179775,
+        "native": 0.6595744680851063,
+        "support": 0.5,
+        "quality": 0.7448120300751879
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 305,
+      "length": 19,
+      "sense": "ACTTCACCAGGGGAGATGG",
+      "ordered_guide": "CCATCTCCCCTGGTGAAGTCT",
+      "passenger": "",
+      "guide_overhang": "CT",
+      "passenger_overhang": "",
+      "key": "M60857.1:305:19:f6c12c100ad24997",
+      "guide_dna": "CCATCTCCCCTGGTGAAGTCT",
+      "molecule_id": "f6c12c100ad2499771eb75614c35ff8166d3f15b46912c285cdfa38b74daf3a3",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [],
+      "tool_scores": {},
+      "score": 0.21227895581650758,
+      "model_score": 0.6501136574149131,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "gc_outside_window",
+        "homopolymer",
+        "guide_5p_not_AU",
+        "sense_3p_not_AU"
+      ],
+      "components": {
+        "model": 0.20224719101123595,
+        "native": 0.0,
+        "support": 0.0,
+        "quality": 0.5048120300751879
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 307,
+      "length": 19,
+      "sense": "TTCACCAGGGGAGATGGCA",
+      "ordered_guide": "TGCCATCTCCCCTGGTGAAGT",
+      "passenger": "",
+      "guide_overhang": "GT",
+      "passenger_overhang": "",
+      "key": "M60857.1:307:19:e98bae948f54ae48",
+      "guide_dna": "TGCCATCTCCCCTGGTGAAGT",
+      "molecule_id": "e98bae948f54ae48ebfa74126e7fc1a490d45e6b7eaf4885f37994fb46cdafe6",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [],
+      "tool_scores": {},
+      "score": 0.20930142772661992,
+      "model_score": 0.633434740036726,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "gc_outside_window",
+        "homopolymer"
+      ],
+      "components": {
+        "model": 0.1797752808988764,
+        "native": 0.0,
+        "support": 0.0,
+        "quality": 0.654812030075188
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 293,
+      "length": 19,
+      "sense": "TCCAGGGCGGAGACTTCAC",
+      "ordered_guide": "GTGAAGTCTCCGCCCTGGATC",
+      "passenger": "",
+      "guide_overhang": "TC",
+      "passenger_overhang": "",
+      "key": "M60857.1:293:19:472ee746c0fa60cd",
+      "guide_dna": "GTGAAGTCTCCGCCCTGGATC",
+      "molecule_id": "472ee746c0fa60cd481ec3375b369826aee70f4fe842005b8e7dc3ec9d651de0",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [],
+      "tool_scores": {},
+      "score": 0.20863614091408297,
+      "model_score": 0.661280374020338,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "gc_outside_window",
+        "guide_5p_not_AU",
+        "sense_3p_not_AU"
+      ],
+      "components": {
+        "model": 0.21348314606741572,
+        "native": 0.0,
+        "support": 0.0,
+        "quality": 0.3784962406015039
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 289,
+      "length": 19,
+      "sense": "ATGATCCAGGGCGGAGACT",
+      "ordered_guide": "AGTCTCCGCCCTGGATCATGA",
+      "passenger": "",
+      "guide_overhang": "GA",
+      "passenger_overhang": "",
+      "key": "M60857.1:289:19:b8819da7e9eda362",
+      "guide_dna": "AGTCTCCGCCCTGGATCATGA",
+      "molecule_id": "b8819da7e9eda36284816feaec5dfe892c6430c7bf3c4f8285f80329b16e79c1",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 62.579671814704916
+      },
+      "score": 0.2048719341983934,
+      "model_score": 0.6301284426748752,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "gc_outside_window"
+      ],
+      "components": {
+        "model": 0.16853932584269662,
+        "native": 0.11702127659574468,
+        "support": 0.5,
+        "quality": 0.5833834586466164
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 265,
+      "length": 19,
+      "sense": "TTCCATCGTGTAATCAAGG",
+      "ordered_guide": "CCTTGATTACACGATGGAATT",
+      "passenger": "",
+      "guide_overhang": "TT",
+      "passenger_overhang": "",
+      "key": "M60857.1:265:19:5f1bda8673eefbe0",
+      "guide_dna": "CCTTGATTACACGATGGAATT",
+      "molecule_id": "5f1bda8673eefbe093f3817091ccfe2fce535ea02a3b2d7c41bb9d1846f261b9",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 71.89558528089445
+      },
+      "score": 0.1744624194960267,
+      "model_score": 0.5345688555836677,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "guide_5p_not_AU",
+        "sense_3p_not_AU"
+      ],
+      "components": {
+        "model": 0.06741573033707865,
+        "native": 0.5319148936170213,
+        "support": 0.5,
+        "quality": 0.6733834586466165
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 203,
+      "length": 19,
+      "sense": "CAGTGGATAATTTTGTGGC",
+      "ordered_guide": "GCCACAAAATTATCCACTGTT",
+      "passenger": "",
+      "guide_overhang": "TT",
+      "passenger_overhang": "",
+      "key": "M60857.1:203:19:c45711cac10e55cc",
+      "guide_dna": "GCCACAAAATTATCCACTGTT",
+      "molecule_id": "c45711cac10e55ccfc06bd8ff78e6b03bff0b33f8708fcf7d5205a71d365172e",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [],
+      "tool_scores": {},
+      "score": 0.17335760750190082,
+      "model_score": 0.601422643840313,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "homopolymer",
+        "guide_5p_not_AU",
+        "sense_3p_not_AU"
+      ],
+      "components": {
+        "model": 0.12359550561797752,
+        "native": 0.0,
+        "support": 0.0,
+        "quality": 0.7448120300751879
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 199,
+      "length": 19,
+      "sense": "AAAACAGTGGATAATTTTG",
+      "ordered_guide": "CAAAATTATCCACTGTTTTTG",
+      "passenger": "",
+      "guide_overhang": "TG",
+      "passenger_overhang": "",
+      "key": "M60857.1:199:19:9cc259294dceb851",
+      "guide_dna": "CAAAATTATCCACTGTTTTTG",
+      "molecule_id": "9cc259294dceb851a5ffa0d774f3a1e469b56826a67649e0d9d28206c8b51513",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [],
+      "tool_scores": {},
+      "score": 0.16796688350088704,
+      "model_score": 0.6412777345776558,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "gc_outside_window",
+        "homopolymer",
+        "guide_5p_not_AU",
+        "seed_gc_low",
+        "sense_3p_not_AU"
+      ],
+      "components": {
+        "model": 0.19101123595505617,
+        "native": 0.0,
+        "support": 0.0,
+        "quality": 0.15157894736842098
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 321,
+      "length": 19,
+      "sense": "TGGCACAGGAGGAAAGAGC",
+      "ordered_guide": "GCTCTTTCCTCCTGTGCCATC",
+      "passenger": "",
+      "guide_overhang": "TC",
+      "passenger_overhang": "",
+      "key": "M60857.1:321:19:3d2f7b762f354fe8",
+      "guide_dna": "GCTCTTTCCTCCTGTGCCATC",
+      "molecule_id": "3d2f7b762f354fe86c33093137e5eb2670fd1b244e16e9963d89dc068a50dd7f",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 68.73869471375897
+      },
+      "score": 0.12627608706202514,
+      "model_score": 0.5185656649768352,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "gc_outside_window",
+        "guide_5p_not_AU",
+        "sense_3p_not_AU"
+      ],
+      "components": {
+        "model": 0.056179775280898875,
+        "native": 0.30851063829787234,
+        "support": 0.5,
+        "quality": 0.5048120300751879
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 201,
+      "length": 19,
+      "sense": "AACAGTGGATAATTTTGTG",
+      "ordered_guide": "CACAAAATTATCCACTGTTTT",
+      "passenger": "",
+      "guide_overhang": "TT",
+      "passenger_overhang": "",
+      "key": "M60857.1:201:19:170aa0a8e8f4ee71",
+      "guide_dna": "CACAAAATTATCCACTGTTTT",
+      "molecule_id": "170aa0a8e8f4ee713d72047dd95c7e7c60624ab9658e81274e7f929387417f90",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [],
+      "tool_scores": {},
+      "score": 0.11583120723156205,
+      "model_score": 0.5937767562568188,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "homopolymer",
+        "guide_5p_not_AU",
+        "seed_gc_low",
+        "sense_3p_not_AU"
+      ],
+      "components": {
+        "model": 0.10112359550561797,
+        "native": 0.0,
+        "support": 0.0,
+        "quality": 0.3493233082706766
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 341,
+      "length": 19,
+      "sense": "TCTACGGTGAGCGCTTCCC",
+      "ordered_guide": "GGGAAGCGCTCACCGTAGATG",
+      "passenger": "",
+      "guide_overhang": "TG",
+      "passenger_overhang": "",
+      "key": "M60857.1:341:19:6f259b847e005a70",
+      "guide_dna": "GGGAAGCGCTCACCGTAGATG",
+      "molecule_id": "6f259b847e005a70d0efce7da6ae3fea36c8fd0fac1ccde5b68b38d7d0f5ff8d",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [],
+      "tool_scores": {},
+      "score": 0.10261687927684382,
+      "model_score": 0.5856369422972202,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "gc_outside_window",
+        "guide_5p_not_AU",
+        "sense_3p_not_AU"
+      ],
+      "components": {
+        "model": 0.0898876404494382,
+        "native": 0.0,
+        "support": 0.0,
+        "quality": 0.30706766917293243
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 311,
+      "length": 19,
+      "sense": "CCAGGGGAGATGGCACAGG",
+      "ordered_guide": "CCTGTGCCATCTCCCCTGGTG",
+      "passenger": "",
+      "guide_overhang": "TG",
+      "passenger_overhang": "",
+      "key": "M60857.1:311:19:103fe0683a09177c",
+      "guide_dna": "CCTGTGCCATCTCCCCTGGTG",
+      "molecule_id": "103fe0683a09177cd3087fa84d089aee8dfbfe88437e8b28296e6f28d65f84ef",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [],
+      "tool_scores": {},
+      "score": 0.08099653628453156,
+      "model_score": 0.5503254626691342,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "gc_outside_window",
+        "homopolymer",
+        "guide_5p_not_AU",
+        "sense_3p_not_AU"
+      ],
+      "components": {
+        "model": 0.07865168539325842,
+        "native": 0.0,
+        "support": 0.0,
+        "quality": 0.1807518796992481
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 209,
+      "length": 19,
+      "sense": "ATAATTTTGTGGCCTTAGC",
+      "ordered_guide": "GCTAAGGCCACAAAATTATCC",
+      "passenger": "",
+      "guide_overhang": "CC",
+      "passenger_overhang": "",
+      "key": "M60857.1:209:19:9b1548b97de3643d",
+      "guide_dna": "GCTAAGGCCACAAAATTATCC",
+      "molecule_id": "9b1548b97de3643d2171bd95f26a03209f44230531cd4eff5b308dba6300b19c",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [],
+      "tool_scores": {},
+      "score": 0.07982715215003802,
+      "model_score": 0.4910666866600513,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "homopolymer",
+        "guide_5p_not_AU",
+        "sense_3p_not_AU"
+      ],
+      "components": {
+        "model": 0.02247191011235955,
+        "native": 0.0,
+        "support": 0.0,
+        "quality": 0.6184962406015038
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 215,
+      "length": 19,
+      "sense": "TTGTGGCCTTAGCTACAGG",
+      "ordered_guide": "CCTGTAGCTAAGGCCACAAAA",
+      "passenger": "",
+      "guide_overhang": "AA",
+      "passenger_overhang": "",
+      "key": "M60857.1:215:19:3523ccf386150720",
+      "guide_dna": "CCTGTAGCTAAGGCCACAAAA",
+      "molecule_id": "3523ccf3861507208f0067af5c27bba2971dfdc5300aa543f3f2e3efb1da93ed",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [
+        "sirnaforge"
+      ],
+      "tool_scores": {
+        "sirnaforge": 61.21488518994944
+      },
+      "score": 0.0784845247232353,
+      "model_score": 0.4423192426264286,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "guide_5p_not_AU",
+        "sense_3p_not_AU"
+      ],
+      "components": {
+        "model": 0.011235955056179775,
+        "native": 0.06382978723404255,
+        "support": 0.5,
+        "quality": 0.6311278195488723
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 253,
+      "length": 19,
+      "sense": "AAAAACAGCAAATTCCATC",
+      "ordered_guide": "GATGGAATTTGCTGTTTTTGT",
+      "passenger": "",
+      "guide_overhang": "GT",
+      "passenger_overhang": "",
+      "key": "M60857.1:253:19:530acb467c7e1f1b",
+      "guide_dna": "GATGGAATTTGCTGTTTTTGT",
+      "molecule_id": "530acb467c7e1f1b2d2cdc9a604d99f26ee7ff16cda787169fd83b6ce0009347",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [],
+      "tool_scores": {},
+      "score": 0.07803024414970008,
+      "model_score": 0.5149443641602993,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "homopolymer",
+        "guide_5p_not_AU",
+        "guide_gu_rich",
+        "sense_3p_not_AU"
+      ],
+      "components": {
+        "model": 0.0449438202247191,
+        "native": 0.0,
+        "support": 0.0,
+        "quality": 0.42075187969924804
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 243,
+      "length": 19,
+      "sense": "ATTTGGCTACAAAAACAGC",
+      "ordered_guide": "GCTGTTTTTGTAGCCAAATCC",
+      "passenger": "",
+      "guide_overhang": "CC",
+      "passenger_overhang": "",
+      "key": "M60857.1:243:19:84c0da97644c8d42",
+      "guide_dna": "GCTGTTTTTGTAGCCAAATCC",
+      "molecule_id": "84c0da97644c8d4285d263e786375788de9b3b13db443d5098ae212dcf1e3af7",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [],
+      "tool_scores": {},
+      "score": 0.05470676691729323,
+      "model_score": 0.4235571540892124,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "homopolymer",
+        "guide_5p_not_AU",
+        "sense_3p_not_AU"
+      ],
+      "components": {
+        "model": 0.0,
+        "native": 0.0,
+        "support": 0.0,
+        "quality": 0.5470676691729323
+      }
+    },
+    {
+      "transcript_id": "M60857.1",
+      "start": 343,
+      "length": 19,
+      "sense": "TACGGTGAGCGCTTCCCCG",
+      "ordered_guide": "CGGGGAAGCGCTCACCGTAGA",
+      "passenger": "",
+      "guide_overhang": "GA",
+      "passenger_overhang": "",
+      "key": "M60857.1:343:19:1e83cc98f7d3cb25",
+      "guide_dna": "CGGGGAAGCGCTCACCGTAGA",
+      "molecule_id": "1e83cc98f7d3cb25a2dba81f87c5c904fa979a463603a3fb4b4c106dc9d3d667",
+      "duplex_format": "binding19-guide21-overhang2-passenger_unknown",
+      "tools": [],
+      "tool_scores": {},
+      "score": 0.04504148010475627,
+      "model_score": 0.5137176411151886,
+      "model_status": "scored",
+      "ranking": "quality",
+      "group": "binding19-guide21-overhang2-passenger_unknown/quality",
+      "eligible": true,
+      "hard_flags": [],
+      "soft_flags": [
+        "gc_outside_window",
+        "homopolymer",
+        "guide_5p_not_AU",
+        "sense_3p_not_AU"
+      ],
+      "components": {
+        "model": 0.033707865168539325,
+        "native": 0.0,
+        "support": 0.0,
+        "quality": 0.1807518796992481
+      }
+    }
+  ],
+  "implementation_hashes": {
+    "__init__.py": "bc609f8508d0e01b19373d2a611b0d308a9413512d10aacd00d5c19eda8e0d42",
+    "benchmark.py": "28db203e9685585ede0bd5f3f4a4de77b24096b172ae4af5aee21bb49c885db0",
+    "cli.py": "c8bf635a202eaad4d123b77b59fbcbbd9b21defd2c80512bc3f7acc16e37155d",
+    "consensus.py": "d8908d2c0bb187709336db1b7eb91b4caea0ab719847a218bda295f926dc153a",
+    "fasta.py": "3c97e0f2d45869f96da1550d96950c32a7af7ab2a8f54f40d8dbf09bd8205f03",
+    "filters.py": "c5c27acec369dde0a3d944007df8190ba58cd93ff43c91ccd6789b7b4b93d55b",
+    "normalize.py": "d909ba65086e077e23796314685c4b6ebab2a54199ed5d80908a13ad884df833",
+    "pipeline.py": "b8a18fbaa29ab617bc2f9ff63d88d6e98f18080525c5543fb9dbae308133d6ed",
+    "rank.py": "913677107dbdfb8e90fe33f66411567fed31eb16b9d3e2226f001d668087fb30",
+    "report.py": "cff578c88287f5046925b2e296e4236206d311096a1b2b5eff184c52073963de",
+    "scoring.py": "ee952037eb320686d204ae33810d1840c294db1d61398cc46aa67b63874206b4",
+    "screening.py": "a629a3cc180342ced6a48fad3f74031462e9e4dc25ef1a143533d219efb31b60",
+    "select_cli.py": "322d7bc28fea1813ffacbc0cf84684201ebb382d106e592939a29a38d2b8062c",
+    "selection.py": "9205f37d139089aa432196d0d251912cf6908c3ac94cba6c878e74284f08efb7",
+    "tools/__init__.py": "b346f603c393933428ac432631022a7515c8565a0d44ac779d7d7501fc01ed49",
+    "tools/_shim.py": "86a52b1590c119cf960c9ed033b561e1cdcfb2296a22efa55d3b9d324719092d",
+    "tools/base.py": "89cdba580fbdb8bf44f2a2074f34781102ce7c87fd3f82a67896fda8c4b1cb9c",
+    "tools/siren.py": "896745054c534f0adfa60b74028919fa18014422351d399a06171400443cedf7",
+    "tools/sirnadesigner.py": "858b167e3e3c4556f344556654f9aec4df65d5a36624788c3ec09a8f0d2ba951",
+    "tools/sirnaforge.py": "bfc1ebe7c98faaa5d19a54465a73a766bfb1d07cdf7d56f93a630d1b1af59bbc",
+    "types.py": "d296a3315efb12b9283f3198ed20c6b6c3ee367a7c1f79f557a4a81f38d34a98"
+  },
+  "research_top": {
+    "binding19-guide21-overhang2-passenger_unknown/quality": [
+      "M60857.1:237:19:ba7e1fba8572865b",
+      "M60857.1:271:19:4e691c71215733e1",
+      "M60857.1:233:19:f6dab1da73997dc1",
+      "M60857.1:361:19:ff1567ab6e731566",
+      "M60857.1:259:19:8536793cfd84c305",
+      "M60857.1:241:19:7335457576b1609e",
+      "M60857.1:235:19:101f54ea8b38464a",
+      "M60857.1:263:19:c91bb5790ba736b4",
+      "M60857.1:227:19:1e2be98a6b0dec95",
+      "M60857.1:365:19:04144ca4abe9f5d7"
+    ]
+  },
+  "screened_top": {
+    "binding19-guide21-overhang2-passenger_unknown/quality": []
+  },
+  "diverse_top": {
+    "binding19-guide21-overhang2-passenger_unknown/quality": [
+      "M60857.1:237:19:ba7e1fba8572865b",
+      "M60857.1:271:19:4e691c71215733e1",
+      "M60857.1:361:19:ff1567ab6e731566",
+      "M60857.1:331:19:7e2ea3ed1664ba0f",
+      "M60857.1:207:19:b00b96837e14fd9a",
+      "M60857.1:301:19:f9de415b173c1166"
+    ]
+  },
+  "independent_validation_passed": false
+}

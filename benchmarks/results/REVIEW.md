@@ -21,6 +21,6 @@ Development-selected quality fusion versus frozen model: **+2.4 percentage point
 
 Eight component ablations and 1,000 within-gene/assay label permutations were run. They are development diagnostics; pretrained exposure and development selection prevent interpreting their statistics as independent generalization evidence.
 
-The real AREG sequence screen completed against the pinned Ensembl 116 cDNA reference. Its separately screened panels satisfy the computational mismatch criterion only.
+No sequence screen artifact was supplied; screened panels are unavailable.
 
 See [figures](../figures/benchmark.pdf), [machine-readable results](development_results.json), [source audit](../dataset_manifest.json), and [reproduction instructions](../README.md).

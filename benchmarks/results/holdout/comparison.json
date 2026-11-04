@@ -1,0 +1,274 @@
+{
+  "candidate_sha256": "a68554e88b4ec00b8e4bb2b11806024f8e3e7450f43790ddfa4c3c09bd45b53c",
+  "baseline_sha256": "35d1c3d9ce3980fcab4eb24ea75a9d7a5363cc9226f32d1e431c1cfe9063b5cc",
+  "comparisons": [
+    {
+      "stratum": [
+        "Harborth",
+        "percent_inhibition",
+        "binding19-guide21-overhang2-passenger_unknown",
+        "measured",
+        5
+      ],
+      "minimum_genes": 5,
+      "evidence_status": "insufficient_genes",
+      "paired_genes": 0,
+      "eligible_genes": 1,
+      "mean_difference": null,
+      "ci95": [
+        null,
+        null
+      ],
+      "completion_difference": 0,
+      "budget_yield_difference": 0.0,
+      "per_gene_difference": {},
+      "numeric_criterion_met": false,
+      "independent_validation_passed": false,
+      "note": "numeric criteria alone do not establish holdout independence"
+    },
+    {
+      "stratum": [
+        "Harborth",
+        "percent_inhibition",
+        "binding19-guide21-overhang2-passenger_unknown",
+        "measured",
+        10
+      ],
+      "minimum_genes": 5,
+      "evidence_status": "insufficient_genes",
+      "paired_genes": 0,
+      "eligible_genes": 1,
+      "mean_difference": null,
+      "ci95": [
+        null,
+        null
+      ],
+      "completion_difference": 0,
+      "budget_yield_difference": 0.0,
+      "per_gene_difference": {},
+      "numeric_criterion_met": false,
+      "independent_validation_passed": false,
+      "note": "numeric criteria alone do not establish holdout independence"
+    },
+    {
+      "stratum": [
+        "Khovorova",
+        "percent_inhibition",
+        "binding19-guide21-overhang2-passenger_unknown",
+        "measured",
+        5
+      ],
+      "minimum_genes": 5,
+      "evidence_status": "insufficient_genes",
+      "paired_genes": 1,
+      "eligible_genes": 1,
+      "mean_difference": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "completion_difference": 0,
+      "budget_yield_difference": 0.0,
+      "per_gene_difference": {
+        "SEAP": 0.0
+      },
+      "numeric_criterion_met": false,
+      "independent_validation_passed": false,
+      "note": "numeric criteria alone do not establish holdout independence"
+    },
+    {
+      "stratum": [
+        "Khovorova",
+        "percent_inhibition",
+        "binding19-guide21-overhang2-passenger_unknown",
+        "measured",
+        10
+      ],
+      "minimum_genes": 5,
+      "evidence_status": "insufficient_genes",
+      "paired_genes": 1,
+      "eligible_genes": 1,
+      "mean_difference": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "completion_difference": 0,
+      "budget_yield_difference": 0.0,
+      "per_gene_difference": {
+        "SEAP": 0.0
+      },
+      "numeric_criterion_met": false,
+      "independent_validation_passed": false,
+      "note": "numeric criteria alone do not establish holdout independence"
+    },
+    {
+      "stratum": [
+        "Reynolds",
+        "percent_inhibition",
+        "binding19-guide21-overhang2-passenger_unknown",
+        "measured",
+        5
+      ],
+      "minimum_genes": 5,
+      "evidence_status": "evaluable",
+      "paired_genes": 7,
+      "eligible_genes": 7,
+      "mean_difference": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "completion_difference": 0,
+      "budget_yield_difference": 0.0,
+      "per_gene_difference": {
+        "Cyclophilin B": 0.0,
+        "DBI": 0.0,
+        "Firefly luciferase": 0.0,
+        "FireflyLuc": 0.0,
+        "GAPDH": 0.0,
+        "PLK": 0.0,
+        "SEAP": 0.0
+      },
+      "numeric_criterion_met": false,
+      "independent_validation_passed": false,
+      "note": "numeric criteria alone do not establish holdout independence"
+    },
+    {
+      "stratum": [
+        "Reynolds",
+        "percent_inhibition",
+        "binding19-guide21-overhang2-passenger_unknown",
+        "measured",
+        10
+      ],
+      "minimum_genes": 5,
+      "evidence_status": "insufficient_genes",
+      "paired_genes": 4,
+      "eligible_genes": 7,
+      "mean_difference": -0.024999999999999994,
+      "ci95": [
+        -0.07499999999999998,
+        0.0
+      ],
+      "completion_difference": 0.0,
+      "budget_yield_difference": -0.014285714285714282,
+      "per_gene_difference": {
+        "Cyclophilin B": -0.09999999999999998,
+        "Firefly luciferase": 0.0,
+        "GAPDH": 0.0,
+        "PLK": 0.0
+      },
+      "numeric_criterion_met": false,
+      "independent_validation_passed": false,
+      "note": "numeric criteria alone do not establish holdout independence"
+    },
+    {
+      "stratum": [
+        "Ui-Tei",
+        "percent_inhibition",
+        "binding19-guide21-overhang2-passenger_unknown",
+        "measured",
+        5
+      ],
+      "minimum_genes": 5,
+      "evidence_status": "insufficient_genes",
+      "paired_genes": 1,
+      "eligible_genes": 1,
+      "mean_difference": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "completion_difference": 0,
+      "budget_yield_difference": 0.0,
+      "per_gene_difference": {
+        "FireflyLuc": 0.0
+      },
+      "numeric_criterion_met": false,
+      "independent_validation_passed": false,
+      "note": "numeric criteria alone do not establish holdout independence"
+    },
+    {
+      "stratum": [
+        "Ui-Tei",
+        "percent_inhibition",
+        "binding19-guide21-overhang2-passenger_unknown",
+        "measured",
+        10
+      ],
+      "minimum_genes": 5,
+      "evidence_status": "insufficient_genes",
+      "paired_genes": 1,
+      "eligible_genes": 1,
+      "mean_difference": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "completion_difference": 0,
+      "budget_yield_difference": 0.0,
+      "per_gene_difference": {
+        "FireflyLuc": 0.0
+      },
+      "numeric_criterion_met": false,
+      "independent_validation_passed": false,
+      "note": "numeric criteria alone do not establish holdout independence"
+    },
+    {
+      "stratum": [
+        "Vickers",
+        "percent_inhibition",
+        "binding19-guide21-overhang2-passenger_unknown",
+        "measured",
+        5
+      ],
+      "minimum_genes": 5,
+      "evidence_status": "insufficient_genes",
+      "paired_genes": 2,
+      "eligible_genes": 2,
+      "mean_difference": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "completion_difference": 0,
+      "budget_yield_difference": 0.0,
+      "per_gene_difference": {
+        "ICAM-1": 0.0,
+        "MMAC1": 0.0
+      },
+      "numeric_criterion_met": false,
+      "independent_validation_passed": false,
+      "note": "numeric criteria alone do not establish holdout independence"
+    },
+    {
+      "stratum": [
+        "Vickers",
+        "percent_inhibition",
+        "binding19-guide21-overhang2-passenger_unknown",
+        "measured",
+        10
+      ],
+      "minimum_genes": 5,
+      "evidence_status": "insufficient_genes",
+      "paired_genes": 2,
+      "eligible_genes": 2,
+      "mean_difference": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "completion_difference": 0,
+      "budget_yield_difference": 0.0,
+      "per_gene_difference": {
+        "ICAM-1": 0.0,
+        "MMAC1": 0.0
+      },
+      "numeric_criterion_met": false,
+      "independent_validation_passed": false,
+      "note": "numeric criteria alone do not establish holdout independence"
+    }
+  ],
+  "independent_validation_passed": false
+}

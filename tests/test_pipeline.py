@@ -121,15 +121,80 @@ def test_normalisation_stats_are_recorded(tmp_path, fasta_file, registered):
     assert stats["placed"] == 2 and stats["total"] == 2
 
 
-def test_reusing_output_dir_uses_unique_work_dirs(tmp_path, fasta_file, registered):
+def test_identical_run_reuses_a_deterministic_work_dir(tmp_path, fasta_file, registered):
+    # run.json embeds the run id, so an identical run must be byte-reproducible:
+    # same id, same work dir (regeneration no longer churns a frozen lock).
     registered({"alpha": lambda env=None: FakeTool("alpha", [1, 42], env)})
     out = tmp_path / "out"
     first = run(Config(fasta=str(fasta_file), out_dir=str(out), tools=("alpha",)))
     second = run(Config(fasta=str(fasta_file), out_dir=str(out), tools=("alpha",)))
-    assert first["run_id"] != second["run_id"]
+    assert first["run_id"] == second["run_id"]
     work = out / "work"
     assert work.is_dir()
-    assert len([p for p in work.iterdir() if p.is_dir()]) == 2
+    assert len([p for p in work.iterdir() if p.is_dir()]) == 1
+
+
+def test_raised_run_releases_the_lock(tmp_path, fasta_file):
+    # A raised run must release the out_dir lock even if the traceback is retained;
+    # otherwise the next identical run would block on flock forever. Run on a thread so
+    # a regression FAILS (join timeout) instead of hanging the suite.
+    import threading
+    out = tmp_path / "out"
+    kept = []
+
+    def work():
+        for _ in range(3):
+            try:
+                run(Config(fasta=str(fasta_file), out_dir=str(out), tools=("definitely-missing",)))
+            except RuntimeError as exc:
+                kept.append(exc)      # retain the traceback/frame
+
+    worker = threading.Thread(target=work)
+    worker.start()
+    worker.join(timeout=30)
+    assert not worker.is_alive()      # deadlocked on the lock if still running
+    assert len(kept) == 3
+
+
+def test_concurrent_different_transcripts_share_an_out_dir(tmp_path, registered):
+    # Different run ids, same out_dir: they also write out_dir/run.json, so the
+    # out_dir-level lock (not a per-run lock) must keep them from interleaving.
+    import threading
+    registered({"alpha": lambda env=None: FakeTool("alpha", [42], env)})
+    out = tmp_path / "shared"
+    errors = []
+
+    def go(i):
+        fa = tmp_path / f"{i}.fa"
+        fa.write_text(f">GENE_{i}\n{'ACGT' * 80}\n")
+        try:
+            run(Config(fasta=str(fa), out_dir=str(out), tools=("alpha",)))
+        except Exception as exc:  # noqa: BLE001
+            errors.append(repr(exc))
+
+    threads = [threading.Thread(target=go, args=(i,)) for i in range(8)]
+    for t in threads:
+        t.start()
+    for t in threads:
+        t.join(timeout=60)
+    assert not any(t.is_alive() for t in threads)   # no deadlock
+    assert not errors
+    assert json.loads((out / "run.json").read_text())["schema_version"] == 2   # parses, not torn
+
+
+def test_same_sequence_different_header_gets_a_distinct_run(tmp_path, registered):
+    # Tool output filenames derive from the FASTA header; same sequence with a
+    # different header must not share a work dir (or files would be re-globbed).
+    registered({"alpha": lambda env=None: FakeTool("alpha", [42], env)})
+    a, b = tmp_path / "a.fa", tmp_path / "b.fa"
+    sequence = "ACGT" * 30
+    a.write_text(f">GENE_A\n{sequence}\n")
+    b.write_text(f">GENE_B\n{sequence}\n")
+    out = tmp_path / "out"
+    first = run(Config(fasta=str(a), out_dir=str(out), tools=("alpha",)))
+    second = run(Config(fasta=str(b), out_dir=str(out), tools=("alpha",)))
+    assert first["run_id"] != second["run_id"]
+    assert len([p for p in (out / "work").iterdir() if p.is_dir()]) == 2
 
 
 def test_reusing_output_dir_with_different_transcripts(tmp_path, fasta_file,

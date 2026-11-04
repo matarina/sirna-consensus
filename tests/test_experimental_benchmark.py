@@ -1,12 +1,18 @@
 import csv
-import json
 
 import pytest
 
-from sirna_consensus.benchmark import (load_measurements,metric,evaluate_record,
-                                       paired_summary,discrimination)
+from sirna_consensus.benchmark import (
+    discrimination,
+    evaluate_record,
+    load_measurements,
+    metric,
+    paired_summary,
+)
 
-A='AGCTTACGATCGTACCTGATA';B='GCTTACGATCGTACCTGATAC';FMT='guide21-passenger_unknown'
+A='AGCTTACGATCGTACCTGATA'
+B='GCTTACGATCGTACCTGATAC'
+FMT='guide21-passenger_unknown'
 
 def measured(guide=A,effective=True,gene='G'):
     return {'guide_dna':guide,'duplex_format':FMT,'effective':effective,'gene':gene,
@@ -34,39 +40,52 @@ def test_unmeasured_candidates_change_coverage_not_precision():
 
 
 def test_measured_projection_and_deployment_have_different_topk():
-    r=record();m=[measured()]
+    r=record()
+    m=[measured()]
     a=evaluate_record(r,m,k=1,track='measured',random_repeats=0)[0]
     b=evaluate_record(r,m,k=1,track='deployment',random_repeats=0)[0]
     assert a['precision_at_k']==1 and b['precision_at_k'] is None
 
 
 def test_other_transcript_does_not_change_recovery():
-    a=measured();b={**measured(B),'transcript_id':'OTHER','gene':'H'}
+    a=measured()
+    b={**measured(B),'transcript_id':'OTHER','gene':'H'}
     one=evaluate_record(record(),[a],random_repeats=0)
     two=evaluate_record(record(),[a,b],random_repeats=0)
     assert one==two
 
 
 def test_label_validation_and_replicates(tmp_path):
-    row={**measured(),'record_id':'r1','value':'NA'};row.pop('effective')
+    row={**measured(),'record_id':'r1','value':'NA'}
+    row.pop('effective')
     p=tmp_path/'measurements.tsv'
     def write(rows):
         with p.open('w') as f:
-            w=csv.DictWriter(f,fieldnames=list(rows[0]),delimiter='\t');w.writeheader();w.writerows(rows)
+            w=csv.DictWriter(f,fieldnames=list(rows[0]),delimiter='\t')
+            w.writeheader()
+            w.writerows(rows)
     write([row])
-    with pytest.raises(ValueError):load_measurements(p)
-    row['value']='75';write([row]);assert load_measurements(p)[0]['effective']
+    with pytest.raises(ValueError):
+        load_measurements(p)
+    row['value']='75'
+    write([row])
+    assert load_measurements(p)[0]['effective']
     write([row,{**row,'record_id':'r2'}])
-    with pytest.raises(ValueError,match='replicate_group'):load_measurements(p)
-    row['replicate_group']='technical1';write([row,{**row,'record_id':'r2','value':'65'}])
+    with pytest.raises(ValueError,match='replicate_group'):
+        load_measurements(p)
+    row['replicate_group']='technical1'
+    write([row,{**row,'record_id':'r2','value':'65'}])
     assert load_measurements(p)[0]['value']==70
 
 
 def test_normalized_activity_not_clipped(tmp_path):
-    row={**measured(),'record_id':'r1','value':'1.252','endpoint':'normalized_activity'};row.pop('effective')
+    row={**measured(),'record_id':'r1','value':'1.252','endpoint':'normalized_activity'}
+    row.pop('effective')
     p=tmp_path/'m.tsv'
     with p.open('w') as f:
-        w=csv.DictWriter(f,fieldnames=list(row),delimiter='\t');w.writeheader();w.writerow(row)
+        w=csv.DictWriter(f,fieldnames=list(row),delimiter='\t')
+        w.writeheader()
+        w.writerow(row)
     assert load_measurements(p)[0]['value']==1.252
 
 
@@ -79,7 +98,8 @@ def test_ties_and_single_class_are_explicit():
 
 def test_paired_comparison_refuses_missing_assays():
     rows=evaluate_record(record(),[measured()],random_repeats=0)
-    with pytest.raises(ValueError,match='prespecified'):paired_summary(rows,[])
+    with pytest.raises(ValueError,match='prespecified'):
+        paired_summary(rows,[])
     out=paired_summary(rows,rows,replicates=100)
     assert not out['numeric_criterion_met']
     assert out['mean_difference'] is None
@@ -93,7 +113,8 @@ def test_deployment_budget_must_have_been_generated():
 def test_paired_comparison_checks_construct_identity():
     rows=evaluate_record(record(),[measured()],k=1,random_repeats=0)
     changed=[{**r,'target_sha256':'different_construct'} for r in rows]
-    with pytest.raises(ValueError,match='prespecified'):paired_summary(rows,changed)
+    with pytest.raises(ValueError,match='prespecified'):
+        paired_summary(rows,changed)
 
 
 def test_one_gene_cannot_pass_improvement_gate():

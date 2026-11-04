@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import csv
-import json
 import math
 import random
 from collections import defaultdict
@@ -50,7 +49,8 @@ def load_measurements(path: Path, sensitivity: float = .7) -> list[dict]:
             replicate = {r.get('replicate_group', '') for r in records}
             if len(replicate) != 1 or not next(iter(replicate)):
                 raise ValueError('repeated guide/condition needs explicit technical replicate_group')
-        row = dict(records[0]); row['value'] = mean(r['value'] for r in records)
+        row = dict(records[0])
+        row['value'] = mean(r['value'] for r in records)
         row['record_ids'] = [r['record_id'] for r in records]
         row['effective'] = row['value'] >= sensitivity * (100 if row['endpoint']=='percent_inhibition' else 1)
         out.append(row)
@@ -60,13 +60,15 @@ def load_measurements(path: Path, sensitivity: float = .7) -> list[dict]:
 def metric(top: list[dict], measured: list[dict], k: int) -> dict:
     if k < 1:
         raise ValueError('k must be positive')
-    identity = lambda r: (r['guide_dna'], r['duplex_format'])
+    def identity(r):
+        return (r['guide_dna'], r['duplex_format'])
     table = {identity(r): r for r in measured}
     unique, seen = [], set()
     for row in top:
         key = identity(row)
         if key not in seen:
-            unique.append(row); seen.add(key)
+            unique.append(row)
+            seen.add(key)
         if len(unique) == k:
             break
     matched = [table[identity(r)] for r in unique if identity(r) in table]
@@ -87,11 +89,13 @@ def metric(top: list[dict], measured: list[dict], k: int) -> dict:
 def discrimination(rows: list[dict], scores: dict) -> dict:
     pairs = [(scores[(r['guide_dna'],r['duplex_format'])], int(r['effective'])) for r in rows
              if (r['guide_dna'],r['duplex_format']) in scores]
-    positives = sum(y for _,y in pairs); negatives = len(pairs)-positives
+    positives = sum(y for _,y in pairs)
+    negatives = len(pairs)-positives
     continuous = [(scores[(r['guide_dna'],r['duplex_format'])], r.get('value')) for r in rows
                   if (r['guide_dna'],r['duplex_format']) in scores and r.get('value') is not None]
     def correlation(xs, ys):
-        if len(xs)<2:return None
+        if len(xs)<2:
+            return None
         mx,my=mean(xs),mean(ys)
         denominator=(sum((x-mx)**2 for x in xs)*sum((y-my)**2 for y in ys))**.5
         return sum((x-mx)*(y-my) for x,y in zip(xs,ys))/denominator if denominator else None
@@ -102,15 +106,19 @@ def discrimination(rows: list[dict], scores: dict) -> dict:
               'spearman_raw_activity':correlation(list(rx.values()),[ry[k] for k in rx])}
     if not positives or not negatives:
         return result
-    pos = [s for s,y in pairs if y]; neg = [s for s,y in pairs if not y]
+    pos = [s for s,y in pairs if y]
+    neg = [s for s,y in pairs if not y]
     result['auroc'] = sum((a>b)+.5*(a==b) for a in pos for b in neg)/(positives*negatives)
     buckets = defaultdict(list)
     for s,y in pairs:
         buckets[s].append(y)
-    tp = total = 0; ap = 0.
+    tp = total = 0
+    ap = 0.
     for score in sorted(buckets, reverse=True):
-        labels = buckets[score]; added = sum(labels)
-        tp += added; total += len(labels)
+        labels = buckets[score]
+        added = sum(labels)
+        tp += added
+        total += len(labels)
         ap += (added/positives)*(tp/total)
     result['average_precision'] = ap
     return result
@@ -156,8 +164,10 @@ def evaluate_record(record: dict, measurements: list[dict], k=5, track='measured
                 if panel == 'diverse_top':
                     selected = []
                     for r in pool:
-                        if all(abs(r['start']-other['start'])>=30 for other in selected): selected.append(r)
-                        if len(selected)==k: break
+                        if all(abs(r['start']-other['start'])>=30 for other in selected):
+                            selected.append(r)
+                        if len(selected)==k:
+                            break
             else:
                 selected = [by_key[key] for key in record.get(panel,{}).get(group,[])][:k]
                 pool = ranked
@@ -172,8 +182,10 @@ def evaluate_record(record: dict, measurements: list[dict], k=5, track='measured
                 if panel == 'diverse_top':
                     sample=[]
                     for r in rng.sample(unique_pool,len(unique_pool)):
-                        if all(abs(r['start']-other['start'])>=30 for other in sample):sample.append(r)
-                        if len(sample)==k:break
+                        if all(abs(r['start']-other['start'])>=30 for other in sample):
+                            sample.append(r)
+                        if len(sample)==k:
+                            break
                 else:
                     sample = rng.sample(unique_pool, min(k,len(unique_pool)))
                 value = metric(sample, measured, k)['precision_at_k']
@@ -191,7 +203,8 @@ def evaluate_record(record: dict, measurements: list[dict], k=5, track='measured
 
 def paired_summary(left: list[dict], right: list[dict], replicates=10000, seed=2026) -> dict:
     """Pair identical assays, then average within genes; never pool guide rows."""
-    identity = lambda r: tuple(r[k] for k in ('study','gene','assay','endpoint','duplex_format','track','requested_k','transcript_id','target_sha256'))
+    def identity(r):
+        return tuple(r[k] for k in ('study','gene','assay','endpoint','duplex_format','track','requested_k','transcript_id','target_sha256'))
     a,b = {identity(r):r for r in left},{identity(r):r for r in right}
     if len(a)!=len(left) or len(b)!=len(right):
         raise ValueError('comparison must contain one method/group per assay unit')
@@ -209,8 +222,9 @@ def paired_summary(left: list[dict], right: list[dict], replicates=10000, seed=2
     boot = sorted(mean(rng.choices(values,k=len(values))) for _ in range(replicates)) if values else []
     lo = boot[int(.025*(len(boot)-1))] if boot else None
     hi = boot[int(.975*(len(boot)-1))] if boot else None
-    completion = lambda d: mean(mean(r['complete_panel'] for r in d.values() if r['gene']==g)
-                              for g in sorted({r['gene'] for r in d.values()})) if d else 0.
+    def completion(d):
+        return mean(mean(r['complete_panel'] for r in d.values() if r['gene']==g)
+                                  for g in sorted({r['gene'] for r in d.values()})) if d else 0.
     delta = mean(values) if values else None
     gain = mean(mean(v) for v in yields.values()) if yields else None
     completion_delta = completion(a)-completion(b)
@@ -224,10 +238,12 @@ def paired_summary(left: list[dict], right: list[dict], replicates=10000, seed=2
 
 
 def permutation_control(record, measurements, k=5, permutations=1000, seed=2026):
-    """Shuffle aggregated molecular measurements within study/gene/assay/format."""
+    """Shuffle aggregated molecular measurements within study/gene/assay/format.
+
+    Labels are permuted within (study,gene,assay,endpoint,format) units, so multiple
+    studies/endpoints in one table are fine; the statistic still weights genes equally.
+    """
     strata = {(r['study'],r['endpoint'],r['duplex_format']) for r in measurements}
-    if len(strata) > 1:
-        raise ValueError('permutation control requires one study/endpoint/format stratum')
     rng = random.Random(seed)
     units = defaultdict(list)
     for i,r in enumerate(measurements):
@@ -243,10 +259,13 @@ def permutation_control(record, measurements, k=5, permutations=1000, seed=2026)
     for _ in range(permutations):
         shuffled=[dict(r) for r in measurements]
         for indexes in units.values():
-            labels=[measurements[i]['effective'] for i in indexes];rng.shuffle(labels)
-            for i,label in zip(indexes,labels):shuffled[i]['effective']=label
+            labels=[measurements[i]['effective'] for i in indexes]
+            rng.shuffle(labels)
+            for i,label in zip(indexes,labels):
+                shuffled[i]['effective']=label
         value=statistic(evaluate_record(record,shuffled,k,random_repeats=0))
-        if value is not None:null.append(value)
-    return {'observed':real,'permutations':len(null),
+        if value is not None:
+            null.append(value)
+    return {'observed':real,'permutations':len(null),'strata':len(strata),
             'p_one_sided':(1+sum(v>=real for v in null))/(1+len(null)) if real is not None and null else None,
             'null_mean':mean(null) if null else None}

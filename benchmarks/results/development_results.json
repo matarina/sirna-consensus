@@ -225,21 +225,9 @@
     ],
     "independent_validation_passed": false
   },
-  "screen_smoke": {
-    "candidates": 639,
-    "states": {
-      "pass": 630,
-      "reject": 9
-    },
-    "screened_panels": {
-      "binding19-guide21-overhang2-passenger21-overhang2/native": 10,
-      "binding21-guide21-overhang0-passenger21-overhang0/native": 10
-    },
-    "reference_sha256": "bd85494fb64766200ec18bae873f3196b451c6eecbcfbedadd72684f19692ff8"
-  },
+  "screen_smoke": null,
   "source_hashes": {
     "benchmarks/results/development_comparison.json": "5d48c7f749eae47e8536ca57636571e2bab428d89fb20a0b2b8de3f40ac0220d",
-    "benchmarks/results/runs/AREG_v2/screened/selection.json": "2fa6fee91f85433d1b4dd58213ec024ef6994b3077062789c560c59de1bf8920",
     "benchmarks/results/development/full/development_summary.json": "2bfac602258744ed7ae21e35342efed02043cf09304f83479185648468bce8d1"
   },
   "independent_validation_passed": false

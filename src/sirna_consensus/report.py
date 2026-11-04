@@ -249,7 +249,7 @@ def write_html(result: dict, out_dir: Path) -> Path:
 <h1>Consensus de novo siRNA candidates</h1>
 <p class="sub">{html.escape(result['transcript_id'])} · {result['transcript_length']} nt ·
 input SHA-256 <code>{result['input_sha256'][:16]}…</code> ·
-generated {html.escape(result['created_utc'])}</p>
+run {html.escape(result['run_id'])}</p>
 <div class="pills">
   <span class="pill info">generator tools: {len(acting)}</span>
   <span class="pill warn">status {html.escape(result['status'])}</span>

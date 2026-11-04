@@ -1,0 +1,46 @@
+{
+  "dataset": "weight-independent holdout (publisher snapshot, non-Huesken studies)",
+  "split": "holdout",
+  "independent_holdout": true,
+  "endpoint": "percent_inhibition, threshold 70",
+  "notes": [
+    "ambiguous reference bases (Lamin A 'N' runs) are replaced in place by 'A', preserving coordinates",
+    "records whose accession is absent from the snapshot FASTA (Takayuki Katoh EGFP, UYB79189) are excluded"
+  ],
+  "cohort_manifest_sha256": "4e53216e28aabd4e1edb0f031f5e5b382824df56c6b3b5d1dd24e076cb1279b7",
+  "source_hashes": {
+    "sirna_data.xlsx": "6a2d01cdbc4d522ea783d164868266883f3cdb5ca1b267f4959ad224926bfd47",
+    "target_gene_sequences.fa": "37238b168a26045eb5fa00402ee4cf0a41e82e054df8554e4f031a4a448c5c67"
+  },
+  "studies": [
+    "Harborth",
+    "Khovorova",
+    "Reynolds",
+    "Ui-Tei",
+    "Vickers"
+  ],
+  "records": 399,
+  "genes": 10,
+  "excluded_by_study": {
+    "Reynolds": 12,
+    "Takayuki Katoh": 702
+  },
+  "transcripts": 11,
+  "exclusions": 714,
+  "artifacts": {
+    "measurements.tsv": "b0df73153630e128fa2b3808b97c76739b2109d836aee4b98a23d016eaf1338a",
+    "candidates.tsv": "736ce317c6f86cf93a7705f41c492a82c75b12f08b3314e3ee2e0f8bafc2a79a",
+    "exclusions.json": "e9def423b9efa8cb2514b37aa428a9a85c913e1bc924042068667ad0e8f21d40",
+    "transcripts/AH001498.4.fa": "a11540fb8e4d2ee0465f27c2a5f37f8db7c2750d26f57124d750e0e5eb4634a2",
+    "transcripts/J03132.1.fa": "2f405e3973175fe23653aade105f112737bf8f278cdcd497e7f9c63c8691c61e",
+    "transcripts/M60857.1.fa": "9d92fbdabb19ab1d0d8e35cee2bb7a64b89ddcb972b747a10fd257d718d6b7b4",
+    "transcripts/NM_001632.5.fa": "cac12c18909d58bac2b660e9316ed729b75a0106b3e265d426d79d7c0afccf0b",
+    "transcripts/NM_002046.7.fa": "3ff507042850c180ddda2d10743f96e67c44d8223bf616ebe99278b25d33c4bb",
+    "transcripts/NM_020548.9.fa": "e8019e580838a0a532b94d9498c8bd3a084cacb947676588eb043576fc355b71",
+    "transcripts/NM_031313.3.fa": "2306e8b1ce6b7189b888f534449121bbcea1c9538abc62029cf2d30902a2de2d",
+    "transcripts/U47296.2.fa": "a7b4652b0f68534dac75eee2a1249615e4a0d487d655206f03a23dd9afa51190",
+    "transcripts/U47298.2.fa": "85325457c9ef9763ae373de23b9827a9ad993dab0fa3dd6968c4858cc767bae1",
+    "transcripts/U92436.1.fa": "6b205bb66a8d2da1d7720ed7d5fab66415c85e311816c6231293ac34b5832ce3",
+    "transcripts/X75932.1.fa": "da865df657fc8b14aa2fc5dc95d1df370fbacb1ef6bb1cf0706d1125b6165696"
+  }
+}

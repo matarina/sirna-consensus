@@ -6,10 +6,17 @@ and endogenous inhibition are separate endpoints. Never label untested guides
 ineffective. Never use ±2-nt overlap to transfer experimental activity.
 
 The downloaded publisher-linked Figshare v1 snapshot contains 3,544 records.
-`dataset_manifest.json` records source checksums and discrepancies. Its seven
-studies occur in OligoFormer development/evaluation collections, so **no independent
-holdout is currently established**. The Huesken cohort was also previously used by
-the sibling project. All current results are development diagnostics.
+`dataset_manifest.json` records source checksums and discrepancies.
+
+`scripts/audit_exposure.py` separates the two exposures the earlier audit conflated:
+**checkpoint training** (Huesken, via upstream `data/Hu.csv`) changes the weights,
+while **upstream evaluation** (`Mix.csv`/`Taka.csv`) only shaped upstream model
+selection. Six non-Huesken studies (1,113 records / 12 genes) share no molecule with
+training or the Huesken development cohort, so a **weight-independent holdout is
+available** (`cohort_manifest.json`, `exposure_audit.json`). Upstream evaluation
+exposure is disclosed but not disqualifying; `--criterion fully` requires none of it.
+Strategy selection stays confined to the Huesken development cohort. Development
+results remain diagnostics until the final gate runs on that holdout.
 
 ## Prepare original-source development data
 
@@ -121,10 +128,54 @@ python benchmarks/evaluate.py --phase final --freeze-lock freeze.json \
 
 Final mode verifies the lock before reading labels and requires a cohort manifest
 with `independent_holdout_eligible: true` and `checkpoint_training_audit: verified`.
-The supplied source audit does not satisfy this gate. Include source code,
+`scripts/audit_exposure.py` writes `cohort_manifest.json` and `exposure_audit.json`
+to that contract; `protocol.json` is the matching pre-registration (it pins the seed
+final mode checks). Regenerate the cohort with `python benchmarks/scripts/audit_exposure.py`
+(or `audit_sources.py`, which calls it). Include source code,
 preprocessing, policy, baseline choice, model/checkpoint manifests, splits and
-label-blind predictions in the freeze. Never overwrite a frozen lock or choose a
-new holdout after inspecting its results.
+label-blind predictions in the freeze. Never overwrite a frozen lock or choose a new
+holdout after inspecting its results. The development lock (`development_freeze.json`) is rebuilt by
+`scripts/gen_development_freeze.py` (`--regenerate` re-runs the dev pipeline first);
+`scripts/verify_freezes.py` and CI verify whichever locks are present. The summarizer
+accepts an optional recorded screen artifact. It is not produced by `--regenerate`; if
+none is supplied, the summary records `screen_smoke: null`. To include one, run a
+transcript FASTA through `select --screen-manifest <manifest>` and pass its
+`selection.json` to `summarize.py --screen <path>`.
+Lock keys are stored relative to the lock
+directory, so a verbatim copy at a different absolute path verifies; regenerating a
+`run.json` (whose tool commands embed absolute paths) changes its bytes and recuts.
+
+## Build the holdout and run the final gate
+
+The whole flow is one command:
+
+```bash
+python benchmarks/scripts/run_final.py            # prepare -> select -> freeze -> final -> compare
+```
+
+It builds the holdout from the audited cohort only (exact strand placement), generates
+label-blind native generator evidence (`run_generators.py`) and attaches it onto the
+candidates via `select --run-evidence` so the development-selected policy is actually
+exercised, selects with that policy and with the scorer alone, freezes the lock, runs
+the final gate for both arms, and writes `results/holdout/comparison.json` plus an
+honest `results/holdout/REVIEW.md`. Native runs are reused across invocations (pass
+`--regen-generators` to force it). A within-unit label-permutation control runs per
+target (multi-study tables are supported; `--permutations 0` disables). Lower-level pieces:
+
+```bash
+python benchmarks/scripts/prepare_holdout.py            # -> benchmarks/data/holdout
+python benchmarks/scripts/freeze.py --lock benchmarks/final_freeze.json <code> <data> <runs>
+python benchmarks/evaluate.py --phase final --freeze-lock benchmarks/final_freeze.json \
+  --cohort-manifest benchmarks/cohort_manifest.json --protocol benchmarks/protocol.json \
+  --benchmark benchmarks/data/holdout/measurements.tsv --run <selection.json...> --output final.json
+```
+
+`prepare_holdout.py` reads the cohort, so it can never re-select a study. Records
+whose accession or strands do not place exactly are written to `exclusions.json`
+with a reason (the Takayuki Katoh EGFP construct, accession `UYB79189`, is absent
+from the reference). Lamin A's ambiguous `N` runs are replaced in place by `A`, which
+preserves coordinates. Endpoint is `percent_inhibition`; the Huesken normalised unit
+is not mixed in.
 
 ## Controls from frozen outputs
 
