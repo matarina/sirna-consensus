@@ -1,0 +1,2815 @@
+{
+  "schema_version": 1,
+  "scope": "measured_paired_core_component_only",
+  "scorer_manifest_sha256": "e3338ec00d0178981b9a1c47d536c9fd243cb99eb87d1fd48a2910d51882de10",
+  "candidates": [
+    {
+      "key": "Katoh2007:EGFP:001",
+      "paired_guide": "CCTCGCCCTTGCTCACCAT"
+    },
+    {
+      "key": "Katoh2007:EGFP:002",
+      "paired_guide": "TCCTCGCCCTTGCTCACCA"
+    },
+    {
+      "key": "Katoh2007:EGFP:003",
+      "paired_guide": "CTCCTCGCCCTTGCTCACC"
+    },
+    {
+      "key": "Katoh2007:EGFP:004",
+      "paired_guide": "GCTCCTCGCCCTTGCTCAC"
+    },
+    {
+      "key": "Katoh2007:EGFP:005",
+      "paired_guide": "AGCTCCTCGCCCTTGCTCA"
+    },
+    {
+      "key": "Katoh2007:EGFP:006",
+      "paired_guide": "CAGCTCCTCGCCCTTGCTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:007",
+      "paired_guide": "ACAGCTCCTCGCCCTTGCT"
+    },
+    {
+      "key": "Katoh2007:EGFP:008",
+      "paired_guide": "AACAGCTCCTCGCCCTTGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:009",
+      "paired_guide": "GAACAGCTCCTCGCCCTTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:010",
+      "paired_guide": "TGAACAGCTCCTCGCCCTT"
+    },
+    {
+      "key": "Katoh2007:EGFP:011",
+      "paired_guide": "GTGAACAGCTCCTCGCCCT"
+    },
+    {
+      "key": "Katoh2007:EGFP:012",
+      "paired_guide": "GGTGAACAGCTCCTCGCCC"
+    },
+    {
+      "key": "Katoh2007:EGFP:013",
+      "paired_guide": "CGGTGAACAGCTCCTCGCC"
+    },
+    {
+      "key": "Katoh2007:EGFP:014",
+      "paired_guide": "CCGGTGAACAGCTCCTCGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:015",
+      "paired_guide": "CCCGGTGAACAGCTCCTCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:016",
+      "paired_guide": "CCCCGGTGAACAGCTCCTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:017",
+      "paired_guide": "ACCCCGGTGAACAGCTCCT"
+    },
+    {
+      "key": "Katoh2007:EGFP:018",
+      "paired_guide": "CACCCCGGTGAACAGCTCC"
+    },
+    {
+      "key": "Katoh2007:EGFP:019",
+      "paired_guide": "CCACCCCGGTGAACAGCTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:020",
+      "paired_guide": "ACCACCCCGGTGAACAGCT"
+    },
+    {
+      "key": "Katoh2007:EGFP:021",
+      "paired_guide": "CACCACCCCGGTGAACAGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:022",
+      "paired_guide": "GCACCACCCCGGTGAACAG"
+    },
+    {
+      "key": "Katoh2007:EGFP:023",
+      "paired_guide": "GGCACCACCCCGGTGAACA"
+    },
+    {
+      "key": "Katoh2007:EGFP:024",
+      "paired_guide": "GGGCACCACCCCGGTGAAC"
+    },
+    {
+      "key": "Katoh2007:EGFP:025",
+      "paired_guide": "TGGGCACCACCCCGGTGAA"
+    },
+    {
+      "key": "Katoh2007:EGFP:026",
+      "paired_guide": "ATGGGCACCACCCCGGTGA"
+    },
+    {
+      "key": "Katoh2007:EGFP:027",
+      "paired_guide": "GATGGGCACCACCCCGGTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:028",
+      "paired_guide": "GGATGGGCACCACCCCGGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:029",
+      "paired_guide": "AGGATGGGCACCACCCCGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:030",
+      "paired_guide": "CAGGATGGGCACCACCCCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:031",
+      "paired_guide": "CCAGGATGGGCACCACCCC"
+    },
+    {
+      "key": "Katoh2007:EGFP:032",
+      "paired_guide": "ACCAGGATGGGCACCACCC"
+    },
+    {
+      "key": "Katoh2007:EGFP:033",
+      "paired_guide": "GACCAGGATGGGCACCACC"
+    },
+    {
+      "key": "Katoh2007:EGFP:034",
+      "paired_guide": "CGACCAGGATGGGCACCAC"
+    },
+    {
+      "key": "Katoh2007:EGFP:035",
+      "paired_guide": "TCGACCAGGATGGGCACCA"
+    },
+    {
+      "key": "Katoh2007:EGFP:036",
+      "paired_guide": "CTCGACCAGGATGGGCACC"
+    },
+    {
+      "key": "Katoh2007:EGFP:037",
+      "paired_guide": "GCTCGACCAGGATGGGCAC"
+    },
+    {
+      "key": "Katoh2007:EGFP:038",
+      "paired_guide": "AGCTCGACCAGGATGGGCA"
+    },
+    {
+      "key": "Katoh2007:EGFP:039",
+      "paired_guide": "CAGCTCGACCAGGATGGGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:040",
+      "paired_guide": "CCAGCTCGACCAGGATGGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:041",
+      "paired_guide": "TCCAGCTCGACCAGGATGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:042",
+      "paired_guide": "GTCCAGCTCGACCAGGATG"
+    },
+    {
+      "key": "Katoh2007:EGFP:043",
+      "paired_guide": "CGTCCAGCTCGACCAGGAT"
+    },
+    {
+      "key": "Katoh2007:EGFP:044",
+      "paired_guide": "CCGTCCAGCTCGACCAGGA"
+    },
+    {
+      "key": "Katoh2007:EGFP:045",
+      "paired_guide": "GCCGTCCAGCTCGACCAGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:046",
+      "paired_guide": "CGCCGTCCAGCTCGACCAG"
+    },
+    {
+      "key": "Katoh2007:EGFP:047",
+      "paired_guide": "TCGCCGTCCAGCTCGACCA"
+    },
+    {
+      "key": "Katoh2007:EGFP:048",
+      "paired_guide": "GTCGCCGTCCAGCTCGACC"
+    },
+    {
+      "key": "Katoh2007:EGFP:049",
+      "paired_guide": "CGTCGCCGTCCAGCTCGAC"
+    },
+    {
+      "key": "Katoh2007:EGFP:050",
+      "paired_guide": "ACGTCGCCGTCCAGCTCGA"
+    },
+    {
+      "key": "Katoh2007:EGFP:051",
+      "paired_guide": "TACGTCGCCGTCCAGCTCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:052",
+      "paired_guide": "TTACGTCGCCGTCCAGCTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:053",
+      "paired_guide": "TTTACGTCGCCGTCCAGCT"
+    },
+    {
+      "key": "Katoh2007:EGFP:054",
+      "paired_guide": "GTTTACGTCGCCGTCCAGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:055",
+      "paired_guide": "CGTTTACGTCGCCGTCCAG"
+    },
+    {
+      "key": "Katoh2007:EGFP:056",
+      "paired_guide": "CCGTTTACGTCGCCGTCCA"
+    },
+    {
+      "key": "Katoh2007:EGFP:057",
+      "paired_guide": "GCCGTTTACGTCGCCGTCC"
+    },
+    {
+      "key": "Katoh2007:EGFP:058",
+      "paired_guide": "GGCCGTTTACGTCGCCGTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:059",
+      "paired_guide": "TGGCCGTTTACGTCGCCGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:060",
+      "paired_guide": "GTGGCCGTTTACGTCGCCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:061",
+      "paired_guide": "TGTGGCCGTTTACGTCGCC"
+    },
+    {
+      "key": "Katoh2007:EGFP:062",
+      "paired_guide": "TTGTGGCCGTTTACGTCGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:063",
+      "paired_guide": "CTTGTGGCCGTTTACGTCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:064",
+      "paired_guide": "ACTTGTGGCCGTTTACGTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:065",
+      "paired_guide": "AACTTGTGGCCGTTTACGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:066",
+      "paired_guide": "GAACTTGTGGCCGTTTACG"
+    },
+    {
+      "key": "Katoh2007:EGFP:067",
+      "paired_guide": "TGAACTTGTGGCCGTTTAC"
+    },
+    {
+      "key": "Katoh2007:EGFP:068",
+      "paired_guide": "CTGAACTTGTGGCCGTTTA"
+    },
+    {
+      "key": "Katoh2007:EGFP:069",
+      "paired_guide": "GCTGAACTTGTGGCCGTTT"
+    },
+    {
+      "key": "Katoh2007:EGFP:070",
+      "paired_guide": "CGCTGAACTTGTGGCCGTT"
+    },
+    {
+      "key": "Katoh2007:EGFP:071",
+      "paired_guide": "ACGCTGAACTTGTGGCCGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:072",
+      "paired_guide": "CACGCTGAACTTGTGGCCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:073",
+      "paired_guide": "ACACGCTGAACTTGTGGCC"
+    },
+    {
+      "key": "Katoh2007:EGFP:074",
+      "paired_guide": "GACACGCTGAACTTGTGGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:075",
+      "paired_guide": "GGACACGCTGAACTTGTGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:076",
+      "paired_guide": "CGGACACGCTGAACTTGTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:077",
+      "paired_guide": "CCGGACACGCTGAACTTGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:078",
+      "paired_guide": "GCCGGACACGCTGAACTTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:079",
+      "paired_guide": "CGCCGGACACGCTGAACTT"
+    },
+    {
+      "key": "Katoh2007:EGFP:080",
+      "paired_guide": "TCGCCGGACACGCTGAACT"
+    },
+    {
+      "key": "Katoh2007:EGFP:081",
+      "paired_guide": "CTCGCCGGACACGCTGAAC"
+    },
+    {
+      "key": "Katoh2007:EGFP:082",
+      "paired_guide": "CCTCGCCGGACACGCTGAA"
+    },
+    {
+      "key": "Katoh2007:EGFP:083",
+      "paired_guide": "CCCTCGCCGGACACGCTGA"
+    },
+    {
+      "key": "Katoh2007:EGFP:084",
+      "paired_guide": "GCCCTCGCCGGACACGCTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:085",
+      "paired_guide": "CGCCCTCGCCGGACACGCT"
+    },
+    {
+      "key": "Katoh2007:EGFP:086",
+      "paired_guide": "TCGCCCTCGCCGGACACGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:087",
+      "paired_guide": "CTCGCCCTCGCCGGACACG"
+    },
+    {
+      "key": "Katoh2007:EGFP:088",
+      "paired_guide": "CCTCGCCCTCGCCGGACAC"
+    },
+    {
+      "key": "Katoh2007:EGFP:089",
+      "paired_guide": "CCCTCGCCCTCGCCGGACA"
+    },
+    {
+      "key": "Katoh2007:EGFP:090",
+      "paired_guide": "GCCCTCGCCCTCGCCGGAC"
+    },
+    {
+      "key": "Katoh2007:EGFP:091",
+      "paired_guide": "CGCCCTCGCCCTCGCCGGA"
+    },
+    {
+      "key": "Katoh2007:EGFP:092",
+      "paired_guide": "TCGCCCTCGCCCTCGCCGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:093",
+      "paired_guide": "ATCGCCCTCGCCCTCGCCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:094",
+      "paired_guide": "CATCGCCCTCGCCCTCGCC"
+    },
+    {
+      "key": "Katoh2007:EGFP:095",
+      "paired_guide": "GCATCGCCCTCGCCCTCGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:096",
+      "paired_guide": "GGCATCGCCCTCGCCCTCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:097",
+      "paired_guide": "TGGCATCGCCCTCGCCCTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:098",
+      "paired_guide": "GTGGCATCGCCCTCGCCCT"
+    },
+    {
+      "key": "Katoh2007:EGFP:099",
+      "paired_guide": "GGTGGCATCGCCCTCGCCC"
+    },
+    {
+      "key": "Katoh2007:EGFP:100",
+      "paired_guide": "AGGTGGCATCGCCCTCGCC"
+    },
+    {
+      "key": "Katoh2007:EGFP:101",
+      "paired_guide": "TAGGTGGCATCGCCCTCGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:102",
+      "paired_guide": "GTAGGTGGCATCGCCCTCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:103",
+      "paired_guide": "CGTAGGTGGCATCGCCCTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:104",
+      "paired_guide": "CCGTAGGTGGCATCGCCCT"
+    },
+    {
+      "key": "Katoh2007:EGFP:105",
+      "paired_guide": "GCCGTAGGTGGCATCGCCC"
+    },
+    {
+      "key": "Katoh2007:EGFP:106",
+      "paired_guide": "TGCCGTAGGTGGCATCGCC"
+    },
+    {
+      "key": "Katoh2007:EGFP:107",
+      "paired_guide": "TTGCCGTAGGTGGCATCGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:108",
+      "paired_guide": "CTTGCCGTAGGTGGCATCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:109",
+      "paired_guide": "GCTTGCCGTAGGTGGCATC"
+    },
+    {
+      "key": "Katoh2007:EGFP:110",
+      "paired_guide": "AGCTTGCCGTAGGTGGCAT"
+    },
+    {
+      "key": "Katoh2007:EGFP:111",
+      "paired_guide": "CAGCTTGCCGTAGGTGGCA"
+    },
+    {
+      "key": "Katoh2007:EGFP:112",
+      "paired_guide": "TCAGCTTGCCGTAGGTGGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:113",
+      "paired_guide": "GTCAGCTTGCCGTAGGTGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:114",
+      "paired_guide": "GGTCAGCTTGCCGTAGGTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:115",
+      "paired_guide": "GGGTCAGCTTGCCGTAGGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:116",
+      "paired_guide": "AGGGTCAGCTTGCCGTAGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:117",
+      "paired_guide": "CAGGGTCAGCTTGCCGTAG"
+    },
+    {
+      "key": "Katoh2007:EGFP:118",
+      "paired_guide": "TCAGGGTCAGCTTGCCGTA"
+    },
+    {
+      "key": "Katoh2007:EGFP:119",
+      "paired_guide": "TTCAGGGTCAGCTTGCCGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:120",
+      "paired_guide": "CTTCAGGGTCAGCTTGCCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:121",
+      "paired_guide": "ACTTCAGGGTCAGCTTGCC"
+    },
+    {
+      "key": "Katoh2007:EGFP:122",
+      "paired_guide": "AACTTCAGGGTCAGCTTGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:123",
+      "paired_guide": "GAACTTCAGGGTCAGCTTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:124",
+      "paired_guide": "TGAACTTCAGGGTCAGCTT"
+    },
+    {
+      "key": "Katoh2007:EGFP:125",
+      "paired_guide": "ATGAACTTCAGGGTCAGCT"
+    },
+    {
+      "key": "Katoh2007:EGFP:126",
+      "paired_guide": "GATGAACTTCAGGGTCAGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:127",
+      "paired_guide": "AGATGAACTTCAGGGTCAG"
+    },
+    {
+      "key": "Katoh2007:EGFP:128",
+      "paired_guide": "CAGATGAACTTCAGGGTCA"
+    },
+    {
+      "key": "Katoh2007:EGFP:129",
+      "paired_guide": "GCAGATGAACTTCAGGGTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:130",
+      "paired_guide": "TGCAGATGAACTTCAGGGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:131",
+      "paired_guide": "GTGCAGATGAACTTCAGGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:132",
+      "paired_guide": "GGTGCAGATGAACTTCAGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:133",
+      "paired_guide": "TGGTGCAGATGAACTTCAG"
+    },
+    {
+      "key": "Katoh2007:EGFP:134",
+      "paired_guide": "GTGGTGCAGATGAACTTCA"
+    },
+    {
+      "key": "Katoh2007:EGFP:135",
+      "paired_guide": "GGTGGTGCAGATGAACTTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:136",
+      "paired_guide": "CGGTGGTGCAGATGAACTT"
+    },
+    {
+      "key": "Katoh2007:EGFP:137",
+      "paired_guide": "CCGGTGGTGCAGATGAACT"
+    },
+    {
+      "key": "Katoh2007:EGFP:138",
+      "paired_guide": "GCCGGTGGTGCAGATGAAC"
+    },
+    {
+      "key": "Katoh2007:EGFP:139",
+      "paired_guide": "TGCCGGTGGTGCAGATGAA"
+    },
+    {
+      "key": "Katoh2007:EGFP:140",
+      "paired_guide": "TTGCCGGTGGTGCAGATGA"
+    },
+    {
+      "key": "Katoh2007:EGFP:141",
+      "paired_guide": "CTTGCCGGTGGTGCAGATG"
+    },
+    {
+      "key": "Katoh2007:EGFP:142",
+      "paired_guide": "GCTTGCCGGTGGTGCAGAT"
+    },
+    {
+      "key": "Katoh2007:EGFP:143",
+      "paired_guide": "AGCTTGCCGGTGGTGCAGA"
+    },
+    {
+      "key": "Katoh2007:EGFP:144",
+      "paired_guide": "CAGCTTGCCGGTGGTGCAG"
+    },
+    {
+      "key": "Katoh2007:EGFP:145",
+      "paired_guide": "GCAGCTTGCCGGTGGTGCA"
+    },
+    {
+      "key": "Katoh2007:EGFP:146",
+      "paired_guide": "GGCAGCTTGCCGGTGGTGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:147",
+      "paired_guide": "GGGCAGCTTGCCGGTGGTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:148",
+      "paired_guide": "CGGGCAGCTTGCCGGTGGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:149",
+      "paired_guide": "ACGGGCAGCTTGCCGGTGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:150",
+      "paired_guide": "CACGGGCAGCTTGCCGGTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:151",
+      "paired_guide": "GCACGGGCAGCTTGCCGGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:152",
+      "paired_guide": "GGCACGGGCAGCTTGCCGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:153",
+      "paired_guide": "GGGCACGGGCAGCTTGCCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:154",
+      "paired_guide": "AGGGCACGGGCAGCTTGCC"
+    },
+    {
+      "key": "Katoh2007:EGFP:155",
+      "paired_guide": "CAGGGCACGGGCAGCTTGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:156",
+      "paired_guide": "CCAGGGCACGGGCAGCTTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:157",
+      "paired_guide": "GCCAGGGCACGGGCAGCTT"
+    },
+    {
+      "key": "Katoh2007:EGFP:158",
+      "paired_guide": "GGCCAGGGCACGGGCAGCT"
+    },
+    {
+      "key": "Katoh2007:EGFP:159",
+      "paired_guide": "GGGCCAGGGCACGGGCAGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:160",
+      "paired_guide": "TGGGCCAGGGCACGGGCAG"
+    },
+    {
+      "key": "Katoh2007:EGFP:161",
+      "paired_guide": "GTGGGCCAGGGCACGGGCA"
+    },
+    {
+      "key": "Katoh2007:EGFP:162",
+      "paired_guide": "GGTGGGCCAGGGCACGGGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:163",
+      "paired_guide": "GGGTGGGCCAGGGCACGGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:164",
+      "paired_guide": "AGGGTGGGCCAGGGCACGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:165",
+      "paired_guide": "GAGGGTGGGCCAGGGCACG"
+    },
+    {
+      "key": "Katoh2007:EGFP:166",
+      "paired_guide": "CGAGGGTGGGCCAGGGCAC"
+    },
+    {
+      "key": "Katoh2007:EGFP:167",
+      "paired_guide": "ACGAGGGTGGGCCAGGGCA"
+    },
+    {
+      "key": "Katoh2007:EGFP:168",
+      "paired_guide": "CACGAGGGTGGGCCAGGGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:169",
+      "paired_guide": "TCACGAGGGTGGGCCAGGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:170",
+      "paired_guide": "GTCACGAGGGTGGGCCAGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:171",
+      "paired_guide": "GGTCACGAGGGTGGGCCAG"
+    },
+    {
+      "key": "Katoh2007:EGFP:172",
+      "paired_guide": "TGGTCACGAGGGTGGGCCA"
+    },
+    {
+      "key": "Katoh2007:EGFP:173",
+      "paired_guide": "GTGGTCACGAGGGTGGGCC"
+    },
+    {
+      "key": "Katoh2007:EGFP:174",
+      "paired_guide": "GGTGGTCACGAGGGTGGGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:175",
+      "paired_guide": "GGGTGGTCACGAGGGTGGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:176",
+      "paired_guide": "AGGGTGGTCACGAGGGTGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:177",
+      "paired_guide": "CAGGGTGGTCACGAGGGTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:178",
+      "paired_guide": "TCAGGGTGGTCACGAGGGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:179",
+      "paired_guide": "GTCAGGGTGGTCACGAGGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:180",
+      "paired_guide": "GGTCAGGGTGGTCACGAGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:181",
+      "paired_guide": "AGGTCAGGGTGGTCACGAG"
+    },
+    {
+      "key": "Katoh2007:EGFP:182",
+      "paired_guide": "TAGGTCAGGGTGGTCACGA"
+    },
+    {
+      "key": "Katoh2007:EGFP:183",
+      "paired_guide": "GTAGGTCAGGGTGGTCACG"
+    },
+    {
+      "key": "Katoh2007:EGFP:184",
+      "paired_guide": "CGTAGGTCAGGGTGGTCAC"
+    },
+    {
+      "key": "Katoh2007:EGFP:185",
+      "paired_guide": "CCGTAGGTCAGGGTGGTCA"
+    },
+    {
+      "key": "Katoh2007:EGFP:186",
+      "paired_guide": "GCCGTAGGTCAGGGTGGTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:187",
+      "paired_guide": "CGCCGTAGGTCAGGGTGGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:188",
+      "paired_guide": "ACGCCGTAGGTCAGGGTGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:189",
+      "paired_guide": "CACGCCGTAGGTCAGGGTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:190",
+      "paired_guide": "GCACGCCGTAGGTCAGGGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:191",
+      "paired_guide": "TGCACGCCGTAGGTCAGGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:192",
+      "paired_guide": "CTGCACGCCGTAGGTCAGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:193",
+      "paired_guide": "ACTGCACGCCGTAGGTCAG"
+    },
+    {
+      "key": "Katoh2007:EGFP:194",
+      "paired_guide": "CACTGCACGCCGTAGGTCA"
+    },
+    {
+      "key": "Katoh2007:EGFP:195",
+      "paired_guide": "GCACTGCACGCCGTAGGTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:196",
+      "paired_guide": "AGCACTGCACGCCGTAGGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:197",
+      "paired_guide": "AAGCACTGCACGCCGTAGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:198",
+      "paired_guide": "GAAGCACTGCACGCCGTAG"
+    },
+    {
+      "key": "Katoh2007:EGFP:199",
+      "paired_guide": "TGAAGCACTGCACGCCGTA"
+    },
+    {
+      "key": "Katoh2007:EGFP:200",
+      "paired_guide": "CTGAAGCACTGCACGCCGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:201",
+      "paired_guide": "GCTGAAGCACTGCACGCCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:202",
+      "paired_guide": "GGCTGAAGCACTGCACGCC"
+    },
+    {
+      "key": "Katoh2007:EGFP:203",
+      "paired_guide": "CGGCTGAAGCACTGCACGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:204",
+      "paired_guide": "GCGGCTGAAGCACTGCACG"
+    },
+    {
+      "key": "Katoh2007:EGFP:205",
+      "paired_guide": "AGCGGCTGAAGCACTGCAC"
+    },
+    {
+      "key": "Katoh2007:EGFP:206",
+      "paired_guide": "TAGCGGCTGAAGCACTGCA"
+    },
+    {
+      "key": "Katoh2007:EGFP:207",
+      "paired_guide": "GTAGCGGCTGAAGCACTGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:208",
+      "paired_guide": "GGTAGCGGCTGAAGCACTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:209",
+      "paired_guide": "GGGTAGCGGCTGAAGCACT"
+    },
+    {
+      "key": "Katoh2007:EGFP:210",
+      "paired_guide": "GGGGTAGCGGCTGAAGCAC"
+    },
+    {
+      "key": "Katoh2007:EGFP:211",
+      "paired_guide": "CGGGGTAGCGGCTGAAGCA"
+    },
+    {
+      "key": "Katoh2007:EGFP:212",
+      "paired_guide": "TCGGGGTAGCGGCTGAAGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:213",
+      "paired_guide": "GTCGGGGTAGCGGCTGAAG"
+    },
+    {
+      "key": "Katoh2007:EGFP:214",
+      "paired_guide": "GGTCGGGGTAGCGGCTGAA"
+    },
+    {
+      "key": "Katoh2007:EGFP:215",
+      "paired_guide": "TGGTCGGGGTAGCGGCTGA"
+    },
+    {
+      "key": "Katoh2007:EGFP:216",
+      "paired_guide": "GTGGTCGGGGTAGCGGCTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:217",
+      "paired_guide": "TGTGGTCGGGGTAGCGGCT"
+    },
+    {
+      "key": "Katoh2007:EGFP:218",
+      "paired_guide": "ATGTGGTCGGGGTAGCGGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:219",
+      "paired_guide": "CATGTGGTCGGGGTAGCGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:220",
+      "paired_guide": "TCATGTGGTCGGGGTAGCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:221",
+      "paired_guide": "TTCATGTGGTCGGGGTAGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:222",
+      "paired_guide": "CTTCATGTGGTCGGGGTAG"
+    },
+    {
+      "key": "Katoh2007:EGFP:223",
+      "paired_guide": "GCTTCATGTGGTCGGGGTA"
+    },
+    {
+      "key": "Katoh2007:EGFP:224",
+      "paired_guide": "TGCTTCATGTGGTCGGGGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:225",
+      "paired_guide": "CTGCTTCATGTGGTCGGGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:226",
+      "paired_guide": "GCTGCTTCATGTGGTCGGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:227",
+      "paired_guide": "TGCTGCTTCATGTGGTCGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:228",
+      "paired_guide": "GTGCTGCTTCATGTGGTCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:229",
+      "paired_guide": "CGTGCTGCTTCATGTGGTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:230",
+      "paired_guide": "TCGTGCTGCTTCATGTGGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:231",
+      "paired_guide": "GTCGTGCTGCTTCATGTGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:232",
+      "paired_guide": "AGTCGTGCTGCTTCATGTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:233",
+      "paired_guide": "AAGTCGTGCTGCTTCATGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:234",
+      "paired_guide": "GAAGTCGTGCTGCTTCATG"
+    },
+    {
+      "key": "Katoh2007:EGFP:235",
+      "paired_guide": "AGAAGTCGTGCTGCTTCAT"
+    },
+    {
+      "key": "Katoh2007:EGFP:236",
+      "paired_guide": "AAGAAGTCGTGCTGCTTCA"
+    },
+    {
+      "key": "Katoh2007:EGFP:237",
+      "paired_guide": "GAAGAAGTCGTGCTGCTTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:238",
+      "paired_guide": "TGAAGAAGTCGTGCTGCTT"
+    },
+    {
+      "key": "Katoh2007:EGFP:239",
+      "paired_guide": "TTGAAGAAGTCGTGCTGCT"
+    },
+    {
+      "key": "Katoh2007:EGFP:240",
+      "paired_guide": "CTTGAAGAAGTCGTGCTGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:241",
+      "paired_guide": "ACTTGAAGAAGTCGTGCTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:242",
+      "paired_guide": "GACTTGAAGAAGTCGTGCT"
+    },
+    {
+      "key": "Katoh2007:EGFP:243",
+      "paired_guide": "GGACTTGAAGAAGTCGTGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:244",
+      "paired_guide": "CGGACTTGAAGAAGTCGTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:245",
+      "paired_guide": "GCGGACTTGAAGAAGTCGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:246",
+      "paired_guide": "GGCGGACTTGAAGAAGTCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:247",
+      "paired_guide": "TGGCGGACTTGAAGAAGTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:248",
+      "paired_guide": "ATGGCGGACTTGAAGAAGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:249",
+      "paired_guide": "CATGGCGGACTTGAAGAAG"
+    },
+    {
+      "key": "Katoh2007:EGFP:250",
+      "paired_guide": "GCATGGCGGACTTGAAGAA"
+    },
+    {
+      "key": "Katoh2007:EGFP:251",
+      "paired_guide": "GGCATGGCGGACTTGAAGA"
+    },
+    {
+      "key": "Katoh2007:EGFP:252",
+      "paired_guide": "GGGCATGGCGGACTTGAAG"
+    },
+    {
+      "key": "Katoh2007:EGFP:253",
+      "paired_guide": "CGGGCATGGCGGACTTGAA"
+    },
+    {
+      "key": "Katoh2007:EGFP:254",
+      "paired_guide": "TCGGGCATGGCGGACTTGA"
+    },
+    {
+      "key": "Katoh2007:EGFP:255",
+      "paired_guide": "TTCGGGCATGGCGGACTTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:256",
+      "paired_guide": "CTTCGGGCATGGCGGACTT"
+    },
+    {
+      "key": "Katoh2007:EGFP:257",
+      "paired_guide": "CCTTCGGGCATGGCGGACT"
+    },
+    {
+      "key": "Katoh2007:EGFP:258",
+      "paired_guide": "GCCTTCGGGCATGGCGGAC"
+    },
+    {
+      "key": "Katoh2007:EGFP:259",
+      "paired_guide": "AGCCTTCGGGCATGGCGGA"
+    },
+    {
+      "key": "Katoh2007:EGFP:260",
+      "paired_guide": "TAGCCTTCGGGCATGGCGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:261",
+      "paired_guide": "GTAGCCTTCGGGCATGGCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:262",
+      "paired_guide": "CGTAGCCTTCGGGCATGGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:263",
+      "paired_guide": "ACGTAGCCTTCGGGCATGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:264",
+      "paired_guide": "GACGTAGCCTTCGGGCATG"
+    },
+    {
+      "key": "Katoh2007:EGFP:265",
+      "paired_guide": "GGACGTAGCCTTCGGGCAT"
+    },
+    {
+      "key": "Katoh2007:EGFP:266",
+      "paired_guide": "TGGACGTAGCCTTCGGGCA"
+    },
+    {
+      "key": "Katoh2007:EGFP:267",
+      "paired_guide": "CTGGACGTAGCCTTCGGGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:268",
+      "paired_guide": "CCTGGACGTAGCCTTCGGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:269",
+      "paired_guide": "TCCTGGACGTAGCCTTCGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:270",
+      "paired_guide": "CTCCTGGACGTAGCCTTCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:271",
+      "paired_guide": "GCTCCTGGACGTAGCCTTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:272",
+      "paired_guide": "CGCTCCTGGACGTAGCCTT"
+    },
+    {
+      "key": "Katoh2007:EGFP:273",
+      "paired_guide": "GCGCTCCTGGACGTAGCCT"
+    },
+    {
+      "key": "Katoh2007:EGFP:274",
+      "paired_guide": "TGCGCTCCTGGACGTAGCC"
+    },
+    {
+      "key": "Katoh2007:EGFP:275",
+      "paired_guide": "GTGCGCTCCTGGACGTAGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:276",
+      "paired_guide": "GGTGCGCTCCTGGACGTAG"
+    },
+    {
+      "key": "Katoh2007:EGFP:277",
+      "paired_guide": "TGGTGCGCTCCTGGACGTA"
+    },
+    {
+      "key": "Katoh2007:EGFP:278",
+      "paired_guide": "ATGGTGCGCTCCTGGACGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:279",
+      "paired_guide": "GATGGTGCGCTCCTGGACG"
+    },
+    {
+      "key": "Katoh2007:EGFP:280",
+      "paired_guide": "AGATGGTGCGCTCCTGGAC"
+    },
+    {
+      "key": "Katoh2007:EGFP:281",
+      "paired_guide": "AAGATGGTGCGCTCCTGGA"
+    },
+    {
+      "key": "Katoh2007:EGFP:282",
+      "paired_guide": "GAAGATGGTGCGCTCCTGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:283",
+      "paired_guide": "AGAAGATGGTGCGCTCCTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:284",
+      "paired_guide": "AAGAAGATGGTGCGCTCCT"
+    },
+    {
+      "key": "Katoh2007:EGFP:285",
+      "paired_guide": "GAAGAAGATGGTGCGCTCC"
+    },
+    {
+      "key": "Katoh2007:EGFP:286",
+      "paired_guide": "TGAAGAAGATGGTGCGCTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:287",
+      "paired_guide": "TTGAAGAAGATGGTGCGCT"
+    },
+    {
+      "key": "Katoh2007:EGFP:288",
+      "paired_guide": "CTTGAAGAAGATGGTGCGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:289",
+      "paired_guide": "CCTTGAAGAAGATGGTGCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:290",
+      "paired_guide": "TCCTTGAAGAAGATGGTGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:291",
+      "paired_guide": "GTCCTTGAAGAAGATGGTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:292",
+      "paired_guide": "CGTCCTTGAAGAAGATGGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:293",
+      "paired_guide": "TCGTCCTTGAAGAAGATGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:294",
+      "paired_guide": "GTCGTCCTTGAAGAAGATG"
+    },
+    {
+      "key": "Katoh2007:EGFP:295",
+      "paired_guide": "CGTCGTCCTTGAAGAAGAT"
+    },
+    {
+      "key": "Katoh2007:EGFP:296",
+      "paired_guide": "CCGTCGTCCTTGAAGAAGA"
+    },
+    {
+      "key": "Katoh2007:EGFP:297",
+      "paired_guide": "GCCGTCGTCCTTGAAGAAG"
+    },
+    {
+      "key": "Katoh2007:EGFP:298",
+      "paired_guide": "TGCCGTCGTCCTTGAAGAA"
+    },
+    {
+      "key": "Katoh2007:EGFP:299",
+      "paired_guide": "TTGCCGTCGTCCTTGAAGA"
+    },
+    {
+      "key": "Katoh2007:EGFP:300",
+      "paired_guide": "GTTGCCGTCGTCCTTGAAG"
+    },
+    {
+      "key": "Katoh2007:EGFP:301",
+      "paired_guide": "AGTTGCCGTCGTCCTTGAA"
+    },
+    {
+      "key": "Katoh2007:EGFP:302",
+      "paired_guide": "TAGTTGCCGTCGTCCTTGA"
+    },
+    {
+      "key": "Katoh2007:EGFP:303",
+      "paired_guide": "GTAGTTGCCGTCGTCCTTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:304",
+      "paired_guide": "TGTAGTTGCCGTCGTCCTT"
+    },
+    {
+      "key": "Katoh2007:EGFP:305",
+      "paired_guide": "TTGTAGTTGCCGTCGTCCT"
+    },
+    {
+      "key": "Katoh2007:EGFP:306",
+      "paired_guide": "CTTGTAGTTGCCGTCGTCC"
+    },
+    {
+      "key": "Katoh2007:EGFP:307",
+      "paired_guide": "TCTTGTAGTTGCCGTCGTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:308",
+      "paired_guide": "GTCTTGTAGTTGCCGTCGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:309",
+      "paired_guide": "GGTCTTGTAGTTGCCGTCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:310",
+      "paired_guide": "GGGTCTTGTAGTTGCCGTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:311",
+      "paired_guide": "CGGGTCTTGTAGTTGCCGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:312",
+      "paired_guide": "GCGGGTCTTGTAGTTGCCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:313",
+      "paired_guide": "CGCGGGTCTTGTAGTTGCC"
+    },
+    {
+      "key": "Katoh2007:EGFP:314",
+      "paired_guide": "GCGCGGGTCTTGTAGTTGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:315",
+      "paired_guide": "GGCGCGGGTCTTGTAGTTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:316",
+      "paired_guide": "CGGCGCGGGTCTTGTAGTT"
+    },
+    {
+      "key": "Katoh2007:EGFP:317",
+      "paired_guide": "TCGGCGCGGGTCTTGTAGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:318",
+      "paired_guide": "CTCGGCGCGGGTCTTGTAG"
+    },
+    {
+      "key": "Katoh2007:EGFP:319",
+      "paired_guide": "CCTCGGCGCGGGTCTTGTA"
+    },
+    {
+      "key": "Katoh2007:EGFP:320",
+      "paired_guide": "ACCTCGGCGCGGGTCTTGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:321",
+      "paired_guide": "CACCTCGGCGCGGGTCTTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:322",
+      "paired_guide": "TCACCTCGGCGCGGGTCTT"
+    },
+    {
+      "key": "Katoh2007:EGFP:323",
+      "paired_guide": "TTCACCTCGGCGCGGGTCT"
+    },
+    {
+      "key": "Katoh2007:EGFP:324",
+      "paired_guide": "CTTCACCTCGGCGCGGGTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:325",
+      "paired_guide": "ACTTCACCTCGGCGCGGGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:326",
+      "paired_guide": "AACTTCACCTCGGCGCGGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:327",
+      "paired_guide": "GAACTTCACCTCGGCGCGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:328",
+      "paired_guide": "CGAACTTCACCTCGGCGCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:329",
+      "paired_guide": "TCGAACTTCACCTCGGCGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:330",
+      "paired_guide": "CTCGAACTTCACCTCGGCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:331",
+      "paired_guide": "CCTCGAACTTCACCTCGGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:332",
+      "paired_guide": "CCCTCGAACTTCACCTCGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:333",
+      "paired_guide": "GCCCTCGAACTTCACCTCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:334",
+      "paired_guide": "CGCCCTCGAACTTCACCTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:335",
+      "paired_guide": "TCGCCCTCGAACTTCACCT"
+    },
+    {
+      "key": "Katoh2007:EGFP:336",
+      "paired_guide": "GTCGCCCTCGAACTTCACC"
+    },
+    {
+      "key": "Katoh2007:EGFP:337",
+      "paired_guide": "TGTCGCCCTCGAACTTCAC"
+    },
+    {
+      "key": "Katoh2007:EGFP:338",
+      "paired_guide": "GTGTCGCCCTCGAACTTCA"
+    },
+    {
+      "key": "Katoh2007:EGFP:339",
+      "paired_guide": "GGTGTCGCCCTCGAACTTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:340",
+      "paired_guide": "GGGTGTCGCCCTCGAACTT"
+    },
+    {
+      "key": "Katoh2007:EGFP:341",
+      "paired_guide": "AGGGTGTCGCCCTCGAACT"
+    },
+    {
+      "key": "Katoh2007:EGFP:342",
+      "paired_guide": "CAGGGTGTCGCCCTCGAAC"
+    },
+    {
+      "key": "Katoh2007:EGFP:343",
+      "paired_guide": "CCAGGGTGTCGCCCTCGAA"
+    },
+    {
+      "key": "Katoh2007:EGFP:344",
+      "paired_guide": "ACCAGGGTGTCGCCCTCGA"
+    },
+    {
+      "key": "Katoh2007:EGFP:345",
+      "paired_guide": "CACCAGGGTGTCGCCCTCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:346",
+      "paired_guide": "TCACCAGGGTGTCGCCCTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:347",
+      "paired_guide": "TTCACCAGGGTGTCGCCCT"
+    },
+    {
+      "key": "Katoh2007:EGFP:348",
+      "paired_guide": "GTTCACCAGGGTGTCGCCC"
+    },
+    {
+      "key": "Katoh2007:EGFP:349",
+      "paired_guide": "GGTTCACCAGGGTGTCGCC"
+    },
+    {
+      "key": "Katoh2007:EGFP:350",
+      "paired_guide": "CGGTTCACCAGGGTGTCGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:351",
+      "paired_guide": "GCGGTTCACCAGGGTGTCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:352",
+      "paired_guide": "TGCGGTTCACCAGGGTGTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:353",
+      "paired_guide": "ATGCGGTTCACCAGGGTGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:354",
+      "paired_guide": "GATGCGGTTCACCAGGGTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:355",
+      "paired_guide": "CGATGCGGTTCACCAGGGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:356",
+      "paired_guide": "TCGATGCGGTTCACCAGGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:357",
+      "paired_guide": "CTCGATGCGGTTCACCAGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:358",
+      "paired_guide": "GCTCGATGCGGTTCACCAG"
+    },
+    {
+      "key": "Katoh2007:EGFP:359",
+      "paired_guide": "AGCTCGATGCGGTTCACCA"
+    },
+    {
+      "key": "Katoh2007:EGFP:360",
+      "paired_guide": "CAGCTCGATGCGGTTCACC"
+    },
+    {
+      "key": "Katoh2007:EGFP:361",
+      "paired_guide": "TCAGCTCGATGCGGTTCAC"
+    },
+    {
+      "key": "Katoh2007:EGFP:362",
+      "paired_guide": "TTCAGCTCGATGCGGTTCA"
+    },
+    {
+      "key": "Katoh2007:EGFP:363",
+      "paired_guide": "CTTCAGCTCGATGCGGTTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:364",
+      "paired_guide": "CCTTCAGCTCGATGCGGTT"
+    },
+    {
+      "key": "Katoh2007:EGFP:365",
+      "paired_guide": "CCCTTCAGCTCGATGCGGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:366",
+      "paired_guide": "GCCCTTCAGCTCGATGCGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:367",
+      "paired_guide": "TGCCCTTCAGCTCGATGCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:368",
+      "paired_guide": "ATGCCCTTCAGCTCGATGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:369",
+      "paired_guide": "GATGCCCTTCAGCTCGATG"
+    },
+    {
+      "key": "Katoh2007:EGFP:370",
+      "paired_guide": "CGATGCCCTTCAGCTCGAT"
+    },
+    {
+      "key": "Katoh2007:EGFP:371",
+      "paired_guide": "TCGATGCCCTTCAGCTCGA"
+    },
+    {
+      "key": "Katoh2007:EGFP:372",
+      "paired_guide": "GTCGATGCCCTTCAGCTCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:373",
+      "paired_guide": "AGTCGATGCCCTTCAGCTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:374",
+      "paired_guide": "AAGTCGATGCCCTTCAGCT"
+    },
+    {
+      "key": "Katoh2007:EGFP:375",
+      "paired_guide": "GAAGTCGATGCCCTTCAGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:376",
+      "paired_guide": "TGAAGTCGATGCCCTTCAG"
+    },
+    {
+      "key": "Katoh2007:EGFP:377",
+      "paired_guide": "TTGAAGTCGATGCCCTTCA"
+    },
+    {
+      "key": "Katoh2007:EGFP:378",
+      "paired_guide": "CTTGAAGTCGATGCCCTTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:379",
+      "paired_guide": "CCTTGAAGTCGATGCCCTT"
+    },
+    {
+      "key": "Katoh2007:EGFP:380",
+      "paired_guide": "TCCTTGAAGTCGATGCCCT"
+    },
+    {
+      "key": "Katoh2007:EGFP:381",
+      "paired_guide": "CTCCTTGAAGTCGATGCCC"
+    },
+    {
+      "key": "Katoh2007:EGFP:382",
+      "paired_guide": "CCTCCTTGAAGTCGATGCC"
+    },
+    {
+      "key": "Katoh2007:EGFP:383",
+      "paired_guide": "TCCTCCTTGAAGTCGATGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:384",
+      "paired_guide": "GTCCTCCTTGAAGTCGATG"
+    },
+    {
+      "key": "Katoh2007:EGFP:385",
+      "paired_guide": "CGTCCTCCTTGAAGTCGAT"
+    },
+    {
+      "key": "Katoh2007:EGFP:386",
+      "paired_guide": "CCGTCCTCCTTGAAGTCGA"
+    },
+    {
+      "key": "Katoh2007:EGFP:387",
+      "paired_guide": "GCCGTCCTCCTTGAAGTCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:388",
+      "paired_guide": "TGCCGTCCTCCTTGAAGTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:389",
+      "paired_guide": "TTGCCGTCCTCCTTGAAGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:390",
+      "paired_guide": "GTTGCCGTCCTCCTTGAAG"
+    },
+    {
+      "key": "Katoh2007:EGFP:391",
+      "paired_guide": "TGTTGCCGTCCTCCTTGAA"
+    },
+    {
+      "key": "Katoh2007:EGFP:392",
+      "paired_guide": "ATGTTGCCGTCCTCCTTGA"
+    },
+    {
+      "key": "Katoh2007:EGFP:393",
+      "paired_guide": "GATGTTGCCGTCCTCCTTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:394",
+      "paired_guide": "GGATGTTGCCGTCCTCCTT"
+    },
+    {
+      "key": "Katoh2007:EGFP:395",
+      "paired_guide": "AGGATGTTGCCGTCCTCCT"
+    },
+    {
+      "key": "Katoh2007:EGFP:396",
+      "paired_guide": "CAGGATGTTGCCGTCCTCC"
+    },
+    {
+      "key": "Katoh2007:EGFP:397",
+      "paired_guide": "CCAGGATGTTGCCGTCCTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:398",
+      "paired_guide": "CCCAGGATGTTGCCGTCCT"
+    },
+    {
+      "key": "Katoh2007:EGFP:399",
+      "paired_guide": "CCCCAGGATGTTGCCGTCC"
+    },
+    {
+      "key": "Katoh2007:EGFP:400",
+      "paired_guide": "GCCCCAGGATGTTGCCGTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:401",
+      "paired_guide": "TGCCCCAGGATGTTGCCGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:402",
+      "paired_guide": "GTGCCCCAGGATGTTGCCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:403",
+      "paired_guide": "TGTGCCCCAGGATGTTGCC"
+    },
+    {
+      "key": "Katoh2007:EGFP:404",
+      "paired_guide": "TTGTGCCCCAGGATGTTGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:405",
+      "paired_guide": "CTTGTGCCCCAGGATGTTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:406",
+      "paired_guide": "GCTTGTGCCCCAGGATGTT"
+    },
+    {
+      "key": "Katoh2007:EGFP:407",
+      "paired_guide": "AGCTTGTGCCCCAGGATGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:408",
+      "paired_guide": "CAGCTTGTGCCCCAGGATG"
+    },
+    {
+      "key": "Katoh2007:EGFP:409",
+      "paired_guide": "CCAGCTTGTGCCCCAGGAT"
+    },
+    {
+      "key": "Katoh2007:EGFP:410",
+      "paired_guide": "TCCAGCTTGTGCCCCAGGA"
+    },
+    {
+      "key": "Katoh2007:EGFP:411",
+      "paired_guide": "CTCCAGCTTGTGCCCCAGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:412",
+      "paired_guide": "ACTCCAGCTTGTGCCCCAG"
+    },
+    {
+      "key": "Katoh2007:EGFP:413",
+      "paired_guide": "TACTCCAGCTTGTGCCCCA"
+    },
+    {
+      "key": "Katoh2007:EGFP:414",
+      "paired_guide": "GTACTCCAGCTTGTGCCCC"
+    },
+    {
+      "key": "Katoh2007:EGFP:415",
+      "paired_guide": "TGTACTCCAGCTTGTGCCC"
+    },
+    {
+      "key": "Katoh2007:EGFP:416",
+      "paired_guide": "TTGTACTCCAGCTTGTGCC"
+    },
+    {
+      "key": "Katoh2007:EGFP:417",
+      "paired_guide": "GTTGTACTCCAGCTTGTGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:418",
+      "paired_guide": "AGTTGTACTCCAGCTTGTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:419",
+      "paired_guide": "TAGTTGTACTCCAGCTTGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:420",
+      "paired_guide": "GTAGTTGTACTCCAGCTTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:421",
+      "paired_guide": "TGTAGTTGTACTCCAGCTT"
+    },
+    {
+      "key": "Katoh2007:EGFP:422",
+      "paired_guide": "TTGTAGTTGTACTCCAGCT"
+    },
+    {
+      "key": "Katoh2007:EGFP:423",
+      "paired_guide": "GTTGTAGTTGTACTCCAGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:424",
+      "paired_guide": "TGTTGTAGTTGTACTCCAG"
+    },
+    {
+      "key": "Katoh2007:EGFP:425",
+      "paired_guide": "CTGTTGTAGTTGTACTCCA"
+    },
+    {
+      "key": "Katoh2007:EGFP:426",
+      "paired_guide": "GCTGTTGTAGTTGTACTCC"
+    },
+    {
+      "key": "Katoh2007:EGFP:427",
+      "paired_guide": "GGCTGTTGTAGTTGTACTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:428",
+      "paired_guide": "TGGCTGTTGTAGTTGTACT"
+    },
+    {
+      "key": "Katoh2007:EGFP:429",
+      "paired_guide": "GTGGCTGTTGTAGTTGTAC"
+    },
+    {
+      "key": "Katoh2007:EGFP:430",
+      "paired_guide": "TGTGGCTGTTGTAGTTGTA"
+    },
+    {
+      "key": "Katoh2007:EGFP:431",
+      "paired_guide": "TTGTGGCTGTTGTAGTTGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:432",
+      "paired_guide": "GTTGTGGCTGTTGTAGTTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:433",
+      "paired_guide": "CGTTGTGGCTGTTGTAGTT"
+    },
+    {
+      "key": "Katoh2007:EGFP:434",
+      "paired_guide": "ACGTTGTGGCTGTTGTAGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:435",
+      "paired_guide": "GACGTTGTGGCTGTTGTAG"
+    },
+    {
+      "key": "Katoh2007:EGFP:436",
+      "paired_guide": "AGACGTTGTGGCTGTTGTA"
+    },
+    {
+      "key": "Katoh2007:EGFP:437",
+      "paired_guide": "TAGACGTTGTGGCTGTTGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:438",
+      "paired_guide": "ATAGACGTTGTGGCTGTTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:439",
+      "paired_guide": "TATAGACGTTGTGGCTGTT"
+    },
+    {
+      "key": "Katoh2007:EGFP:440",
+      "paired_guide": "ATATAGACGTTGTGGCTGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:441",
+      "paired_guide": "GATATAGACGTTGTGGCTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:442",
+      "paired_guide": "TGATATAGACGTTGTGGCT"
+    },
+    {
+      "key": "Katoh2007:EGFP:443",
+      "paired_guide": "ATGATATAGACGTTGTGGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:444",
+      "paired_guide": "CATGATATAGACGTTGTGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:445",
+      "paired_guide": "CCATGATATAGACGTTGTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:446",
+      "paired_guide": "GCCATGATATAGACGTTGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:447",
+      "paired_guide": "GGCCATGATATAGACGTTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:448",
+      "paired_guide": "CGGCCATGATATAGACGTT"
+    },
+    {
+      "key": "Katoh2007:EGFP:449",
+      "paired_guide": "TCGGCCATGATATAGACGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:450",
+      "paired_guide": "GTCGGCCATGATATAGACG"
+    },
+    {
+      "key": "Katoh2007:EGFP:451",
+      "paired_guide": "TGTCGGCCATGATATAGAC"
+    },
+    {
+      "key": "Katoh2007:EGFP:452",
+      "paired_guide": "TTGTCGGCCATGATATAGA"
+    },
+    {
+      "key": "Katoh2007:EGFP:453",
+      "paired_guide": "CTTGTCGGCCATGATATAG"
+    },
+    {
+      "key": "Katoh2007:EGFP:454",
+      "paired_guide": "GCTTGTCGGCCATGATATA"
+    },
+    {
+      "key": "Katoh2007:EGFP:455",
+      "paired_guide": "TGCTTGTCGGCCATGATAT"
+    },
+    {
+      "key": "Katoh2007:EGFP:456",
+      "paired_guide": "CTGCTTGTCGGCCATGATA"
+    },
+    {
+      "key": "Katoh2007:EGFP:457",
+      "paired_guide": "TCTGCTTGTCGGCCATGAT"
+    },
+    {
+      "key": "Katoh2007:EGFP:458",
+      "paired_guide": "TTCTGCTTGTCGGCCATGA"
+    },
+    {
+      "key": "Katoh2007:EGFP:459",
+      "paired_guide": "CTTCTGCTTGTCGGCCATG"
+    },
+    {
+      "key": "Katoh2007:EGFP:460",
+      "paired_guide": "TCTTCTGCTTGTCGGCCAT"
+    },
+    {
+      "key": "Katoh2007:EGFP:461",
+      "paired_guide": "TTCTTCTGCTTGTCGGCCA"
+    },
+    {
+      "key": "Katoh2007:EGFP:462",
+      "paired_guide": "GTTCTTCTGCTTGTCGGCC"
+    },
+    {
+      "key": "Katoh2007:EGFP:463",
+      "paired_guide": "CGTTCTTCTGCTTGTCGGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:464",
+      "paired_guide": "CCGTTCTTCTGCTTGTCGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:465",
+      "paired_guide": "GCCGTTCTTCTGCTTGTCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:466",
+      "paired_guide": "TGCCGTTCTTCTGCTTGTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:467",
+      "paired_guide": "ATGCCGTTCTTCTGCTTGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:468",
+      "paired_guide": "GATGCCGTTCTTCTGCTTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:469",
+      "paired_guide": "TGATGCCGTTCTTCTGCTT"
+    },
+    {
+      "key": "Katoh2007:EGFP:470",
+      "paired_guide": "TTGATGCCGTTCTTCTGCT"
+    },
+    {
+      "key": "Katoh2007:EGFP:471",
+      "paired_guide": "CTTGATGCCGTTCTTCTGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:472",
+      "paired_guide": "CCTTGATGCCGTTCTTCTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:473",
+      "paired_guide": "ACCTTGATGCCGTTCTTCT"
+    },
+    {
+      "key": "Katoh2007:EGFP:474",
+      "paired_guide": "CACCTTGATGCCGTTCTTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:475",
+      "paired_guide": "TCACCTTGATGCCGTTCTT"
+    },
+    {
+      "key": "Katoh2007:EGFP:476",
+      "paired_guide": "TTCACCTTGATGCCGTTCT"
+    },
+    {
+      "key": "Katoh2007:EGFP:477",
+      "paired_guide": "GTTCACCTTGATGCCGTTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:478",
+      "paired_guide": "AGTTCACCTTGATGCCGTT"
+    },
+    {
+      "key": "Katoh2007:EGFP:479",
+      "paired_guide": "AAGTTCACCTTGATGCCGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:480",
+      "paired_guide": "GAAGTTCACCTTGATGCCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:481",
+      "paired_guide": "TGAAGTTCACCTTGATGCC"
+    },
+    {
+      "key": "Katoh2007:EGFP:482",
+      "paired_guide": "TTGAAGTTCACCTTGATGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:483",
+      "paired_guide": "CTTGAAGTTCACCTTGATG"
+    },
+    {
+      "key": "Katoh2007:EGFP:484",
+      "paired_guide": "TCTTGAAGTTCACCTTGAT"
+    },
+    {
+      "key": "Katoh2007:EGFP:485",
+      "paired_guide": "ATCTTGAAGTTCACCTTGA"
+    },
+    {
+      "key": "Katoh2007:EGFP:486",
+      "paired_guide": "GATCTTGAAGTTCACCTTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:487",
+      "paired_guide": "GGATCTTGAAGTTCACCTT"
+    },
+    {
+      "key": "Katoh2007:EGFP:488",
+      "paired_guide": "CGGATCTTGAAGTTCACCT"
+    },
+    {
+      "key": "Katoh2007:EGFP:489",
+      "paired_guide": "GCGGATCTTGAAGTTCACC"
+    },
+    {
+      "key": "Katoh2007:EGFP:490",
+      "paired_guide": "GGCGGATCTTGAAGTTCAC"
+    },
+    {
+      "key": "Katoh2007:EGFP:491",
+      "paired_guide": "TGGCGGATCTTGAAGTTCA"
+    },
+    {
+      "key": "Katoh2007:EGFP:492",
+      "paired_guide": "GTGGCGGATCTTGAAGTTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:493",
+      "paired_guide": "TGTGGCGGATCTTGAAGTT"
+    },
+    {
+      "key": "Katoh2007:EGFP:494",
+      "paired_guide": "TTGTGGCGGATCTTGAAGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:495",
+      "paired_guide": "GTTGTGGCGGATCTTGAAG"
+    },
+    {
+      "key": "Katoh2007:EGFP:496",
+      "paired_guide": "TGTTGTGGCGGATCTTGAA"
+    },
+    {
+      "key": "Katoh2007:EGFP:497",
+      "paired_guide": "ATGTTGTGGCGGATCTTGA"
+    },
+    {
+      "key": "Katoh2007:EGFP:498",
+      "paired_guide": "GATGTTGTGGCGGATCTTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:499",
+      "paired_guide": "CGATGTTGTGGCGGATCTT"
+    },
+    {
+      "key": "Katoh2007:EGFP:500",
+      "paired_guide": "TCGATGTTGTGGCGGATCT"
+    },
+    {
+      "key": "Katoh2007:EGFP:501",
+      "paired_guide": "CTCGATGTTGTGGCGGATC"
+    },
+    {
+      "key": "Katoh2007:EGFP:502",
+      "paired_guide": "CCTCGATGTTGTGGCGGAT"
+    },
+    {
+      "key": "Katoh2007:EGFP:503",
+      "paired_guide": "TCCTCGATGTTGTGGCGGA"
+    },
+    {
+      "key": "Katoh2007:EGFP:504",
+      "paired_guide": "GTCCTCGATGTTGTGGCGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:505",
+      "paired_guide": "CGTCCTCGATGTTGTGGCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:506",
+      "paired_guide": "CCGTCCTCGATGTTGTGGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:507",
+      "paired_guide": "GCCGTCCTCGATGTTGTGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:508",
+      "paired_guide": "TGCCGTCCTCGATGTTGTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:509",
+      "paired_guide": "CTGCCGTCCTCGATGTTGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:510",
+      "paired_guide": "GCTGCCGTCCTCGATGTTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:511",
+      "paired_guide": "CGCTGCCGTCCTCGATGTT"
+    },
+    {
+      "key": "Katoh2007:EGFP:512",
+      "paired_guide": "ACGCTGCCGTCCTCGATGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:513",
+      "paired_guide": "CACGCTGCCGTCCTCGATG"
+    },
+    {
+      "key": "Katoh2007:EGFP:514",
+      "paired_guide": "GCACGCTGCCGTCCTCGAT"
+    },
+    {
+      "key": "Katoh2007:EGFP:515",
+      "paired_guide": "TGCACGCTGCCGTCCTCGA"
+    },
+    {
+      "key": "Katoh2007:EGFP:516",
+      "paired_guide": "CTGCACGCTGCCGTCCTCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:517",
+      "paired_guide": "GCTGCACGCTGCCGTCCTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:518",
+      "paired_guide": "AGCTGCACGCTGCCGTCCT"
+    },
+    {
+      "key": "Katoh2007:EGFP:519",
+      "paired_guide": "GAGCTGCACGCTGCCGTCC"
+    },
+    {
+      "key": "Katoh2007:EGFP:520",
+      "paired_guide": "CGAGCTGCACGCTGCCGTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:521",
+      "paired_guide": "GCGAGCTGCACGCTGCCGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:522",
+      "paired_guide": "GGCGAGCTGCACGCTGCCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:523",
+      "paired_guide": "CGGCGAGCTGCACGCTGCC"
+    },
+    {
+      "key": "Katoh2007:EGFP:524",
+      "paired_guide": "TCGGCGAGCTGCACGCTGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:525",
+      "paired_guide": "GTCGGCGAGCTGCACGCTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:526",
+      "paired_guide": "GGTCGGCGAGCTGCACGCT"
+    },
+    {
+      "key": "Katoh2007:EGFP:527",
+      "paired_guide": "TGGTCGGCGAGCTGCACGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:528",
+      "paired_guide": "GTGGTCGGCGAGCTGCACG"
+    },
+    {
+      "key": "Katoh2007:EGFP:529",
+      "paired_guide": "AGTGGTCGGCGAGCTGCAC"
+    },
+    {
+      "key": "Katoh2007:EGFP:530",
+      "paired_guide": "TAGTGGTCGGCGAGCTGCA"
+    },
+    {
+      "key": "Katoh2007:EGFP:531",
+      "paired_guide": "GTAGTGGTCGGCGAGCTGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:532",
+      "paired_guide": "GGTAGTGGTCGGCGAGCTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:533",
+      "paired_guide": "TGGTAGTGGTCGGCGAGCT"
+    },
+    {
+      "key": "Katoh2007:EGFP:534",
+      "paired_guide": "CTGGTAGTGGTCGGCGAGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:535",
+      "paired_guide": "GCTGGTAGTGGTCGGCGAG"
+    },
+    {
+      "key": "Katoh2007:EGFP:536",
+      "paired_guide": "TGCTGGTAGTGGTCGGCGA"
+    },
+    {
+      "key": "Katoh2007:EGFP:537",
+      "paired_guide": "CTGCTGGTAGTGGTCGGCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:538",
+      "paired_guide": "TCTGCTGGTAGTGGTCGGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:539",
+      "paired_guide": "TTCTGCTGGTAGTGGTCGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:540",
+      "paired_guide": "GTTCTGCTGGTAGTGGTCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:541",
+      "paired_guide": "TGTTCTGCTGGTAGTGGTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:542",
+      "paired_guide": "GTGTTCTGCTGGTAGTGGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:543",
+      "paired_guide": "GGTGTTCTGCTGGTAGTGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:544",
+      "paired_guide": "GGGTGTTCTGCTGGTAGTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:545",
+      "paired_guide": "GGGGTGTTCTGCTGGTAGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:546",
+      "paired_guide": "GGGGGTGTTCTGCTGGTAG"
+    },
+    {
+      "key": "Katoh2007:EGFP:547",
+      "paired_guide": "TGGGGGTGTTCTGCTGGTA"
+    },
+    {
+      "key": "Katoh2007:EGFP:548",
+      "paired_guide": "ATGGGGGTGTTCTGCTGGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:549",
+      "paired_guide": "GATGGGGGTGTTCTGCTGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:550",
+      "paired_guide": "CGATGGGGGTGTTCTGCTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:551",
+      "paired_guide": "CCGATGGGGGTGTTCTGCT"
+    },
+    {
+      "key": "Katoh2007:EGFP:552",
+      "paired_guide": "GCCGATGGGGGTGTTCTGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:553",
+      "paired_guide": "CGCCGATGGGGGTGTTCTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:554",
+      "paired_guide": "TCGCCGATGGGGGTGTTCT"
+    },
+    {
+      "key": "Katoh2007:EGFP:555",
+      "paired_guide": "GTCGCCGATGGGGGTGTTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:556",
+      "paired_guide": "CGTCGCCGATGGGGGTGTT"
+    },
+    {
+      "key": "Katoh2007:EGFP:557",
+      "paired_guide": "CCGTCGCCGATGGGGGTGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:558",
+      "paired_guide": "GCCGTCGCCGATGGGGGTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:559",
+      "paired_guide": "GGCCGTCGCCGATGGGGGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:560",
+      "paired_guide": "GGGCCGTCGCCGATGGGGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:561",
+      "paired_guide": "GGGGCCGTCGCCGATGGGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:562",
+      "paired_guide": "CGGGGCCGTCGCCGATGGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:563",
+      "paired_guide": "ACGGGGCCGTCGCCGATGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:564",
+      "paired_guide": "CACGGGGCCGTCGCCGATG"
+    },
+    {
+      "key": "Katoh2007:EGFP:565",
+      "paired_guide": "GCACGGGGCCGTCGCCGAT"
+    },
+    {
+      "key": "Katoh2007:EGFP:566",
+      "paired_guide": "AGCACGGGGCCGTCGCCGA"
+    },
+    {
+      "key": "Katoh2007:EGFP:567",
+      "paired_guide": "CAGCACGGGGCCGTCGCCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:568",
+      "paired_guide": "GCAGCACGGGGCCGTCGCC"
+    },
+    {
+      "key": "Katoh2007:EGFP:569",
+      "paired_guide": "AGCAGCACGGGGCCGTCGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:570",
+      "paired_guide": "CAGCAGCACGGGGCCGTCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:571",
+      "paired_guide": "GCAGCAGCACGGGGCCGTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:572",
+      "paired_guide": "GGCAGCAGCACGGGGCCGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:573",
+      "paired_guide": "GGGCAGCAGCACGGGGCCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:574",
+      "paired_guide": "CGGGCAGCAGCACGGGGCC"
+    },
+    {
+      "key": "Katoh2007:EGFP:575",
+      "paired_guide": "TCGGGCAGCAGCACGGGGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:576",
+      "paired_guide": "GTCGGGCAGCAGCACGGGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:577",
+      "paired_guide": "TGTCGGGCAGCAGCACGGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:578",
+      "paired_guide": "TTGTCGGGCAGCAGCACGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:579",
+      "paired_guide": "GTTGTCGGGCAGCAGCACG"
+    },
+    {
+      "key": "Katoh2007:EGFP:580",
+      "paired_guide": "GGTTGTCGGGCAGCAGCAC"
+    },
+    {
+      "key": "Katoh2007:EGFP:581",
+      "paired_guide": "TGGTTGTCGGGCAGCAGCA"
+    },
+    {
+      "key": "Katoh2007:EGFP:582",
+      "paired_guide": "GTGGTTGTCGGGCAGCAGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:583",
+      "paired_guide": "AGTGGTTGTCGGGCAGCAG"
+    },
+    {
+      "key": "Katoh2007:EGFP:584",
+      "paired_guide": "TAGTGGTTGTCGGGCAGCA"
+    },
+    {
+      "key": "Katoh2007:EGFP:585",
+      "paired_guide": "GTAGTGGTTGTCGGGCAGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:586",
+      "paired_guide": "GGTAGTGGTTGTCGGGCAG"
+    },
+    {
+      "key": "Katoh2007:EGFP:587",
+      "paired_guide": "AGGTAGTGGTTGTCGGGCA"
+    },
+    {
+      "key": "Katoh2007:EGFP:588",
+      "paired_guide": "CAGGTAGTGGTTGTCGGGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:589",
+      "paired_guide": "TCAGGTAGTGGTTGTCGGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:590",
+      "paired_guide": "CTCAGGTAGTGGTTGTCGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:591",
+      "paired_guide": "GCTCAGGTAGTGGTTGTCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:592",
+      "paired_guide": "TGCTCAGGTAGTGGTTGTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:593",
+      "paired_guide": "GTGCTCAGGTAGTGGTTGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:594",
+      "paired_guide": "GGTGCTCAGGTAGTGGTTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:595",
+      "paired_guide": "GGGTGCTCAGGTAGTGGTT"
+    },
+    {
+      "key": "Katoh2007:EGFP:596",
+      "paired_guide": "TGGGTGCTCAGGTAGTGGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:597",
+      "paired_guide": "CTGGGTGCTCAGGTAGTGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:598",
+      "paired_guide": "ACTGGGTGCTCAGGTAGTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:599",
+      "paired_guide": "GACTGGGTGCTCAGGTAGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:600",
+      "paired_guide": "GGACTGGGTGCTCAGGTAG"
+    },
+    {
+      "key": "Katoh2007:EGFP:601",
+      "paired_guide": "CGGACTGGGTGCTCAGGTA"
+    },
+    {
+      "key": "Katoh2007:EGFP:602",
+      "paired_guide": "GCGGACTGGGTGCTCAGGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:603",
+      "paired_guide": "GGCGGACTGGGTGCTCAGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:604",
+      "paired_guide": "GGGCGGACTGGGTGCTCAG"
+    },
+    {
+      "key": "Katoh2007:EGFP:605",
+      "paired_guide": "AGGGCGGACTGGGTGCTCA"
+    },
+    {
+      "key": "Katoh2007:EGFP:606",
+      "paired_guide": "CAGGGCGGACTGGGTGCTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:607",
+      "paired_guide": "TCAGGGCGGACTGGGTGCT"
+    },
+    {
+      "key": "Katoh2007:EGFP:608",
+      "paired_guide": "CTCAGGGCGGACTGGGTGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:609",
+      "paired_guide": "GCTCAGGGCGGACTGGGTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:610",
+      "paired_guide": "TGCTCAGGGCGGACTGGGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:611",
+      "paired_guide": "TTGCTCAGGGCGGACTGGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:612",
+      "paired_guide": "TTTGCTCAGGGCGGACTGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:613",
+      "paired_guide": "CTTTGCTCAGGGCGGACTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:614",
+      "paired_guide": "TCTTTGCTCAGGGCGGACT"
+    },
+    {
+      "key": "Katoh2007:EGFP:615",
+      "paired_guide": "GTCTTTGCTCAGGGCGGAC"
+    },
+    {
+      "key": "Katoh2007:EGFP:616",
+      "paired_guide": "GGTCTTTGCTCAGGGCGGA"
+    },
+    {
+      "key": "Katoh2007:EGFP:617",
+      "paired_guide": "GGGTCTTTGCTCAGGGCGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:618",
+      "paired_guide": "GGGGTCTTTGCTCAGGGCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:619",
+      "paired_guide": "TGGGGTCTTTGCTCAGGGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:620",
+      "paired_guide": "TTGGGGTCTTTGCTCAGGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:621",
+      "paired_guide": "GTTGGGGTCTTTGCTCAGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:622",
+      "paired_guide": "CGTTGGGGTCTTTGCTCAG"
+    },
+    {
+      "key": "Katoh2007:EGFP:623",
+      "paired_guide": "TCGTTGGGGTCTTTGCTCA"
+    },
+    {
+      "key": "Katoh2007:EGFP:624",
+      "paired_guide": "CTCGTTGGGGTCTTTGCTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:625",
+      "paired_guide": "TCTCGTTGGGGTCTTTGCT"
+    },
+    {
+      "key": "Katoh2007:EGFP:626",
+      "paired_guide": "TTCTCGTTGGGGTCTTTGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:627",
+      "paired_guide": "CTTCTCGTTGGGGTCTTTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:628",
+      "paired_guide": "GCTTCTCGTTGGGGTCTTT"
+    },
+    {
+      "key": "Katoh2007:EGFP:629",
+      "paired_guide": "CGCTTCTCGTTGGGGTCTT"
+    },
+    {
+      "key": "Katoh2007:EGFP:630",
+      "paired_guide": "GCGCTTCTCGTTGGGGTCT"
+    },
+    {
+      "key": "Katoh2007:EGFP:631",
+      "paired_guide": "CGCGCTTCTCGTTGGGGTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:632",
+      "paired_guide": "TCGCGCTTCTCGTTGGGGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:633",
+      "paired_guide": "ATCGCGCTTCTCGTTGGGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:634",
+      "paired_guide": "GATCGCGCTTCTCGTTGGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:635",
+      "paired_guide": "TGATCGCGCTTCTCGTTGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:636",
+      "paired_guide": "GTGATCGCGCTTCTCGTTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:637",
+      "paired_guide": "TGTGATCGCGCTTCTCGTT"
+    },
+    {
+      "key": "Katoh2007:EGFP:638",
+      "paired_guide": "ATGTGATCGCGCTTCTCGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:639",
+      "paired_guide": "CATGTGATCGCGCTTCTCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:640",
+      "paired_guide": "CCATGTGATCGCGCTTCTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:641",
+      "paired_guide": "ACCATGTGATCGCGCTTCT"
+    },
+    {
+      "key": "Katoh2007:EGFP:642",
+      "paired_guide": "GACCATGTGATCGCGCTTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:643",
+      "paired_guide": "GGACCATGTGATCGCGCTT"
+    },
+    {
+      "key": "Katoh2007:EGFP:644",
+      "paired_guide": "AGGACCATGTGATCGCGCT"
+    },
+    {
+      "key": "Katoh2007:EGFP:645",
+      "paired_guide": "CAGGACCATGTGATCGCGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:646",
+      "paired_guide": "GCAGGACCATGTGATCGCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:647",
+      "paired_guide": "AGCAGGACCATGTGATCGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:648",
+      "paired_guide": "CAGCAGGACCATGTGATCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:649",
+      "paired_guide": "CCAGCAGGACCATGTGATC"
+    },
+    {
+      "key": "Katoh2007:EGFP:650",
+      "paired_guide": "TCCAGCAGGACCATGTGAT"
+    },
+    {
+      "key": "Katoh2007:EGFP:651",
+      "paired_guide": "CTCCAGCAGGACCATGTGA"
+    },
+    {
+      "key": "Katoh2007:EGFP:652",
+      "paired_guide": "ACTCCAGCAGGACCATGTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:653",
+      "paired_guide": "AACTCCAGCAGGACCATGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:654",
+      "paired_guide": "GAACTCCAGCAGGACCATG"
+    },
+    {
+      "key": "Katoh2007:EGFP:655",
+      "paired_guide": "CGAACTCCAGCAGGACCAT"
+    },
+    {
+      "key": "Katoh2007:EGFP:656",
+      "paired_guide": "ACGAACTCCAGCAGGACCA"
+    },
+    {
+      "key": "Katoh2007:EGFP:657",
+      "paired_guide": "CACGAACTCCAGCAGGACC"
+    },
+    {
+      "key": "Katoh2007:EGFP:658",
+      "paired_guide": "TCACGAACTCCAGCAGGAC"
+    },
+    {
+      "key": "Katoh2007:EGFP:659",
+      "paired_guide": "GTCACGAACTCCAGCAGGA"
+    },
+    {
+      "key": "Katoh2007:EGFP:660",
+      "paired_guide": "GGTCACGAACTCCAGCAGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:661",
+      "paired_guide": "CGGTCACGAACTCCAGCAG"
+    },
+    {
+      "key": "Katoh2007:EGFP:662",
+      "paired_guide": "GCGGTCACGAACTCCAGCA"
+    },
+    {
+      "key": "Katoh2007:EGFP:663",
+      "paired_guide": "GGCGGTCACGAACTCCAGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:664",
+      "paired_guide": "CGGCGGTCACGAACTCCAG"
+    },
+    {
+      "key": "Katoh2007:EGFP:665",
+      "paired_guide": "GCGGCGGTCACGAACTCCA"
+    },
+    {
+      "key": "Katoh2007:EGFP:666",
+      "paired_guide": "GGCGGCGGTCACGAACTCC"
+    },
+    {
+      "key": "Katoh2007:EGFP:667",
+      "paired_guide": "CGGCGGCGGTCACGAACTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:668",
+      "paired_guide": "CCGGCGGCGGTCACGAACT"
+    },
+    {
+      "key": "Katoh2007:EGFP:669",
+      "paired_guide": "CCCGGCGGCGGTCACGAAC"
+    },
+    {
+      "key": "Katoh2007:EGFP:670",
+      "paired_guide": "TCCCGGCGGCGGTCACGAA"
+    },
+    {
+      "key": "Katoh2007:EGFP:671",
+      "paired_guide": "ATCCCGGCGGCGGTCACGA"
+    },
+    {
+      "key": "Katoh2007:EGFP:672",
+      "paired_guide": "GATCCCGGCGGCGGTCACG"
+    },
+    {
+      "key": "Katoh2007:EGFP:673",
+      "paired_guide": "TGATCCCGGCGGCGGTCAC"
+    },
+    {
+      "key": "Katoh2007:EGFP:674",
+      "paired_guide": "GTGATCCCGGCGGCGGTCA"
+    },
+    {
+      "key": "Katoh2007:EGFP:675",
+      "paired_guide": "AGTGATCCCGGCGGCGGTC"
+    },
+    {
+      "key": "Katoh2007:EGFP:676",
+      "paired_guide": "GAGTGATCCCGGCGGCGGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:677",
+      "paired_guide": "AGAGTGATCCCGGCGGCGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:678",
+      "paired_guide": "GAGAGTGATCCCGGCGGCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:679",
+      "paired_guide": "CGAGAGTGATCCCGGCGGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:680",
+      "paired_guide": "CCGAGAGTGATCCCGGCGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:681",
+      "paired_guide": "GCCGAGAGTGATCCCGGCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:682",
+      "paired_guide": "TGCCGAGAGTGATCCCGGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:683",
+      "paired_guide": "ATGCCGAGAGTGATCCCGG"
+    },
+    {
+      "key": "Katoh2007:EGFP:684",
+      "paired_guide": "CATGCCGAGAGTGATCCCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:685",
+      "paired_guide": "CCATGCCGAGAGTGATCCC"
+    },
+    {
+      "key": "Katoh2007:EGFP:686",
+      "paired_guide": "TCCATGCCGAGAGTGATCC"
+    },
+    {
+      "key": "Katoh2007:EGFP:687",
+      "paired_guide": "GTCCATGCCGAGAGTGATC"
+    },
+    {
+      "key": "Katoh2007:EGFP:688",
+      "paired_guide": "CGTCCATGCCGAGAGTGAT"
+    },
+    {
+      "key": "Katoh2007:EGFP:689",
+      "paired_guide": "TCGTCCATGCCGAGAGTGA"
+    },
+    {
+      "key": "Katoh2007:EGFP:690",
+      "paired_guide": "CTCGTCCATGCCGAGAGTG"
+    },
+    {
+      "key": "Katoh2007:EGFP:691",
+      "paired_guide": "GCTCGTCCATGCCGAGAGT"
+    },
+    {
+      "key": "Katoh2007:EGFP:692",
+      "paired_guide": "AGCTCGTCCATGCCGAGAG"
+    },
+    {
+      "key": "Katoh2007:EGFP:693",
+      "paired_guide": "CAGCTCGTCCATGCCGAGA"
+    },
+    {
+      "key": "Katoh2007:EGFP:694",
+      "paired_guide": "ACAGCTCGTCCATGCCGAG"
+    },
+    {
+      "key": "Katoh2007:EGFP:695",
+      "paired_guide": "TACAGCTCGTCCATGCCGA"
+    },
+    {
+      "key": "Katoh2007:EGFP:696",
+      "paired_guide": "GTACAGCTCGTCCATGCCG"
+    },
+    {
+      "key": "Katoh2007:EGFP:697",
+      "paired_guide": "TGTACAGCTCGTCCATGCC"
+    },
+    {
+      "key": "Katoh2007:EGFP:698",
+      "paired_guide": "TTGTACAGCTCGTCCATGC"
+    },
+    {
+      "key": "Katoh2007:EGFP:699",
+      "paired_guide": "CTTGTACAGCTCGTCCATG"
+    },
+    {
+      "key": "Katoh2007:EGFP:700",
+      "paired_guide": "ACTTGTACAGCTCGTCCAT"
+    },
+    {
+      "key": "Katoh2007:EGFP:701",
+      "paired_guide": "TACTTGTACAGCTCGTCCA"
+    },
+    {
+      "key": "Katoh2007:EGFP:702",
+      "paired_guide": "TTACTTGTACAGCTCGTCC"
+    }
+  ]
+}

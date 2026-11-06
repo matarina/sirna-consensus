@@ -1,0 +1,443 @@
+{
+  "protocol_sha256": "64f2bc3592732a0ce680677b1791f5a444a69cf491fd4fcf47207521efe34cc9",
+  "records_sha256": "38b1ed9a422abc5867877d81d1174b7ab1b7fcce6d061bb348f5a2c80f8f3073",
+  "metrics": {
+    "current_default": {
+      "ndcg5": 0.8291167144888554,
+      "precision5": 0.8,
+      "top5_active_fraction": 0.8,
+      "top3_at_least_one_active": 1.0,
+      "fill_rate": 1.0,
+      "prediction_coverage": 1.0,
+      "measurement_coverage": 1.0,
+      "budget_yield": 0.8,
+      "spearman": 0.5197173683669776,
+      "assays": 1,
+      "genes": 1,
+      "abstentions": 0,
+      "per_gene_assay": [
+        {
+          "unit": "Katoh2007|REPORTER:EGFP|HeLa_EGFP_10nM_72h_flow",
+          "study": "Katoh2007",
+          "gene_id": "REPORTER:EGFP",
+          "n": 702,
+          "ndcg5": 0.8291167144888554,
+          "ndcg_eligible": true,
+          "precision5": 0.8,
+          "top5_active_fraction": 0.8,
+          "top3_at_least_one_active": 1.0,
+          "fill_rate": 1.0,
+          "prediction_coverage": 1.0,
+          "abstentions": 0,
+          "measurement_coverage": 1.0,
+          "budget_yield": 0.8,
+          "spearman": 0.5197173683669776,
+          "top_ids": [
+            "Katoh2007:EGFP:125",
+            "Katoh2007:EGFP:307",
+            "Katoh2007:EGFP:241",
+            "Katoh2007:EGFP:482",
+            "Katoh2007:EGFP:614"
+          ]
+        }
+      ],
+      "full_molecule_adapter": {
+        "provenance": {
+          "name": "grouped_sequence_ranker_v1",
+          "manifest_sha256": "20c62469d5d347c66316bd56aac760388e29751aa6fbb7e941ef12019fafd08a",
+          "checkpoint_sha256": "fc63456bd7f5f8b53d197a009cd2b9bf5d0fca7e7347ba88ca0192071a11cbe3",
+          "command": [
+            "/data1/maxw/proj/cargo_denovo/sirna-consensus/.scorer-venv/bin/python",
+            "/data1/maxw/proj/cargo_denovo/sirna-consensus/src/sirna_consensus/learning.py",
+            "--predict",
+            "/data1/maxw/proj/cargo_denovo/sirna-consensus/benchmarks/external_confirmation_20261106/outputs/current_default/observed_adapter/scorer_input.json",
+            "/data1/maxw/proj/cargo_denovo/sirna-consensus/benchmarks/external_confirmation_20261106/outputs/current_default/observed_adapter/scorer_output.json",
+            "/data1/maxw/proj/cargo_denovo/sirna-consensus/models/development_20261106/scorer_manifest.json"
+          ],
+          "input_sha256": "1de21c2dc0e29ae05590554c037b5d83ee5c0571dd22c582220995257c1fe7b9",
+          "supported_count": 0,
+          "unsupported_count": 702,
+          "training_audit": "all_four_studies_exposed_development_only",
+          "independent_validation_passed": false
+        },
+        "macro": {
+          "ndcg5": 0.0,
+          "precision5": null,
+          "top5_active_fraction": null,
+          "top3_at_least_one_active": 0.0,
+          "fill_rate": 0.0,
+          "prediction_coverage": 0.0,
+          "measurement_coverage": null,
+          "budget_yield": 0.0,
+          "spearman": null,
+          "assays": 1,
+          "genes": 1,
+          "abstentions": 702,
+          "per_gene_assay": [
+            {
+              "unit": "Katoh2007|REPORTER:EGFP|HeLa_EGFP_10nM_72h_flow",
+              "study": "Katoh2007",
+              "gene_id": "REPORTER:EGFP",
+              "n": 702,
+              "ndcg5": 0.0,
+              "ndcg_eligible": true,
+              "precision5": null,
+              "top5_active_fraction": null,
+              "top3_at_least_one_active": 0.0,
+              "fill_rate": 0.0,
+              "prediction_coverage": 0.0,
+              "abstentions": 702,
+              "measurement_coverage": null,
+              "budget_yield": 0.0,
+              "spearman": null,
+              "top_ids": []
+            }
+          ]
+        },
+        "note": "Missing documented overhangs: this abstention is distinct from paired-core component ranking."
+      }
+    },
+    "huesken_only_challenger": {
+      "ndcg5": 0.8696036315442058,
+      "precision5": 0.8,
+      "top5_active_fraction": 0.8,
+      "top3_at_least_one_active": 1.0,
+      "fill_rate": 1.0,
+      "prediction_coverage": 1.0,
+      "measurement_coverage": 1.0,
+      "budget_yield": 0.8,
+      "spearman": 0.5934588757823994,
+      "assays": 1,
+      "genes": 1,
+      "abstentions": 0,
+      "per_gene_assay": [
+        {
+          "unit": "Katoh2007|REPORTER:EGFP|HeLa_EGFP_10nM_72h_flow",
+          "study": "Katoh2007",
+          "gene_id": "REPORTER:EGFP",
+          "n": 702,
+          "ndcg5": 0.8696036315442058,
+          "ndcg_eligible": true,
+          "precision5": 0.8,
+          "top5_active_fraction": 0.8,
+          "top3_at_least_one_active": 1.0,
+          "fill_rate": 1.0,
+          "prediction_coverage": 1.0,
+          "abstentions": 0,
+          "measurement_coverage": 1.0,
+          "budget_yield": 0.8,
+          "spearman": 0.5934588757823994,
+          "top_ids": [
+            "Katoh2007:EGFP:702",
+            "Katoh2007:EGFP:482",
+            "Katoh2007:EGFP:416",
+            "Katoh2007:EGFP:698",
+            "Katoh2007:EGFP:305"
+          ]
+        }
+      ],
+      "full_molecule_adapter": {
+        "provenance": {
+          "name": "huesken_only_challenger",
+          "manifest_sha256": "e3338ec00d0178981b9a1c47d536c9fd243cb99eb87d1fd48a2910d51882de10",
+          "checkpoint_sha256": "c692e4b4dc03ee01348f37073e595942a288766ccc46e9752a00317c62c90c38",
+          "command": [
+            "/data1/maxw/proj/cargo_denovo/sirna-consensus/.scorer-venv/bin/python",
+            "/data1/maxw/proj/cargo_denovo/sirna-consensus/src/sirna_consensus/challenger.py",
+            "--predict",
+            "/data1/maxw/proj/cargo_denovo/sirna-consensus/benchmarks/external_confirmation_20261106/outputs/huesken_only_challenger/observed_adapter/scorer_input.json",
+            "/data1/maxw/proj/cargo_denovo/sirna-consensus/benchmarks/external_confirmation_20261106/outputs/huesken_only_challenger/observed_adapter/scorer_output.json",
+            "/data1/maxw/proj/cargo_denovo/sirna-consensus/models/huesken_only_20261106/scorer_manifest.json"
+          ],
+          "input_sha256": "6af5789c5568d99788e9fea0cd8b05feee05d6e8e7908e2424f011e6c8ffa081",
+          "supported_count": 0,
+          "unsupported_count": 702,
+          "training_audit": "Huesken_only; confirmation never used for fitting or selection",
+          "independent_validation_passed": false
+        },
+        "macro": {
+          "ndcg5": 0.0,
+          "precision5": null,
+          "top5_active_fraction": null,
+          "top3_at_least_one_active": 0.0,
+          "fill_rate": 0.0,
+          "prediction_coverage": 0.0,
+          "measurement_coverage": null,
+          "budget_yield": 0.0,
+          "spearman": null,
+          "assays": 1,
+          "genes": 1,
+          "abstentions": 702,
+          "per_gene_assay": [
+            {
+              "unit": "Katoh2007|REPORTER:EGFP|HeLa_EGFP_10nM_72h_flow",
+              "study": "Katoh2007",
+              "gene_id": "REPORTER:EGFP",
+              "n": 702,
+              "ndcg5": 0.0,
+              "ndcg_eligible": true,
+              "precision5": null,
+              "top5_active_fraction": null,
+              "top3_at_least_one_active": 0.0,
+              "fill_rate": 0.0,
+              "prediction_coverage": 0.0,
+              "abstentions": 702,
+              "measurement_coverage": null,
+              "budget_yield": 0.0,
+              "spearman": null,
+              "top_ids": []
+            }
+          ]
+        },
+        "note": "Missing documented overhangs: this abstention is distinct from paired-core component ranking."
+      }
+    },
+    "quality_rules": {
+      "ndcg5": 0.6722038097509001,
+      "precision5": 0.6,
+      "top5_active_fraction": 0.6,
+      "top3_at_least_one_active": 1.0,
+      "fill_rate": 1.0,
+      "prediction_coverage": 1.0,
+      "measurement_coverage": 1.0,
+      "budget_yield": 0.6,
+      "spearman": 0.6024480394739133,
+      "assays": 1,
+      "genes": 1,
+      "abstentions": 0,
+      "per_gene_assay": [
+        {
+          "unit": "Katoh2007|REPORTER:EGFP|HeLa_EGFP_10nM_72h_flow",
+          "study": "Katoh2007",
+          "gene_id": "REPORTER:EGFP",
+          "n": 702,
+          "ndcg5": 0.6722038097509001,
+          "ndcg_eligible": true,
+          "precision5": 0.6,
+          "top5_active_fraction": 0.6,
+          "top3_at_least_one_active": 1.0,
+          "fill_rate": 1.0,
+          "prediction_coverage": 1.0,
+          "abstentions": 0,
+          "measurement_coverage": 1.0,
+          "budget_yield": 0.6,
+          "spearman": 0.6024480394739133,
+          "top_ids": [
+            "Katoh2007:EGFP:065",
+            "Katoh2007:EGFP:236",
+            "Katoh2007:EGFP:233",
+            "Katoh2007:EGFP:479",
+            "Katoh2007:EGFP:473"
+          ]
+        }
+      ]
+    },
+    "uniform_random_expectation": {
+      "ndcg5": 0.4441065160027406,
+      "precision5": 0.25213675213675213,
+      "top5_active_fraction": 0.25213675213675213,
+      "top3_at_least_one_active": 0.5823243961617713,
+      "fill_rate": 1.0,
+      "prediction_coverage": 1.0,
+      "measurement_coverage": 1.0,
+      "abstentions": 0,
+      "budget_yield": 0.25213675213675213,
+      "spearman": 0.0,
+      "active_records": 177,
+      "records": 702
+    },
+    "observed_core_pipeline_fallback": {
+      "ndcg5": 0.6722038097509001,
+      "precision5": 0.6,
+      "top5_active_fraction": 0.6,
+      "top3_at_least_one_active": 1.0,
+      "fill_rate": 1.0,
+      "prediction_coverage": 1.0,
+      "measurement_coverage": 1.0,
+      "budget_yield": 0.6,
+      "spearman": 0.6024480394739133,
+      "assays": 1,
+      "genes": 1,
+      "abstentions": 0,
+      "per_gene_assay": [
+        {
+          "unit": "Katoh2007|REPORTER:EGFP|HeLa_EGFP_10nM_72h_flow",
+          "study": "Katoh2007",
+          "gene_id": "REPORTER:EGFP",
+          "n": 702,
+          "ndcg5": 0.6722038097509001,
+          "ndcg_eligible": true,
+          "precision5": 0.6,
+          "top5_active_fraction": 0.6,
+          "top3_at_least_one_active": 1.0,
+          "fill_rate": 1.0,
+          "prediction_coverage": 1.0,
+          "abstentions": 0,
+          "measurement_coverage": 1.0,
+          "budget_yield": 0.6,
+          "spearman": 0.6024480394739133,
+          "top_ids": [
+            "Katoh2007:EGFP:065",
+            "Katoh2007:EGFP:236",
+            "Katoh2007:EGFP:233",
+            "Katoh2007:EGFP:479",
+            "Katoh2007:EGFP:473"
+          ]
+        }
+      ]
+    }
+  },
+  "generation": {
+    "current_default": {
+      "run_path": "benchmarks/external_confirmation_20261106/outputs/current_default/generation/run.json",
+      "run_sha256": "11d0a264bc75898a4230600ea39e60faff5f6c2d4f686e11fcb0d803e740a001",
+      "candidates": 698,
+      "selected": 5,
+      "panel_fill_rate": 1.0,
+      "candidates_with_experimental_19core": 698,
+      "exact_full_molecule_measurement_coverage": 0.0,
+      "known_active": 0,
+      "known_inactive": 0,
+      "unknown": 5,
+      "active_budget_fraction_bounds": [
+        0.0,
+        1.0
+      ],
+      "specificity_verified_panel_fill_rate": 0.0,
+      "specificity": "not assessed; reporter is not a human reference target",
+      "panel": [
+        {
+          "key": "Katoh2007_EGFP_ORF:125:19:1c492589fc50aacf",
+          "start": 125,
+          "sense": "AGCTGACCCTGAAGTTCAT",
+          "guide_dna": "ATGAACTTCAGGGTCAGCTTG",
+          "ordered_guide": "ATGAACTTCAGGGTCAGCTTG",
+          "passenger": "AGCTGACCCTGAAGTTCATCT",
+          "molecule_id": "1c492589fc50aacfe63319f8be296093f0862ec1e96c22fca399a9133f7a6b84",
+          "score": 1.0
+        },
+        {
+          "key": "Katoh2007_EGFP_ORF:307:19:f46a14358393a910",
+          "start": 307,
+          "sense": "GACGACGGCAACTACAAGA",
+          "guide_dna": "TCTTGTAGTTGCCGTCGTCCT",
+          "ordered_guide": "TCTTGTAGTTGCCGTCGTCCT",
+          "passenger": "GACGACGGCAACTACAAGACC",
+          "molecule_id": "f46a14358393a910c162f31e6360cc85eadd65a122310705ea4032811d6b8c08",
+          "score": 0.9985652797704447
+        },
+        {
+          "key": "Katoh2007_EGFP_ORF:241:19:11950d2c635d41c2",
+          "start": 241,
+          "sense": "CAGCACGACTTCTTCAAGT",
+          "guide_dna": "ACTTGAAGAAGTCGTGCTGCT",
+          "ordered_guide": "ACTTGAAGAAGTCGTGCTGCT",
+          "passenger": "CAGCACGACTTCTTCAAGTCC",
+          "molecule_id": "11950d2c635d41c2ed8edaad27ff0c24a1505a7e99964a94ba0f7354491705af",
+          "score": 0.9971305595408895
+        },
+        {
+          "key": "Katoh2007_EGFP_ORF:482:19:2fcfccb36c3416c9",
+          "start": 482,
+          "sense": "GCATCAAGGTGAACTTCAA",
+          "guide_dna": "TTGAAGTTCACCTTGATGCCG",
+          "ordered_guide": "TTGAAGTTCACCTTGATGCCG",
+          "passenger": "GCATCAAGGTGAACTTCAAGA",
+          "molecule_id": "2fcfccb36c3416c95f6718a038cfffee309fdfbe4b228dde2d8744ec63d01f49",
+          "score": 0.9956958393113343
+        },
+        {
+          "key": "Katoh2007_EGFP_ORF:614:19:5287f65d83c8c53f",
+          "start": 614,
+          "sense": "AGTCCGCCCTGAGCAAAGA",
+          "guide_dna": "TCTTTGCTCAGGGCGGACTGG",
+          "ordered_guide": "TCTTTGCTCAGGGCGGACTGG",
+          "passenger": "AGTCCGCCCTGAGCAAAGACC",
+          "molecule_id": "5287f65d83c8c53fbbb887c23a59d5d4b7e63a5a960fb7e1bfd55485fa55d2a4",
+          "score": 0.994261119081779
+        }
+      ]
+    },
+    "huesken_only_challenger": {
+      "run_path": "benchmarks/external_confirmation_20261106/outputs/huesken_only_challenger/generation/run.json",
+      "run_sha256": "f9dc5c0869f071aae8e9e7db036fd289e8357881de29975ea4af85f817652f91",
+      "candidates": 698,
+      "selected": 5,
+      "panel_fill_rate": 1.0,
+      "candidates_with_experimental_19core": 698,
+      "exact_full_molecule_measurement_coverage": 0.0,
+      "known_active": 0,
+      "known_inactive": 0,
+      "unknown": 5,
+      "active_budget_fraction_bounds": [
+        0.0,
+        1.0
+      ],
+      "specificity_verified_panel_fill_rate": 0.0,
+      "specificity": "not assessed; reporter is not a human reference target",
+      "panel": [
+        {
+          "key": "Katoh2007_EGFP_ORF:482:19:2fcfccb36c3416c9",
+          "start": 482,
+          "sense": "GCATCAAGGTGAACTTCAA",
+          "guide_dna": "TTGAAGTTCACCTTGATGCCG",
+          "ordered_guide": "TTGAAGTTCACCTTGATGCCG",
+          "passenger": "GCATCAAGGTGAACTTCAAGA",
+          "molecule_id": "2fcfccb36c3416c95f6718a038cfffee309fdfbe4b228dde2d8744ec63d01f49",
+          "score": 1.0
+        },
+        {
+          "key": "Katoh2007_EGFP_ORF:416:19:ba8d923ad30c665c",
+          "start": 416,
+          "sense": "GGCACAAGCTGGAGTACAA",
+          "guide_dna": "TTGTACTCCAGCTTGTGCCCC",
+          "ordered_guide": "TTGTACTCCAGCTTGTGCCCC",
+          "passenger": "GGCACAAGCTGGAGTACAACT",
+          "molecule_id": "ba8d923ad30c665c3b37af36a4e4c18f450f47fe7bc5bc824ac2efee491b4348",
+          "score": 0.9985652797704447
+        },
+        {
+          "key": "Katoh2007_EGFP_ORF:698:19:82adb9b37b8942c0",
+          "start": 698,
+          "sense": "GCATGGACGAGCTGTACAA",
+          "guide_dna": "TTGTACAGCTCGTCCATGCCG",
+          "ordered_guide": "TTGTACAGCTCGTCCATGCCG",
+          "passenger": "GCATGGACGAGCTGTACAAGT",
+          "molecule_id": "82adb9b37b8942c0cfc66a811094c437835778a513062e244f0f7691d91cd9a4",
+          "score": 0.9971305595408895
+        },
+        {
+          "key": "Katoh2007_EGFP_ORF:305:19:f096687029263792",
+          "start": 305,
+          "sense": "AGGACGACGGCAACTACAA",
+          "guide_dna": "TTGTAGTTGCCGTCGTCCTTG",
+          "ordered_guide": "TTGTAGTTGCCGTCGTCCTTG",
+          "passenger": "AGGACGACGGCAACTACAAGA",
+          "molecule_id": "f096687029263792093a9e8b912f9744f788cfc7fd49e93f66c00ccba150869e",
+          "score": 0.9956958393113343
+        },
+        {
+          "key": "Katoh2007_EGFP_ORF:53:19:4f3bf001e2c90954",
+          "start": 53,
+          "sense": "AGCTGGACGGCGACGTAAA",
+          "guide_dna": "TTTACGTCGCCGTCCAGCTCG",
+          "ordered_guide": "TTTACGTCGCCGTCCAGCTCG",
+          "passenger": "AGCTGGACGGCGACGTAAACG",
+          "molecule_id": "4f3bf001e2c909545ba14bbdf519e1cdf44058ea27415a645a20558c12d5a57f",
+          "score": 0.994261119081779
+        }
+      ]
+    }
+  },
+  "paired_ndcg_delta": 0.04048691705535046,
+  "paired_gene_bootstrap_95CI": null,
+  "CI_reason": "Only one independent gene/study; row bootstrap prohibited.",
+  "actual_generated_paired_budget_yield_bounds": [
+    -0.8,
+    0.8
+  ],
+  "promotion": false,
+  "decision": "Keep frozen default: one study/gene, no valid paired-gene CI or positive measured generation budget-yield evidence.",
+  "reused_for_training": false,
+  "independent_confirmation_scope": "new-study measured-core retrospective ranking; not untouched blind, multi-gene or prospective validation"
+}

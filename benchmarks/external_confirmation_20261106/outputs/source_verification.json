@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "checks": {
+    "original_source_rows_and_activity": true,
+    "no_training_gene_overlap": true,
+    "independent_no_forward_RC_hamming2_or_shift17": true,
+    "all_original_rows_preserved": true,
+    "original_source_hash": true
+  },
+  "reference_records": 10928,
+  "matched_ids": [],
+  "note": "Original normalized activity /100, not mirror rescaling; no full-duplex identity inferred."
+}
