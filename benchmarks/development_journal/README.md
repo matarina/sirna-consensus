@@ -36,4 +36,8 @@ python benchmarks/scripts/verify_development_journal.py
 - 主动学习： http://10.0.11.40:8788/active_learning_report.html
 - siRNA 综合研发记录： http://10.0.11.40:8788/benchmarks/three_benchmark_report_zh.html
 
-两个入口 HTTP 200 且内容与磁盘文件一致，49 个本地链接/资源均 HTTP 200；结果记录于 `http_verification.json`。此检查未重建主动学习报告或改变其模型。
+两个入口 HTTP 200 且内容与磁盘文件一致，56 个本地链接/资源均 HTTP 200；结果记录于 `http_verification.json`。此检查未重建主动学习报告或改变其模型。
+
+## 详细架构
+
+架构章节已展开为8节点执行图、外部工具职责表、当前/候选模型特征与参数、默认筛选/筛查判据、独立验证支路。`architecture_sources.json` 固定文档对应的20项代码/模型清单哈希，并保留工具 availability 探测输出和 Katoh 的实际配置；图示明确区分默认工具名单和本次 `tools=[]`。默认排序器是 scikit-learn HistGradientBoostingRegressor，历史 OligoFormer 适配另行解释。

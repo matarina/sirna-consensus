@@ -10,11 +10,11 @@
     {
       "url": "http://10.0.11.40:8788/benchmarks/three_benchmark_report_zh.html",
       "status": 200,
-      "bytes": 65710,
+      "bytes": 74503,
       "matches_local": true,
       "title": "siRNA-consensus · 研发记录与验证总览"
     }
   ],
-  "local_link_checks": 49,
+  "local_link_checks": 56,
   "failures": []
 }

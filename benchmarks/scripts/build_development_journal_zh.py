@@ -32,6 +32,11 @@ def bars(rows, percent=False):
 
 
 def main():
+    architecture=read('benchmarks/development_journal/architecture_sources.json')
+    for path,digest in architecture['artifacts'].items():
+        if hashlib.sha256((ROOT/path).read_bytes()).hexdigest()!=digest:
+            raise ValueError('Architecture source changed: '+path)
+        SOURCES[path]=digest
     platform=read('benchmarks/platform_v3_summary.json')
     hu=read('models/huesken_only_20261106/results.json')
     mixed=read('models/development_20261106/results.json')

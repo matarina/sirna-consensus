@@ -1,6 +1,6 @@
 {
   "passed": true,
-  "source_files": 11,
+  "source_files": 31,
   "historical_locks": {
     "development_freeze.json": 1849,
     "final_freeze.json": 85,
@@ -11,5 +11,5 @@
   "cohorts": 15,
   "gene_assays": 59,
   "independent_AUC_AP": "independent sklearn AUC/AP: all 3 methods pass",
-  "report_sha256": "ce086bba772694650fcdc4b059fcd90e770dfe75d4637e8bad9bda07a8e21491"
+  "report_sha256": "9f98273785525cc7896f6fa4d5ceac330238aa926fc682e4bef8d27c5f03563a"
 }

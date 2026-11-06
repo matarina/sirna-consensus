@@ -1,0 +1,82 @@
+{
+  "description": "Architecture documentation audit, not a pipeline or performance rerun",
+  "inspection_date": "2026-11-06",
+  "availability_scope": "current scorer interpreter and inherited shell PATH only",
+  "availability_command": "PYTHONPATH=src .scorer-venv/bin/python -m sirna_consensus.cli tools",
+  "availability_stdout": "-- siren          SIREN entry point not on PATH; set SIREN_BIN\nOK sirnadesigner  script found at /data1/maxw/proj/cargo_denovo/sirna-consensus/vendor/siRNAdesigner/siRNADesigner.py\nOK sirnaforge     image ghcr.io/austin-s-h/sirnaforge:sha-4c05e4b present (sha256:f823aa35200485d38714865a11b99bd384a6968fc6db022e7bf794edeb42fce7)\n",
+  "artifacts": {
+    "src/sirna_consensus/fasta.py": "f3feab7c4c32d9035a2bc206defeffa68814b5d8bc31a8601a11e84eb9b39918",
+    "src/sirna_consensus/pipeline.py": "da328eacbcbc47d84eee0c2462dc4f64d688abb6b2cb4e40ab7f88d16204c04e",
+    "src/sirna_consensus/cli.py": "3ce4a9b47def9e7a5b59e10e03951751bf8d9dc49da05bf40d0a61e7c6dd45ee",
+    "src/sirna_consensus/design.py": "4867a7ba0b4b7d3f9bf0d352aab50798b5baaad4c783d25827fd98c4fedd193b",
+    "src/sirna_consensus/types.py": "0810e7edf98bbdbcc65f1b040270279dac9583b7d91fc3ff759433613befa651",
+    "src/sirna_consensus/normalize.py": "d909ba65086e077e23796314685c4b6ebab2a54199ed5d80908a13ad884df833",
+    "src/sirna_consensus/selection.py": "a9e43659dc9489b5cc0f7213f11801f14b3fe8a018b013d0e1723b5859ac1c25",
+    "src/sirna_consensus/filters.py": "c5c27acec369dde0a3d944007df8190ba58cd93ff43c91ccd6789b7b4b93d55b",
+    "src/sirna_consensus/scoring.py": "e1f7c083bc32ef1d2fef67c8755cd9a013f0c37e2ebb0db804775787b1639158",
+    "src/sirna_consensus/screening.py": "56c07749eba8c2c68ecb5419e28662fa77f11fa76bd2c9d1aad13b5a0e0bb654",
+    "src/sirna_consensus/learning.py": "cbf389b82a1433654d2cfdaebc6a4792086b6f181b1993df03e2270a8bfdaa0e",
+    "src/sirna_consensus/challenger.py": "4185b309471f1940e3f791126705f671a81efc5f034c946f96b77df6ef166ee5",
+    "src/sirna_consensus/tools/__init__.py": "b346f603c393933428ac432631022a7515c8565a0d44ac779d7d7501fc01ed49",
+    "src/sirna_consensus/tools/sirnadesigner.py": "858b167e3e3c4556f344556654f9aec4df65d5a36624788c3ec09a8f0d2ba951",
+    "src/sirna_consensus/tools/sirnaforge.py": "bfc1ebe7c98faaa5d19a54465a73a766bfb1d07cdf7d56f93a630d1b1af59bbc",
+    "src/sirna_consensus/tools/siren.py": "896745054c534f0adfa60b74028919fa18014422351d399a06171400443cedf7",
+    "models/default_policy.json": "f378c0ad3376095cfde944245180eee046dc7f7c0f4abfc07d1d10706f13604e",
+    "models/development_20261106/scorer_manifest.json": "20c62469d5d347c66316bd56aac760388e29751aa6fbb7e941ef12019fafd08a",
+    "models/huesken_only_20261106/scorer_manifest.json": "e3338ec00d0178981b9a1c47d536c9fd243cb99eb87d1fd48a2910d51882de10"
+  },
+  "current_model_family": "HistGradientBoostingRegressor",
+  "current_params": {
+    "family": "tree",
+    "max_depth": 2,
+    "min_samples_leaf": 10,
+    "l2_regularization": 1.0
+  },
+  "candidate_params": {
+    "feature": "sequence_v2",
+    "family": "tree",
+    "max_depth": 2,
+    "min_samples_leaf": 5,
+    "l2_regularization": 1.0
+  },
+  "katoh_actual_config": {
+    "fasta": "/data1/maxw/proj/cargo_denovo/sirna-consensus/benchmarks/external_confirmation_20261106/egfp.fasta",
+    "out_dir": "/data1/maxw/proj/cargo_denovo/sirna-consensus/benchmarks/external_confirmation_20261106/outputs/current_default/generation",
+    "tools": [],
+    "lengths": [
+      19,
+      20,
+      21
+    ],
+    "min_votes": 0,
+    "top_k": 5,
+    "min_spacing": 30,
+    "site_mode": "bounded",
+    "candidate_mode": "exact",
+    "include_singletons": true,
+    "offset_tolerance": 2,
+    "jobs": 3,
+    "test": false,
+    "transcriptome": "",
+    "strict_specificity": false,
+    "siren_max_offtargets": 0,
+    "filter_config": {
+      "gc_min": 0.3,
+      "gc_max": 0.55,
+      "max_homopolymer": 4,
+      "gu_rich_cutoff": 0.75,
+      "seed_gc_high": 0.75,
+      "seed_gc_low": 0.25
+    },
+    "extra": {},
+    "profile": "rna19p2",
+    "filter_policy": "soft",
+    "scorer_manifest": "/data1/maxw/proj/cargo_denovo/sirna-consensus/models/development_20261106/scorer_manifest.json",
+    "screen_manifest": "",
+    "target_gene": "",
+    "bowtie": "bowtie",
+    "strategy": "model",
+    "evidence_run": "",
+    "source": "exhaustive target-derived RNA 19+2 duplexes"
+  }
+}
