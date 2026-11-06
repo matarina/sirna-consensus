@@ -68,8 +68,9 @@ def _build_parser() -> argparse.ArgumentParser:
     add_parser(sub)
     from .reference import add_parser as reference_parser
     reference_parser(sub)
-    from .learning import add_parser as learning_parser
-    learning_parser(sub)
+    guarded = sub.add_parser('develop', aliases=['train'], help='Huesken-only development under a committed protocol; cannot promote from development')
+    guarded.add_argument('--protocol', required=True)
+    guarded.add_argument('--out', required=True)
     return parser
 
 
@@ -192,9 +193,10 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == 'build-reference':
         from .reference import command
         return command(args)
-    if args.command == 'train':
-        from .learning import command
-        return command(args)
+    if args.command in ('develop', 'train'):
+        from .challenger import develop
+        develop(args.protocol, args.out)
+        return 0
     parser.error("unknown command")
     return 2
 

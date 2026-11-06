@@ -16,6 +16,16 @@ from sirna_consensus.types import reverse_complement
 
 
 def main():
+    if '--guarded-model-dir' in sys.argv:
+        parser = argparse.ArgumentParser(description='Independent Huesken-only challenger verification')
+        parser.add_argument('--guarded-model-dir', required=True)
+        args = parser.parse_args()
+        from verify_guarded import verify_development
+        report = verify_development(args.guarded_model_dir)
+        print(json.dumps(report, indent=2))
+        if not report['all_passed']:
+            raise SystemExit(1)
+        return
     p=argparse.ArgumentParser();p.add_argument('--model-dir',required=True);a=p.parse_args()
     out=Path(a.model_dir)
     data=json.loads((out/'development_records.json').read_text())

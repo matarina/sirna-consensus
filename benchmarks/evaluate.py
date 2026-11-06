@@ -10,6 +10,10 @@ from sirna_consensus.fasta import sha256_file
 
 
 def main(argv=None):
+    arguments = list(sys.argv[1:] if argv is None else argv)
+    if '--phase' in arguments and arguments[arguments.index('--phase') + 1:][:1] == ['confirmation']:
+        from sirna_consensus.strict_evaluation import main as confirmation_main
+        return confirmation_main(arguments)
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--benchmark',required=True)
     p.add_argument('--run',required=True,action='append',help='selection.json; repeat for multiple targets/methods')
