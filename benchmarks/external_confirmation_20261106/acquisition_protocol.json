@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "status": "acquisition_protocol_before_any_pipeline_external_predictions",
+  "registered_utc": "2026-11-06T07:04:22.109597+00:00",
+  "baseline_commit": "c44a5f47be5278601728ec05d0bbefce49276ed4",
+  "purpose": "Acquire genuinely new published experimental data and evaluate frozen software once; no fitting or default promotion.",
+  "user_authorization": "User explicitly requests collection/search for an independent experimental test and pipeline performance run.",
+  "new_downloads": "Explicitly authorized acquisition; every URL, digest and retrieval outcome recorded.",
+  "models": {
+    "current_default": "models/development_20261106/scorer_manifest.json",
+    "huesken_only_challenger": "models/huesken_only_20261106/scorer_manifest.json"
+  },
+  "artifacts": {
+    "/data1/maxw/proj/cargo_denovo/sirna-consensus/models/default_policy.json": "f378c0ad3376095cfde944245180eee046dc7f7c0f4abfc07d1d10706f13604e",
+    "/data1/maxw/proj/cargo_denovo/sirna-consensus/models/development_20261106/model.pkl": "fc63456bd7f5f8b53d197a009cd2b9bf5d0fca7e7347ba88ca0192071a11cbe3",
+    "/data1/maxw/proj/cargo_denovo/sirna-consensus/models/development_20261106/scorer_manifest.json": "20c62469d5d347c66316bd56aac760388e29751aa6fbb7e941ef12019fafd08a",
+    "/data1/maxw/proj/cargo_denovo/sirna-consensus/models/huesken_only_20261106/model.pkl": "c692e4b4dc03ee01348f37073e595942a288766ccc46e9752a00317c62c90c38",
+    "/data1/maxw/proj/cargo_denovo/sirna-consensus/models/huesken_only_20261106/scorer_manifest.json": "e3338ec00d0178981b9a1c47d536c9fd243cb99eb87d1fd48a2910d51882de10",
+    "/data1/maxw/proj/cargo_denovo/sirna-consensus/src/sirna_consensus/types.py": "0810e7edf98bbdbcc65f1b040270279dac9583b7d91fc3ff759433613befa651",
+    "/data1/maxw/proj/cargo_denovo/sirna-consensus/src/sirna_consensus/fasta.py": "f3feab7c4c32d9035a2bc206defeffa68814b5d8bc31a8601a11e84eb9b39918",
+    "/data1/maxw/proj/cargo_denovo/sirna-consensus/src/sirna_consensus/normalize.py": "d909ba65086e077e23796314685c4b6ebab2a54199ed5d80908a13ad884df833",
+    "/data1/maxw/proj/cargo_denovo/sirna-consensus/src/sirna_consensus/filters.py": "c5c27acec369dde0a3d944007df8190ba58cd93ff43c91ccd6789b7b4b93d55b",
+    "/data1/maxw/proj/cargo_denovo/sirna-consensus/src/sirna_consensus/consensus.py": "d8908d2c0bb187709336db1b7eb91b4caea0ab719847a218bda295f926dc153a",
+    "/data1/maxw/proj/cargo_denovo/sirna-consensus/src/sirna_consensus/rank.py": "913677107dbdfb8e90fe33f66411567fed31eb16b9d3e2226f001d668087fb30",
+    "/data1/maxw/proj/cargo_denovo/sirna-consensus/src/sirna_consensus/pipeline.py": "da328eacbcbc47d84eee0c2462dc4f64d688abb6b2cb4e40ab7f88d16204c04e",
+    "/data1/maxw/proj/cargo_denovo/sirna-consensus/src/sirna_consensus/report.py": "cff578c88287f5046925b2e296e4236206d311096a1b2b5eff184c52073963de",
+    "/data1/maxw/proj/cargo_denovo/sirna-consensus/src/sirna_consensus/__init__.py": "363fe14263e524203d81985a6e1f8c5939e145a80a180230dc93ce0e65f415be",
+    "/data1/maxw/proj/cargo_denovo/sirna-consensus/src/sirna_consensus/cli.py": "3ce4a9b47def9e7a5b59e10e03951751bf8d9dc49da05bf40d0a61e7c6dd45ee",
+    "/data1/maxw/proj/cargo_denovo/sirna-consensus/src/sirna_consensus/selection.py": "a9e43659dc9489b5cc0f7213f11801f14b3fe8a018b013d0e1723b5859ac1c25",
+    "/data1/maxw/proj/cargo_denovo/sirna-consensus/src/sirna_consensus/screening.py": "56c07749eba8c2c68ecb5419e28662fa77f11fa76bd2c9d1aad13b5a0e0bb654",
+    "/data1/maxw/proj/cargo_denovo/sirna-consensus/src/sirna_consensus/scoring.py": "e1f7c083bc32ef1d2fef67c8755cd9a013f0c37e2ebb0db804775787b1639158",
+    "/data1/maxw/proj/cargo_denovo/sirna-consensus/src/sirna_consensus/benchmark.py": "28db203e9685585ede0bd5f3f4a4de77b24096b172ae4af5aee21bb49c885db0",
+    "/data1/maxw/proj/cargo_denovo/sirna-consensus/src/sirna_consensus/select_cli.py": "62cc16ddf75a1d0b11c71c8b774ce7a7aa033fe80d3d93a622a518b3e7822071",
+    "/data1/maxw/proj/cargo_denovo/sirna-consensus/src/sirna_consensus/design.py": "4867a7ba0b4b7d3f9bf0d352aab50798b5baaad4c783d25827fd98c4fedd193b",
+    "/data1/maxw/proj/cargo_denovo/sirna-consensus/src/sirna_consensus/reference.py": "6d35172b0b91a91fa2e1048409cf6e2cdbfff276011c025a24bbfdce99f0de97",
+    "/data1/maxw/proj/cargo_denovo/sirna-consensus/src/sirna_consensus/learning.py": "cbf389b82a1433654d2cfdaebc6a4792086b6f181b1993df03e2270a8bfdaa0e",
+    "/data1/maxw/proj/cargo_denovo/sirna-consensus/src/sirna_consensus/confirmation.py": "a166b1d73fd76cb065d013c4982b05000b42d26b55e8dda3de138e701cae668a",
+    "/data1/maxw/proj/cargo_denovo/sirna-consensus/src/sirna_consensus/challenger.py": "4185b309471f1940e3f791126705f671a81efc5f034c946f96b77df6ef166ee5",
+    "/data1/maxw/proj/cargo_denovo/sirna-consensus/src/sirna_consensus/strict_evaluation.py": "35985b12bf4e2836ae850019c44cd8d26e5441275d49e3b77856599b95f2e5c6",
+    "/data1/maxw/proj/cargo_denovo/sirna-consensus/benchmarks/confirmation_20261106/protocol.json": "c0430881d5c324944953706532b64ad06fc152863b3280f3989cda771366c7cf",
+    "/data1/maxw/proj/cargo_denovo/sirna-consensus/models/development_20261106/development_records.json": "beecb8f181daf33881783fd03defb94fb9a1b76ef831504af66a6f23d76ef740",
+    "/data1/maxw/proj/cargo_denovo/sirna-consensus/models/huesken_only_20261106/development_records.json": "0f27e3514bd6d1b7ec241985abb10ef2a2d6974960ab76db7b511f56501c8fd4"
+  },
+  "source_priority": [
+    {
+      "name": "Katoh2007",
+      "doi": "10.1093/nar/gkl1120",
+      "scope": "unmodified RNA, EGFP tiling, original Table S1"
+    },
+    {
+      "name": "Jagla2005",
+      "doi": "10.1261/rna.7275905",
+      "scope": "unmodified 601-siRNA, four-gene experimental panel"
+    },
+    {
+      "name": "siRNADiscovery2024_inhouse",
+      "doi": "10.1093/bib/bbae563",
+      "scope": "new 102-siRNA ACON experimental panel if publicly obtainable; otherwise record unavailable"
+    },
+    {
+      "name": "Davis2025",
+      "doi": "10.1093/nar/gkaf479",
+      "scope": "chemically modified; domain-shift stress test only, never unmodified efficacy confirmation"
+    }
+  ],
+  "eligibility": {
+    "exclude_all_previous_benchmark_cohorts": true,
+    "exclude_training_genes": true,
+    "sequence_audit": "exact, forward/reverse-complement Hamming<=2, shared shifted 17mer against both frozen training sets and all prior scored records",
+    "source_audit": "original article/supplement required; mirrors require cross-check; no invented full molecule or target sequence; unknown upstream lineage disclosed",
+    "label_blind": "eligibility and mapping depend on sequence/provenance only, never score or activity; negative knockdown values retained",
+    "min_assay_candidates": 5,
+    "constant_activity": "undefined NDCG",
+    "include_all_eligible_sources_regardless_of_results": true
+  },
+  "primary_metric": "macro_gene_assay_NDCG@5",
+  "relevance": "within-assay midrank (rank-1)/(n-1); gain=2**relevance-1",
+  "secondary": [
+    "precision@5",
+    "Top3_at_least_one_active",
+    "Top5_active_fraction",
+    "panel_fill_rate",
+    "prediction_coverage",
+    "measurement_coverage",
+    "abstention",
+    "Spearman",
+    "actual_generated_Top5_budget_bounds"
+  ],
+  "thresholds": {
+    "percent_knockdown": 70,
+    "percent_inhibition": 70,
+    "normalized_activity": 0.7
+  },
+  "baselines": [
+    "frozen current default",
+    "frozen Huesken-only challenger",
+    "existing quality rules",
+    "uniform random analytic expectation"
+  ],
+  "bootstrap": {
+    "replicates": 10000,
+    "seed": 20261106,
+    "unit": "gene/near-sequence component; retain gene assay blocks"
+  },
+  "generation": {
+    "tools": [],
+    "profile": "rna19p2",
+    "top_k": 5,
+    "min_spacing": 30,
+    "exact_molecule_match_only": true,
+    "untested_activity": "unknown; never inferred from overlap",
+    "target": "original experimentally used transcript/construct when available; otherwise generation endpoint unavailable"
+  },
+  "no_retraining": true,
+  "no_feature_changes": true,
+  "no_hyperparameter_search": true,
+  "no_default_switch": true,
+  "limitations": [
+    "Single reporter target cannot establish generalization across genes.",
+    "Public dataset selection and assay bias must be reported.",
+    "Nonempty external-data acquisition is a separate preregistered round; the prior zero-ID protocol remains immutable."
+  ]
+}
