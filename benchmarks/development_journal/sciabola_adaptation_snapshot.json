@@ -1,0 +1,262 @@
+{
+  "kind": "summary snapshot for historical report; not a new evaluation",
+  "original_path": "/data1/maxw/proj/cargo_denovo/independent_validation/sciabola/adaptation_20261105/outputs/results.json",
+  "original_sha256": "8b9016400f2881f01cd0fa1464e0b7b3c80b26fdf09a0ae991d3d66b49fb217c",
+  "summary_top5": {
+    "frozen_baseline": {
+      "k": 5,
+      "complete_units": 10,
+      "genes": 10,
+      "mean_precision": 0.6599999999999999,
+      "mean_random": 0.6544800000000001,
+      "delta_vs_random": 0.005519999999999997,
+      "ci95_vs_random": [
+        -0.04548,
+        0.06126
+      ],
+      "per_gene_precision": {
+        "BIRC5": 1.0,
+        "BRAF": 0.2,
+        "CTNNB1": 1.0,
+        "EZH2": 0.6,
+        "HIF1A": 1.0,
+        "HK2": 0.8,
+        "HPSE": 0.6,
+        "MTOR": 0.4,
+        "MYC": 0.2,
+        "PIK3CA": 0.8
+      },
+      "per_gene_random": {
+        "BIRC5": 1.0,
+        "BRAF": 0.2,
+        "CTNNB1": 1.0,
+        "EZH2": 0.6664,
+        "HIF1A": 0.8036,
+        "HK2": 0.7526,
+        "HPSE": 0.7042,
+        "MTOR": 0.5042,
+        "MYC": 0.11380000000000001,
+        "PIK3CA": 0.8
+      },
+      "per_gene_delta": {
+        "BIRC5": 0.0,
+        "BRAF": 0.0,
+        "CTNNB1": 0.0,
+        "EZH2": -0.06640000000000001,
+        "HIF1A": 0.19640000000000002,
+        "HK2": 0.0474,
+        "HPSE": -0.10420000000000007,
+        "MTOR": -0.10419999999999996,
+        "MYC": 0.0862,
+        "PIK3CA": 0.0
+      },
+      "mean_fill_rate": 1.0,
+      "mean_measurement_coverage": 1.0,
+      "mean_candidate_coverage": 1.0
+    },
+    "ridge": {
+      "k": 5,
+      "complete_units": 10,
+      "genes": 10,
+      "mean_precision": 0.64,
+      "mean_random": 0.65434,
+      "delta_vs_random": -0.014340000000000006,
+      "ci95_vs_random": [
+        -0.06568,
+        0.03697999999999999
+      ],
+      "per_gene_precision": {
+        "BIRC5": 1.0,
+        "BRAF": 0.2,
+        "CTNNB1": 1.0,
+        "EZH2": 0.8,
+        "HIF1A": 0.8,
+        "HK2": 0.6,
+        "HPSE": 0.6,
+        "MTOR": 0.6,
+        "MYC": 0.0,
+        "PIK3CA": 0.8
+      },
+      "per_gene_random": {
+        "BIRC5": 1.0,
+        "BRAF": 0.2,
+        "CTNNB1": 1.0,
+        "EZH2": 0.6712,
+        "HIF1A": 0.8102,
+        "HK2": 0.7554,
+        "HPSE": 0.6922,
+        "MTOR": 0.4998,
+        "MYC": 0.11460000000000001,
+        "PIK3CA": 0.8
+      },
+      "per_gene_delta": {
+        "BIRC5": 0.0,
+        "BRAF": 0.0,
+        "CTNNB1": 0.0,
+        "EZH2": 0.12880000000000003,
+        "HIF1A": -0.010199999999999987,
+        "HK2": -0.15539999999999998,
+        "HPSE": -0.09220000000000006,
+        "MTOR": 0.10019999999999996,
+        "MYC": -0.11460000000000001,
+        "PIK3CA": 0.0
+      },
+      "mean_fill_rate": 1.0,
+      "mean_measurement_coverage": 1.0,
+      "mean_candidate_coverage": 1.0
+    },
+    "ranking": {
+      "k": 5,
+      "complete_units": 10,
+      "genes": 10,
+      "mean_precision": 0.6,
+      "mean_random": 0.6522,
+      "delta_vs_random": -0.0522,
+      "ci95_vs_random": [
+        -0.1419,
+        0.03234000000000002
+      ],
+      "per_gene_precision": {
+        "BIRC5": 1.0,
+        "BRAF": 0.2,
+        "CTNNB1": 1.0,
+        "EZH2": 0.4,
+        "HIF1A": 1.0,
+        "HK2": 0.8,
+        "HPSE": 0.4,
+        "MTOR": 0.4,
+        "MYC": 0.0,
+        "PIK3CA": 0.8
+      },
+      "per_gene_random": {
+        "BIRC5": 1.0,
+        "BRAF": 0.2,
+        "CTNNB1": 1.0,
+        "EZH2": 0.6618,
+        "HIF1A": 0.8032,
+        "HK2": 0.741,
+        "HPSE": 0.7058,
+        "MTOR": 0.5008,
+        "MYC": 0.10940000000000001,
+        "PIK3CA": 0.8
+      },
+      "per_gene_delta": {
+        "BIRC5": 0.0,
+        "BRAF": 0.0,
+        "CTNNB1": 0.0,
+        "EZH2": -0.26180000000000003,
+        "HIF1A": 0.19679999999999997,
+        "HK2": 0.05900000000000005,
+        "HPSE": -0.30579999999999996,
+        "MTOR": -0.1008,
+        "MYC": -0.10940000000000001,
+        "PIK3CA": 0.0
+      },
+      "mean_fill_rate": 1.0,
+      "mean_measurement_coverage": 1.0,
+      "mean_candidate_coverage": 1.0
+    },
+    "head_finetune": {
+      "k": 5,
+      "complete_units": 10,
+      "genes": 10,
+      "mean_precision": 0.6799999999999999,
+      "mean_random": 0.65622,
+      "delta_vs_random": 0.023779999999999985,
+      "ci95_vs_random": [
+        -0.044180000000000004,
+        0.09757999999999997
+      ],
+      "per_gene_precision": {
+        "BIRC5": 1.0,
+        "BRAF": 0.2,
+        "CTNNB1": 1.0,
+        "EZH2": 0.6,
+        "HIF1A": 1.0,
+        "HK2": 1.0,
+        "HPSE": 0.6,
+        "MTOR": 0.4,
+        "MYC": 0.2,
+        "PIK3CA": 0.8
+      },
+      "per_gene_random": {
+        "BIRC5": 1.0,
+        "BRAF": 0.2,
+        "CTNNB1": 1.0,
+        "EZH2": 0.674,
+        "HIF1A": 0.8024,
+        "HK2": 0.7516,
+        "HPSE": 0.7254,
+        "MTOR": 0.495,
+        "MYC": 0.11380000000000001,
+        "PIK3CA": 0.8
+      },
+      "per_gene_delta": {
+        "BIRC5": 0.0,
+        "BRAF": 0.0,
+        "CTNNB1": 0.0,
+        "EZH2": -0.07400000000000007,
+        "HIF1A": 0.1976,
+        "HK2": 0.24839999999999995,
+        "HPSE": -0.12540000000000007,
+        "MTOR": -0.09499999999999997,
+        "MYC": 0.0862,
+        "PIK3CA": 0.0
+      },
+      "mean_fill_rate": 1.0,
+      "mean_measurement_coverage": 1.0,
+      "mean_candidate_coverage": 1.0
+    },
+    "nested_selected": {
+      "k": 5,
+      "complete_units": 10,
+      "genes": 10,
+      "mean_precision": 0.64,
+      "mean_random": 0.65632,
+      "delta_vs_random": -0.016320000000000008,
+      "ci95_vs_random": [
+        -0.0706,
+        0.05159999999999998
+      ],
+      "per_gene_precision": {
+        "BIRC5": 1.0,
+        "BRAF": 0.2,
+        "CTNNB1": 1.0,
+        "EZH2": 0.6,
+        "HIF1A": 0.8,
+        "HK2": 1.0,
+        "HPSE": 0.6,
+        "MTOR": 0.4,
+        "MYC": 0.0,
+        "PIK3CA": 0.8
+      },
+      "per_gene_random": {
+        "BIRC5": 1.0,
+        "BRAF": 0.2,
+        "CTNNB1": 1.0,
+        "EZH2": 0.6664,
+        "HIF1A": 0.8102,
+        "HK2": 0.7516,
+        "HPSE": 0.7254,
+        "MTOR": 0.495,
+        "MYC": 0.11460000000000001,
+        "PIK3CA": 0.8
+      },
+      "per_gene_delta": {
+        "BIRC5": 0.0,
+        "BRAF": 0.0,
+        "CTNNB1": 0.0,
+        "EZH2": -0.06640000000000001,
+        "HIF1A": -0.010199999999999987,
+        "HK2": 0.24839999999999995,
+        "HPSE": -0.12540000000000007,
+        "MTOR": -0.09499999999999997,
+        "MYC": -0.11460000000000001,
+        "PIK3CA": 0.0
+      },
+      "mean_fill_rate": 1.0,
+      "mean_measurement_coverage": 1.0,
+      "mean_candidate_coverage": 1.0
+    }
+  }
+}
