@@ -8,14 +8,13 @@ from dataclasses import asdict
 from pathlib import Path
 
 from .fasta import sha256, sha256_file
-from .types import Core, reverse_complement
 
 
 def score_candidates(rows, transcript: str, manifest_path: Path, work: Path):
     manifest = json.loads(manifest_path.read_text())
     conv = manifest.get('input_convention')
-    if conv not in ('paired_antisense_19', 'guide21'):
-        raise ValueError('unsupported scorer/input convention')
+    if conv != 'paired_antisense_19':
+        raise ValueError('unsupported scorer/input convention: the frozen model requires paired_antisense_19')
     artifacts = manifest.get('artifacts', {})
     if not artifacts or not manifest.get('checkpoint_sha256') or not manifest.get('command'):
         raise ValueError('scorer manifest must pin artifacts, checkpoint and command')
@@ -29,26 +28,15 @@ def score_candidates(rows, transcript: str, manifest_path: Path, work: Path):
     supported = []
     for row in rows:
         core = row['core']
-        if conv == 'guide21':
-            if len(core.guide) == 21 and (not formats or core.duplex_format in formats):
-                supported.append({'key': core.key, 'guide': core.guide[:21], 'core': core})
-            continue
+        # The frozen OligoFormer input is a 19-nt paired antisense core. A 21-mer
+        # blunt molecule is not a supported input; it must first be canonicalised
+        # to binding19 + a documented 2-nt overhang.
         if core.length == 19 and core.duplex_format in formats:
-            supported.append({'key': core.key, 'core': core, 'paired_guide': core.guide[:19], 'guide': core.guide[:21]})
-        elif core.length == 21 and core.duplex_format == 'binding21-guide21-overhang0-passenger21-overhang0':
-            # OligoFormer path: score a 19-nt subcore for blunt 21-mer candidates.
-            if core.ordered_guide != reverse_complement(core.sense):
-                continue
-            sub = Core(core.transcript_id, core.start + 2, 19,
-                       core.sense[2:21], core.ordered_guide[:19])
-            supported.append({'key': core.key, 'core': sub, 'paired_guide': sub.guide[:19], 'guide': core.guide[:21]})
+            supported.append({'key': core.key, 'core': core, 'paired_guide': core.guide[:19]})
     work.mkdir(parents=True, exist_ok=True)
     input_path, output_path = work/'scorer_input.json', work/'scorer_output.json'
-    if conv == 'guide21':
-        candidates = [{'key': item['key'], 'guide': item['guide']} for item in supported]
-    else:
-        candidates = [{'key': item['key'], 'core': asdict(item['core']),
-                       'paired_guide': item['paired_guide']} for item in supported]
+    candidates = [{'key': item['key'], 'core': asdict(item['core']),
+                   'paired_guide': item['paired_guide']} for item in supported]
     request = {'schema_version': 1, 'scorer_manifest_sha256': sha256_file(manifest_path),
                'transcript': transcript, 'transcript_sha256': sha256(transcript),
                'candidates': candidates}

@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "status": "benchmark_only",
-  "note": "Operational routing derived from external benchmark tests; not a development-selected efficacy policy and not an independent-validation gate.",
+  "note": "Operational routing derived from external benchmark tests; not a development-selected efficacy policy and not an independent-validation gate. binding21 blunt molecules are routed to native because the frozen OligoFormer scorer only accepts 19-nt paired antisense cores; canonicalise them as binding19 + documented 2-nt overhang before scoring.",
   "strategies": {
     "binding19-guide21-overhang2-passenger_unknown": "model",
-    "binding21-guide21-overhang0-passenger21-overhang0": "model",
+    "binding21-guide21-overhang0-passenger21-overhang0": "native",
     "binding19-guide19-overhang0-passenger_unknown": "model",
     "binding19-guide21-overhang2-passenger21-overhang2": "native"
   },

@@ -48,7 +48,7 @@ def run_dir(tmp_path, fasta_file, monkeypatch):
         "gamma": lambda env=None: FakeTool("gamma", [7], env),
     })
     out = tmp_path / "out"
-    run(Config(fasta=str(fasta_file), out_dir=str(out),
+    run(Config(profile="legacy-v2", fasta=str(fasta_file), out_dir=str(out),
                tools=("alpha", "beta", "gamma"), min_votes=2,
                include_singletons=True))
     return out

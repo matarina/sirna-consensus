@@ -1,215 +1,135 @@
-# sirna-consensus
+# sirna-consensus 2.0
 
-Exact-guide siRNA selection with native design tools, an optional frozen efficacy
-scorer, separate computational specificity screening, and experimental benchmarks.
-Schema version 2 fixes molecular identity and benchmark semantics. It does not
-establish knockdown efficacy or independent validation.
-
-## Pipeline
-
-The package has two commands. `run` fans a single transcript out to isolated
-external tools and reduces their opinions to a site-level consensus. `select`
-then replays those exact molecules (or an explicit candidate list) through
-ranking, an optional frozen efficacy scorer, and an optional transcriptome
-screen. Nothing is enumerated locally: the generator tools enumerate, and this
-package only *places* what they return onto the transcript.
-
-```mermaid
-flowchart TB
-    %% 角色配色: 生成器=深色(投票) · 评估器=虚线框(仅证据) · 核心=青绿 · 产物=琥珀
-    classDef io     fill:#eef2f5,stroke:#5c6b74,color:#111820
-    classDef gen    fill:#123b4f,stroke:#0b2735,color:#ffffff
-    classDef eval   fill:#ffffff,stroke:#123b4f,color:#123b4f,stroke-dasharray:5 3
-    classDef core   fill:#e7f0ef,stroke:#0f7b74,color:#093b38
-    classDef out    fill:#fdf6e8,stroke:#8a5c12,color:#5a3c0a
-    classDef gate   fill:#fbf1ef,stroke:#a4301f,color:#7a2313,stroke-dasharray:4 3
-
-    FASTA(["转录本 FASTA<br/>单条序列"]):::io
-
-    subgraph RUN["run · 位点共识 (不做本地枚举)"]
-        direction TB
-        VAL["校验 + sha256"]:::core
-        SD["siRNAdesigner<br/>生成器"]:::gen
-        SF["siRNAforge<br/>生成器"]:::gen
-        SIREN["SIREN<br/>评估器"]:::eval
-        NORM["归一化 + 定位<br/>坐标 · 链 · 悬垂"]:::core
-        BUCKET["位点级共识<br/>start+length"]:::core
-        FILT["序列过滤器"]:::core
-        RANK["多样性 top-k<br/>min_votes · spacing"]:::core
-        VAL --> SD & SF & SIREN
-        SD --> NORM
-        SF --> NORM
-        SIREN -. 仅提供证据, 不投票 .-> NORM
-        NORM --> BUCKET --> FILT --> RANK
-    end
-
-    RUNJSON[("run.json · schema v2<br/>全部命中 + 原始输出哈希")]:::out
-    FASTA --> VAL
-    RANK --> RUNJSON
-
-    subgraph SEL["select · 回放与排序"]
-        direction TB
-        SRC{"候选来源"}:::gate
-        SCORE["冻结效力打分器<br/>哈希固定"]:::eval
-        STRAT["排序策略<br/>native · model · fusion<br/>support · quality"]:::core
-        SCREEN["Bowtie 筛查"]:::eval
-        PANEL["面板输出<br/>research / screened"]:::out
-        SRC --> STRAT
-        SRC --> SCORE --> STRAT
-        STRAT --> SCREEN --> PANEL
-    end
-
-    RUNJSON --> SRC
-    CAND["candidates.tsv<br/>或 --enumerate"]:::io --> SRC
-    POLICY["开发集冻结策略"]:::eval -.-> STRAT
-    PANEL --> OUT(["selection.json<br/>+ 面板 FASTA"]):::io
-    OUT -.-> NOTE["计算预测<br/>非湿实验验证"]:::gate
-
-    style RUN fill:#f8fafb,stroke:#d5dee2
-    style SEL fill:#f8fafb,stroke:#d5dee2
-```
+De novo siRNA duplex design with exhaustive target-derived RNA 19+2 candidates,
+separate external-tool evidence, optional learned ranking and pinned reference screening.
+Default output: **Top5 with ≥30 nt between binding starts**, plus unconstrained and
+screened panels. Predictions do not establish experimental knockdown.
 
 ```mermaid
 flowchart LR
-    classDef gen  fill:#123b4f,stroke:#0b2735,color:#fff
-    classDef eval fill:#fff,stroke:#123b4f,color:#123b4f,stroke-dasharray:5 3
-    classDef core fill:#e7f0ef,stroke:#0f7b74,color:#093b38
-    G["生成器<br/>投设计票"]:::gen --> C["共识<br/>只在生成器之间统计<br/>同工具不重复计票"]:::core
-    E["评估器<br/>只给证据"]:::eval -. 可支持或淘汰 .-> C
+    A[Single-transcript FASTA] --> B[Enumerate complete RNA 19+2 duplexes]
+    A --> C[External design tools]
+    C --> D[Coordinate and strand aware evidence]
+    B --> D
+    D --> E[Quality or versioned rank model]
+    E --> F[Research Top5 and spaced Top5]
+    E --> G[Pinned transcriptome and true 3′UTR screen]
+    G --> H[Screened Top5 and spaced Top5]
 ```
 
-
-```mermaid
-flowchart LR
-    classDef gen  fill:#123b4f,stroke:#0b2735,color:#fff
-    classDef eval fill:#fff,stroke:#123b4f,color:#123b4f,stroke-dasharray:5 3
-    classDef core fill:#e7f0ef,stroke:#0f7b74,color:#093b38
-    def0["生成器 — 投设计票"]:::gen
-    def1["评估器 — 只给证据<br/>可支持或淘汰, 从不投票"]:::eval
-    def2["共识只在生成器之间统计<br/>同一工具多个命中不重复计票"]:::core
-    def0 --> def2
-    def1 -.-> def2
-```
-
-
-Tool roles are not interchangeable: **generators** cast design votes, **SIREN**
-is an evaluator whose screen can only *support or disqualify* a generated site.
-An evaluator hit is never promoted to a positive vote.
-
-## Run and select
+## Design
 
 ```bash
-python -m venv .venv
-.venv/bin/pip install -e '.[dev]'
-sirna-consensus tools
-sirna-consensus run --fasta target.fa --out native-run \
-  --tools sirnadesigner,sirnaforge --min-votes 1 --site-mode exact
-sirna-consensus select --fasta target.fa --run native-run/run.json \
-  --out selection --strategy native --top-k 5
+pip install -e .
+sirna-consensus run --fasta target.fa --out out/design
+# Local enumeration also works without installed external tools:
+sirna-consensus run --fasta target.fa --out out/research --tools ''
+# Explicit frozen tool replay, for the identical transcript only:
+sirna-consensus run --fasta target.fa --out out/replay --tools '' --evidence-run prior/run.json
 ```
 
-External tools run in separate environments. Set `SIRNA_DESIGNER_SCRIPT` to the
-upstream script, `SIRNA_CONSENSUS_PYTHON` to its Python interpreter, and
-`SIRNAFORGE_IMAGE` to the installed pinned image. The vendored siRNAdesigner script
-is the fallback. Its interpreter needs NumPy and Biopython. siRNAforge needs Docker;
-the default image is `ghcr.io/austin-s-h/sirnaforge:sha-4c05e4b`.
+Both exported strands are 21 nt RNA with a 19 bp paired core. The guide overhang is
+reverse-complemented upstream target sequence; the passenger overhang is downstream
+target sequence. Sites lacking two flanking bases are excluded. N-containing windows
+are skipped. Other ambiguity codes are rejected. No overhang is invented.
 
-The native run captures all normalized hits and raw-output hashes. Selection
-replays those hits, preserving every exact molecule instead of collapsing nearby
-sites into one guide. `run` retains consensus/filter baseline options; its default
-`min_votes=2` may produce an empty consensus Top-K when tools propose different
-molecules. `select` does not impose that vote floor.
+Enumeration is not a tool vote. Tool evidence preserves coordinates and guide geometry;
+a 21 bp tool binding region supports its 19 bp **sense suffix**, corresponding to the
+first 19 guide bases. Full-molecule votes require matching complete strands and known
+matching chemistry. Missing chemistry remains unknown. `--min-votes` defaults to zero;
+setting it explicitly imposes an exact-molecule support floor. Empirical filters default
+to annotations (`--filter-policy soft`); `hard` and `off` are explicit alternatives.
 
-Outputs from `select`:
+`run.json` schema v3 contains full candidate/evidence records, model/reference hashes,
+screen failures, panel fill rates and implementation hashes. `candidates.tsv` is the
+human-readable export. `top_guides.fa` is the spaced research panel, with guide and
+passenger entries; `research_top.fa` is unconstrained. `screened_top.fa` and
+`screened_diverse_top.fa` contain only candidates that passed the recorded screen.
+A short panel is not filled with unverified candidates.
 
-- `selection.json`: ranked candidates, format-specific panels, scores, eligibility,
-  model support, screening evidence and provenance.
-- `research_top.fa`: efficacy/native-ranked research guides, up to K **per format**.
-- `screened_top.fa`: separately screened guides, backfilled within passing candidates.
-- `diverse_top.fa`: optional 30-nt-spaced research panel.
-
-These are research sequences. A computational screen is not biological proof of
-specificity, and guide-only records do not imply a validated passenger strand.
-
-## Molecule and score semantics
-
-Coordinates are 1-based inclusive on the supplied transcript or experimental
-construct. The binding core, original guide/passenger and documented 3′ overhangs
-are separate fields. siRNAdesigner's 19-bp staggered duplex retains both original
-21-nt strands. siRNAforge is explicitly run with `--modifications none --overhang
-''`; unsupported chemistry from other outputs is rejected and recorded.
-
-Molecular IDs include strand and overhang identity. Occurrence keys also include
-the transcript and position. Passenger-known and passenger-unknown formats remain
-separate. Invalid repeated-site coordinates are rejected rather than guessed.
-
-SIREN remains an evaluator, not a design vote. Only exact-guide evidence can
-establish its screen result; missing summaries are errors. Neighboring sites can
-be shown as support but cannot donate efficacy or specificity measurements.
-
-Selection strategies are `native`, `model`, `fusion`, `support`, `quality` and
-`legacy`. Native scores are converted to within-format midrank percentiles.
-`fusion` averages the model percentile and present native percentiles; `support`
-uses 0.8 model + 0.2 exact-generator support; `quality` uses 0.8 model + 0.1 native
-+ 0.1 sequence quality. Model absence creates a separately labeled native fallback
-panel. With no native scores, `native` is explicitly a sequence-quality fallback.
-
-Use `--filter-policy hard|soft|off` and `--disable-components tools,support,quality`
-for ablations. Ties use molecular ID and position. Panels select distinct guides.
-
-## Frozen efficacy scorer
+## Model development
 
 ```bash
-sirna-consensus select --fasta target.fa --run native-run/run.json \
-  --scorer-manifest oligoformer_manifest.json --strategy model --out model-selection
+pip install -e '.[ml,dev]'
+sirna-consensus train --project .. --hgnc references/gencode_v50/hgnc_complete_set.txt \
+  --out models/development_20261106
+sirna-consensus run --fasta target.fa --out out/model \
+  --scorer-manifest models/development_20261106/scorer_manifest.json
 ```
 
-Apply the recorded development policy with `--policy benchmarks/results/selection_policy.json`
-and its matching `--scorer-manifest`. The policy is explicitly development-only;
-unsupported formats use separate fallback panels.
+The training command expects the existing project-curated Huesken, Sciabola, Wang and
+Filhol artifacts. It does not silently fetch or reconstruct missing upstream sources.
+All four studies are exposed **development data**. Training uses fold-local weighted
+preprocessing, nested gene/sequence component validation, Ridge/tree models, and purged
+leave-one-study-out analyses. Scores predict relative within-assay rank, not a knockdown
+percentage. See `models/.../{data_registry,split_manifest,results,verification}.json`.
 
-The optional OligoFormer worker uses local hashed checkpoints, exact positional
-context, evaluation mode, batch size one and no fitting. It accepts documented
-19-nt antisense binding cores; original overhangs stay attached to the candidate.
-Unsupported formats are not truncated. See [benchmark instructions](benchmarks/README.md)
-for runtime setup, manifests and reproducible model comparisons.
+A model becomes the automatic default only through a pinned `models/default_policy.json`
+that records a positive lower 95% confidence bound for the prespecified NDCG@5 gain.
+If that policy or ML environment is absent, use `--strategy quality` or install the
+appropriate model/environment; explicit model failures are surfaced, not silently hidden.
+The pooled development model is not an independent test on its training studies.
 
-Alternatively use `select --candidates candidates.tsv` for explicit molecules or
-`select --enumerate` for guide-only 19/20/21-nt transcript windows. Supplied candidate
-TSVs contain `transcript_id,start,length,sense,ordered_guide,passenger,guide_overhang,
-passenger_overhang`; missing strand fields mean unknown. `candidates.tsv` from a
-schema-v2 native run is also supported.
+## Reference screening
 
-## Separate sequence screen
+Download the complete transcript FASTA and matching ALL-region GTF from
+[GENCODE Human release 50 / GRCh38.p14](https://www.gencodegenes.org/human/), then build
+an explicitly versioned local reference with Bowtie **1.3.1**:
 
 ```bash
-sirna-consensus select --fasta target.fa --run native-run/run.json --out screened \
-  --screen-manifest reference_manifest.json --target-gene ENSG00000109321 \
-  --bowtie /path/to/bowtie
+sirna-consensus build-reference --fasta references/gencode_v50/gencode.v50.transcripts.fa.gz \
+  --gtf references/gencode_v50/gencode.v50.chr_patch_hapl_scaff.annotation.gtf.gz \
+  --out references/gencode_v50/built --release GENCODE_v50_GRCh38.p14 \
+  --bowtie-build /path/to/bowtie-build --hgnc references/gencode_v50/hgnc_complete_set.txt
+sirna-consensus run --fasta target.fa --out out/screened \
+  --screen-manifest references/gencode_v50/built/screen_manifest.json \
+  --target-gene ENSG00000100644 --bowtie /path/to/bowtie
 ```
 
-The reference manifest pins the FASTA, its SHA-256, transcript-to-gene mapping,
-Bowtie index prefix and all six index hashes. The screen checks all binding-region
-matches with up to two mismatches. Exact/one-mismatch hits in other genes exclude a
-guide from the screened panel; two-mismatch and full-cDNA seed counts are advisory.
-An exact intended-gene hit is required. Missing mapping, failed execution or hash
-mismatch leaves candidates unverified. Same-gene isoforms are intended targets.
+The reference command also supports custom species/reference pairs. Gene identifiers
+must resolve uniquely; aliases and missing mappings are not guessed. The screen searches
+the paired regions of **both strands**, rejects exact/one-mismatch unintended-gene sites,
+and reports two-mismatch sites and both 7mer seed burdens as advisory. True spliced 3′UTRs
+come from exon/CDS/stop annotations; noncoding transcripts are included in full-length
+screening but have no annotated CDS-derived 3′UTR. Whole-cDNA legacy seed counts are
+explicitly labeled. Missing references, corrupt indices, missing intended hits, unknown
+passengers or incomplete UTR projection cannot yield a v3 screen pass.
 
-## Benchmarks and compatibility
-
-See [benchmarks/README.md](benchmarks/README.md). Efficacy evaluation uses exact
-measured guides and format identity, explicit assay endpoints, separate measurement
-coverage, gene-weighted comparisons and source/checkpoint exposure audits.
-
-Schema-v1 artifacts remain historical inspection material. Rerun them before
-scientific evaluation: old guide strings and overlap-based metrics are not
-silently migrated. `--candidate-mode legacy_site` retains a region-consensus
-baseline; its cluster scores describe regions, not exact guide efficacy.
+## Validation and compatibility
 
 ```bash
-.venv/bin/python -m pytest
+pytest -m 'not external'
+python benchmarks/scripts/verify_platform_v3.py --model-dir models/development_20261106
+python benchmarks/scripts/evaluate_platform_v3.py --model-dir models/development_20261106 \
+  --out benchmarks/results/platform_v3
+python benchmarks/scripts/validate_human_screen.py \
+  --manifest references/gencode_v50/built/screen_manifest.json --bowtie /path/to/bowtie \
+  --out benchmarks/results/platform_v3 --model-dir models/development_20261106
+python benchmarks/scripts/build_platform_report_zh.py
+python benchmarks/scripts/verify_freezes.py --historical-code benchmarks/historical_code_snapshots.json
 ```
 
-Normal tests are hermetic. External adapter tests require
-`SIRNA_CONSENSUS_EXTERNAL_TESTS=1`. Package license: MIT; upstream tools, model
-weights and experimental data have their own licenses.
+The Chinese report is `benchmarks/three_benchmark_report_zh.html`. Measured-pool ranking
+and de novo sequence coverage are separate; unknown activity is never scored as success
+or failure. The prospective validation template is [docs/prospective_validation.md](docs/prospective_validation.md).
+
+This release intentionally changes default behavior. For the previous tool-only voting
+pipeline, use `run --profile legacy-v2` (default Top10, minimum two votes, historical hard
+filters). `select --run old/run.json` still reads schema v2; it also reads v3 candidates.
+Historical identifiers with unknown chemistry are preserved. Old commands and semantics
+are documented in [docs/legacy-v2.md](docs/legacy-v2.md). Historical freeze locks remain
+unchanged: their source pins are checked against immutable archived source bytes; a
+separate v3 freeze checks current implementation and new results.
+
+For exact archived-source replay: `python benchmarks/scripts/replay_legacy_source.py -- --version`
+(replace `--version` with the historical CLI arguments). The v3 reproduction entry point is
+`bash benchmarks/scripts/reproduce_platform_v3.sh`; reference files and project-curated data
+must already be present. Set `SIRNA_MODEL_PYTHON` and `SIRNA_BOWTIE` for alternative local
+executable locations. The entry point also reruns two complete full-human-reference designs;
+missing reference artifacts stop reproduction. Test evidence and successful human integration
+are required before `python benchmarks/scripts/freeze_platform_v3.py` creates a new development
+freeze. The compact tracked result is `benchmarks/platform_v3_summary.json`; large model and
+reference artifacts stay local and are pinned in `benchmarks/platform_v3_freeze.json`.
+Reference indexing defaults to four CPU threads; `--threads` and
+`--index-bmax` are explicit resource controls. Pinned HGNC identity merges alternate loci
+without guessing ambiguous aliases. Model runtime pins are in `models/.../requirements.txt`.

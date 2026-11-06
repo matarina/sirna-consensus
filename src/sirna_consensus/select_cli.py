@@ -8,6 +8,7 @@ from pathlib import Path
 from .fasta import read_transcript, sha256, sha256_file
 from .selection import (
     STRATEGIES,
+    attach_evidence,
     enumerate_guides,
     load_candidates,
     rank_candidates,
@@ -71,37 +72,14 @@ def command(args):
             raise ValueError('--run-evidence annotates --candidates')
         if not Path(args.run_evidence).is_file():
             raise ValueError('--run-evidence not found: '+args.run_evidence)
-        native,evidence=load_candidates(Path(args.run_evidence))
+        native,evidence=load_candidates(Path(args.run_evidence), evidence_only=True)
         if evidence['input_sha256']!=sha256(sequence) or evidence['transcript_id']!=tid:
             raise ValueError('native evidence target mismatch')
-        # Generators emit 19/20/21-nt molecules; the assayed candidates are 19-nt cores.
-        # Join on the shared 19-nt binding site, aggregating every tool that emitted it.
-        # Convention: the site is sense[:19] (5' prefix), matching siRNAdesigner's own
-        # passenger[:19] core rule. A 3' suffix would be an equally defensible choice and
-        # changes which hits attach; the position (start) is deliberately not part of the
-        # key, so a repeated 19-mer legitimately attaches to every occurrence.
-        by_site={}
-        skipped=0
-        for hit in native:
-            site=hit['core'].sense[:19]
-            if len(site)!=19:
-                skipped+=1
-                continue
-            slot=by_site.setdefault(site,{'tools':[],'tool_scores':{}})
-            slot['tools']=sorted(set(slot['tools'])|set(hit['tools']))
-            for tool,value in hit['tool_scores'].items():
-                slot['tool_scores'][tool]=max(value,slot['tool_scores'].get(tool,value))
-        attached=0
-        for row in rows:
-            site=row['core'].sense[:19]
-            hit=by_site.get(site) if len(site)==19 else None
-            if hit:
-                row['tools']=sorted(set(row['tools'])|set(hit['tools']))
-                row['tool_scores'].update(hit['tool_scores'])
-                attached+=1
+        # Coordinates and guide geometry define site evidence; chemistry defines exact votes.
+        attached = attach_evidence(rows, native)
         provenance['evidence_sha256']=sha256_file(Path(args.run_evidence))
         provenance['evidence_attached']=attached
-        provenance['evidence_skipped_short']=skipped
+        provenance['evidence_skipped_short']=sum(h['core'].length < 19 for h in native)
     scores={}
     if args.scorer_manifest:
         from .scoring import score_candidates

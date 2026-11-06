@@ -1,24 +1,8 @@
-"""Orchestration.
+"""Orchestration for exhaustive RNA 19+2 design and explicit legacy voting.
 
-    FASTA -> validate -> fan out to tools -> normalise -> consensus -> filter -> rank
-
-The expensive per-candidate analysis (structure, specificity) is *not* re-run
-here; it is left to whatever the tools already do. What this pipeline adds is the
-part none of them do: putting independent opinions on one axis and refusing to
-let a single one of them decide.
-
-Design note: the tools are told to do their own window enumeration. There is no
-duplicated enumeration stage — the only coordinate work is placing the candidates
-that come back (see :mod:`sirna_consensus.normalize`).
-
-Tool roles are explicit:
-
-* **generators** contribute design votes (siRNAdesigner, siRNAforge);
-* **evaluators** contribute specificity evidence, not design votes (SIREN).
-
-A SIREN enumeration hit is therefore not a positive design vote. It can only
-support a generated site when a transcriptome-backed screen completed and the
-site's off-target burden is within the configured threshold.
+The default profile delegates to the schema-v3 molecular design pipeline.
+The legacy-v2 profile retains tool-generated candidates, historical filtering
+and consensus ranking for comparison and replay.
 """
 from __future__ import annotations
 
@@ -58,6 +42,14 @@ def _run_id(config, input_sha: str, transcript_id: str) -> str:
     fields = {k: v for k, v in asdict(config).items() if k not in ('out_dir', 'fasta', 'jobs')}
     fields['input'] = input_sha
     fields['transcript_id'] = transcript_id
+    if config.profile == 'rna19p2':
+        from .design import DEFAULT_POLICY_PATH
+        for name in ('scorer_manifest', 'screen_manifest', 'evidence_run'):
+            value = getattr(config, name)
+            if value and Path(value).is_file():
+                fields[name+'_sha256'] = sha256_file(value)
+        if config.strategy == 'auto' and not config.scorer_manifest and DEFAULT_POLICY_PATH.is_file():
+            fields['default_policy_sha256'] = sha256_file(DEFAULT_POLICY_PATH)
     return hashlib.sha256(json.dumps(fields, sort_keys=True, default=str).encode()).hexdigest()[:16]
 
 
@@ -67,8 +59,8 @@ class Config:
     out_dir: str
     tools: tuple[str, ...] = DEFAULT_TOOLS
     lengths: tuple[int, ...] = (19, 20, 21)
-    min_votes: int = 2
-    top_k: int = 10
+    min_votes: int | None = None
+    top_k: int | None = None
     min_spacing: int = 30
     site_mode: str = "bounded"       # bounded | exact | fuzzy
     candidate_mode: str = "exact"    # exact molecules; legacy_site for baseline only
@@ -82,20 +74,47 @@ class Config:
     filter_config: filters.FilterConfig = field(
         default_factory=lambda: filters.DEFAULT_FILTERS)
     extra: dict = field(default_factory=dict)
+    profile: str = 'rna19p2'
+    filter_policy: str = 'soft'
+    scorer_manifest: str = ''
+    screen_manifest: str = ''
+    target_gene: str = ''
+    bowtie: str = 'bowtie'
+    strategy: str = 'auto'
+    evidence_run: str = ''
 
     def resolve(self) -> "Config":
+        if self.min_votes is None:
+            self.min_votes = 2 if self.profile == 'legacy-v2' else 0
+        if self.top_k is None:
+            self.top_k = 10 if self.profile == 'legacy-v2' else 5
         self.fasta = str(Path(self.fasta).expanduser().resolve())
         self.out_dir = str(Path(self.out_dir).expanduser().resolve())
+        for name in ('scorer_manifest', 'screen_manifest', 'evidence_run'):
+            if getattr(self, name):
+                setattr(self, name, str(Path(getattr(self, name)).expanduser().resolve()))
         if self.transcriptome:
             self.transcriptome = str(
                 Path(self.transcriptome).expanduser().resolve())
         return self
 
     def validate(self) -> None:
-        if not self.tools:
+        if self.profile not in ('rna19p2', 'legacy-v2'):
+            raise ValueError('unknown profile')
+        if self.profile == 'legacy-v2' and (self.scorer_manifest or self.screen_manifest or self.evidence_run):
+            raise ValueError('legacy-v2 does not accept v3 model/reference/replay options; use select')
+        if self.profile == 'rna19p2' and (self.candidate_mode != 'exact' or self.site_mode != 'bounded'):
+            raise ValueError('site clustering options are legacy-v2 only')
+        if self.filter_policy not in ('soft', 'hard', 'off'):
+            raise ValueError('invalid filter policy')
+        if self.strategy not in ('auto', 'quality', 'native', 'model'):
+            raise ValueError('invalid strategy')
+        if self.profile == 'rna19p2' and not self.include_singletons:
+            raise ValueError('exclude-singletons is legacy-v2 only; set min-votes explicitly')
+        if not self.tools and self.profile == 'legacy-v2':
             raise ValueError("at least one tool is required")
-        if self.min_votes < 1:
-            raise ValueError("min_votes must be >= 1")
+        if self.min_votes < (1 if self.profile == 'legacy-v2' else 0):
+            raise ValueError("min_votes is below the profile minimum")
         if self.top_k < 1:
             raise ValueError("top_k must be >= 1")
         if self.min_spacing < 0:
@@ -172,7 +191,7 @@ def run(config: Config) -> dict:
     out_dir = Path(config.out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    transcript_id, sequence = read_transcript(config.fasta)
+    transcript_id, sequence = read_transcript(config.fasta, allow_ambiguous=config.profile=='rna19p2')
     input_sha = sha256(sequence)
     run_id = _run_id(config, input_sha, transcript_id)
     # One lock per out_dir. Identical runs share a work dir (fixed run id); *different*
@@ -189,6 +208,9 @@ def run(config: Config) -> dict:
 
 
 def _run_locked(config, out_dir, run_id, transcript_id, sequence, input_sha) -> dict:
+    if config.profile == 'rna19p2':
+        from .design import run_design
+        return run_design(config, out_dir, run_id, transcript_id, sequence, input_sha)
     work_dir = out_dir / "work" / run_id
     # Clear the whole run dir, not just configured tools: an unavailable tool would
     # otherwise leave a stale subdir that the raw-output glob still hashes, making

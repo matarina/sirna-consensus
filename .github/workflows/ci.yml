@@ -21,6 +21,16 @@ jobs:
       - name: Tool survey must not crash when nothing is installed
         run: sirna-consensus tools || true
 
+  ml:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[dev,ml]"
+      - run: pytest tests/test_learning.py tests/test_design_v3.py -q
+
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -33,4 +43,4 @@ jobs:
           pip install "ruff>=0.9,<1"
           ruff check src tests
       - name: Verify freeze locks (tracked subset)
-        run: python benchmarks/scripts/verify_freezes.py
+        run: python benchmarks/scripts/verify_freezes.py --historical-code benchmarks/historical_code_snapshots.json

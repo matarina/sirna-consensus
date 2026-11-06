@@ -13,7 +13,7 @@ from .tools import DEFAULT_TOOLS, available_tools, survey
 def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="sirna-consensus",
-        description="Consensus de novo siRNA design from several external tools.")
+        description="Exhaustive siRNA duplex design with tool evidence, ranking and reference screening.")
     parser.add_argument("--version", action="version", version=__version__)
     sub = parser.add_subparsers(dest="command", required=True)
 
@@ -21,12 +21,19 @@ def _build_parser() -> argparse.ArgumentParser:
     run_parser.add_argument("--fasta", required=True,
                             help="single-record transcript FASTA (the coordinate axis)")
     run_parser.add_argument("--out", required=True, help="output directory")
+    run_parser.add_argument('--profile', choices=['rna19p2', 'legacy-v2'], default='rna19p2')
+    run_parser.add_argument('--filter-policy', choices=['soft', 'hard', 'off'], default='soft')
+    run_parser.add_argument('--scorer-manifest', default='')
+    run_parser.add_argument('--screen-manifest', default='')
+    run_parser.add_argument('--target-gene', default='')
+    run_parser.add_argument('--bowtie', default='bowtie')
+    run_parser.add_argument('--strategy', choices=['auto', 'quality', 'native', 'model'], default='auto')
+    run_parser.add_argument('--evidence-run', default='', help='replay pinned tool evidence for the identical target')
     run_parser.add_argument("--tools", default=",".join(DEFAULT_TOOLS),
                             help=f"comma separated; known: {','.join(available_tools())}")
-    run_parser.add_argument("--min-votes", type=int, default=2,
-                            help="generator tools that must agree (default 2); "
-                                 "also enforced for the exported Top-K")
-    run_parser.add_argument("--top-k", type=int, default=10)
+    run_parser.add_argument("--min-votes", type=int, default=None,
+                            help="exact molecule votes required (default 0; legacy-v2: 2)")
+    run_parser.add_argument("--top-k", type=int, default=None)
     run_parser.add_argument("--min-spacing", type=int, default=30,
                             help="minimum nt between selected top candidates")
     run_parser.add_argument("--lengths", default="19,20,21")
@@ -59,6 +66,10 @@ def _build_parser() -> argparse.ArgumentParser:
     sub.add_parser("tools", help="list registered tools and whether they are usable")
     from .select_cli import add_parser
     add_parser(sub)
+    from .reference import add_parser as reference_parser
+    reference_parser(sub)
+    from .learning import add_parser as learning_parser
+    learning_parser(sub)
     return parser
 
 
@@ -81,10 +92,10 @@ def _cmd_run(args: argparse.Namespace) -> int:
         sys.stderr.write("--lengths must be a comma-separated list of positive integers\n")
         return 2
 
-    if args.min_votes < 1:
-        sys.stderr.write("--min-votes must be >= 1\n")
+    if args.min_votes is not None and args.min_votes < (1 if args.profile == 'legacy-v2' else 0):
+        sys.stderr.write("--min-votes is below the profile minimum\n")
         return 2
-    if args.top_k < 1:
+    if args.top_k is not None and args.top_k < 1:
         sys.stderr.write("--top-k must be >= 1\n")
         return 2
     if args.min_spacing < 0:
@@ -114,7 +125,7 @@ def _cmd_run(args: argparse.Namespace) -> int:
         return 2
 
     tool_names = tuple(t.strip() for t in args.tools.split(",") if t.strip())
-    if not tool_names:
+    if not tool_names and args.profile == 'legacy-v2':
         sys.stderr.write("--tools must list at least one tool\n")
         return 2
     if args.transcriptome and "siren" in tool_names:
@@ -139,9 +150,16 @@ def _cmd_run(args: argparse.Namespace) -> int:
         strict_specificity=args.strict_specificity,
         siren_max_offtargets=args.siren_max_offtargets,
         filter_config=filter_config,
+        profile=args.profile, filter_policy=args.filter_policy,
+        scorer_manifest=args.scorer_manifest, screen_manifest=args.screen_manifest,
+        target_gene=args.target_gene, bowtie=args.bowtie, strategy=args.strategy,
+        evidence_run=args.evidence_run,
     )
     result = run(config)
     counts = result["counts"]
+    if result['schema_version'] == 3:
+        print(json.dumps({'output': args.out, 'profile': args.profile, 'counts': counts}))
+        return 0
     print(f"transcript {result['transcript_id']} ({result['transcript_length']} nt)")
     for tool in result["tools"]:
         print(f"  {tool['tool']:<16} {tool['role']:<10} {tool['status']:<12} "
@@ -171,6 +189,12 @@ def main(argv: list[str] | None = None) -> int:
         return _cmd_tools()
     if args.command == "run":
         return _cmd_run(args)
+    if args.command == 'build-reference':
+        from .reference import command
+        return command(args)
+    if args.command == 'train':
+        from .learning import command
+        return command(args)
     parser.error("unknown command")
     return 2
 

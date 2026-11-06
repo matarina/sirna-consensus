@@ -45,3 +45,19 @@ def test_main_reports_bad_lock_and_continues(tmp_path, capsys):
     assert verify_freezes.main([str(bad), str(good)]) == 1   # failed on bad, still checked good
     out = capsys.readouterr().out
     assert "NOT PARSEABLE" in out and "good.json: ok" in out
+
+
+def test_historical_source_snapshot_is_required_and_checked(tmp_path):
+    import hashlib
+
+    source = tmp_path/'source.py'
+    source.write_text('historical implementation\n')
+    lock = tmp_path/'lock.json'
+    key = '../src/module.py'
+    lock.write_text(json.dumps({'artifacts':{key:hashlib.sha256(source.read_bytes()).hexdigest()}}))
+    mapping = {key:str(source)}
+    assert verify_freezes.check(lock,mapping)==(1,[],0)
+    source.write_text('modified\n')
+    assert verify_freezes.check(lock,mapping)[1]==[key]
+    source.unlink()
+    assert 'required historical source snapshot missing' in verify_freezes.check(lock,mapping)[1][0]

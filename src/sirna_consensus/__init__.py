@@ -1,15 +1,7 @@
-"""sirna-consensus — consensus de novo siRNA design from several external tools.
-
-Input: one human transcript in FASTA.
-Output: ranked candidate guides with an explicit consensus tier.
-
-The pipeline deliberately does not re-implement what the tools already do. It
-adds the layer none of them provide: one coordinate axis, independent votes, and
-filters that stay under the caller's control.
-"""
+"""siRNA de novo duplex design with separate scoring and screening evidence."""
 from __future__ import annotations
 
-__version__ = "1.1.0"
+__version__ = "2.0.0"
 
 from .consensus import Cluster, agree, bounded_cluster, cluster  # noqa: E402
 from .filters import FilterConfig, hard_flags, soft_flags  # noqa: E402

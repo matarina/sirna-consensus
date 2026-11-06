@@ -4,8 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "sirna-consensus"
-version = "1.1.0"
-description = "Consensus de novo siRNA design: wrap several open-source design tools, normalise their output onto one coordinate axis, vote, filter and rank."
+version = "2.0.0"
+description = "Exhaustive siRNA duplex design with independent tool evidence, grouped rank models and pinned reference screening."
 readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "MIT" }
@@ -22,6 +22,7 @@ dependencies = []
 
 [project.optional-dependencies]
 dev = ["pytest>=7", "pytest-cov"]
+ml = ["numpy>=1.24", "scipy>=1.10", "scikit-learn>=1.3", "threadpoolctl>=3"]
 
 [project.scripts]
 sirna-consensus = "sirna_consensus.cli:main"

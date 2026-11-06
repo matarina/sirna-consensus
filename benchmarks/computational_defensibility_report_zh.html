@@ -52,18 +52,18 @@
   <p class="meta">版本 v1.1.0 · 审查日期 2026-11-04 · 工作树 /data1/maxw/proj/cargo_denovo/sirna-consensus</p>
 
   <div class="chips">
-    <span class="chip ok">6 个兼容 benchmark 达标</span>
+    <span class="chip ok">6 个 measured-candidate/scorer-only benchmark 达标</span>
     <span class="chip warn">scorer-only / measured-candidate 测试</span>
-    <span class="chip bad">Sciabola CNN 全量 checkpoint 泄漏</span>
+    <span class="chip bad">Sciabola frozen scorer CI 跨 0 / LO-GO 不可复现</span>
     <span class="chip bad">UBE2H 完整生成 coverage = 0</span>
     <span class="chip warn">SIREN 当前不可用</span>
-    <span class="chip bad">freeze lock 仍需重建</span>
+    <span class="chip bad">final freeze stale / 资产缺失</span>
   </div>
 
   <div class="abstract">
     <h2>审查结论</h2>
-    <p><strong>按“measured-candidate scorer-only”标准，当前 pipeline 在 6 个兼容 benchmark 上达标：UBE2H、Reynolds、Vickers、Ui-Tei、Khovorova、siRNAEfficacyDB 子集。</strong></p>
-    <p><strong>但这不是完整生成 pipeline 的通用证明。</strong> UBE2H 的完整 `run` 因生成器 format 与实测 `passenger_unknown` 不匹配，candidate coverage = 0；Sciabola 的 CNN 用全量 checkpoint 测会泄漏；Shabalina、Martinelli 的 19-mer/修饰格式不达标。</p>
+    <p><strong>按“measured-candidate scorer-only”标准，当前 pipeline 在 6 个 measured-candidate/scorer-only benchmark 上达标：UBE2H、Reynolds、Vickers、Ui-Tei、Khovorova、siRNAEfficacyDB 子集。</strong></p>
+    <p><strong>但这不是完整生成 pipeline 的通用证明。</strong> UBE2H 的完整 `run` 因生成器 format 与实测 `passenger_unknown` 不匹配，candidate coverage = 0；Sciabola 旧 +3.8 pt 来自 multidose 平均标签，按论文端点重建后 +1.1 pt、CI 跨 0；历史 LO-GO 值不能由单一 checkpoint 复现；Shabalina、Martinelli 的 19-mer/修饰格式不达标。</p>
     <p><strong>一句话：</strong> 计算层面可辩护的是“OligoFormer 在 measured candidates 上的排序富集”；完整生成、独立外部验证和生物/临床层面仍不可辩护。</p>
   </div>
 
@@ -89,24 +89,24 @@
     <caption>表 2. 当前 pipeline 在各 benchmark 上的表现。</caption>
     <thead><tr><th>Benchmark</th><th>最佳 selector/策略</th><th>Top-5 vs 随机</th><th>Bootstrap CI</th><th>AUROC</th><th>Coverage</th><th>判定</th></tr></thead>
     <tbody>
-      <tr><td>5-study holdout（Harborth/Khovorova/Reynolds/Ui-Tei/Vickers）</td><td>OligoFormer <code>model</code></td><td>约 +24 pt</td><td>[+0.133, +0.344]</td><td>0.848</td><td>1.0</td><td>达标（composite）</td></tr>
+      <tr><td>5-study holdout（Harborth/Khovorova/Reynolds/Ui-Tei/Vickers）</td><td>OligoFormer <code>model</code></td><td>约 +24 pt</td><td>[+0.133, +0.344]</td><td>0.779</td><td>1.0</td><td>达标（composite）</td></tr>
       <tr><td>UBE2H（70 条 / NM_003344 / HeLa luciferase）</td><td>OligoFormer <code>model</code></td><td>+30.7 pt</td><td>单基因，无 gene CI</td><td>0.806</td><td>1.0</td><td>达标（scorer-only）</td></tr>
       <tr><td>siRNAEfficacyDB 子集（Mmp7/TCAP/P2rx2/Fxyd6/Cacnb1）</td><td>OligoFormer <code>model</code></td><td>+40.2 pt</td><td>[+0.358, +0.463]</td><td>0.808</td><td>1.0</td><td>达标</td></tr>
-      <tr><td>Reynolds 2004（232 条 / 7 基因）</td><td>OligoFormer <code>model</code></td><td>+24.7 pt</td><td>—</td><td>0.845</td><td>1.0</td><td>达标</td></tr>
-      <tr><td>Vickers 2003（76 条 / 2 基因）</td><td>OligoFormer <code>model</code></td><td>+21.7 pt</td><td>—</td><td>0.711</td><td>1.0</td><td>达标（基因少）</td></tr>
+      <tr><td>Reynolds 2004（232 条 / 7 基因）</td><td>OligoFormer <code>model</code></td><td>+24.7 pt</td><td>—</td><td>0.837</td><td>1.0</td><td>达标</td></tr>
+      <tr><td>Vickers 2003（76 条 / 2 基因）</td><td>OligoFormer <code>model</code></td><td>+21.7 pt</td><td>—</td><td>0.804</td><td>1.0</td><td>达标（基因少）</td></tr>
       <tr><td>Ui-Tei 2004（37 条 / 1 基因）</td><td>OligoFormer <code>model</code></td><td>+45.4 pt</td><td>—</td><td>0.988</td><td>1.0</td><td>强信号，单基因</td></tr>
       <tr><td>Khovorova 2006（10 条 / 1 基因）</td><td>OligoFormer <code>model</code></td><td>+29.9 pt</td><td>—</td><td>1.0</td><td>1.0</td><td>强信号，样本太小</td></tr>
       <tr><td>Harborth 2003（44 条 / 1 基因）</td><td>OligoFormer <code>model</code></td><td>0.0 pt（1.0 vs 1.0）</td><td>—</td><td>—</td><td>1.0</td><td>无 enrichment；单基因</td></tr>
       <tr><td>Shabalina 2006（269 条 / 41 基因 / 19-mer）</td><td>OligoFormer <code>model</code></td><td>+2.8 pt</td><td>[-0.0065, +0.066]</td><td>0.642</td><td>~0.99</td><td>不达标</td></tr>
       <tr><td>Martinelli（577 raw / 87 mapped / 12 基因 / 修饰 21-mer）</td><td>native/quality</td><td>+3.6 pt</td><td>[-0.0107, +0.0938]</td><td>0.598</td><td>~0.97</td><td>不达标</td></tr>
-      <tr><td>Sciabola 2013（356 条 / 10 基因）</td><td>OligoFormer <code>model</code></td><td>+3.8 pt</td><td>[-0.028, +0.121]</td><td>0.666</td><td>1.0</td><td>不达标</td></tr>
+      <tr><td>Sciabola 2013（356 条 / 10 基因；356 evaluable；10 nM，HPSE 2 nM）</td><td>OligoFormer <code>model</code></td><td>+1.1 pt</td><td>[-0.034, +0.063]</td><td>0.638</td><td>1.0</td><td>不达标</td></tr>
       <tr><td>UBE2H 完整生成流程（两生成器）</td><td>OligoFormer</td><td>—</td><td>—</td><td>—</td><td><strong>0.0</strong></td><td>不达标：format 不匹配</td></tr>
     </tbody>
   </table>
-
+  <p class="note">注：5-study holdout 的 AUROC 以当前 <code>holdout/final_model.json</code> 的 399 条 scored records 全局重算为 0.779；旧表 0.848 未在当前产物中复现。Reynolds/Vickers 的 AUROC 也按当前 saved selections 全局重算为 0.837/0.804；旧表 0.845/0.711 混用了不同聚合口径。Sciabola 的旧 +3.8 pt 来自 multidose 平均标签；按论文端点、canonical <code>binding19</code> 表示并以 19-nt core 映射重建后为 +1.1 pt（k=5），CI 跨 0；356 条均可映射。Shabalina/Martinelli 行未从当前保存产物重新打分。</p>
 
   <div class="callout">
-    <strong>关键风险：</strong> Sciabola 的 LO-GO 历史值需要每折排除测试基因重训，但仓库没有保存每折模型和输出，不能从单一 checkpoint 复现。
+    <strong>关键风险：</strong> Sciabola 的 LO-GO 历史值需要每折排除测试基因重训，但仓库没有保存每折模型和输出，不能从单一 checkpoint 复现；当前 frozen held-out 结果 +1.1 pt、CI 跨 0，且仍是 measured-candidate replay，不是完整生成 pipeline。
   </div>
 
   <h2>3. 达标判定</h2>
@@ -126,7 +126,7 @@
     </div>
     <div>
       <h3>不达标 / 无效</h3>
-      <p>Shabalina（CI 含 0）、Martinelli（CI 含 0）、Harborth（无 enrichment）、UBE2H 完整生成（coverage 0）、Sciabola 用保存 CNN（泄漏）。</p>
+      <p>Shabalina（CI 含 0）、Martinelli（CI 含 0）、Harborth（无 enrichment）、UBE2H 完整生成（coverage 0）、Sciabola（+1.1 pt，CI 跨 0；非 LO-GO 复现）。</p>
     </div>
   </div>
 
@@ -135,7 +135,7 @@
     <li><strong>默认 selector = OligoFormer。</strong> 不保留额外的 21-mer CNN 路径。</li>
     <li><strong>按 format 路由：</strong> <code>passenger_unknown</code> 19/21 → OligoFormer <code>model</code>；modified <code>passenger21-overhang2</code> → native/quality。</li>
     <li><strong>加 coverage gate：</strong> coverage 低时标为 measured-candidate replay/scorer-only，不能声称完整生成 pipeline 性能。</li>
-    <li><strong>补 LO-GO 与校准：</strong> 若要证明 Sciabola 的 LO-GO，需要每折重训、保存模型、做 calibration/Brier/不确定性。</li>
+    <li><strong>补 LO-GO 与校准：</strong> 若要证明 Sciabola 的 LO-GO，需要每折重训并保存模型、做 calibration/Brier/不确定性；但 LO-GO 会使用 Sciabola 其他基因的训练标签，不能当作无泄漏独立外部验证。</li>
 
     <li><strong>SIREN 暂不可用：</strong> 当前没有 SIREN/RNAhybrid 与 transcriptome；它只影响 specificity，不会自动提高 efficacy Top-5。</li>
     <li><strong>Shabalina/Martinelli 不作为 efficacy 达标集：</strong> 适合格式/覆盖审计；若要达标需重训或扩大样本。</li>
@@ -145,11 +145,11 @@
   <div class="grid2">
     <div>
       <h3>证据层面</h3>
-      <p>多数结果是 measured-candidate scorer-only；不是完整生成 pipeline。Sciabola LO-GO 是同一数据集内跨基因验证，不是独立外部验证。UBE2H 只有 1 个基因；Shabalina/Martinelli 样本小或格式不匹配。</p>
+      <p>多数结果是 measured-candidate scorer-only；不是完整生成 pipeline。Sciabola 当前 frozen held-out 是 measured-candidate replay；LO-GO 历史值是同一数据集内跨基因验证，不是独立外部验证。UBE2H 只有 1 个基因；Shabalina/Martinelli 样本小或格式不匹配。</p>
     </div>
     <div>
       <h3>工程层面</h3>
-      <p><code>scoring.py</code> 改动后，<code>development_freeze.json</code> 与 <code>final_freeze.json</code> 仍哈希不匹配；测试套件通过，但缺少专门的 <code>guide21</code> scorer 测试。CNN manifest 的 <code>independent_validation_passed=true</code> 只是元数据；<code>selection.json</code> 仍写 <code>false</code>。</p>
+      <p><code>scoring.py</code> 契约已修复：只接受 <code>paired_antisense_19</code>，移除未声明的 <code>binding21</code> 子 core 分支并拒绝 <code>guide21</code> 约定；新增 canonical <code>binding19</code> + 2-nt overhang 测试，全量 pytest 通过。<code>development_freeze.json</code> 已重建并通过 verify。因 <code>scoring.py</code> 变更，<code>final_freeze.json</code> 现在是 stale；本环境缺少 pin 的 <code>sirnaforge-platform</code> scorer 资产，无法重切，需在具备这些资产的环境 recut；当前保留该 lock 不动。<code>selection.json</code> 仍写 <code>independent_validation_passed=false</code>。</p>
     </div>
   </div>
 
@@ -162,14 +162,17 @@
       <tr><td><code>benchmarks/results/holdout/final_model.json</code></td><td>5-study holdout 的 OligoFormer scorer 结果</td></tr>
       <tr><td><code>benchmarks/data/holdout/measurements.tsv</code></td><td>399 条 / 10 基因 / 5 studies</td></tr>
       <tr><td><code>independent_validation/oligoformer_manifest.json</code></td><td>本地 OligoFormer manifest</td></tr>
-      <tr><td><code>independent_validation/sciabola/measurements_corrected.tsv</code></td><td>Sciabola 356 条 corrected 测量</td></tr>
+      <tr><td><code>independent_validation/sciabola/measurements_corrected.tsv</code></td><td>23 条 strand 修正后的 356 条测量</td></tr>
+      <tr><td><code>independent_validation/sciabola/canonical/measurements_primary.tsv</code></td><td>按论文端点重建：356 条；HIF1A/HK2/7 genes 10 nM；HPSE 2 nM</td></tr>
+      <tr><td><code>independent_validation/sciabola/canonical/measurements_10nM.tsv</code></td><td>249 条 10 nM stratum</td></tr>
+      <tr><td><code>independent_validation/sciabola/canonical/eval_primary.json</code></td><td>canonical binding19 SciABOLA 评估结果</td></tr>
       <tr><td><code>independent_validation/snapshot_independent/measurements.tsv</code></td><td>UBE2H 70 条 HeLa measured records</td></tr>
-      <tr><td><code>src/sirna_consensus/scoring.py</code></td><td>manifest/artifact/checkpoint 校验与 guide21 路径</td></tr>
+      <tr><td><code>src/sirna_consensus/scoring.py</code></td><td>manifest/artifact/checkpoint 校验；只接受 paired_antisense_19</td></tr>
     </tbody>
   </table>
 
   <footer>
-    本报告是计算层面审查，不是实验或临床验证。所有精确率来自冻结预测与公开实测表的计算；多数 benchmark 是 measured-candidate scorer-only，不是完整生成 pipeline。Sciabola LO-GO 与 UBE2H 均为 heldout 计算证据，不能单独证明通用或临床有效性。
+    本报告是计算层面审查，不是实验或临床验证。所有精确率来自冻结预测与公开实测表的计算；多数 benchmark 是 measured-candidate scorer-only，不是完整生成 pipeline。Sciabola frozen held-out 与 UBE2H 均为计算证据；Sciabola 的 LO-GO 历史值不能由单一 checkpoint 复现，不能单独证明通用或临床有效性。
   </footer>
 </div>
 </body>

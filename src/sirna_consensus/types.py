@@ -35,8 +35,11 @@ class Core:
     passenger: str = ""
     guide_overhang: str = ""
     passenger_overhang: str = ""
+    chemistry: str = "unknown"
 
     def __post_init__(self) -> None:
+        if not isinstance(self.chemistry, str) or not self.chemistry.strip():
+            raise ValueError('chemistry must be a nonempty label or unknown')
         if self.length <= 0:
             raise ValueError("core length must be positive")
         if self.guide_overhang and not self.ordered_guide:
@@ -74,12 +77,15 @@ class Core:
     def molecule_id(self) -> str:
         text = "|".join((self.guide, self.passenger, self.guide_overhang,
                          self.passenger_overhang, self.duplex_format))
+        # Preserve historical identifiers when chemistry was undocumented.
+        if self.chemistry != "unknown":
+            text += "|chemistry=" + self.chemistry
         return hashlib.sha256(text.encode()).hexdigest()
 
     @property
     def key(self) -> str:
         base = f"{self.transcript_id}:{self.start}:{self.length}"
-        return base + (":" + self.molecule_id[:16] if self.guide_overhang or self.passenger else "")
+        return base + (":" + self.molecule_id[:16] if self.guide_overhang or self.passenger or self.chemistry != "unknown" else "")
 
     def interval(self) -> tuple[int, int]:
         return self.start, self.end

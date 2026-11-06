@@ -1,0 +1,16 @@
+{
+  "versions": {
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "scikit-learn": "1.9.1",
+    "threadpoolctl": "3.7.0",
+    "joblib": "1.6.0",
+    "biopython": "1.85",
+    "torch": "2.15.0+cpu",
+    "rna-fm": "0.2.2"
+  },
+  "python": "3.12.3",
+  "platform": "Linux-6.8.0-147-generic-x86_64-with-glibc2.39",
+  "model_results_sha256": "1b479a5cebf18250145438d4496712757a4dd6029eccd25579ea47895fc09fd9",
+  "scorer_python": "/data1/maxw/proj/cargo_denovo/sirna-consensus/.scorer-venv/bin/python"
+}
