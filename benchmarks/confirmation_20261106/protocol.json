@@ -1,0 +1,283 @@
+{
+  "schema_version": 1,
+  "status": "preregistered_before_challenger_fitting",
+  "baseline_commit": "d0de4bbda81284f2dbcdbbad4dccac9cb0998d1c",
+  "baseline_manifest_sha256": "a9d224f00cc0c27594a91a487fa25be8f15f69e9b91d22fd667f09357d131922",
+  "cohort_registry_sha256": "5d1d6baccfe15f0965a2a50d21fcbae754c0bd616cce255bf3b3d9e8692fd6c8",
+  "training": {
+    "studies": [
+      "huesken2005"
+    ],
+    "source": "/data1/maxw/proj/cargo_denovo/sirna-consensus/benchmarks/data/huesken/measurements.tsv",
+    "source_sha256": "326784ff93a4f78fb3f821d7a29b4cac98f9b42a18b242a5e68434f07e947d75",
+    "hgnc": "/data1/maxw/proj/cargo_denovo/sirna-consensus/references/gencode_v50/hgnc_complete_set.txt",
+    "hgnc_sha256": "3944cdad7affce5bc2c7d63d7079d7e68762ed28ef414fc287cc0f57c4b0d78f",
+    "outer_folds": 5,
+    "inner_folds": 3,
+    "grid": [
+      {
+        "feature": "sequence_v1",
+        "family": "ridge",
+        "alpha": 0.1
+      },
+      {
+        "feature": "sequence_v1",
+        "family": "ridge",
+        "alpha": 1.0
+      },
+      {
+        "feature": "sequence_v1",
+        "family": "ridge",
+        "alpha": 10.0
+      },
+      {
+        "feature": "sequence_v1",
+        "family": "ridge",
+        "alpha": 100.0
+      },
+      {
+        "feature": "sequence_v1",
+        "family": "tree",
+        "max_depth": 2,
+        "min_samples_leaf": 5,
+        "l2_regularization": 0.1
+      },
+      {
+        "feature": "sequence_v1",
+        "family": "tree",
+        "max_depth": 2,
+        "min_samples_leaf": 5,
+        "l2_regularization": 1.0
+      },
+      {
+        "feature": "sequence_v1",
+        "family": "tree",
+        "max_depth": 2,
+        "min_samples_leaf": 10,
+        "l2_regularization": 0.1
+      },
+      {
+        "feature": "sequence_v1",
+        "family": "tree",
+        "max_depth": 2,
+        "min_samples_leaf": 10,
+        "l2_regularization": 1.0
+      },
+      {
+        "feature": "sequence_v1",
+        "family": "tree",
+        "max_depth": 3,
+        "min_samples_leaf": 5,
+        "l2_regularization": 0.1
+      },
+      {
+        "feature": "sequence_v1",
+        "family": "tree",
+        "max_depth": 3,
+        "min_samples_leaf": 5,
+        "l2_regularization": 1.0
+      },
+      {
+        "feature": "sequence_v1",
+        "family": "tree",
+        "max_depth": 3,
+        "min_samples_leaf": 10,
+        "l2_regularization": 0.1
+      },
+      {
+        "feature": "sequence_v1",
+        "family": "tree",
+        "max_depth": 3,
+        "min_samples_leaf": 10,
+        "l2_regularization": 1.0
+      },
+      {
+        "feature": "sequence_v1",
+        "family": "pairwise",
+        "C": 0.01
+      },
+      {
+        "feature": "sequence_v1",
+        "family": "pairwise",
+        "C": 0.1
+      },
+      {
+        "feature": "sequence_v1",
+        "family": "pairwise",
+        "C": 1.0
+      },
+      {
+        "feature": "sequence_v1",
+        "family": "pairwise",
+        "C": 10.0
+      },
+      {
+        "feature": "sequence_v2",
+        "family": "ridge",
+        "alpha": 0.1
+      },
+      {
+        "feature": "sequence_v2",
+        "family": "ridge",
+        "alpha": 1.0
+      },
+      {
+        "feature": "sequence_v2",
+        "family": "ridge",
+        "alpha": 10.0
+      },
+      {
+        "feature": "sequence_v2",
+        "family": "ridge",
+        "alpha": 100.0
+      },
+      {
+        "feature": "sequence_v2",
+        "family": "tree",
+        "max_depth": 2,
+        "min_samples_leaf": 5,
+        "l2_regularization": 0.1
+      },
+      {
+        "feature": "sequence_v2",
+        "family": "tree",
+        "max_depth": 2,
+        "min_samples_leaf": 5,
+        "l2_regularization": 1.0
+      },
+      {
+        "feature": "sequence_v2",
+        "family": "tree",
+        "max_depth": 2,
+        "min_samples_leaf": 10,
+        "l2_regularization": 0.1
+      },
+      {
+        "feature": "sequence_v2",
+        "family": "tree",
+        "max_depth": 2,
+        "min_samples_leaf": 10,
+        "l2_regularization": 1.0
+      },
+      {
+        "feature": "sequence_v2",
+        "family": "tree",
+        "max_depth": 3,
+        "min_samples_leaf": 5,
+        "l2_regularization": 0.1
+      },
+      {
+        "feature": "sequence_v2",
+        "family": "tree",
+        "max_depth": 3,
+        "min_samples_leaf": 5,
+        "l2_regularization": 1.0
+      },
+      {
+        "feature": "sequence_v2",
+        "family": "tree",
+        "max_depth": 3,
+        "min_samples_leaf": 10,
+        "l2_regularization": 0.1
+      },
+      {
+        "feature": "sequence_v2",
+        "family": "tree",
+        "max_depth": 3,
+        "min_samples_leaf": 10,
+        "l2_regularization": 1.0
+      },
+      {
+        "feature": "sequence_v2",
+        "family": "pairwise",
+        "C": 0.01
+      },
+      {
+        "feature": "sequence_v2",
+        "family": "pairwise",
+        "C": 0.1
+      },
+      {
+        "feature": "sequence_v2",
+        "family": "pairwise",
+        "C": 1.0
+      },
+      {
+        "feature": "sequence_v2",
+        "family": "pairwise",
+        "C": 10.0
+      }
+    ],
+    "seed": 20261106,
+    "threads": 4,
+    "weight": "equal gene, equal assay within gene, equal record within assay; mean one",
+    "calibration": "none; relative ranking only"
+  },
+  "primary_metric": "macro_gene_assay_NDCG@5",
+  "aggregation": "mean assay within canonical gene, then equal mean over genes",
+  "relevance": "within-assay midrank (rank-1)/(n-1); gain=2**relevance-1",
+  "minimum_candidates": 5,
+  "constant_activity": "undefined_ndcg_reported_separately",
+  "score_ties": [
+    "guide_DNA",
+    "molecule_id",
+    "record_id"
+  ],
+  "active_thresholds": {
+    "normalized_activity": 0.7,
+    "percent_inhibition": 70.0,
+    "percent_knockdown": 70.0
+  },
+  "bootstrap_replicates": 10000,
+  "seed": 20261106,
+  "bootstrap_unit": "paired independent gene/sequence components; retain all assays of each gene",
+  "metrics": [
+    "macro_gene_assay_NDCG@5",
+    "precision@5",
+    "Top3_at_least_one_active",
+    "Top5_active_fraction",
+    "panel_fill_rate",
+    "prediction_coverage",
+    "measurement_coverage",
+    "abstention",
+    "budget_yield_bounds",
+    "Spearman"
+  ],
+  "deployment": {
+    "panel": "diverse_top",
+    "k": 5,
+    "min_spacing": 30,
+    "chemistry": "all_RNA",
+    "match": "complete guide/passenger/overhang/known chemistry and same assay; never overlap",
+    "unknown": "paired same-molecule unknowns cancel; remaining unknowns use worst-case bounds",
+    "no_completion_loss_panels": [
+      "diverse_top",
+      "screened_diverse_top"
+    ]
+  },
+  "gate": {
+    "minimum_independent_studies": 2,
+    "minimum_independent_components": 5,
+    "ndcg_strictly_above": 0.8,
+    "gain_strictly_above": 0.0,
+    "paired_ci95_lower_strictly_above": 0.0,
+    "no_completion_loss": true,
+    "no_prediction_coverage_loss": true,
+    "actual_generated_budget_gain_lower_strictly_above": 0.0,
+    "all_required": true
+  },
+  "confirmation_ids": [],
+  "loso": {
+    "status": "not_permitted_single_development_study",
+    "reason": "External cohorts may not be fitted even for LOSO."
+  },
+  "policy": {
+    "no_confirmation_training": true,
+    "no_confirmation_selection": true,
+    "no_default_change_without_all_gates": true,
+    "no_new_test_after_observation": true,
+    "no_silent_download": true,
+    "baseline_retained_on_failure": true
+  },
+  "preregistration_limit": "Local git preregistration; no third-party timestamp or proof of undocumented history."
+}

@@ -1,0 +1,322 @@
+{
+  "schema_version": 1,
+  "cohorts": [
+    {
+      "name": "huesken2005",
+      "path": "/data1/maxw/proj/cargo_denovo/sirna-consensus/benchmarks/data/huesken/measurements.tsv",
+      "role": "development",
+      "exclusion_reasons": [
+        "sole_development_source",
+        "baseline_training_exposed"
+      ],
+      "independent_eligible": false,
+      "evidence": [
+        {
+          "path": "/data1/maxw/proj/cargo_denovo/sirna-consensus/benchmarks/platform_v3_summary.json",
+          "sha256": "8c4457a06914f878d904d12ffc09590226978cb4e30ada348840b7afd83e5cf2"
+        }
+      ],
+      "sha256": "326784ff93a4f78fb3f821d7a29b4cac98f9b42a18b242a5e68434f07e947d75",
+      "records": 1941,
+      "studies": [
+        "huesken2005"
+      ],
+      "genes": [
+        "C6orf110",
+        "CDC34",
+        "FLJ11011",
+        "HIP2",
+        "HSPC150",
+        "NOG",
+        "P2RX3",
+        "RAB6IP1",
+        "SOST",
+        "TC10",
+        "UBE2B",
+        "UBE2C",
+        "UBE2D3",
+        "UBE2E3",
+        "UBE2G1",
+        "UBE2H",
+        "UBE2I",
+        "UBE2J1",
+        "UBE2L3",
+        "UBE2L6",
+        "UBE2M",
+        "UBE2N",
+        "UBE2S",
+        "UBE2V1",
+        "Ufc1"
+      ]
+    },
+    {
+      "name": "sciabola2013",
+      "path": "/data1/maxw/proj/cargo_denovo/independent_validation/sciabola/canonical/measurements_primary.tsv",
+      "role": "excluded",
+      "exclusion_reasons": [
+        "baseline_training_exposed",
+        "previous_adaptation_and_evaluation"
+      ],
+      "independent_eligible": false,
+      "evidence": [
+        {
+          "path": "/data1/maxw/proj/cargo_denovo/sirna-consensus/models/development_20261106/data_registry.json",
+          "sha256": "391633e47c60c028fd10ad6fa15961236261fa306951beeb011d8e4966310bd6"
+        }
+      ],
+      "sha256": "0e78818c0e1c96bdf177f34ff5cf9dbf717df81f1e78b0b8e3f9530c464eb87e",
+      "records": 356,
+      "studies": [
+        "sciabola2013"
+      ],
+      "genes": [
+        "BIRC5",
+        "BRAF",
+        "CTNNB1",
+        "EZH2",
+        "HIF1A",
+        "HK2",
+        "HPSE",
+        "MTOR",
+        "MYC",
+        "PIK3CA"
+      ]
+    },
+    {
+      "name": "legacy_holdout",
+      "path": "/data1/maxw/proj/cargo_denovo/sirna-consensus/benchmarks/data/holdout/measurements.tsv",
+      "role": "excluded",
+      "exclusion_reasons": [
+        "previous_evaluation_exposed",
+        "upstream_model_selection_exposed",
+        "artificial_N_to_A_reference_history"
+      ],
+      "independent_eligible": false,
+      "evidence": [
+        {
+          "path": "/data1/maxw/proj/cargo_denovo/sirna-consensus/benchmarks/cohort_manifest.json",
+          "sha256": "4e53216e28aabd4e1edb0f031f5e5b382824df56c6b3b5d1dd24e076cb1279b7"
+        },
+        {
+          "path": "/data1/maxw/proj/cargo_denovo/sirna-consensus/benchmarks/data/holdout/dataset_manifest.json",
+          "sha256": "d501f0fbbd4c1cae937ac092ccfcb3e0764c0d210f95280e54d55ba5c1988556"
+        }
+      ],
+      "sha256": "b0df73153630e128fa2b3808b97c76739b2109d836aee4b98a23d016eaf1338a",
+      "records": 399,
+      "studies": [
+        "Harborth",
+        "Khovorova",
+        "Reynolds",
+        "Ui-Tei",
+        "Vickers"
+      ],
+      "genes": [
+        "Cyclophilin B",
+        "DBI",
+        "Firefly luciferase",
+        "FireflyLuc",
+        "GAPDH",
+        "ICAM-1",
+        "Lamin A",
+        "MMAC1",
+        "PLK",
+        "SEAP"
+      ]
+    },
+    {
+      "name": "Harborth",
+      "path": "/data1/maxw/proj/cargo_denovo/independent_validation/harborth/measurements.tsv",
+      "role": "excluded",
+      "exclusion_reasons": [
+        "previous_evaluation_exposed",
+        "check_empty_mapped_measurements"
+      ],
+      "independent_eligible": false,
+      "evidence": [
+        {
+          "path": "/data1/maxw/proj/cargo_denovo/sirna-consensus/benchmarks/computational_defensibility_report_zh.html",
+          "sha256": "6d8d5117835cd257728e848ea02b7ef4ee7aa178f4fc76a137a37d9d437854c2"
+        }
+      ],
+      "sha256": "b99dd03e85c5857612a7ced5c8e1b5f8d422b5a16d1b1ca4a4559595561ee3f6",
+      "records": 0,
+      "studies": [],
+      "genes": []
+    },
+    {
+      "name": "Martinelli",
+      "path": "/data1/maxw/proj/cargo_denovo/independent_validation/martinelli/measurements.tsv",
+      "role": "excluded",
+      "exclusion_reasons": [
+        "previous_evaluation_exposed",
+        "modified_duplex_outside_primary_all_RNA_scope"
+      ],
+      "independent_eligible": false,
+      "evidence": [
+        {
+          "path": "/data1/maxw/proj/cargo_denovo/sirna-consensus/benchmarks/computational_defensibility_report_zh.html",
+          "sha256": "6d8d5117835cd257728e848ea02b7ef4ee7aa178f4fc76a137a37d9d437854c2"
+        }
+      ],
+      "sha256": "e2c1254ef83b0f874f2da467729585f0d6c54c27a8e9623eb2eed39583ff85f4",
+      "records": 87,
+      "studies": [
+        "martinelli2023"
+      ],
+      "genes": [
+        "ACP5",
+        "APOB",
+        "CASR_rhesus",
+        "CDKN1B",
+        "EGFP",
+        "KAZRIN",
+        "Luciferase_firefly",
+        "Luciferase_renilla",
+        "MIR155HG",
+        "NPY",
+        "SOD2_chimp",
+        "VEGFA"
+      ]
+    },
+    {
+      "name": "Shabalina",
+      "path": "/data1/maxw/proj/cargo_denovo/independent_validation/shabalina/measurements.tsv",
+      "role": "excluded",
+      "exclusion_reasons": [
+        "previous_evaluation_exposed",
+        "paired19_only_missing_full_duplex_identity"
+      ],
+      "independent_eligible": false,
+      "evidence": [
+        {
+          "path": "/data1/maxw/proj/cargo_denovo/sirna-consensus/benchmarks/computational_defensibility_report_zh.html",
+          "sha256": "6d8d5117835cd257728e848ea02b7ef4ee7aa178f4fc76a137a37d9d437854c2"
+        }
+      ],
+      "sha256": "0c5b61dd4c8d1bc4fe049a306b5b4292ec8b78ba27b4f622cd41e405d81f3757",
+      "records": 269,
+      "studies": [
+        "shabalina2006"
+      ],
+      "genes": [
+        "AKT1",
+        "AKT2",
+        "ALPG",
+        "CBL",
+        "CBLB",
+        "CDKN1A",
+        "CSK",
+        "DAD1",
+        "EIF4EBP1",
+        "F3_human",
+        "F3_mouse",
+        "FLJ16071",
+        "FOXO1",
+        "FOXO4",
+        "FYN",
+        "GSK3A",
+        "GSK3B",
+        "HRAS",
+        "IGF1R",
+        "ILK",
+        "IRS1",
+        "ITGB1",
+        "LYPD1",
+        "MAPK14",
+        "MYC",
+        "MyoD",
+        "PAC",
+        "PDPK1",
+        "PIK3CA",
+        "PIK3R1",
+        "PIK3R2",
+        "PSKH1",
+        "RAB13",
+        "RB1",
+        "RPS6",
+        "RPS6KA1",
+        "RPS6KA3",
+        "SEPTIN2",
+        "SKP1",
+        "TSC1",
+        "TSC2"
+      ]
+    },
+    {
+      "name": "siRNAEfficacyDB",
+      "path": "/data1/maxw/proj/cargo_denovo/independent_validation/siRNAEfficacyDB_subset/measurements.tsv",
+      "role": "excluded",
+      "exclusion_reasons": [
+        "previous_evaluation_exposed",
+        "470_of_470_cores_in_public_Hu_training_reference"
+      ],
+      "independent_eligible": false,
+      "evidence": [
+        {
+          "path": "/data1/maxw/proj/cargo_denovo/sirna-consensus/benchmarks/leakage_recheck_20261105.json",
+          "sha256": "61de2193463b2fc702f077e3d7c880e45ab9123ca4ff1a124ba43304b72b9b8b"
+        }
+      ],
+      "sha256": "eb506ce5023bdafa8b359df992232c3f75df41e3b01e4798e5b322b913dfa941",
+      "records": 470,
+      "studies": [
+        "siRNAEfficacyDB"
+      ],
+      "genes": [
+        "Cacnb1",
+        "Fxyd6",
+        "Mmp7",
+        "P2rx2",
+        "TCAP"
+      ]
+    },
+    {
+      "name": "UBE2H_snapshot",
+      "path": "/data1/maxw/proj/cargo_denovo/independent_validation/snapshot_independent/measurements.tsv",
+      "role": "excluded",
+      "exclusion_reasons": [
+        "previous_evaluation_exposed",
+        "single_gene_primary_UBE2H"
+      ],
+      "independent_eligible": false,
+      "evidence": [
+        {
+          "path": "/data1/maxw/proj/cargo_denovo/sirna-consensus/benchmarks/leakage_recheck_20261105.json",
+          "sha256": "61de2193463b2fc702f077e3d7c880e45ab9123ca4ff1a124ba43304b72b9b8b"
+        }
+      ],
+      "sha256": "4775cfd808ab4bfd19185e794e0e372bae11e964c5e1a6e2ee5b91ca583c712e",
+      "records": 77,
+      "studies": [
+        "snapshot_molecule_independent"
+      ],
+      "genes": [
+        "Cyclophilin B",
+        "FireflyLuc",
+        "UBE2H"
+      ]
+    },
+    {
+      "name": "OligoFormer",
+      "path": "/data1/maxw/proj/cargo_denovo/independent_validation/oligoformer_manifest.json",
+      "sha256": "1ec398dacb27e6c87f0371769aebe06d4a6ab11a63a25fea7ca907181e15814c",
+      "role": "model_not_cohort",
+      "records": 0,
+      "independent_eligible": false,
+      "exclusion_reasons": [
+        "model_manifest_is_not_an_independent_experimental_dataset",
+        "upstream_checkpoint_lineage_not_fully_verified"
+      ]
+    }
+  ],
+  "confirmation_ids": [],
+  "eligible_confirmation_records": 0,
+  "independence": "no eligible untouched cohort demonstrated",
+  "no_downloads": true,
+  "original_data_preserved": true,
+  "limitations": [
+    "Prior exposure cannot be undone by retraining on Huesken.",
+    "Unknown lineage is not evidence of absence of leakage."
+  ]
+}
