@@ -52,12 +52,15 @@ def load_development(protocol):
     if sha256_file(source) != protocol["training"]["source_sha256"]:
         raise ValueError("development source checksum mismatch")
     approved, aliases = _hgnc(protocol["training"]["hgnc"])
+    case_symbols = defaultdict(set)
+    for symbol in approved:
+        case_symbols[symbol.casefold()].add(symbol)
     records = []
     with source.open() as h:
         for row in csv.DictReader(h, delimiter="\t"):
             gene = row["gene"]
             if gene not in approved:
-                options = aliases.get(gene, set())
+                options = aliases.get(gene, set()) or case_symbols.get(gene.casefold(), set())
                 if len(options) != 1:
                     raise ValueError("unresolved development gene: " + gene)
                 gene = next(iter(options))
