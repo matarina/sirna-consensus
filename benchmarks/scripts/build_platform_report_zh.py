@@ -45,11 +45,12 @@ def main():
             if ideal:ndcg.append(sum(gains)/len(gains)*sum(discounts)/ideal)
         analytic_random[study]={'precision5':sum(p5)/len(p5),'ndcg5':sum(ndcg)/len(ndcg)}
     (OUT/'random_expectation.json').write_text(json.dumps(analytic_random,indent=2)+'\n')
-    chunks=[]
+    from build_confirmation_report_zh import section
+    chunks=[section(PKG)]
     def paragraph(text):chunks.append('<p>'+text+'</p>')
     def heading(text,ident):chunks.append(f'<h2 id="{ident}">{esc(text)}</h2>')
     def table(headers,rows):chunks.append('<div class="scroll"><table><thead><tr>'+''.join('<th>'+esc(h)+'</th>' for h in headers)+'</tr></thead><tbody>'+''.join('<tr>'+''.join('<td>'+str(cell)+'</td>' for cell in row)+'</tr>' for row in rows)+'</tbody></table></div>')
-    chunks.append('<h1>siRNA de novo 平台升级：Wang／Filhol 回归与四研究开发验证</h1><p>2026-11-06 · schema v3 · 保留历史报告文件名</p>')
+    chunks.append('<h2>历史开发：Wang／Filhol 回归与四研究分析</h2><p>2026-11-06 · schema v3 · 保留历史报告文件名</p>')
     gain=results['selected_vs_quality'];m=results['metrics'];split=read(MODEL/'split_manifest.json')
     chunks.append('<div class="notice"><strong>结论边界：已改善开发期排序与候选覆盖；尚无新设计效力的独立实验证明。</strong>')
     paragraph(f'整合 {registry["records"]} 条唯一记录、{registry["genes"]} 个基因，按基因和近重复序列形成 {split["groups"]} 个验证组。'

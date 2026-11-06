@@ -29,7 +29,7 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -e ".[dev,ml]"
-      - run: pytest tests/test_learning.py tests/test_design_v3.py -q
+      - run: pytest tests/test_learning.py tests/test_design_v3.py tests/test_confirmation.py tests/test_guarded_workflow.py -q
 
   lint:
     runs-on: ubuntu-latest
@@ -43,4 +43,4 @@ jobs:
           pip install "ruff>=0.9,<1"
           ruff check src tests
       - name: Verify freeze locks (tracked subset)
-        run: python benchmarks/scripts/verify_freezes.py --historical-code benchmarks/historical_code_snapshots.json
+        run: python benchmarks/scripts/verify_freezes.py --historical-code benchmarks/confirmation_20261106/historical_snapshots.json

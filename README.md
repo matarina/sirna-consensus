@@ -47,28 +47,34 @@ passenger entries; `research_top.fa` is unconstrained. `screened_top.fa` and
 `screened_diverse_top.fa` contain only candidates that passed the recorded screen.
 A short panel is not filled with unverified candidates.
 
-## Model development
+## Guarded model development
+
+The 2026-11-06 protocol is frozen before fitting. Development and model selection use
+**Huesken only**; previously evaluated, overlapping or provenance-unknown cohorts are
+excluded from independent confirmation eligibility. Their original data are preserved.
 
 ```bash
 pip install -e '.[ml,dev]'
-sirna-consensus train --project .. --hgnc references/gencode_v50/hgnc_complete_set.txt \
-  --out models/development_20261106
-sirna-consensus run --fasta target.fa --out out/model \
-  --scorer-manifest models/development_20261106/scorer_manifest.json
+sirna-consensus develop --protocol benchmarks/confirmation_20261106/protocol.json \
+  --out models/huesken_only_REPLAY
+python benchmarks/scripts/verify_platform_v3.py --guarded-model-dir models/huesken_only_REPLAY
+python benchmarks/scripts/validate_retrospective.py all --model-dir models/huesken_only_REPLAY \
+  --out benchmarks/results/confirmation_REPLAY
+# Explicit development candidate only; this does not replace the default:
+sirna-consensus run --fasta target.fa --out out/challenger \
+  --scorer-manifest models/huesken_only_REPLAY/scorer_manifest.json
 ```
 
-The training command expects the existing project-curated Huesken, Sciabola, Wang and
-Filhol artifacts. It does not silently fetch or reconstruct missing upstream sources.
-All four studies are exposed **development data**. Training uses fold-local weighted
-preprocessing, nested gene/sequence component validation, Ridge/tree models, and purged
-leave-one-study-out analyses. Scores predict relative within-assay rank, not a knockdown
-percentage. See `models/.../{data_registry,split_manifest,results,verification}.json`.
+`train` aliases guarded `develop`; the old mixed-study training arguments are retired.
+The 32 registered Ridge/tree/pairwise configurations use nested gene/sequence groups
+and fold-local preprocessing. Scores represent relative rank, not knockdown probability.
+The existing mixed-study default is retained as a historical development model.
+**No eligible untouched confirmation cohort is currently demonstrated; no independent
+performance improvement or default replacement is claimed.**
 
-A model becomes the automatic default only through a pinned `models/default_policy.json`
-that records a positive lower 95% confidence bound for the prespecified NDCG@5 gain.
-If that policy or ML environment is absent, use `--strategy quality` or install the
-appropriate model/environment; explicit model failures are surfaced, not silently hidden.
-The pooled development model is not an independent test on its training studies.
+Replacement requires all registered independent NDCG, paired bootstrap, coverage,
+completion, actual generated Top5 budget-yield and independent verification gates.
+Missing evidence fails the gate. See [the protocol and reproduction guide](docs/guarded_confirmation.md).
 
 ## Reference screening
 
@@ -106,7 +112,7 @@ python benchmarks/scripts/validate_human_screen.py \
   --manifest references/gencode_v50/built/screen_manifest.json --bowtie /path/to/bowtie \
   --out benchmarks/results/platform_v3 --model-dir models/development_20261106
 python benchmarks/scripts/build_platform_report_zh.py
-python benchmarks/scripts/verify_freezes.py --historical-code benchmarks/historical_code_snapshots.json
+python benchmarks/scripts/verify_freezes.py --historical-code benchmarks/confirmation_20261106/historical_snapshots.json
 ```
 
 The Chinese report is `benchmarks/three_benchmark_report_zh.html`. Measured-pool ranking
@@ -122,7 +128,7 @@ unchanged: their source pins are checked against immutable archived source bytes
 separate v3 freeze checks current implementation and new results.
 
 For exact archived-source replay: `python benchmarks/scripts/replay_legacy_source.py -- --version`
-(replace `--version` with the historical CLI arguments). The v3 reproduction entry point is
+(replace `--version` with the historical CLI arguments). The historical v3 reproduction entry point, in the frozen baseline checkout, is
 `bash benchmarks/scripts/reproduce_platform_v3.sh`; reference files and project-curated data
 must already be present. Set `SIRNA_MODEL_PYTHON` and `SIRNA_BOWTIE` for alternative local
 executable locations. The entry point also reruns two complete full-human-reference designs;

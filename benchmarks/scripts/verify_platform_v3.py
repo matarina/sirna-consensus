@@ -16,6 +16,17 @@ from sirna_consensus.types import reverse_complement
 
 
 def main():
+    if '--evaluation' in sys.argv:
+        parser = argparse.ArgumentParser(description='Independent frozen confirmation verification')
+        for name in ('evaluation', 'protocol', 'candidate-freeze', 'predictions', 'output'):
+            parser.add_argument('--' + name, required=True)
+        args = parser.parse_args()
+        from verify_guarded import verify_confirmation
+        report = verify_confirmation(args.evaluation, args.protocol, args.candidate_freeze, args.predictions, args.output)
+        print(json.dumps(report, indent=2))
+        if not report['all_passed']:
+            raise SystemExit(1)
+        return
     if '--guarded-model-dir' in sys.argv:
         parser = argparse.ArgumentParser(description='Independent Huesken-only challenger verification')
         parser.add_argument('--guarded-model-dir', required=True)
