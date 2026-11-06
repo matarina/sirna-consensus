@@ -26,7 +26,8 @@
       "../src/sirna_consensus/tools/sirnaforge.py": "archive/legacy_source_blobs/bfc1ebe7c98faaa5d19a54465a73a766bfb1d07cdf7d56f93a630d1b1af59bbc.py",
       "../src/sirna_consensus/types.py": "archive/legacy_source_blobs/d296a3315efb12b9283f3198ed20c6b6c3ee367a7c1f79f557a4a81f38d34a98.py",
       "../README.md": "archive/legacy_source_blobs/061a04d1f59df182e95e023ca491a02430f5890d34080bd490f131fb7253e311.md",
-      "../pyproject.toml": "archive/legacy_source_blobs/e53fc5a76bc0c3cad5536ff576084a34f55f6f43ef16e2b831a2f5ff004b41a4.toml"
+      "../pyproject.toml": "archive/legacy_source_blobs/e53fc5a76bc0c3cad5536ff576084a34f55f6f43ef16e2b831a2f5ff004b41a4.toml",
+      "evaluate.py": "archive/strict_baseline_blobs/808771a6635af8f48ee4dacef354b3d2de9c3dcd599c3cb385ceb352eda1f30a.py"
     },
     "final_freeze.json": {
       "scripts/run_generators.py": "archive/legacy_source_blobs/90b4399dfecdfcbffb1c18c954e4617c52bfff4ba8353c1d8841814287d39a79.py",
@@ -51,7 +52,8 @@
       "../src/sirna_consensus/tools/siren.py": "archive/legacy_source_blobs/896745054c534f0adfa60b74028919fa18014422351d399a06171400443cedf7.py",
       "../src/sirna_consensus/tools/sirnadesigner.py": "archive/legacy_source_blobs/858b167e3e3c4556f344556654f9aec4df65d5a36624788c3ec09a8f0d2ba951.py",
       "../src/sirna_consensus/tools/sirnaforge.py": "archive/legacy_source_blobs/bfc1ebe7c98faaa5d19a54465a73a766bfb1d07cdf7d56f93a630d1b1af59bbc.py",
-      "../src/sirna_consensus/types.py": "archive/legacy_source_blobs/d296a3315efb12b9283f3198ed20c6b6c3ee367a7c1f79f557a4a81f38d34a98.py"
+      "../src/sirna_consensus/types.py": "archive/legacy_source_blobs/d296a3315efb12b9283f3198ed20c6b6c3ee367a7c1f79f557a4a81f38d34a98.py",
+      "evaluate.py": "archive/strict_baseline_blobs/808771a6635af8f48ee4dacef354b3d2de9c3dcd599c3cb385ceb352eda1f30a.py"
     },
     "platform_v3_freeze.json": {
       "../.github/workflows/ci.yml": "archive/strict_baseline_blobs/94d91825ed6439d06c0504daa09853980701852d10ec35a8292a7946b8001b53.yml",

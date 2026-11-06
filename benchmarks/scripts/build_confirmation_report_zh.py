@@ -163,4 +163,24 @@ def section(package):
     out.append(
         "<hr><h2>以下为冻结基线的历史开发分析</h2><p><strong>下文“四研究”“新模型”和增益均指旧轮次的混合开发模型，不是当前 Huesken-only 候选的独立确认结论。</strong></p>"
     )
+    out.insert(
+        -1,
+        "<p>"
+        + link(
+            package / "docs/confirmation_failure_analysis_20261106.md",
+            "本轮根因分析与后续调整（开发诊断与独立确认分开）",
+        )
+        + "</p>",
+    )
+    out.insert(
+        -1,
+        "<p>"
+        + link(
+            package / "benchmarks/confirmation_20261106/evidence/verification.json",
+            "可随版本分发的独立核查副本",
+        )
+        + " · "
+        + link(package / "benchmarks/confirmation_20261106/final_freeze.json", "本轮最终冻结哈希")
+        + "</p>",
+    )
     return "".join(out)

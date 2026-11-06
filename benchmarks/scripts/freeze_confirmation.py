@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import os
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -37,6 +38,27 @@ def main():
         raise ValueError("not a verified blocked result")
     if verification["evaluation_sha256"] != sha256_file(Path(summary["evaluation"])):
         raise ValueError("verification is stale")
+    evidence = directory / "evidence"
+    evidence.mkdir(exist_ok=True)
+    for name in (
+        "audit.json",
+        "evaluation.json",
+        "verification.json",
+        "decision.json",
+        "failure_records.json",
+        "test_evidence.json",
+        "engineering_evidence.json",
+        "development_diagnostics.json",
+        "environment.json",
+        "candidate_freeze.json",
+    ):
+        target = evidence / name
+        if target.exists():
+            raise ValueError("preserve existing evidence copy: " + str(target))
+        shutil.copyfile(output / name, target)
+    shutil.copyfile(
+        Path(summary["development_verification"]), evidence / "development_verification.json"
+    )
     paths = set()
     for folder in [
         "src",

@@ -1,0 +1,8 @@
+development_freeze.json: MISMATCH — 1848/1849 present entries verify, 0 absent
+  historical implementation: 25 pinned source snapshots (current v3 source is checked separately)
+  mismatch: evaluate.py
+final_freeze.json: MISMATCH — 84/85 present entries verify, 0 absent
+  historical implementation: 23 pinned source snapshots (current v3 source is checked separately)
+  mismatch: evaluate.py
+platform_v3_freeze.json: ok — 593/593 present entries verify, 0 absent
+  historical implementation: 94 pinned source snapshots (current v3 source is checked separately)
