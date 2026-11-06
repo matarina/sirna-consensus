@@ -1,0 +1,78 @@
+{
+  "schema_version": 3,
+  "phase": "confirmation",
+  "protocol_sha256": "c0430881d5c324944953706532b64ad06fc152863b3280f3989cda771366c7cf",
+  "registration_commit": "f8adbf98532af192ba9beb4a632635a080137345",
+  "candidate_freeze_sha256": "702cd2184e88bb6e730d134a31c77c9cb46856f9fd8ec0c7e0929eaaa94e035f",
+  "predictions_sha256": "c1f1bd42da17293ea0f7820272401fec555e3737fad6acb95544d74bd3adeeca",
+  "baseline_commit": "d0de4bbda81284f2dbcdbbad4dccac9cb0998d1c",
+  "candidate_metrics": null,
+  "baseline_metrics": null,
+  "paired_ndcg": null,
+  "deployment": [],
+  "independent_validation_passed": false,
+  "development_metrics_used_for_gate": false,
+  "status": "blocked_no_independent_confirmation",
+  "failures": [
+    "all_existing_cohorts_excluded_or_unknown",
+    "LOSO_not_permitted_under_Huesken_only",
+    "actual_generated_panel_budget_gain_unconfirmed"
+  ],
+  "gate_evidence": {
+    "independence_verified": false,
+    "provenance_verified": true,
+    "independent_studies": 0,
+    "independent_components": 0,
+    "candidate_ndcg5": null,
+    "ndcg_gain": null,
+    "paired_ci95_lower": null,
+    "no_completion_loss": false,
+    "no_prediction_coverage_loss": false,
+    "actual_budget_gain_lower": null,
+    "independent_recomputation_passed": false
+  },
+  "provisional_decision": {
+    "promote": false,
+    "action": "retain_baseline",
+    "independent_validation_passed": false,
+    "checks": {
+      "independence": false,
+      "provenance": true,
+      "minimum_studies": false,
+      "minimum_components": false,
+      "absolute_ndcg": false,
+      "positive_gain": false,
+      "positive_ci": false,
+      "no_completion_loss": false,
+      "no_coverage_loss": false,
+      "actual_panel_budget_gain": false,
+      "independent_recomputation": false
+    },
+    "failures": [
+      "independence",
+      "minimum_studies",
+      "minimum_components",
+      "absolute_ndcg",
+      "positive_gain",
+      "positive_ci",
+      "no_completion_loss",
+      "no_coverage_loss",
+      "actual_panel_budget_gain",
+      "independent_recomputation"
+    ],
+    "evidence": {
+      "independence_verified": false,
+      "provenance_verified": true,
+      "independent_studies": 0,
+      "independent_components": 0,
+      "candidate_ndcg5": null,
+      "ndcg_gain": null,
+      "paired_ci95_lower": null,
+      "no_completion_loss": false,
+      "no_prediction_coverage_loss": false,
+      "actual_budget_gain_lower": null,
+      "independent_recomputation_passed": false
+    },
+    "development_metrics_used_for_gate": false
+  }
+}

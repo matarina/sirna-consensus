@@ -1,0 +1,26 @@
+{
+  "kind": "independent_zero_confirmation_verification",
+  "all_passed": true,
+  "checks": {
+    "frozen_protocol_metadata": true,
+    "candidate_artifacts_unchanged": true,
+    "evaluation_links": true,
+    "prediction_links": true,
+    "authoritative_cohort_sources_unchanged": true,
+    "zero_eligible_records": true,
+    "no_excluded_cohort_predictions": true,
+    "no_manufactured_performance": true,
+    "correct_blocked_status": true,
+    "no_independent_efficacy_claim": true,
+    "development_not_used_for_confirmation": true,
+    "original_default_retained": true,
+    "no_false_LOSO": true,
+    "independently_derived_gate_evidence": true,
+    "gate_rejects_without_data": true
+  },
+  "independent_efficacy_confirmation": false,
+  "eligible_confirmation_records": 0,
+  "evaluation_sha256": "2aa0a17f42654205eec933f090f86a0f34fd0a44c4da1e01580be8b9387200ee",
+  "protocol_sha256": "c0430881d5c324944953706532b64ad06fc152863b3280f3989cda771366c7cf",
+  "limitation": "No independent efficacy metric exists. Verification pass confirms a blocked result only."
+}
