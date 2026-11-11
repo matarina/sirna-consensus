@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="620" viewBox="0 0 1280 620" role="img" aria-labelledby="title desc">
+  <title id="title">sirna-consensus tool architecture</title>
+  <desc id="desc">A transcript enters pinned siRNADesigner and siRNAforge generators, is normalized into validated molecules, optionally evaluated by SIREN and OligoFormer, and exported as reproducible design records.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#24445f"/></marker>
+    <marker id="dashed-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#9a6718"/></marker>
+    <style>
+      .box{stroke-width:2;rx:14}.title{font:700 19px system-ui,sans-serif;fill:#122b3f}.body{font:14px system-ui,sans-serif;fill:#385469}.small{font:12px system-ui,sans-serif;fill:#526d7e}.solid{stroke:#24445f;stroke-width:2.5;fill:none;marker-end:url(#arrow)}.dashed{stroke:#9a6718;stroke-width:2.5;stroke-dasharray:9 7;fill:none;marker-end:url(#dashed-arrow)}
+    </style>
+  </defs>
+  <rect width="1280" height="620" fill="#f6f8fa"/>
+  <text x="42" y="44" class="title" font-size="27">sirna-consensus · tool-level architecture</text>
+  <text x="42" y="70" class="body">External generators provide candidates; the package validates identity and preserves provenance.</text>
+
+  <rect x="42" y="145" width="190" height="116" class="box" fill="#e5f0f7" stroke="#4f8aaa"/>
+  <text x="64" y="180" class="title">Target transcript</text><text x="64" y="207" class="body">single-record FASTA</text><text x="64" y="230" class="small">coordinate axis + SHA-256</text>
+
+  <rect x="278" y="106" width="240" height="132" class="box" fill="#e7f3eb" stroke="#4c9464"/>
+  <text x="302" y="141" class="title">siRNADesigner</text><text x="302" y="169" class="body">generator · source pinned</text><text x="302" y="198" class="small">complete duplexes + native scores</text>
+  <rect x="278" y="278" width="240" height="132" class="box" fill="#e7f3eb" stroke="#4c9464"/>
+  <text x="302" y="313" class="title">siRNAforge</text><text x="302" y="341" class="body">generator · OCI digest pinned</text><text x="302" y="370" class="small">complete duplexes + native scores</text>
+
+  <rect x="570" y="154" width="260" height="188" class="box" fill="#fff1d9" stroke="#c58a2a"/>
+  <text x="594" y="190" class="title">Normalize + validate</text><text x="594" y="220" class="body">coordinates · strands · chemistry</text><text x="594" y="246" class="body">overhangs · duplicate handling</text><text x="594" y="272" class="small">raw-output hashes + tool versions</text><text x="594" y="309" class="small">native sets stay separate from union</text>
+
+  <rect x="882" y="154" width="250" height="188" class="box" fill="#eee8f7" stroke="#8768ad"/>
+  <text x="906" y="190" class="title">Consensus + reports</text><text x="906" y="220" class="body">generator votes and native scores</text><text x="906" y="246" class="body">Top-K research panel</text><text x="906" y="278" class="small">run.json · candidates.tsv</text><text x="906" y="302" class="small">FASTA + HTML report</text>
+
+  <path d="M232 203 H278" class="solid"/><path d="M518 172 H570" class="solid"/><path d="M518 344 H550 V270 H570" class="solid"/><path d="M830 248 H882" class="solid"/>
+
+  <rect x="570" y="438" width="260" height="116" class="box" fill="#fffaf0" stroke="#b8791c" stroke-dasharray="9 7"/>
+  <text x="594" y="474" class="title">SIREN evaluator</text><text x="594" y="502" class="body">off-target evidence only</text><text x="594" y="529" class="small">never creates a generator vote</text>
+  <rect x="882" y="438" width="250" height="116" class="box" fill="#fffaf0" stroke="#b8791c" stroke-dasharray="9 7"/>
+  <text x="906" y="474" class="title">Optional scorer</text><text x="906" y="502" class="body">OligoFormer manifest</text><text x="906" y="529" class="small">external checkpoint · no fitting</text>
+
+  <path d="M700 342 V438" class="dashed"/><text x="715" y="398" class="small">evaluator evidence</text><path d="M1007 342 V438" class="dashed"/>
+  <text x="42" y="590" class="small">Solid arrows: candidate generation and validated output. Dashed arrows: optional evidence or external scoring.</text>
+</svg>

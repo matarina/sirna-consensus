@@ -4,7 +4,7 @@ Tool-based siRNA design that wraps registered external generators, validates the
 molecular records, and produces a reproducible consensus panel. The package does not
 train a ranker or ship benchmark datasets.
 
-![Tool-based pipeline architecture](docs/architecture.svg)
+![Tool-based pipeline architecture](docs/tools_architecture.svg)
 
 ## Pipeline
 
