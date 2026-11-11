@@ -13,7 +13,7 @@ from .tools import DEFAULT_TOOLS, available_tools, survey
 def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="sirna-consensus",
-        description="Exhaustive siRNA duplex design with tool evidence, ranking and reference screening.")
+        description="Tool-generated siRNA design with coordinate normalization, ranking and screening.")
     parser.add_argument("--version", action="version", version=__version__)
     sub = parser.add_subparsers(dest="command", required=True)
 
@@ -21,7 +21,8 @@ def _build_parser() -> argparse.ArgumentParser:
     run_parser.add_argument("--fasta", required=True,
                             help="single-record transcript FASTA (the coordinate axis)")
     run_parser.add_argument("--out", required=True, help="output directory")
-    run_parser.add_argument('--profile', choices=['rna19p2', 'legacy-v2'], default='rna19p2')
+    run_parser.add_argument('--profile', choices=['tools', 'legacy-v2'], default='tools',
+                            help='tool-generated candidates (default) or historical tool voting')
     run_parser.add_argument('--filter-policy', choices=['soft', 'hard', 'off'], default='soft')
     run_parser.add_argument('--scorer-manifest', default='')
     run_parser.add_argument('--screen-manifest', default='')
@@ -32,7 +33,7 @@ def _build_parser() -> argparse.ArgumentParser:
     run_parser.add_argument("--tools", default=",".join(DEFAULT_TOOLS),
                             help=f"comma separated; known: {','.join(available_tools())}")
     run_parser.add_argument("--min-votes", type=int, default=None,
-                            help="exact molecule votes required (default 0; legacy-v2: 2)")
+                            help="generator-tool votes required (default 1; legacy-v2: 2)")
     run_parser.add_argument("--top-k", type=int, default=None)
     run_parser.add_argument("--min-spacing", type=int, default=30,
                             help="minimum nt between selected top candidates")
@@ -68,9 +69,6 @@ def _build_parser() -> argparse.ArgumentParser:
     add_parser(sub)
     from .reference import add_parser as reference_parser
     reference_parser(sub)
-    guarded = sub.add_parser('develop', aliases=['train'], help='Huesken-only development under a committed protocol; cannot promote from development')
-    guarded.add_argument('--protocol', required=True)
-    guarded.add_argument('--out', required=True)
     return parser
 
 
@@ -93,7 +91,7 @@ def _cmd_run(args: argparse.Namespace) -> int:
         sys.stderr.write("--lengths must be a comma-separated list of positive integers\n")
         return 2
 
-    if args.min_votes is not None and args.min_votes < (1 if args.profile == 'legacy-v2' else 0):
+    if args.min_votes is not None and args.min_votes < 1:
         sys.stderr.write("--min-votes is below the profile minimum\n")
         return 2
     if args.top_k is not None and args.top_k < 1:
@@ -126,7 +124,7 @@ def _cmd_run(args: argparse.Namespace) -> int:
         return 2
 
     tool_names = tuple(t.strip() for t in args.tools.split(",") if t.strip())
-    if not tool_names and args.profile == 'legacy-v2':
+    if not tool_names:
         sys.stderr.write("--tools must list at least one tool\n")
         return 2
     if args.transcriptome and "siren" in tool_names:
@@ -193,10 +191,6 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == 'build-reference':
         from .reference import command
         return command(args)
-    if args.command in ('develop', 'train'):
-        from .challenger import develop
-        develop(args.protocol, args.out)
-        return 0
     parser.error("unknown command")
     return 2
 

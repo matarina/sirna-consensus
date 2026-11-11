@@ -17,7 +17,9 @@ REGISTRY: dict[str, type[Tool]] = {
     SirnaforgeTool.name: SirnaforgeTool,
 }
 
-DEFAULT_TOOLS = ("sirnadesigner", "siren", "sirnaforge")
+# Generators define the candidate universe.  SIREN is registered separately as
+# an optional evaluator and must be requested explicitly with ``--tools``.
+DEFAULT_TOOLS = ("sirnadesigner", "sirnaforge")
 
 
 def available_tools() -> list[str]:

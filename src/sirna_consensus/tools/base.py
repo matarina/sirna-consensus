@@ -10,6 +10,7 @@ sense-strand DNA core.
 """
 from __future__ import annotations
 
+import hashlib
 import os
 import shutil
 from abc import ABC, abstractmethod
@@ -45,8 +46,8 @@ class Tool(ABC):
 
     # -- execution -------------------------------------------------------
     @abstractmethod
-    def run(self, fasta: Path, workdir: Path, transcript_id: str) -> list[RawHit]:
-        """Run the tool and return its raw hits. Raise ToolError on failure."""
+    def run(self, fasta: Path, workdir: Path, transcript_id: str) -> ToolRun:
+        """Run the tool and return raw hits plus execution provenance."""
 
     # -- helpers ---------------------------------------------------------
     def _execute(self, command: list[str], workdir: Path,
@@ -75,6 +76,17 @@ class Tool(ABC):
                        command=getattr(self, "last_command", []),
                        role=self.role, acceptance=self.acceptance)
 
+    @staticmethod
+    def hash_outputs(workdir: Path) -> dict[str, str]:
+        """Hash raw adapter files in deterministic relative-path order."""
+        outputs: dict[str, str] = {}
+        if not workdir.is_dir():
+            return outputs
+        for path in sorted(p for p in workdir.rglob("*") if p.is_file()):
+            digest = hashlib.sha256(path.read_bytes()).hexdigest()
+            outputs[str(path.relative_to(workdir))] = digest
+        return outputs
+
 
 def _positive_int(raw: str | None, fallback: int) -> int:
     try:
@@ -94,11 +106,15 @@ class ToolEnv:
         self.tool_bin: str = os.environ.get("SIRNA_CONSENSUS_TOOL_BIN", "")
         self.tool_lib: str = os.environ.get("SIRNA_CONSENSUS_TOOL_LIB", "")
         self.sirnadesigner_script: str = os.environ.get("SIRNA_DESIGNER_SCRIPT", "")
+        self.sirnadesigner_sha256: str = os.environ.get("SIRNA_DESIGNER_SHA256", "")
         self.siren_bin: str = os.environ.get("SIREN_BIN", "")
         self.siren_threads: int = _positive_int(
             os.environ.get("SIREN_THREADS"), min(os.cpu_count() or 8, 32))
+        # Immutable OCI digest.  A tag is intentionally not the default: the
+        # generator track must be replayable after an upstream ``latest`` moves.
         self.sirnaforge_image: str = os.environ.get(
-            "SIRNAFORGE_IMAGE", "ghcr.io/austin-s-h/sirnaforge:sha-4c05e4b")
+            "SIRNAFORGE_IMAGE",
+            "ghcr.io/austin-s-h/sirnaforge@sha256:f823aa35200485d38714865a11b99bd384a6968fc6db022e7bf794edeb42fce7")
         self.transcriptome: str = os.environ.get("SIRNA_CONSENSUS_TRANSCRIPTOME", "")
         # Explicit override for SIREN's ``-g`` selector, used verbatim.
         self.siren_gene_selector: str = os.environ.get("SIREN_GENE_SELECTOR", "")

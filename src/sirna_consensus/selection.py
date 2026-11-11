@@ -17,8 +17,11 @@ STRATEGIES = ('native', 'model', 'fusion', 'support', 'quality', 'legacy')
 
 def from_record(row: dict) -> Core:
     row = dict(row)
-    row.setdefault("ordered_guide", row.get("guide_sequence_dna", row.get("guide_sequence_rna", "")))
-    row.setdefault("passenger", row.get("passenger_sequence_rna", ""))
+    row.setdefault("ordered_guide", row.get("guide_sequence_dna",
+                                             row.get("guide_dna",
+                                                     row.get("guide_sequence_rna", ""))))
+    row.setdefault("passenger", row.get("passenger_dna",
+                                         row.get("passenger_sequence_rna", "")))
     return Core(row['transcript_id'], int(row.get('start', row.get('target_start', 0))),
                 int(row.get('length', row.get('core_length', 0))),
                 to_dna(row.get('sense', row.get('sense_dna', row.get('target_sequence_dna', '')))),
@@ -45,12 +48,14 @@ def load_candidates(run_path: Path, evidence_only: bool = False, _seen=None) -> 
     for hit in run['normalized_hits']:
         if hit['role'] != 'generator' or not hit['vote_eligible']:
             continue
-        core = Core(**hit['core'])
+        # Schema-v2 records written before the explicit flat normalized-hit
+        # contract nested the Core dataclass.
+        core = Core(**hit['core']) if 'core' in hit else from_record(hit)
         row = by_key.setdefault(core.key, {'core': core, 'tool_scores': {}, 'tools': []})
         tool = hit['tool']
         if tool not in row['tools']:
             row['tools'].append(tool)
-        score = hit['score']
+        score = hit.get('score', hit.get('native_score'))
         if score is not None:
             if not math.isfinite(score):
                 raise ValueError('nonfinite native score')
@@ -84,12 +89,6 @@ def supplied_candidates(path: Path, transcript_id: str, sequence: str) -> list[d
         seen.add(core.key)
         out.append({'core': core, 'tools': [], 'tool_scores': {}})
     return out
-
-
-def enumerate_guides(transcript_id: str, sequence: str, lengths=(19, 20, 21)) -> list[dict]:
-    return [{'core': Core(transcript_id, i+1, n, sequence[i:i+n]),
-             'tools': [], 'tool_scores': {}} for n in lengths
-            for i in range(len(sequence)-n+1)]
 
 
 def enumerate_duplexes(transcript_id: str, sequence: str) -> list[dict]:

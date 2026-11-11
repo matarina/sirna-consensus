@@ -107,6 +107,10 @@ class RawHit:
     score: float | None = None
     score_kind: str = "tool_score"
     extra: dict[str, Any] = field(default_factory=dict)
+    # The adapter must state the chemistry when it supplies a complete duplex.
+    # Hits that contain only a binding core may retain ``unknown`` for backwards
+    # compatibility with historical tool output.
+    chemistry: str | None = "unknown"
     #: A generator hit is a design claim; an evaluator hit is evidence. A hit
     #: marked False must not contribute a design vote or be used as clean
     #: specificity evidence.
@@ -132,6 +136,10 @@ class ToolRun:
     acceptance: str = ""
     screen_state: str = ""           # transcriptome_screened | input_only | failed
     selection_limits: dict[str, Any] = field(default_factory=dict)
+    # Hashes are relative to the adapter work directory and cover every raw
+    # output file.  They make parser results auditable without storing a second
+    # copy of a potentially large tool output.
+    raw_output_hashes: dict[str, str] = field(default_factory=dict)
 
     @property
     def ok(self) -> bool:

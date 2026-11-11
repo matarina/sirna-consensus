@@ -410,6 +410,7 @@ class SirenTool(Tool):
             "ok",
             f"{len(hits)} 21-mers evaluated; {note}; {screened}",
             hits)
+        run.raw_output_hashes = self.hash_outputs(attempt)
         run.screen_state = screen_state
         run.selection_limits = {
             "sirna_size": 21,

@@ -85,6 +85,16 @@ def test_run_writes_outputs_and_reports_counts(registry, tmp_path, fasta_file, c
     assert counts["candidates"] == len(rows)
 
 
+def test_run_defaults_to_tool_generated_candidates(registry, tmp_path, fasta_file, capsys):
+    out = tmp_path / "default"
+    assert main(["run", "--fasta", str(fasta_file), "--out", str(out),
+                 "--tools", "alpha,beta", "--top-k", "2"]) == 0
+    record = json.loads((out / "run.json").read_text())
+    assert record["schema_version"] == 2
+    assert record["config"]["source"] == "external tools; no local enumeration"
+    assert record["config"]["min_votes"] == 1
+
+
 def test_exclude_singletons_keeps_only_agreed_sites(registry, tmp_path, fasta_file):
     out = tmp_path / "out"
     main(["run", "--profile", "legacy-v2", "--fasta", str(fasta_file), "--out", str(out),

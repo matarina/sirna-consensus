@@ -42,6 +42,7 @@ from ..types import RawHit, ToolRun, reverse_complement, to_dna
 from .base import Tool
 
 SAFE_NAME = re.compile(r"[^A-Za-z0-9_.-]")
+IMAGE_DIGEST = re.compile(r"@sha256:[0-9a-f]{64}$")
 
 
 class SirnaforgeTool(Tool):
@@ -53,6 +54,9 @@ class SirnaforgeTool(Tool):
     acceptance = "thermodynamic candidate emitted by the pinned image"
 
     def availability(self) -> tuple[bool, str]:
+        if not IMAGE_DIGEST.search(self.env.sirnaforge_image):
+            return False, ("siRNAforge image must be pinned by an immutable sha256 "
+                           "digest (set SIRNAFORGE_IMAGE to image@sha256:...)")
         if not shutil.which("docker"):
             return False, "docker not on PATH"
         try:
@@ -64,11 +68,15 @@ class SirnaforgeTool(Tool):
         if completed.returncode != 0:
             return False, (f"image {self.env.sirnaforge_image} not pulled locally "
                            f"(`docker pull` it first)")
-        self.image_id = json.loads(completed.stdout)[0]["Id"]
+        try:
+            self.image_id = json.loads(completed.stdout)[0]["Id"]
+        except (ValueError, KeyError, IndexError, TypeError) as exc:
+            return False, f"docker returned invalid image metadata: {exc}"
         return True, f"image {self.env.sirnaforge_image} present ({self.image_id})"
 
     def version(self) -> str:
-        return getattr(self, "image_id", self.env.sirnaforge_image)
+        image_id = getattr(self, "image_id", "unverified")
+        return f"image:{self.env.sirnaforge_image};local-id:{image_id}"
 
     def run(self, fasta: Path, workdir: Path, transcript_id: str) -> ToolRun:
         ok, detail = self.availability()
@@ -102,6 +110,7 @@ class SirnaforgeTool(Tool):
         if not rows:
             return self.wrap("empty", "no parsable candidate table produced")
         run = self.wrap("ok", f"{len(rows)} hits", rows)
+        run.raw_output_hashes = self.hash_outputs(workdir)
         run.selection_limits = {
             "top_n": top_n,
             "length": length,
@@ -129,7 +138,10 @@ class SirnaforgeTool(Tool):
             if not sense or not position:
                 continue
             try:
-                start = int(float(position))
+                numeric_start = float(position)
+                if not numeric_start.is_integer():
+                    continue
+                start = int(numeric_start)
                 score = float(row.get("composite_score") or 0.0)
             except ValueError:
                 continue
@@ -140,6 +152,7 @@ class SirnaforgeTool(Tool):
                 start=start,
                 score=score,
                 score_kind="composite_score",
+                chemistry="unmodified_rna_21nt",
                 extra={"off_target_count": row.get("off_target_count"),
                        "passes_filters": row.get("passes_filters"),
                        "ordered_guide": to_dna(row.get("guide_sequence") or reverse_complement(to_dna(sense))),

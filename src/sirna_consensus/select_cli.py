@@ -9,7 +9,6 @@ from .fasta import read_transcript, sha256, sha256_file
 from .selection import (
     STRATEGIES,
     attach_evidence,
-    enumerate_guides,
     load_candidates,
     rank_candidates,
     supplied_candidates,
@@ -23,9 +22,8 @@ def add_parser(sub):
     sources=p.add_mutually_exclusive_group(required=True)
     sources.add_argument('--run',help='schema-v2 run.json; replays all exact normalized hits')
     sources.add_argument('--candidates',help='label-free TSV of explicit molecules')
-    sources.add_argument('--enumerate',action='store_true',help='enumerate guide-only 19/20/21-nt windows')
-    # Native evidence may be attached onto a supplied candidate universe (the dev path):
-    # candidates stay the assayed molecules; the run only donates exact-molecule votes.
+    # Native evidence may be attached onto a supplied candidate universe:
+    # candidates stay the supplied molecules; the run only donates exact-molecule votes.
     p.add_argument('--run-evidence',help='schema-v2 run.json whose exact hits annotate --candidates')
     p.add_argument('--out',required=True)
     p.add_argument('--strategy',choices=STRATEGIES,default='native')
@@ -33,7 +31,6 @@ def add_parser(sub):
     p.add_argument('--disable-components',default='',help='comma-separated tools,support,quality ablations')
     p.add_argument('--top-k',type=int,default=5)
     p.add_argument('--scorer-manifest')
-    p.add_argument('--policy',help='frozen development-selected format/strategy policy')
     p.add_argument('--screen-manifest')
     p.add_argument('--target-gene')
     p.add_argument('--bowtie',default='bowtie')
@@ -66,7 +63,7 @@ def command(args):
         rows=supplied_candidates(Path(args.candidates),tid,sequence)
         provenance['source_sha256']=sha256_file(Path(args.candidates))
     else:
-        rows=enumerate_guides(tid,sequence)
+        raise ValueError('a tool run or explicit candidate TSV is required')
     if args.run_evidence:
         if not args.candidates:
             raise ValueError('--run-evidence annotates --candidates')
@@ -91,18 +88,7 @@ def command(args):
         raise ValueError('unknown ablation component')
     components=tuple(c for c in ('tools','support','quality') if c not in disabled)
     provenance['components']=components
-    if args.policy:
-        policy=json.loads(Path(args.policy).read_text())
-        if not args.scorer_manifest or policy.get('scorer_manifest_sha256')!=sha256_file(Path(args.scorer_manifest)):
-            raise ValueError('policy requires its pinned scorer manifest')
-        ranked=[]
-        for fmt in sorted({r['core'].duplex_format for r in rows}):
-            method=policy['strategies'].get(fmt,'model')
-            ranked.extend(rank_candidates([r for r in rows if r['core'].duplex_format==fmt],method,args.filter_policy,scores,components=components))
-        provenance['policy_sha256']=sha256_file(Path(args.policy))
-        provenance['policy_status']=policy.get('status','development_only')
-    else:
-        ranked=rank_candidates(rows,args.strategy,args.filter_policy,scores,components=components)
+    ranked=rank_candidates(rows,args.strategy,args.filter_policy,scores,components=components)
     if args.screen_manifest:
         from .screening import screen
         try:

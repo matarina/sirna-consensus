@@ -1,4 +1,4 @@
-from sirna_consensus.normalize import normalize, place
+from sirna_consensus.normalize import normalize, normalize_placed, place
 from sirna_consensus.types import RawHit
 
 TID = "TX"
@@ -38,6 +38,13 @@ def test_unsupported_length_is_reported():
     placement = place(hit, TID, SEQ, lengths=(19, 20, 21))
     assert not placement.ok
     assert placement.reason == "length_25_not_supported"
+
+
+def test_ambiguous_hit_is_rejected_without_aborting_normalization():
+    hit = RawHit("tool", "N" * 19, 19, start=1)
+    placed, stats = normalize_placed([hit], TID, "N" * 19)
+    assert placed == []
+    assert stats.reasons == {"invalid_hit": 1}
 
 
 def test_ambiguous_repeat_needs_coordinates():
