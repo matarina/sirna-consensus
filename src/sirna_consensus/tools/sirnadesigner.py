@@ -32,6 +32,9 @@ CANDIDATE_SCRIPT_SUFFIXES = (
     "siRNAdesigner/siRNADesigner.py",
     "siRNADesigner.py",
 )
+# SHA-256 of the vendored upstream script.  This is the package's immutable
+# source pin; deployments using another checkout must provide their own hash.
+PINNED_SCRIPT_SHA256 = "766aa040b3aa559485fb320bf08d6afc4904e9013c841e8e27b433aa14de16d9"
 
 
 class SirnaDesignerTool(Tool):
@@ -57,15 +60,40 @@ class SirnaDesignerTool(Tool):
         script = self._script()
         if not script:
             return False, ("siRNADesigner.py not found; set SIRNA_DESIGNER_SCRIPT")
+        try:
+            digest = self._script_digest(script)
+        except OSError as exc:
+            return False, f"cannot read siRNADesigner source: {exc}"
+        expected = self.env.sirnadesigner_sha256 or (
+            PINNED_SCRIPT_SHA256 if self._is_vendored(script) else "")
+        if expected and digest != expected:
+            return False, (f"siRNADesigner source hash mismatch: expected {expected}, "
+                           f"got {digest}")
         has_deps, why = self.env.interpreter_has("Bio", "numpy")
         if not has_deps:
             return False, (f"interpreter {self.env.python} lacks a dependency: {why}")
-        return True, f"script found at {script}"
+        pin = expected or (PINNED_SCRIPT_SHA256 if self._is_vendored(script) else "unverified")
+        return True, f"script found at {script} (sha256:{digest}; pin:{pin})"
+
+    @staticmethod
+    def _script_digest(script: str) -> str:
+        import hashlib
+        return hashlib.sha256(Path(script).read_bytes()).hexdigest()
+
+    @staticmethod
+    def _is_vendored(script: str) -> bool:
+        return Path(script).resolve().name == "siRNADesigner.py" and "vendor" in Path(script).resolve().parts
 
     def version(self) -> str:
-        import hashlib
         script = self._script()
-        return "sha256:" + hashlib.sha256(Path(script).read_bytes()).hexdigest() if script else "unavailable"
+        if not script:
+            return "unavailable"
+        try:
+            digest = self._script_digest(script)
+        except OSError:
+            return "unavailable"
+        pin = self.env.sirnadesigner_sha256 or (PINNED_SCRIPT_SHA256 if self._is_vendored(script) else "unverified")
+        return f"source-sha256:{digest};pin:{pin}"
 
     def run(self, fasta: Path, workdir: Path, transcript_id: str) -> ToolRun:
         ok, detail = self.availability()
@@ -86,9 +114,11 @@ class SirnaDesignerTool(Tool):
             return self.wrap("empty", "no candidate survived the tool's rule set")
         run = self.wrap("ok", f"{len(combined)} hits from {len(produced)} file(s)",
                         combined)
+        run.raw_output_hashes = self.hash_outputs(workdir)
         run.selection_limits = {
             "sirna_length": 21,
             "score": "designer_rule_score",
+            "chemistry": "unmodified_rna_21nt_19bp",
         }
         return run
 
@@ -116,6 +146,7 @@ class SirnaDesignerTool(Tool):
                     start=start + 2,
                     score=score,
                     score_kind="designer_rule_score",
+                    chemistry="unmodified_rna_21nt_19bp",
                     extra={"reported_start": start, "ordered_guide": guide,
                            "passenger": passenger, "guide_overhang": guide[19:],
                            "passenger_overhang": passenger[19:]},

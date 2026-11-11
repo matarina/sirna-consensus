@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="470" viewBox="0 0 1120 470" role="img" aria-labelledby="title desc">
+  <title id="title">sirna-consensus pipeline</title>
+  <desc id="desc">A single transcript FASTA enters pinned generator tools, coordinate and strand normalization, consensus ranking, research outputs, and optional transcriptome screening. SIREN contributes evaluator evidence only.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,5 L0,10 z" fill="#24445f"/>
+    </marker>
+    <marker id="arrow-dashed" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8a5a16"/>
+    </marker>
+    <style>
+      .box { stroke-width: 2; rx: 12; }
+      .title { font: 700 17px system-ui, sans-serif; fill: #122b3f; }
+      .body { font: 14px system-ui, sans-serif; fill: #385469; }
+      .label { font: 700 13px system-ui, sans-serif; fill: #385469; }
+      .arrow { stroke: #24445f; stroke-width: 2.5; fill: none; marker-end: url(#arrow); }
+      .dashed { stroke: #8a5a16; stroke-width: 2.5; stroke-dasharray: 8 7; fill: none; marker-end: url(#arrow-dashed); }
+    </style>
+  </defs>
+
+  <rect width="1120" height="470" fill="#f6f8fa"/>
+  <text x="48" y="48" class="title" font-size="25">sirna-consensus pipeline</text>
+  <text x="48" y="73" class="body">Pinned external tools, validated molecular identity, separate evaluator evidence, and reproducible reports</text>
+
+  <rect x="48" y="125" width="185" height="100" class="box" fill="#e5f0f7" stroke="#4f8aaa"/>
+  <text x="72" y="158" class="title">Target transcript</text>
+  <text x="72" y="184" class="body">Single-record FASTA</text>
+  <text x="72" y="205" class="body">coordinate axis + SHA-256</text>
+
+  <rect x="290" y="105" width="220" height="140" class="box" fill="#e7f3eb" stroke="#4c9464"/>
+  <text x="314" y="138" class="title">Pinned generators</text>
+  <text x="314" y="166" class="body">siRNADesigner</text>
+  <text x="314" y="190" class="body">siRNAforge</text>
+  <text x="314" y="218" class="body">native strands + scores</text>
+
+  <rect x="570" y="125" width="220" height="100" class="box" fill="#fff1d9" stroke="#c58a2a"/>
+  <text x="594" y="158" class="title">Normalize and validate</text>
+  <text x="594" y="184" class="body">coordinates, strands, chemistry</text>
+  <text x="594" y="205" class="body">overhangs + raw hashes</text>
+
+  <rect x="850" y="125" width="220" height="100" class="box" fill="#eee8f7" stroke="#8768ad"/>
+  <text x="874" y="158" class="title">Rank and report</text>
+  <text x="874" y="184" class="body">native sets + validated union</text>
+  <text x="874" y="205" class="body">Top-K research panel</text>
+
+  <path d="M233 175 H290" class="arrow"/>
+  <path d="M510 175 H570" class="arrow"/>
+  <path d="M790 175 H850" class="arrow"/>
+
+  <rect x="570" y="302" width="220" height="94" class="box" fill="#f8ead3" stroke="#b8791c"/>
+  <text x="594" y="335" class="title">Optional evaluator</text>
+  <text x="594" y="361" class="body">SIREN transcriptome screen</text>
+  <text x="594" y="382" class="body">off-target evidence only</text>
+
+  <rect x="850" y="302" width="220" height="94" class="box" fill="#e5f0f7" stroke="#4f8aaa"/>
+  <text x="874" y="335" class="title">Research outputs</text>
+  <text x="874" y="361" class="body">candidates.tsv + run.json</text>
+  <text x="874" y="382" class="body">FASTA + HTML report</text>
+
+  <path d="M680 225 V302" class="dashed"/>
+  <text x="700" y="270" class="label">evidence</text>
+  <path d="M790 349 H850" class="dashed"/>
+
+  <rect x="48" y="302" width="420" height="94" class="box" fill="#ffffff" stroke="#9aaab5"/>
+  <text x="72" y="335" class="title">Validation tracks</text>
+  <text x="72" y="361" class="body">adapter reproducibility | generator coverage | selector ranking</text>
+  <text x="72" y="382" class="body">prospective measurement of exact emitted duplexes</text>
+  <path d="M233 225 V265 H258 V302" class="arrow"/>
+
+  <text x="48" y="438" class="body">Solid arrows show candidate generation and ranking. Dashed arrows show evaluator evidence.</text>
+</svg>

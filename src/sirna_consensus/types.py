@@ -35,8 +35,11 @@ class Core:
     passenger: str = ""
     guide_overhang: str = ""
     passenger_overhang: str = ""
+    chemistry: str = "unknown"
 
     def __post_init__(self) -> None:
+        if not isinstance(self.chemistry, str) or not self.chemistry.strip():
+            raise ValueError('chemistry must be a nonempty label or unknown')
         if self.length <= 0:
             raise ValueError("core length must be positive")
         if self.guide_overhang and not self.ordered_guide:
@@ -74,12 +77,15 @@ class Core:
     def molecule_id(self) -> str:
         text = "|".join((self.guide, self.passenger, self.guide_overhang,
                          self.passenger_overhang, self.duplex_format))
+        # Preserve historical identifiers when chemistry was undocumented.
+        if self.chemistry != "unknown":
+            text += "|chemistry=" + self.chemistry
         return hashlib.sha256(text.encode()).hexdigest()
 
     @property
     def key(self) -> str:
         base = f"{self.transcript_id}:{self.start}:{self.length}"
-        return base + (":" + self.molecule_id[:16] if self.guide_overhang or self.passenger else "")
+        return base + (":" + self.molecule_id[:16] if self.guide_overhang or self.passenger or self.chemistry != "unknown" else "")
 
     def interval(self) -> tuple[int, int]:
         return self.start, self.end
@@ -101,6 +107,10 @@ class RawHit:
     score: float | None = None
     score_kind: str = "tool_score"
     extra: dict[str, Any] = field(default_factory=dict)
+    # The adapter must state the chemistry when it supplies a complete duplex.
+    # Hits that contain only a binding core may retain ``unknown`` for backwards
+    # compatibility with historical tool output.
+    chemistry: str | None = "unknown"
     #: A generator hit is a design claim; an evaluator hit is evidence. A hit
     #: marked False must not contribute a design vote or be used as clean
     #: specificity evidence.
@@ -126,6 +136,10 @@ class ToolRun:
     acceptance: str = ""
     screen_state: str = ""           # transcriptome_screened | input_only | failed
     selection_limits: dict[str, Any] = field(default_factory=dict)
+    # Hashes are relative to the adapter work directory and cover every raw
+    # output file.  They make parser results auditable without storing a second
+    # copy of a potentially large tool output.
+    raw_output_hashes: dict[str, str] = field(default_factory=dict)
 
     @property
     def ok(self) -> bool:

@@ -10,40 +10,66 @@ from pathlib import Path
 from . import filters
 from .fasta import sha256_file
 from .rank import _quality_term
-from .types import Core, to_dna
+from .types import Core, reverse_complement, to_dna
 
 STRATEGIES = ('native', 'model', 'fusion', 'support', 'quality', 'legacy')
 
 
 def from_record(row: dict) -> Core:
     row = dict(row)
-    row.setdefault("ordered_guide", row.get("guide_sequence_dna", row.get("guide_sequence_rna", "")))
-    row.setdefault("passenger", row.get("passenger_sequence_rna", ""))
+    row.setdefault("ordered_guide", row.get("guide_sequence_dna",
+                                             row.get("guide_dna",
+                                                     row.get("guide_sequence_rna", ""))))
+    row.setdefault("passenger", row.get("passenger_dna",
+                                         row.get("passenger_sequence_rna", "")))
     return Core(row['transcript_id'], int(row.get('start', row.get('target_start', 0))),
                 int(row.get('length', row.get('core_length', 0))),
                 to_dna(row.get('sense', row.get('sense_dna', row.get('target_sequence_dna', '')))),
                 **{k: to_dna(row.get(k, '')) for k in
-                   ('ordered_guide', 'passenger', 'guide_overhang', 'passenger_overhang')})
+                   ('ordered_guide', 'passenger', 'guide_overhang', 'passenger_overhang')},
+                chemistry=row.get('chemistry') or 'unknown')
 
 
-def load_candidates(run_path: Path) -> tuple[list[dict], dict]:
+def load_candidates(run_path: Path, evidence_only: bool = False, _seen=None) -> tuple[list[dict], dict]:
+    run_path = Path(run_path).resolve()
+    seen = set() if _seen is None else set(_seen)
+    if run_path in seen:
+        raise ValueError('cyclic replay evidence')
+    seen.add(run_path)
     run = json.loads(run_path.read_text())
-    if run.get('schema_version') != 2:
+    if run.get('schema_version') == 3 and not evidence_only:
+        return [{'core': from_record(r), 'tools': r.get('tools', []),
+                 'tool_scores': r.get('tool_scores', {}),
+                 'site_evidence': r.get('site_evidence', []),
+                 'site_scores': r.get('site_scores', {})} for r in run['candidates']], run
+    if run.get('schema_version') not in (2, 3):
         raise ValueError('schema-v1 runs are inspection-only; rerun with molecular identity fixes')
     by_key = {}
     for hit in run['normalized_hits']:
         if hit['role'] != 'generator' or not hit['vote_eligible']:
             continue
-        core = Core(**hit['core'])
+        # Schema-v2 records written before the explicit flat normalized-hit
+        # contract nested the Core dataclass.
+        core = Core(**hit['core']) if 'core' in hit else from_record(hit)
         row = by_key.setdefault(core.key, {'core': core, 'tool_scores': {}, 'tools': []})
         tool = hit['tool']
         if tool not in row['tools']:
             row['tools'].append(tool)
-        score = hit['score']
+        score = hit.get('score', hit.get('native_score'))
         if score is not None:
             if not math.isfinite(score):
                 raise ValueError('nonfinite native score')
             row['tool_scores'][tool] = max(score, row['tool_scores'].get(tool, score))
+    if run.get('schema_version') == 3 and run.get('config', {}).get('evidence_run'):
+        prior = Path(run['config']['evidence_run'])
+        expected = run['provenance']['evidence_run_sha256']
+        if sha256_file(prior) != expected:
+            raise ValueError('replayed evidence checksum mismatch')
+        old, _ = load_candidates(prior, evidence_only=True, _seen=seen)
+        for row in old:
+            slot = by_key.setdefault(row['core'].key, {'core':row['core'], 'tools':[], 'tool_scores':{}})
+            slot['tools'] = sorted(set(slot['tools']) | set(row['tools']))
+            slot['tool_scores'].update(row['tool_scores'])
     return list(by_key.values()), run
 
 
@@ -65,10 +91,64 @@ def supplied_candidates(path: Path, transcript_id: str, sequence: str) -> list[d
     return out
 
 
-def enumerate_guides(transcript_id: str, sequence: str, lengths=(19, 20, 21)) -> list[dict]:
-    return [{'core': Core(transcript_id, i+1, n, sequence[i:i+n]),
-             'tools': [], 'tool_scores': {}} for n in lengths
-            for i in range(len(sequence)-n+1)]
+def enumerate_duplexes(transcript_id: str, sequence: str) -> list[dict]:
+    """All target-derived RNA 19+2 duplexes, with no fabricated edge bases."""
+    sequence = to_dna(sequence)
+    rows = []
+    for start in range(2, len(sequence)-20):
+        window = sequence[start-2:start+21]
+        if set(window) - set('ACGT'):
+            continue
+        sense = sequence[start:start+19]
+        go = reverse_complement(sequence[start-2:start])
+        po = sequence[start+19:start+21]
+        core = Core(transcript_id, start+1, 19, sense,
+                    reverse_complement(sense)+go, sense+po, go, po, 'all_RNA')
+        rows.append({'core': core, 'tools': [], 'tool_scores': {},
+                     'site_evidence': [], 'site_scores': {}})
+    return rows
+
+
+def attach_evidence(rows, native):
+    """Join at documented coordinates; site support never becomes a molecule vote.
+
+    For a longer guide the first 19 guide bases pair to the *suffix* of its
+    sense binding region. Unknown chemistry is evidence, not proven identity.
+    """
+    by_site = {}
+    for hit in native:
+        core = hit['core']
+        if core.length < 19:
+            continue
+        key = (core.transcript_id, core.end-18, core.sense[-19:])
+        by_site.setdefault(key, []).append(hit)
+    attached = 0
+    for row in rows:
+        core = row['core']
+        evidence = row.setdefault('site_evidence', [])
+        site_scores = row.setdefault('site_scores', {})
+        hits = by_site.get((core.transcript_id, core.start, core.sense), [])
+        if hits:
+            attached += 1
+        for hit in hits:
+            other = hit['core']
+            # Complete strands are required even when undocumented chemistries agree.
+            exact = bool(core.passenger and other.passenger and
+                         core.chemistry != 'unknown' and core == other)
+            for tool in hit['tools']:
+                score = hit['tool_scores'].get(tool)
+                evidence.append({'tool': tool, 'kind': 'exact_molecule' if exact else 'binding_site',
+                                 'source_key': other.key, 'source_start': other.start,
+                                 'source_length': other.length, 'score': score,
+                                 'chemistry_match': core.chemistry == other.chemistry != 'unknown'})
+                if score is not None:
+                    site_scores[tool] = max(score, site_scores.get(tool, score))
+                if exact:
+                    row['tools'] = sorted(set(row['tools']) | {tool})
+                    if score is not None:
+                        row['tool_scores'][tool] = score
+        row['site_evidence'] = sorted(evidence, key=lambda h: (h['tool'], h['source_key']))
+    return attached
 
 
 def percentiles(values: dict[str, float]) -> dict[str, float]:
@@ -96,9 +176,10 @@ def rank_candidates(rows: list[dict], strategy='native', filter_policy='soft',
         grouped.setdefault(row['core'].duplex_format, []).append(row)
     result = []
     for fmt, group in sorted(grouped.items()):
-        tools = sorted({t for row in group for t in row['tools']})
-        tool_p = {t: percentiles({r['core'].key: r['tool_scores'][t] for r in group
-                                  if t in r['tool_scores']}) for t in tools}
+        evidence_scores = {r['core'].key: {**r.get('site_scores', {}), **r['tool_scores']} for r in group}
+        tools = sorted({t for scores in evidence_scores.values() for t in scores})
+        tool_p = {t: percentiles({key: scores[t] for key, scores in evidence_scores.items()
+                                 if t in scores}) for t in tools}
         scores = {r['core'].key: model_scores[r['core'].key] for r in group
                   if r['core'].key in model_scores}
         if any(not math.isfinite(v) for v in scores.values()):
@@ -114,7 +195,7 @@ def rank_candidates(rows: list[dict], strategy='native', filter_policy='soft',
             quality = _quality_term(core) if 'quality' in components else 0.
             m = model_p.get(key)
             # Unsupported candidates are never mixed with model-scored candidates.
-            method = strategy if m is not None or strategy in ('native', 'legacy') else 'native_fallback'
+            method = strategy if m is not None or strategy in ('native', 'legacy', 'quality') else 'native_fallback'
             if method in ('native', 'native_fallback'):
                 score = tool_score if native else quality
             elif method == 'legacy':
@@ -126,11 +207,15 @@ def rank_candidates(rows: list[dict], strategy='native', filter_policy='soft',
                 score = sum(terms)/len(terms)
             elif method == 'support':
                 score = .8*m + .2*support
+            elif method == 'quality':
+                score = quality
             else:
                 score = .8*m + .1*tool_score + .1*quality
             result.append({**asdict(core), 'key': key, 'guide_dna': core.guide,
                            'molecule_id': core.molecule_id, 'duplex_format': fmt,
                            'tools': sorted(row['tools']), 'tool_scores': row['tool_scores'],
+                           'site_evidence': row.get('site_evidence', []),
+                           'site_scores': row.get('site_scores', {}),
                            'score': score, 'model_score': scores.get(key),
                            'model_status': 'scored' if m is not None else 'unsupported_or_unavailable',
                            'ranking': method, 'group': fmt + '/' + method,
@@ -140,7 +225,7 @@ def rank_candidates(rows: list[dict], strategy='native', filter_policy='soft',
                                (filters.soft_flags(core, config) if filter_policy != 'off' else []),
                            'components': {'model': m, 'native': tool_score,
                                           'support': support, 'quality': quality}})
-    return sorted(result, key=lambda r: (r['group'], -r['score'], r['molecule_id'], r['start']))
+    return sorted(result, key=lambda r: (r['group'], -r['score'], r['guide_dna'], r['molecule_id'], r['start']))
 
 
 def panels(rows: list[dict], k=5, spacing=0, screened=False) -> dict[str, list[str]]:

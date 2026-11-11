@@ -26,7 +26,7 @@ TSV_COLUMNS = [
     "guide_sequence_rna", "passenger_sequence_rna", "score",
     "vote_component", "tool_score_component", "quality_component",
     "gc_fraction", "seed_gc", "specificity_status", "off_target_min",
-    "hard_flags", "soft_flags", "passed", "tool_scores", "molecule_id", "duplex_format",
+    "hard_flags", "soft_flags", "passed", "tool_scores", "molecule_id", "duplex_format", "chemistry",
     "guide_overhang", "passenger_overhang", "nearby_tools",
 ]
 
@@ -54,6 +54,7 @@ def candidate_row(candidate: Candidate) -> dict[str, str]:
         "passenger_sequence_rna": _dna_to_rna(core.passenger),
         "molecule_id": core.molecule_id,
         "duplex_format": core.duplex_format,
+        "chemistry": core.chemistry,
         "guide_overhang": core.guide_overhang,
         "passenger_overhang": core.passenger_overhang,
         "nearby_tools": "+".join(candidate.nearby_tools),
@@ -149,6 +150,7 @@ def write_run_record(result: dict, out_dir: Path) -> Path:
             "length": c.core.length,
             "sense_dna": c.core.sense,
             "guide_dna": c.core.guide,
+            "chemistry": c.core.chemistry,
             "hard_flags": c.filter_flags,
             "soft_flags": c.soft_flags,
             "specificity_status": c.specificity_status,
@@ -211,6 +213,14 @@ def write_html(result: dict, out_dir: Path) -> Path:
         f"<td class='n'>{s['placed']}</td><td class='n'>{s['duplicates']}</td>"
         f"<td>{html.escape(json.dumps(s['rejected'], ensure_ascii=False))}</td></tr>"
         for name, s in result["normalization"].items())
+
+    native_rows = "".join(
+        f"<tr><td><code>{html.escape(name)}</code></td>"
+        f"<td>{len(rows)}</td><td>{html.escape(str(next((t.get('version','') for t in result['tools'] if t['tool'] == name), '')))}</td>"
+        f"<td>{html.escape(', '.join(sorted({h.get('native_score_kind','') for h in rows}) or '-'))}</td></tr>"
+        for name, rows in sorted(result.get("native_candidates", {}).items()))
+    compatibility = result.get("format_compatibility", {})
+    site_agreement = result.get("site_agreement", {})
 
     top_rows = "".join(
         f"<tr><td class='n'>{rank}</td>"
@@ -278,6 +288,18 @@ including rejected ones, is in <code>all_candidates.fa</code>.</div>
 <table><thead><tr><th>tool</th><th>role</th><th>status</th><th>hits</th>
 <th>screen state</th><th>detail</th></tr></thead>
 <tbody>{tool_rows}</tbody></table>
+
+<h2>Native candidate sets and normalized union</h2>
+<div class="note">Native rows and scores remain attributed to the emitting tool. The
+union below is formed only after coordinate/strand validation; evaluator-only SIREN
+rows are evidence and do not add generator candidates.</div>
+<table><thead><tr><th>native tool</th><th>rows</th><th>version/pin</th><th>score fields</th></tr></thead>
+<tbody>{native_rows}</tbody></table>
+<p>Generator format compatibility: <b>{html.escape(str(compatibility.get('status', 'unknown')))}</b>;
+shared formats: <code>{html.escape(', '.join(compatibility.get('shared_formats', [])) or '-')}</code>.</p>
+<p>Bounded site-overlap diagnostic: {site_agreement.get('multi_tool_sites', 0)} multi-tool site(s)
+among {site_agreement.get('sites', 0)} site(s); this does not create an exact molecule.</p>
+<p>{len(result.get('candidate_union', []))} union candidate(s) after normalization and clustering.</p>
 
 <h2>Normalisation onto the transcript</h2>
 <table><thead><tr><th>tool</th><th>received</th><th>placed</th><th>duplicates</th><th>rejected</th></tr></thead>

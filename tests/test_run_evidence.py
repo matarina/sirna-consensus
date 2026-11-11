@@ -48,7 +48,9 @@ def test_run_evidence_attaches_and_reports(tmp_path):
     select_cli.command(_args(fasta=str(fasta), candidates=str(candidates), run_evidence=str(run), out=str(out)))
     record = json.loads((out / "selection.json").read_text())
     assert record["provenance"]["evidence_attached"] == 1
-    assert record["candidates"][0]["tools"] == ["sirnadesigner"]
+    assert record["candidates"][0]["tools"] == []
+    assert record["candidates"][0]["site_evidence"][0]["tool"] == "sirnadesigner"
+    assert record["candidates"][0]["site_evidence"][0]["kind"] == "binding_site"
 
 
 def test_run_evidence_is_deterministic(tmp_path):

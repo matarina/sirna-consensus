@@ -1,25 +1,4 @@
-"""Orchestration.
-
-    FASTA -> validate -> fan out to tools -> normalise -> consensus -> filter -> rank
-
-The expensive per-candidate analysis (structure, specificity) is *not* re-run
-here; it is left to whatever the tools already do. What this pipeline adds is the
-part none of them do: putting independent opinions on one axis and refusing to
-let a single one of them decide.
-
-Design note: the tools are told to do their own window enumeration. There is no
-duplicated enumeration stage — the only coordinate work is placing the candidates
-that come back (see :mod:`sirna_consensus.normalize`).
-
-Tool roles are explicit:
-
-* **generators** contribute design votes (siRNAdesigner, siRNAforge);
-* **evaluators** contribute specificity evidence, not design votes (SIREN).
-
-A SIREN enumeration hit is therefore not a positive design vote. It can only
-support a generated site when a transcriptome-backed screen completed and the
-site's off-target burden is within the configured threshold.
-"""
+"""Orchestration for candidates emitted by registered external tools."""
 from __future__ import annotations
 
 import fcntl
@@ -42,6 +21,62 @@ from .types import Core, ToolRun
 SCHEMA_VERSION = 2
 
 
+def _native_hit_record(hit, run: ToolRun, raw_hashes: dict[str, str]) -> dict:
+    """Stable, JSON-safe representation of one adapter-native hit."""
+    extra = dict(hit.extra or {})
+    guide = extra.get("ordered_guide", "")
+    passenger = extra.get("passenger", "")
+    guide_overhang = extra.get("guide_overhang", "")
+    passenger_overhang = extra.get("passenger_overhang", "")
+    duplex_format = (f"binding{hit.length}-guide{len(guide)}-overhang{len(guide_overhang)}-"
+                     f"passenger{len(passenger)}-overhang{len(passenger_overhang)}")
+    return {
+        "tool": hit.tool,
+        "role": run.role,
+        "coordinate": hit.start,
+        "length": hit.length,
+        "sense_dna": hit.sense,
+        "guide_dna": extra.get("ordered_guide", ""),
+        "passenger_dna": extra.get("passenger", ""),
+        "guide_overhang": guide_overhang,
+        "passenger_overhang": passenger_overhang,
+        "duplex_format": duplex_format,
+        "chemistry": hit.chemistry or extra.get("chemistry") or "unknown",
+        "native_score": hit.score,
+        "native_score_kind": hit.score_kind,
+        "vote_eligible": hit.vote_eligible,
+        "extra": extra,
+        "tool_version": run.version,
+        "raw_output_hashes": raw_hashes,
+    }
+
+
+def _normalized_hit_record(item: PlacedHit, run: ToolRun,
+                           raw_hashes: dict[str, str]) -> dict:
+    core = item.core
+    return {
+        "tool": item.tool,
+        "role": run.role,
+        "transcript_id": core.transcript_id,
+        "start": core.start,
+        "end": core.end,
+        "length": core.length,
+        "sense_dna": core.sense,
+        "guide_dna": core.guide,
+        "passenger_dna": core.passenger,
+        "guide_overhang": core.guide_overhang,
+        "passenger_overhang": core.passenger_overhang,
+        "chemistry": core.chemistry,
+        "molecule_id": core.molecule_id,
+        "native_score": item.score,
+        "native_score_kind": item.extra.get("score_kind", "tool_score"),
+        "vote_eligible": item.vote_eligible,
+        "extra": dict(item.extra),
+        "tool_version": run.version,
+        "raw_output_hashes": raw_hashes,
+    }
+
+
 def _run_id(config, input_sha: str, transcript_id: str) -> str:
     """Content-derived id so run.json is byte-reproducible across regenerations.
 
@@ -58,6 +93,9 @@ def _run_id(config, input_sha: str, transcript_id: str) -> str:
     fields = {k: v for k, v in asdict(config).items() if k not in ('out_dir', 'fasta', 'jobs')}
     fields['input'] = input_sha
     fields['transcript_id'] = transcript_id
+    manifest = Path(__file__).resolve().parents[2] / "benchmarks" / "generator_manifest.json"
+    if manifest.is_file():
+        fields['generator_manifest_sha256'] = sha256_file(manifest)
     return hashlib.sha256(json.dumps(fields, sort_keys=True, default=str).encode()).hexdigest()[:16]
 
 
@@ -67,8 +105,8 @@ class Config:
     out_dir: str
     tools: tuple[str, ...] = DEFAULT_TOOLS
     lengths: tuple[int, ...] = (19, 20, 21)
-    min_votes: int = 2
-    top_k: int = 10
+    min_votes: int | None = None
+    top_k: int | None = None
     min_spacing: int = 30
     site_mode: str = "bounded"       # bounded | exact | fuzzy
     candidate_mode: str = "exact"    # exact molecules; legacy_site for baseline only
@@ -82,20 +120,43 @@ class Config:
     filter_config: filters.FilterConfig = field(
         default_factory=lambda: filters.DEFAULT_FILTERS)
     extra: dict = field(default_factory=dict)
+    profile: str = 'tools'
+    filter_policy: str = 'soft'
+    scorer_manifest: str = ''
+    screen_manifest: str = ''
+    target_gene: str = ''
+    bowtie: str = 'bowtie'
+    strategy: str = 'auto'
+    evidence_run: str = ''
 
     def resolve(self) -> "Config":
+        if self.min_votes is None:
+            self.min_votes = 2 if self.profile == 'legacy-v2' else 1
+        if self.top_k is None:
+            self.top_k = 10 if self.profile == 'legacy-v2' else 5
         self.fasta = str(Path(self.fasta).expanduser().resolve())
         self.out_dir = str(Path(self.out_dir).expanduser().resolve())
+        for name in ('scorer_manifest', 'screen_manifest', 'evidence_run'):
+            if getattr(self, name):
+                setattr(self, name, str(Path(getattr(self, name)).expanduser().resolve()))
         if self.transcriptome:
             self.transcriptome = str(
                 Path(self.transcriptome).expanduser().resolve())
         return self
 
     def validate(self) -> None:
+        if self.profile not in ('tools', 'legacy-v2'):
+            raise ValueError('unknown profile')
+        if self.scorer_manifest or self.screen_manifest or self.evidence_run:
+            raise ValueError('tool profiles do not accept v3 model/reference/replay options; use select')
+        if self.filter_policy not in ('soft', 'hard', 'off'):
+            raise ValueError('invalid filter policy')
+        if self.strategy not in ('auto', 'quality', 'native', 'model'):
+            raise ValueError('invalid strategy')
         if not self.tools:
             raise ValueError("at least one tool is required")
         if self.min_votes < 1:
-            raise ValueError("min_votes must be >= 1")
+            raise ValueError("min_votes is below the profile minimum")
         if self.top_k < 1:
             raise ValueError("top_k must be >= 1")
         if self.min_spacing < 0:
@@ -202,6 +263,9 @@ def _run_locked(config, out_dir, run_id, transcript_id, sequence, input_sha) -> 
         if transcriptome_path.is_file():
             transcriptome_sha = sha256_file(transcriptome_path)
 
+    manifest_path = Path(__file__).resolve().parents[2] / "benchmarks" / "generator_manifest.json"
+    generator_manifest_sha = sha256_file(manifest_path) if manifest_path.is_file() else None
+
     tools, runs, tool_env = _select_tools(config)
     if not tools:
         detail = "; ".join(f"{r.tool}: {r.detail}" for r in runs) or "no tools requested"
@@ -213,9 +277,28 @@ def _run_locked(config, out_dir, run_id, transcript_id, sequence, input_sha) -> 
         target = work_dir / tool.name
         target.mkdir(parents=True, exist_ok=True)
         try:
-            return tool.run(Path(config.fasta), target, transcript_id)
+            run = tool.run(Path(config.fasta), target, transcript_id)
+            # Accept older third-party adapters that returned only a hit list;
+            # they remain usable but receive an explicit unpinned version.
+            if isinstance(run, list):
+                detail = "legacy adapter returned hits without provenance"
+                run = (tool.wrap("ok", detail, run) if hasattr(tool, "wrap") else
+                       ToolRun(tool=tool.name, status="ok", detail=detail,
+                               hits=run, version=tool.version(), role=tool.role,
+                               acceptance=getattr(tool, "acceptance", "")))
+            # Adapters may provide a narrower hash set (for example only the
+            # parsed table); fill it from the complete work directory so every
+            # native record has reproducibility evidence.
+            if not run.raw_output_hashes:
+                run.raw_output_hashes = (tool.hash_outputs(target)
+                                         if hasattr(tool, "hash_outputs") else {})
+            return run
         except Exception as exc:  # noqa: BLE001 - one tool must not kill the run
-            return tool.wrap("failed", f"{type(exc).__name__}: {exc}")
+            detail = f"{type(exc).__name__}: {exc}"
+            return (tool.wrap("failed", detail) if hasattr(tool, "wrap") else
+                    ToolRun(tool=tool.name, status="failed", detail=detail,
+                            version=tool.version(), role=getattr(tool, "role", "generator"),
+                            acceptance=getattr(tool, "acceptance", "")))
 
     with ThreadPoolExecutor(max_workers=max(1, min(config.jobs, len(tools)))) as pool:
         runs.extend(pool.map(execute, tools))
@@ -225,19 +308,44 @@ def _run_locked(config, out_dir, run_id, transcript_id, sequence, input_sha) -> 
     evaluator_hits: list[PlacedHit] = []
     normalization = {}
     normalized_hits = []
+    native_candidates: dict[str, list[dict]] = {}
+    evaluator_evidence: dict[str, list[dict]] = {}
     for tool_run in runs:
+        raw_hashes = dict(tool_run.raw_output_hashes)
+        if tool_run.hits:
+            records = [
+                _native_hit_record(hit, tool_run, raw_hashes)
+                for hit in tool_run.hits
+            ]
+            (native_candidates if tool_run.role == "generator" else evaluator_evidence)[tool_run.tool] = records
         if not tool_run.ok or not tool_run.hits:
             continue
         placed_hits, stats = normalize_placed(
             tool_run.hits, transcript_id, sequence, config.lengths)
         normalization[tool_run.tool] = stats
-        normalized_hits.extend({**asdict(hit), "role": tool_run.role} for hit in placed_hits)
+        normalized_hits.extend(
+            _normalized_hit_record(item, tool_run, raw_hashes)
+            for item in placed_hits)
         if tool_run.role == "generator":
             for item in placed_hits:
                 if item.vote_eligible:
                     placed_generator.append((tool_run.tool, item.core, item.score))
         else:
             evaluator_hits.extend(placed_hits)
+
+    generator_formats = {
+        tool: sorted({row["duplex_format"] for row in rows})
+        for tool, rows in native_candidates.items()
+        if any(r.get("role") == "generator" for r in rows)
+    }
+    format_sets = [set(values) for values in generator_formats.values() if values]
+    shared_generator_formats = sorted(set.intersection(*format_sets)) if format_sets else []
+    format_compatibility = {
+        "generator_formats": generator_formats,
+        "shared_formats": shared_generator_formats,
+        "status": ("compatible" if len(format_sets) < 2 or shared_generator_formats
+                    else "mismatch_requires_site_or_format_specific_comparison"),
+    }
 
     if not placed_generator and not evaluator_hits:
         raise RuntimeError(
@@ -273,6 +381,17 @@ def _run_locked(config, out_dir, run_id, transcript_id, sequence, input_sha) -> 
         clusters = fuzzy_cluster(placed_generator, config.offset_tolerance)
     else:
         clusters = bucket(placed_generator)
+
+    # Always compute a separately labelled site-overlap diagnostic.  It never
+    # changes exact-molecule candidates or invents a shared molecule, but it
+    # makes format/offset agreement visible when tools emit different duplexes.
+    site_diagnostic = bounded_cluster(placed_generator, config.offset_tolerance)
+    site_agreement = {
+        "sites": len(site_diagnostic),
+        "multi_tool_sites": sum(1 for c in site_diagnostic if c.votes > 1),
+        "tool_sets": [sorted(c.tools) for c in site_diagnostic if c.votes > 1],
+        "note": "diagnostic site overlap; not exact-molecule consensus",
+    }
 
     generator_runs = [
         r for r in runs if r.role == "generator" and r.ok and r.hits]
@@ -335,6 +454,8 @@ def _run_locked(config, out_dir, run_id, transcript_id, sequence, input_sha) -> 
         "evaluator_hits": sum(len(r.hits) for r in evaluator_runs),
         "placed": sum(stats.placed for stats in normalization.values()),
         "sites": len(clusters),
+        "exact_molecule_sites": sum(1 for c in bucket(placed_generator)),
+        "site_diagnostic_multi_tool": site_agreement["multi_tool_sites"],
         "consensus_candidates": consensus_candidates,
         "exploratory_singletons": exploratory_singletons,
         "below_min_votes": len(clusters) - consensus_candidates,
@@ -350,6 +471,31 @@ def _run_locked(config, out_dir, run_id, transcript_id, sequence, input_sha) -> 
         "evaluator_clean": sum(
             1 for c in candidates if c.specificity_status == "clean"),
     }
+
+    # This is intentionally a separate view from ``native_candidates``: it is
+    # the union after placement/clustering and may contain evidence from more
+    # than one generator.  No row here is presented as a fallback emission by a
+    # tool that did not produce it.
+    candidate_union = [
+        {
+            "key": c.core.key,
+            "molecule_id": c.core.molecule_id,
+            "transcript_id": c.core.transcript_id,
+            "start": c.core.start,
+            "end": c.core.end,
+            "length": c.core.length,
+            "sense_dna": c.core.sense,
+            "guide_dna": c.core.guide,
+            "passenger_dna": c.core.passenger,
+            "guide_overhang": c.core.guide_overhang,
+            "passenger_overhang": c.core.passenger_overhang,
+            "chemistry": c.core.chemistry,
+            "source_tools": c.tools,
+            "votes": c.votes,
+            "score": c.score,
+        }
+        for c in candidates
+    ]
 
     result = {
         "schema_version": SCHEMA_VERSION,
@@ -384,6 +530,7 @@ def _run_locked(config, out_dir, run_id, transcript_id, sequence, input_sha) -> 
             "siren_threads": tool_env.siren_threads,
             "tool_timeout_s": tool_env.timeout_s,
             "source": "external tools; no local enumeration",
+            "generator_manifest_sha256": generator_manifest_sha,
         },
         "tools": [
             {
@@ -397,6 +544,7 @@ def _run_locked(config, out_dir, run_id, transcript_id, sequence, input_sha) -> 
                 "hits": len(r.hits),
                 "screen_state": r.screen_state,
                 "selection_limits": r.selection_limits,
+                "raw_output_hashes": r.raw_output_hashes,
             }
             for r in runs
         ],
@@ -409,6 +557,11 @@ def _run_locked(config, out_dir, run_id, transcript_id, sequence, input_sha) -> 
             }
             for name, s in normalization.items()
         },
+        "native_candidates": native_candidates,
+        "evaluator_evidence": evaluator_evidence,
+        "format_compatibility": format_compatibility,
+        "site_agreement": site_agreement,
+        "candidate_union": candidate_union,
         "counts": counts,
         "normalized_hits": normalized_hits,
         "raw_output_hashes": {str(p.relative_to(out_dir)): sha256_file(p)

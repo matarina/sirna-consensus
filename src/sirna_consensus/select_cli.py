@@ -8,7 +8,7 @@ from pathlib import Path
 from .fasta import read_transcript, sha256, sha256_file
 from .selection import (
     STRATEGIES,
-    enumerate_guides,
+    attach_evidence,
     load_candidates,
     rank_candidates,
     supplied_candidates,
@@ -22,9 +22,8 @@ def add_parser(sub):
     sources=p.add_mutually_exclusive_group(required=True)
     sources.add_argument('--run',help='schema-v2 run.json; replays all exact normalized hits')
     sources.add_argument('--candidates',help='label-free TSV of explicit molecules')
-    sources.add_argument('--enumerate',action='store_true',help='enumerate guide-only 19/20/21-nt windows')
-    # Native evidence may be attached onto a supplied candidate universe (the dev path):
-    # candidates stay the assayed molecules; the run only donates exact-molecule votes.
+    # Native evidence may be attached onto a supplied candidate universe:
+    # candidates stay the supplied molecules; the run only donates exact-molecule votes.
     p.add_argument('--run-evidence',help='schema-v2 run.json whose exact hits annotate --candidates')
     p.add_argument('--out',required=True)
     p.add_argument('--strategy',choices=STRATEGIES,default='native')
@@ -32,7 +31,6 @@ def add_parser(sub):
     p.add_argument('--disable-components',default='',help='comma-separated tools,support,quality ablations')
     p.add_argument('--top-k',type=int,default=5)
     p.add_argument('--scorer-manifest')
-    p.add_argument('--policy',help='frozen development-selected format/strategy policy')
     p.add_argument('--screen-manifest')
     p.add_argument('--target-gene')
     p.add_argument('--bowtie',default='bowtie')
@@ -65,43 +63,20 @@ def command(args):
         rows=supplied_candidates(Path(args.candidates),tid,sequence)
         provenance['source_sha256']=sha256_file(Path(args.candidates))
     else:
-        rows=enumerate_guides(tid,sequence)
+        raise ValueError('a tool run or explicit candidate TSV is required')
     if args.run_evidence:
         if not args.candidates:
             raise ValueError('--run-evidence annotates --candidates')
         if not Path(args.run_evidence).is_file():
             raise ValueError('--run-evidence not found: '+args.run_evidence)
-        native,evidence=load_candidates(Path(args.run_evidence))
+        native,evidence=load_candidates(Path(args.run_evidence), evidence_only=True)
         if evidence['input_sha256']!=sha256(sequence) or evidence['transcript_id']!=tid:
             raise ValueError('native evidence target mismatch')
-        # Generators emit 19/20/21-nt molecules; the assayed candidates are 19-nt cores.
-        # Join on the shared 19-nt binding site, aggregating every tool that emitted it.
-        # Convention: the site is sense[:19] (5' prefix), matching siRNAdesigner's own
-        # passenger[:19] core rule. A 3' suffix would be an equally defensible choice and
-        # changes which hits attach; the position (start) is deliberately not part of the
-        # key, so a repeated 19-mer legitimately attaches to every occurrence.
-        by_site={}
-        skipped=0
-        for hit in native:
-            site=hit['core'].sense[:19]
-            if len(site)!=19:
-                skipped+=1
-                continue
-            slot=by_site.setdefault(site,{'tools':[],'tool_scores':{}})
-            slot['tools']=sorted(set(slot['tools'])|set(hit['tools']))
-            for tool,value in hit['tool_scores'].items():
-                slot['tool_scores'][tool]=max(value,slot['tool_scores'].get(tool,value))
-        attached=0
-        for row in rows:
-            site=row['core'].sense[:19]
-            hit=by_site.get(site) if len(site)==19 else None
-            if hit:
-                row['tools']=sorted(set(row['tools'])|set(hit['tools']))
-                row['tool_scores'].update(hit['tool_scores'])
-                attached+=1
+        # Coordinates and guide geometry define site evidence; chemistry defines exact votes.
+        attached = attach_evidence(rows, native)
         provenance['evidence_sha256']=sha256_file(Path(args.run_evidence))
         provenance['evidence_attached']=attached
-        provenance['evidence_skipped_short']=skipped
+        provenance['evidence_skipped_short']=sum(h['core'].length < 19 for h in native)
     scores={}
     if args.scorer_manifest:
         from .scoring import score_candidates
@@ -113,18 +88,7 @@ def command(args):
         raise ValueError('unknown ablation component')
     components=tuple(c for c in ('tools','support','quality') if c not in disabled)
     provenance['components']=components
-    if args.policy:
-        policy=json.loads(Path(args.policy).read_text())
-        if not args.scorer_manifest or policy.get('scorer_manifest_sha256')!=sha256_file(Path(args.scorer_manifest)):
-            raise ValueError('policy requires its pinned scorer manifest')
-        ranked=[]
-        for fmt in sorted({r['core'].duplex_format for r in rows}):
-            method=policy['strategies'].get(fmt,'model')
-            ranked.extend(rank_candidates([r for r in rows if r['core'].duplex_format==fmt],method,args.filter_policy,scores,components=components))
-        provenance['policy_sha256']=sha256_file(Path(args.policy))
-        provenance['policy_status']=policy.get('status','development_only')
-    else:
-        ranked=rank_candidates(rows,args.strategy,args.filter_policy,scores,components=components)
+    ranked=rank_candidates(rows,args.strategy,args.filter_policy,scores,components=components)
     if args.screen_manifest:
         from .screening import screen
         try:

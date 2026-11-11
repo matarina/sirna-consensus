@@ -19,7 +19,7 @@ class InputError(ValueError):
     pass
 
 
-def read_transcript(path: str | Path) -> tuple[str, str]:
+def read_transcript(path: str | Path, allow_ambiguous: bool = False) -> tuple[str, str]:
     """Read exactly one FASTA record. Returns ``(record_id, sequence)``.
 
     ``U`` is normalised to ``T``; the header's first token is the transcript id.
@@ -36,7 +36,8 @@ def read_transcript(path: str | Path) -> tuple[str, str]:
         raise InputError("FASTA header has no transcript id")
     if not sequence:
         raise InputError("FASTA record has no sequence")
-    if _AMBIGUOUS.search(sequence):
+    if (_AMBIGUOUS.search(sequence) and
+            (not allow_ambiguous or set(sequence)-set('ACGTN'))):
         raise InputError("sequence must be unambiguous A/C/G/T/U")
     if not MIN_LENGTH <= len(sequence) <= MAX_LENGTH:
         raise InputError(f"transcript length must be {MIN_LENGTH}..{MAX_LENGTH} nt")

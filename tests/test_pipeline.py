@@ -41,7 +41,7 @@ def registered(monkeypatch):
 
 
 def make_config(tmp_path, fasta_file, tools, **kw):
-    return Config(fasta=str(fasta_file), out_dir=str(tmp_path / "out"),
+    return Config(profile="legacy-v2", fasta=str(fasta_file), out_dir=str(tmp_path / "out"),
                   tools=tuple(tools), **kw)
 
 
@@ -126,8 +126,8 @@ def test_identical_run_reuses_a_deterministic_work_dir(tmp_path, fasta_file, reg
     # same id, same work dir (regeneration no longer churns a frozen lock).
     registered({"alpha": lambda env=None: FakeTool("alpha", [1, 42], env)})
     out = tmp_path / "out"
-    first = run(Config(fasta=str(fasta_file), out_dir=str(out), tools=("alpha",)))
-    second = run(Config(fasta=str(fasta_file), out_dir=str(out), tools=("alpha",)))
+    first = run(Config(profile="legacy-v2", fasta=str(fasta_file), out_dir=str(out), tools=("alpha",)))
+    second = run(Config(profile="legacy-v2", fasta=str(fasta_file), out_dir=str(out), tools=("alpha",)))
     assert first["run_id"] == second["run_id"]
     work = out / "work"
     assert work.is_dir()
@@ -145,7 +145,7 @@ def test_raised_run_releases_the_lock(tmp_path, fasta_file):
     def work():
         for _ in range(3):
             try:
-                run(Config(fasta=str(fasta_file), out_dir=str(out), tools=("definitely-missing",)))
+                run(Config(profile="legacy-v2", fasta=str(fasta_file), out_dir=str(out), tools=("definitely-missing",)))
             except RuntimeError as exc:
                 kept.append(exc)      # retain the traceback/frame
 
@@ -168,7 +168,7 @@ def test_concurrent_different_transcripts_share_an_out_dir(tmp_path, registered)
         fa = tmp_path / f"{i}.fa"
         fa.write_text(f">GENE_{i}\n{'ACGT' * 80}\n")
         try:
-            run(Config(fasta=str(fa), out_dir=str(out), tools=("alpha",)))
+            run(Config(profile="legacy-v2", fasta=str(fa), out_dir=str(out), tools=("alpha",)))
         except Exception as exc:  # noqa: BLE001
             errors.append(repr(exc))
 
@@ -191,8 +191,8 @@ def test_same_sequence_different_header_gets_a_distinct_run(tmp_path, registered
     a.write_text(f">GENE_A\n{sequence}\n")
     b.write_text(f">GENE_B\n{sequence}\n")
     out = tmp_path / "out"
-    first = run(Config(fasta=str(a), out_dir=str(out), tools=("alpha",)))
-    second = run(Config(fasta=str(b), out_dir=str(out), tools=("alpha",)))
+    first = run(Config(profile="legacy-v2", fasta=str(a), out_dir=str(out), tools=("alpha",)))
+    second = run(Config(profile="legacy-v2", fasta=str(b), out_dir=str(out), tools=("alpha",)))
     assert first["run_id"] != second["run_id"]
     assert len([p for p in (out / "work").iterdir() if p.is_dir()]) == 2
 
@@ -203,8 +203,8 @@ def test_reusing_output_dir_with_different_transcripts(tmp_path, fasta_file,
     out = tmp_path / "out"
     other = tmp_path / "other.fa"
     other.write_text(">OTHER_0002 synthetic\n" + "ACGT" * 20 + "\n")
-    first = run(Config(fasta=str(fasta_file), out_dir=str(out), tools=("alpha",)))
-    second = run(Config(fasta=str(other), out_dir=str(out), tools=("alpha",)))
+    first = run(Config(profile="legacy-v2", fasta=str(fasta_file), out_dir=str(out), tools=("alpha",)))
+    second = run(Config(profile="legacy-v2", fasta=str(other), out_dir=str(out), tools=("alpha",)))
     assert first["transcript_id"] != second["transcript_id"]
     assert first["run_id"] != second["run_id"]
     assert len([p for p in (out / "work").iterdir() if p.is_dir()]) == 2

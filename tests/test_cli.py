@@ -70,7 +70,7 @@ def test_tools_command_fails_when_nothing_is_usable(monkeypatch, capsys):
 
 def test_run_writes_outputs_and_reports_counts(registry, tmp_path, fasta_file, capsys):
     out = tmp_path / "out"
-    code = main(["run", "--fasta", str(fasta_file), "--out", str(out),
+    code = main(["run", "--profile", "legacy-v2", "--fasta", str(fasta_file), "--out", str(out),
                  "--tools", "alpha,beta", "--top-k", "2"])
     assert code == 0
     printed = capsys.readouterr().out
@@ -85,9 +85,19 @@ def test_run_writes_outputs_and_reports_counts(registry, tmp_path, fasta_file, c
     assert counts["candidates"] == len(rows)
 
 
+def test_run_defaults_to_tool_generated_candidates(registry, tmp_path, fasta_file, capsys):
+    out = tmp_path / "default"
+    assert main(["run", "--fasta", str(fasta_file), "--out", str(out),
+                 "--tools", "alpha,beta", "--top-k", "2"]) == 0
+    record = json.loads((out / "run.json").read_text())
+    assert record["schema_version"] == 2
+    assert record["config"]["source"] == "external tools; no local enumeration"
+    assert record["config"]["min_votes"] == 1
+
+
 def test_exclude_singletons_keeps_only_agreed_sites(registry, tmp_path, fasta_file):
     out = tmp_path / "out"
-    main(["run", "--fasta", str(fasta_file), "--out", str(out),
+    main(["run", "--profile", "legacy-v2", "--fasta", str(fasta_file), "--out", str(out),
           "--tools", "alpha,beta", "--exclude-singletons", "--min-votes", "2"])
     rows = list(csv.DictReader((out / "candidates.tsv").open(), delimiter="\t"))
     assert rows and all(int(r["votes"]) >= 2 for r in rows)
@@ -97,7 +107,7 @@ def test_lengths_option_is_honoured(monkeypatch, tmp_path, fasta_file):
     monkeypatch.setattr(tools_module, "REGISTRY", {
         "short": lambda env=None: FakeTool("short", [1, 42], env, length=19)})
     out = tmp_path / "out"
-    main(["run", "--fasta", str(fasta_file), "--out", str(out),
+    main(["run", "--profile", "legacy-v2", "--fasta", str(fasta_file), "--out", str(out),
           "--tools", "short", "--lengths", "19"])
     rows = list(csv.DictReader((out / "candidates.tsv").open(), delimiter="\t"))
     assert rows and {r["core_length"] for r in rows} == {"19"}
@@ -105,7 +115,7 @@ def test_lengths_option_is_honoured(monkeypatch, tmp_path, fasta_file):
 
 def test_fuzzy_site_mode_is_reachable(registry, tmp_path, fasta_file):
     out = tmp_path / "out"
-    main(["run", "--fasta", str(fasta_file), "--out", str(out),
+    main(["run", "--profile", "legacy-v2", "--fasta", str(fasta_file), "--out", str(out),
           "--tools", "alpha,beta", "--site-mode", "fuzzy"])
     record = json.loads((out / "run.json").read_text())
     assert record["config"]["offset_tolerance"] >= 0
@@ -115,7 +125,7 @@ def test_fuzzy_site_mode_is_reachable(registry, tmp_path, fasta_file):
 
 def test_bounded_site_mode_is_default(registry, tmp_path, fasta_file):
     out = tmp_path / "out"
-    main(["run", "--fasta", str(fasta_file), "--out", str(out),
+    main(["run", "--profile", "legacy-v2", "--fasta", str(fasta_file), "--out", str(out),
           "--tools", "alpha,beta"])
     record = json.loads((out / "run.json").read_text())
     assert record["config"]["site_mode"] == "bounded"
@@ -130,25 +140,25 @@ def test_bounded_site_mode_is_default(registry, tmp_path, fasta_file):
     ("--siren-max-offtargets", "-1"),
 ])
 def test_invalid_cli_parameters_are_rejected(registry, tmp_path, fasta_file, flag, value):
-    code = main(["run", "--fasta", str(fasta_file), "--out", str(tmp_path / "o"),
+    code = main(["run", "--profile", "legacy-v2", "--fasta", str(fasta_file), "--out", str(tmp_path / "o"),
                  "--tools", "alpha,beta", flag, value])
     assert code == 2
 
 
 def test_invalid_filter_configuration_is_rejected(registry, tmp_path, fasta_file):
-    code = main(["run", "--fasta", str(fasta_file), "--out", str(tmp_path / "o"),
+    code = main(["run", "--profile", "legacy-v2", "--fasta", str(fasta_file), "--out", str(tmp_path / "o"),
                  "--tools", "alpha,beta", "--gc-min", "0.7", "--gc-max", "0.5"])
     assert code == 2
 
 
 def test_missing_fasta_argument_exits():
     with pytest.raises(SystemExit):
-        main(["run", "--out", "x"])
+        main(["run", "--profile", "legacy-v2", "--out", "x"])
 
 
 def test_unknown_tool_is_a_runtime_error(registry, tmp_path, fasta_file):
     from sirna_consensus.tools.base import ToolError
 
     with pytest.raises(ToolError, match="unknown tool"):
-        main(["run", "--fasta", str(fasta_file), "--out", str(tmp_path / "o"),
+        main(["run", "--profile", "legacy-v2", "--fasta", str(fasta_file), "--out", str(tmp_path / "o"),
               "--tools", "ghost"])
